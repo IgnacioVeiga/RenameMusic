@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Rename MP3" Height="450" Width="800">
+        Title="Rename MP3" Height="225" Width="450">
     <Grid>
-        <Button Content="Carpeta" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Cursor="Hand" Click="Button_Click"/>
+        <Button Content="Ruta" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Cursor="Hand" Click="Ruta_Click"/>
+        <Button Content="Renombrar" HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" Cursor="Hand" Click="Renombrar_Click"/>
 
     </Grid>
 </Window>
