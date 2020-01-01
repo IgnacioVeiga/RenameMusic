@@ -1,18 +1,10 @@
-﻿using System;
+﻿using rename_mp3.DTOs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace rename_mp3
 {
@@ -40,48 +32,118 @@ namespace rename_mp3
          * Reproducir el archivo desde esta app o una externa
          */
 
-
         public MainWindow()
-        {
-            InitializeComponent();
-        }
-
-        private void Renombrar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Selección de carpeta
-                // Verificar cantidad de archivos antes de agregar
-                // Tomar lista de archivos mp3
-                string[] filePaths;
-                string path = @"D:/Music/";
-                filePaths = Directory.GetFiles(path, "*.mp3");
-                if (filePaths.Length > 0)
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public string generarId()
+        {
+            // lo uso para generar un id en formato de string, unico y no nulo
+            // este solo debe coincidir entre una carpeta y los archivos contenidos de la misma
+            return Guid.NewGuid().ToString("N");
+        }
+
+        public static string NormalizeFileName(string fileName)
+        {
+            string invalidChars = System.Text.RegularExpressions.Regex.Escape(
+                 new string(Path.GetInvalidFileNameChars())
+            );
+            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+
+            return System.Text.RegularExpressions.Regex.Replace(fileName, invalidRegStr, "_");
+        }
+
+        private void Ruta_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // muesta dialogo para seleccion de carpetas
+                CommonOpenFileDialog dialog = new CommonOpenFileDialog
                 {
-                    for (int i = 0; i < filePaths.Length; i++)
+                    AllowNonFileSystemItems = true,
+                    IsFolderPicker = true,
+                    Multiselect = true,
+                    Title = "Agregar carpeta/s"
+                };
+
+                // si da click en "Ok" y no hay rutas nulas, continua
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok && dialog.FileNames.All(fn => !string.IsNullOrWhiteSpace(fn)))
+                {
+                    // hace lista de carpetas seleccionadas
+                    List<string> carpetasSeleccionadas = dialog.FileNames.ToList();
+                    for (int i = 0; i < carpetasSeleccionadas.Count; i++)
                     {
-                        // comprobar si existen "tags" y empezar a renombrar para probar
-                        var tfile = TagLib.File.Create(filePaths[i]);
-                        string title = tfile.Tag.Title;
-                        string artist = tfile.Tag.JoinedAlbumArtists;
-                        string newfilename = path + title + " - " + artist + ".mp3";
+                        //genero un Id unico y no nulo
+                        string id = generarId();
 
-                        // verificar que el archivo a renombrar no exista
-                        if (File.Exists(newfilename))
+                        // agregar carpeta
+                        listaCarpetas.Items.Add(new CarpetaDTO
                         {
-                            MessageBox.Show("Nombre repetido: \n" + newfilename, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        }
-                        else
-                        {
-                            // cambiar el nombre del archivo
-                            File.Move(tfile.Name, newfilename);
-                        }
+                            IdCanciones = id,
+                            Ruta = carpetasSeleccionadas[i]
+                        });
 
+                        // Toma lista de archivos mp3, m4a, flac y wav en cada carpeta (pero sin subcarpetas)
+                        string[] arrayMP3 = Directory.GetFiles(carpetasSeleccionadas[i], "*.mp3");
+                        string[] arrayM4A = Directory.GetFiles(carpetasSeleccionadas[i], "*.m4a");
+                        string[] arrayFLAC = Directory.GetFiles(carpetasSeleccionadas[i], "*.flac");
+                        string[] arrayWAV = Directory.GetFiles(carpetasSeleccionadas[i], "*.wav");
+                        string[] arrayOGG = Directory.GetFiles(carpetasSeleccionadas[i], "*.ogg");
+                        string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayWAV).Union(arrayOGG).ToArray();
+
+                        // Verifica si hay canciones en ese array
+                        if (arrayDeCanciones.Length > 0)
+                        {
+                            for (int x = 0; x < arrayDeCanciones.Length; x++) // siendo "x" la posicion del vector a trabajar
+                            {
+                                // tomamos datos del mp3
+                                TagLib.File cancion = TagLib.File.Create(arrayDeCanciones[x]);
+
+                                // obtengo el formato y nombre para usarlo más adelante
+                                string archivo = arrayDeCanciones[x].Substring(arrayDeCanciones[x].LastIndexOf(@"\") + 1);
+                                string nombre = archivo.Remove(archivo.LastIndexOf("."));
+                                string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
+
+                                // si existe título en sus tags
+                                if (!string.IsNullOrWhiteSpace(cancion.Tag.Title))
+                                {
+                                    // agregamos la cancion a la lista CON tags
+                                    listaCancionesCT.Items.Add(new CancionDTO
+                                    {
+                                        Activo = true,
+                                        IdCarpeta = id, // TODO: generar de forma unica y no nula ni cero
+                                        NombreActual = nombre,
+                                        //NuevoNombre = NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists), // TODO: preparar segun el criterio
+                                        Formato = formato,
+                                        Titulo = cancion.Tag.Title,
+                                        Album = cancion.Tag.Album,
+                                        Artista = cancion.Tag.JoinedArtists,
+                                        AlbumArtista = cancion.Tag.JoinedAlbumArtists
+                                    });
+                                }
+                                else // si no tiene título en sus tags
+                                {
+                                    // agregamos la cancion a la lista SIN tags
+                                    listaCancionesST.Items.Add(new CancionDTO
+                                    {
+                                        Activo = true,
+                                        IdCarpeta = id,
+                                        NombreActual = nombre,
+                                        Formato = formato
+                                    });
+                                }
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Sin archivos compatibles en la ruta \n" + path, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+
                 }
             }
             catch (Exception ex)
@@ -90,9 +152,103 @@ namespace rename_mp3
             }
         }
 
-        private void Ruta_Click(object sender, RoutedEventArgs e)
+        private void Renombrar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Todavia no hace nada ese botón", ":)", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                // si existen carpetas
+                if (listaCarpetas.Items.Count > 0)
+                {
+                    // revisar carpetas
+                    for (int pos = 0; pos < listaCarpetas.Items.Count; pos++)
+                    {
+                        // definimos la carpeta a trabajar
+                        CarpetaDTO carpeta = listaCarpetas.Items[pos] as CarpetaDTO;
+
+                        // por seguridad verifico esto
+                        if (carpeta != null)
+                        {
+                            // Verificar cantidad de canciones
+                            if (listaCancionesCT.Items.Count > 0)
+                            {
+                                for (int x = 0; x < listaCancionesCT.Items.Count; x++)
+                                {
+                                    CancionDTO archivo = listaCancionesCT.Items[x] as CancionDTO;
+                                    // tambien, por seguridad verifico esto
+                                    if (archivo != null)
+                                    {
+                                        if (archivo.Activo && archivo.IdCarpeta == carpeta.IdCanciones) // solo trabaja con las canciones que dejamos los "checkboxes" marcados
+                                        {
+                                            TagLib.File cancion = TagLib.File.Create(carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato);
+
+                                            // TODO: esto hay que prepararlo segun el criterio seleccionado
+                                            string nuevoNombreConRuta = carpeta.Ruta + @"\";
+                                            if (string.IsNullOrWhiteSpace(cancion.Tag.JoinedArtists))
+                                            {
+                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists + "." + archivo.Formato);
+                                            }
+                                            else
+                                            {
+                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists + "." + archivo.Formato);
+                                            }
+
+                                            // antes hay que verificar si el nuevo nombre no coincide con un archivo ya existente
+                                            if (File.Exists(nuevoNombreConRuta))
+                                            {
+                                                MessageBox.Show("Nombre repetido: \n" + nuevoNombreConRuta, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                            }
+                                            else
+                                            {
+                                                // cambiar el nombre del archivo
+                                                File.Move(cancion.Name, nuevoNombreConRuta);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("No se pudo encontrar una canción", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sin archivos compatibles en la ruta \n" + ruta, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontró una carpeta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No hay carpetas para trabajar. \n Utilice la función \"Agregar carpeta\" para continuar.", "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+
+                listaCancionesCT.Items.Clear();
+                listaCancionesST.Items.Clear();
+                listaCarpetas.Items.Clear();
+                MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
+            }
+            catch (Exception ex)
+            {
+                listaCancionesCT.Items.Clear();
+                listaCancionesST.Items.Clear();
+                listaCarpetas.Items.Clear();
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void activo_Click(object sender, RoutedEventArgs e)
+        {
+            // marcar si queremos renombar X cancion
+        }
+
+        private void quitar_Click(object sender, RoutedEventArgs e)
+        {
+            // quita la carpeta y sus canciones de sus respectivas listas
         }
     }
 }

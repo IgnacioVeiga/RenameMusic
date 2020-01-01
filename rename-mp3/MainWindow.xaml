@@ -4,10 +4,76 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Rename MP3" Height="225" Width="450">
-    <Grid>
-        <Button Content="Ruta" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Cursor="Hand" Click="Ruta_Click"/>
-        <Button Content="Renombrar" HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" Cursor="Hand" Click="Renombrar_Click"/>
+        MinHeight="540" MinWidth="960"
+        SizeToContent="WidthAndHeight" 
+        ResizeMode="CanResizeWithGrip"
+        Title="Rename MP3">
+    <Grid Background="Black">
+        <Button Content="Agregar carpeta" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center" Cursor="Hand" Click="Ruta_Click"/>
+        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,100,50,0" VerticalAlignment="Center" Cursor="Hand" Click="Renombrar_Click"/>
+
+        <TabControl x:Name="pestañas" BorderBrush="Green" Background="Gray" Cursor="Arrow" HorizontalAlignment="Left" MaxWidth="720">
+            <TabItem Header="Canciones CON tags">
+                <Grid VerticalAlignment="Center">
+                    <ListView x:Name="listaCancionesCT" VerticalAlignment="Stretch" Margin="10,10,10,10" Cursor="Arrow" Background="#3F008000" BorderBrush="Green" Foreground="White">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Activo">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox x:Name="activo" IsChecked="{Binding Activo}" Cursor="Hand" Click="activo_Click" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="nombreActualCT" Header="Nombre actual" DisplayMemberBinding="{Binding NombreActual}"/>
+                                <!--<GridViewColumn x:Name="nuevoNombreCT" Header="Nuevo nombre" DisplayMemberBinding="{Binding NuevoNombre}"/>-->
+                                <GridViewColumn x:Name="formatoCT" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
+                                <GridViewColumn x:Name="titulo" Header="Titulo" DisplayMemberBinding="{Binding Titulo}"/>
+                                <GridViewColumn x:Name="album" Header="Album" DisplayMemberBinding="{Binding Album}"/>
+                                <GridViewColumn x:Name="artista" Header="Artista" DisplayMemberBinding="{Binding Artista}"/>
+                                <GridViewColumn x:Name="albumArtista" Header="Album artista" DisplayMemberBinding="{Binding AlbumArtista}"/>
+                                <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding IdCarpeta}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Canciones SIN tags">
+                <Grid VerticalAlignment="Center">
+                    <ListView x:Name="listaCancionesST" VerticalAlignment="Stretch" Margin="10,10,10,10" Cursor="Arrow" Background="#3F008000" BorderBrush="Green" Foreground="White">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn x:Name="nombreST" Header="Nombre" DisplayMemberBinding="{Binding NombreActual}"/>
+                                <GridViewColumn x:Name="formatoST" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
+                                <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding IdCarpeta}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Carpetas agregadas">
+                <Grid VerticalAlignment="Center">
+                    <ListView x:Name="listaCarpetas" VerticalAlignment="Stretch" Margin="10,10,10,10" Cursor="Arrow" Background="#3F008000" BorderBrush="Green" Foreground="White">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Quitar">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="quitar" Content="X" Cursor="Hand" Click="quitar_Click" Foreground="Red" Background="Black" BorderBrush="Red"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="ruta" Header="Ruta" DisplayMemberBinding="{Binding Ruta}"/>
+                                <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding IdCanciones}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
 
     </Grid>
 </Window>
