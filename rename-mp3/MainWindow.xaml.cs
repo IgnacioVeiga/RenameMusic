@@ -183,24 +183,40 @@ namespace rename_mp3
 
                                             // TODO: esto hay que prepararlo segun el criterio seleccionado
                                             string nuevoNombreConRuta = carpeta.Ruta + @"\";
-                                            if (string.IsNullOrWhiteSpace(cancion.Tag.JoinedArtists))
+                                            if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedArtists))
                                             {
-                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists + "." + archivo.Formato);
+                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists);
+                                            }
+                                            else if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedAlbumArtists))
+                                            {
+                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists);
                                             }
                                             else
                                             {
-                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists + "." + archivo.Formato);
+                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title);
                                             }
 
                                             // antes hay que verificar si el nuevo nombre no coincide con un archivo ya existente
-                                            if (File.Exists(nuevoNombreConRuta))
+                                            if (!File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
                                             {
-                                                MessageBox.Show("Nombre repetido: \n" + nuevoNombreConRuta, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                                // cambiar el nombre del archivo
+                                                File.Move(cancion.Name, nuevoNombreConRuta + "." + archivo.Formato);
                                             }
                                             else
                                             {
-                                                // cambiar el nombre del archivo
-                                                File.Move(cancion.Name, nuevoNombreConRuta);
+                                                // TODO: terminar esto, mostrar opciones de "Reemplazar", "Renombrar + (num)" u "omitir"
+
+                                                //int num = 2;
+                                                //while (File.Exists(nuevoNombreConRuta + "(" + num + ")" + "." + archivo.Formato))
+                                                //{
+                                                //    num += 1; // se incrementa en 1 en cada ciclo
+                                                //}
+                                                //File.Move(cancion.Name, nuevoNombreConRuta + "(" + num + ")" + "." + archivo.Formato);
+                                                //string mensaje = "El nombre del archivo " + nuevoNombreConRuta + "." + archivo.Formato +
+                                                //    "\n" + "Fue renombrado como " + nuevoNombreConRuta + "(" + num + ")" + "." + 
+                                                //    archivo.Formato + "\n" + "Porque el archivo está repetido o hay uno con el mismo nombre";
+                                                //string mensaje = "Archivo está repetido o hay uno con el mismo nombre + \n" + nuevoNombreConRuta;
+                                                //MessageBox.Show(mensaje, "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                                             }
                                         }
                                     }
@@ -212,7 +228,7 @@ namespace rename_mp3
                             }
                             else
                             {
-                                MessageBox.Show("Sin archivos compatibles en la ruta \n" + ruta, "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                MessageBox.Show("Sin archivos compatibles en la ruta \n" + ruta, "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                             }
                         }
                         else
