@@ -1,2 +1,2 @@
-# rename-mp3
-Renombra archivos, de preferencia música en formato mp3, según sus "tags" en caso de que existan estos
+# RenameMusic
+Renombra archivos de música (de formatos mp3, m4a, ogg, flac y wav) por sus "tags" en caso de que existan estos

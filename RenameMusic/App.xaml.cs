@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace rename_mp3
+namespace RenameMusic
 {
     /// <summary>
     /// Interaction logic for App.xaml

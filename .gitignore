@@ -2,6 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/rename-mp3/bin/Debug/netcoreapp3.1
+/RenameMusic/bin/Debug/netcoreapp3.1
 /.vs
-/rename-mp3/obj
+/RenameMusic/obj

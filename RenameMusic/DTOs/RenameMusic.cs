@@ -1,4 +1,4 @@
-﻿namespace rename_mp3.DTOs
+﻿namespace RenameMusic.DTOs
 {
     public class CancionDTO
     {

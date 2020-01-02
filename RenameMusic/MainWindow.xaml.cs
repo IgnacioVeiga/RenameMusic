@@ -1,4 +1,4 @@
-﻿using rename_mp3.DTOs;
+﻿using RenameMusic.DTOs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace rename_mp3
+namespace RenameMusic
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>rename_mp3</RootNamespace>
+    <RootNamespace>RenameMusic</RootNamespace>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
