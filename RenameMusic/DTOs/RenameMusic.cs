@@ -1,4 +1,6 @@
-﻿namespace RenameMusic.DTOs
+﻿using System;
+
+namespace RenameMusic.DTOs
 {
     public class CancionDTO
     {
@@ -7,6 +9,7 @@
         public string NombreActual { get; set; } // del archivo
         public string NuevoNombre { get; set; } // del archivo
         public string Formato { get; set; } // mp3, m4a, flac
+        public TimeSpan Duracion { get; set; }
         public string Titulo { get; set; }
         public string Album { get; set; }
         public string Artista { get; set; }

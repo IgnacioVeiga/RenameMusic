@@ -126,6 +126,7 @@ namespace RenameMusic
                                         Titulo = cancion.Tag.Title,
                                         Album = cancion.Tag.Album,
                                         Artista = cancion.Tag.JoinedArtists,
+                                        Duracion = cancion.Properties.Duration,
                                         AlbumArtista = cancion.Tag.JoinedAlbumArtists
                                     });
                                 }
@@ -137,9 +138,11 @@ namespace RenameMusic
                                         Activo = true,
                                         IdCarpeta = id,
                                         NombreActual = nombre,
-                                        Formato = formato
+                                        Formato = formato,
+                                        Duracion = cancion.Properties.Duration
                                     });
                                 }
+
                             }
                         }
                     }
