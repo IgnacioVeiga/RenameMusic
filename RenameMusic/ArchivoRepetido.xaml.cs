@@ -33,7 +33,6 @@ namespace RenameMusic
                 archivo = pArchivo;
                 cancion = pCancion;
                 nuevoNombreConRuta = pNuevoNombreConRuta;
-                Topmost = false;
             }
             catch (Exception ex)
             {
