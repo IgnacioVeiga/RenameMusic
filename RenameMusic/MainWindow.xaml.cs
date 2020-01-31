@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RenameMusic
 {
@@ -199,27 +201,26 @@ namespace RenameMusic
                                                 nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title);
                                             }
 
-                                            // antes hay que verificar si el nuevo nombre no coincide con un archivo ya existente
-                                            if (!File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
+                                            // antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
+                                            if (nuevoNombreConRuta + "." + archivo.Formato != cancion.Name)
                                             {
-                                                // cambiar el nombre del archivo
-                                                File.Move(cancion.Name, nuevoNombreConRuta + "." + archivo.Formato);
-                                            }
-                                            else
-                                            {
-                                                // TODO: terminar esto, mostrar opciones de "Reemplazar", "Renombrar + (num)" u "omitir"
+                                                // verifico que no exista archivo con el nuevo nombre
+                                                if (!File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
+                                                {
+                                                    // cambiar el nombre del archivo
+                                                    File.Move(cancion.Name, nuevoNombreConRuta + "." + archivo.Formato);
+                                                }
+                                                /*
+                                                 * Si existe un archivo con el mismo nombre le doy a elegir al usuario:
+                                                 * Reemplazar, Omitir o Renombrar
+                                                */
+                                                else
+                                                {
+                                                    ArchivoRepetido VentanaArchivoRepetido = new ArchivoRepetido(archivo, cancion, nuevoNombreConRuta);
+                                                    VentanaArchivoRepetido.ShowDialog();
 
-                                                //int num = 2;
-                                                //while (File.Exists(nuevoNombreConRuta + "(" + num + ")" + "." + archivo.Formato))
-                                                //{
-                                                //    num += 1; // se incrementa en 1 en cada ciclo
-                                                //}
-                                                //File.Move(cancion.Name, nuevoNombreConRuta + "(" + num + ")" + "." + archivo.Formato);
-                                                //string mensaje = "El nombre del archivo " + nuevoNombreConRuta + "." + archivo.Formato +
-                                                //    "\n" + "Fue renombrado como " + nuevoNombreConRuta + "(" + num + ")" + "." + 
-                                                //    archivo.Formato + "\n" + "Porque el archivo está repetido o hay uno con el mismo nombre";
-                                                //string mensaje = "Archivo está repetido o hay uno con el mismo nombre + \n" + nuevoNombreConRuta;
-                                                //MessageBox.Show(mensaje, "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                                                    // TODO: agregar botón para repetir el paso elegido en los proximos casos
+                                                }
                                             }
                                         }
                                     }

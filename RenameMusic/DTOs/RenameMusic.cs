@@ -21,4 +21,11 @@ namespace RenameMusic.DTOs
         public string IdCanciones { get; set; } // identifica sus canciones
         public string Ruta { get; set; }
     }
+
+    public enum ArchivoRepetidoEnum
+    {
+        Reemplazar = 1,
+        Renombrar = 2,
+        Omitir = 3
+    }
 }

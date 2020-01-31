@@ -76,9 +76,9 @@
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter TargetName="Panel" Property="Background" Value="Black" />
                                     </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="true">
+                                    <!--<Trigger Property="IsMouseOver" Value="true">
                                         <Setter TargetName="Panel" Property="Background" Value="#3F008000" />
-                                    </Trigger>
+                                    </Trigger>-->
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
@@ -94,7 +94,7 @@
                                 <GridViewColumn Header="Marcar">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <CheckBox x:Name="activo" IsChecked="{Binding Activo}" Cursor="Hand" Click="activo_Click" />
+                                            <CheckBox x:Name="activo" IsChecked="{Binding Activo}" Cursor="Hand" Click="activo_Click" BorderBrush="Green" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
