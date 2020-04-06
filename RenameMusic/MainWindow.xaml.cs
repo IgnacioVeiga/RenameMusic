@@ -55,6 +55,8 @@ namespace RenameMusic
 
         public static string NormalizeFileName(string fileName)
         {
+            // Esta funcion se usa para cuando tengamos que renombrar a un archivo
+            // Nos aseguramos que tenga solamente los caracteres permitidos por Windows
             string invalidChars = System.Text.RegularExpressions.Regex.Escape(
                  new string(Path.GetInvalidFileNameChars())
             );
@@ -73,7 +75,9 @@ namespace RenameMusic
                     AllowNonFileSystemItems = true,
                     IsFolderPicker = true,
                     Multiselect = true,
-                    Title = "Agregar carpeta/s"
+                    Title = "Agregar carpeta/s",
+                    EnsurePathExists = true,
+                    DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) // carpeta de musica por defecto
                 };
 
                 // si da click en "Ok" y no hay rutas nulas, continua
