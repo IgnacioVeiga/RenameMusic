@@ -68,6 +68,7 @@ namespace RenameMusic
         {
             try
             {
+                // TODO: reemplazar el dialogo de abajo por un buscador propio de carpetas
                 // muesta dialogo para seleccion de carpetas
                 CommonOpenFileDialog dialog = new CommonOpenFileDialog
                 {
@@ -90,19 +91,25 @@ namespace RenameMusic
                         string id = generarId();
 
                         // agregar carpeta
-                        CarpetaDTO carpetaObj = new CarpetaDTO
+                        CarpetaDTO carpetaItem = new CarpetaDTO
                         {
                             CancionesId = id,
                             Ruta = carpetasSeleccionadas[i]
                         };
-                        listaCarpetas.Items.Add(carpetaObj);
+                        listaCarpetas.Items.Add(carpetaItem);
 
-                        // Toma lista de archivos mp3, m4a, flac y wav en cada carpeta (pero sin subcarpetas)
-                        string[] arrayMP3 = Directory.GetFiles(carpetasSeleccionadas[i], "*.mp3");
-                        string[] arrayM4A = Directory.GetFiles(carpetasSeleccionadas[i], "*.m4a");
-                        string[] arrayFLAC = Directory.GetFiles(carpetasSeleccionadas[i], "*.flac");
-                        string[] arrayWAV = Directory.GetFiles(carpetasSeleccionadas[i], "*.wav");
-                        string[] arrayOGG = Directory.GetFiles(carpetasSeleccionadas[i], "*.ogg");
+                        // con esto defino si quiero incluir subdirectotios en la busqueda
+                        bool incluirSubdirectorios = false;
+                        SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+                        // Toma lista de archivos mp3, m4a, flac y wav en cada carpeta
+                        string[] arrayMP3 = Directory.GetFiles(carpetasSeleccionadas[i], "*.mp3", searchOption);
+                        string[] arrayM4A = Directory.GetFiles(carpetasSeleccionadas[i], "*.m4a", searchOption);
+                        string[] arrayFLAC = Directory.GetFiles(carpetasSeleccionadas[i], "*.flac", searchOption);
+                        string[] arrayWAV = Directory.GetFiles(carpetasSeleccionadas[i], "*.wav", searchOption);
+                        string[] arrayOGG = Directory.GetFiles(carpetasSeleccionadas[i], "*.ogg", searchOption);
+
+                        // junto todos los array de arriba en uno solo
                         string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayWAV).Union(arrayOGG).ToArray();
 
                         // Verifica si hay canciones en ese array
@@ -122,7 +129,7 @@ namespace RenameMusic
                                 // si existe título en sus tags
                                 if (!string.IsNullOrWhiteSpace(cancion.Tag.Title))
                                 {
-                                    CancionDTO cancionObj = new CancionDTO
+                                    CancionDTO cancionItem = new CancionDTO
                                     {
                                         Activo = true,
                                         CarpetaId = id, // TODO: generar de forma unica y no nula ni cero
@@ -136,18 +143,18 @@ namespace RenameMusic
                                         AlbumArtista = cancion.Tag.JoinedAlbumArtists
                                     };
                                     // agregamos la cancion a la lista CON tags
-                                    listaCancionesCT.Items.Add(cancionObj);
+                                    listaCancionesCT.Items.Add(cancionItem);
 
                                     // Creo la tabla si no existe aún
                                     //DbNasho database = new DbNasho();
                                     //var connection = database.CreateConnection();
                                     //database.CreateTable(connection);
-                                    //database.InsertData(connection, "Canciones", cancionObj);
-                                    //database.InsertData(connection, "Carpetas", carpetaObj);
+                                    //database.InsertData(connection, "Canciones", cancionItem);
+                                    //database.InsertData(connection, "Carpetas", carpetaItem);
                                 }
                                 else // si no tiene título en sus tags
                                 {
-                                    CancionDTO cancionObj = new CancionDTO
+                                    CancionDTO cancionItem = new CancionDTO
                                     {
                                         Activo = true,
                                         CarpetaId = id,
@@ -156,7 +163,7 @@ namespace RenameMusic
                                         Duracion = cancion.Properties.Duration
                                     };
                                     // agregamos la cancion a la lista SIN tags
-                                    listaCancionesST.Items.Add(cancionObj);
+                                    listaCancionesST.Items.Add(cancionItem);
                                 }
                             }
                         }
