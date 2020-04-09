@@ -1,12 +1,11 @@
-﻿using RenameMusic.DTOs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using RenameMusic.DTOs;
+using SQLiteDemo;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RenameMusic
 {
@@ -69,6 +68,7 @@ namespace RenameMusic
         {
             try
             {
+                // TODO: reemplazar el dialogo de abajo por un buscador propio de carpetas
                 // muesta dialogo para seleccion de carpetas
                 CommonOpenFileDialog dialog = new CommonOpenFileDialog
                 {
@@ -91,18 +91,25 @@ namespace RenameMusic
                         string id = generarId();
 
                         // agregar carpeta
-                        listaCarpetas.Items.Add(new CarpetaDTO
+                        CarpetaDTO carpetaItem = new CarpetaDTO
                         {
-                            IdCanciones = id,
+                            CancionesId = id,
                             Ruta = carpetasSeleccionadas[i]
-                        });
+                        };
+                        listaCarpetas.Items.Add(carpetaItem);
 
-                        // Toma lista de archivos mp3, m4a, flac y wav en cada carpeta (pero sin subcarpetas)
-                        string[] arrayMP3 = Directory.GetFiles(carpetasSeleccionadas[i], "*.mp3");
-                        string[] arrayM4A = Directory.GetFiles(carpetasSeleccionadas[i], "*.m4a");
-                        string[] arrayFLAC = Directory.GetFiles(carpetasSeleccionadas[i], "*.flac");
-                        string[] arrayWAV = Directory.GetFiles(carpetasSeleccionadas[i], "*.wav");
-                        string[] arrayOGG = Directory.GetFiles(carpetasSeleccionadas[i], "*.ogg");
+                        // con esto defino si quiero incluir subdirectotios en la busqueda
+                        bool incluirSubdirectorios = false;
+                        SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+                        // Toma lista de archivos mp3, m4a, flac y wav en cada carpeta
+                        string[] arrayMP3 = Directory.GetFiles(carpetasSeleccionadas[i], "*.mp3", searchOption);
+                        string[] arrayM4A = Directory.GetFiles(carpetasSeleccionadas[i], "*.m4a", searchOption);
+                        string[] arrayFLAC = Directory.GetFiles(carpetasSeleccionadas[i], "*.flac", searchOption);
+                        string[] arrayWAV = Directory.GetFiles(carpetasSeleccionadas[i], "*.wav", searchOption);
+                        string[] arrayOGG = Directory.GetFiles(carpetasSeleccionadas[i], "*.ogg", searchOption);
+
+                        // junto todos los array de arriba en uno solo
                         string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayWAV).Union(arrayOGG).ToArray();
 
                         // Verifica si hay canciones en ese array
@@ -118,14 +125,14 @@ namespace RenameMusic
                                 string nombre = archivo.Remove(archivo.LastIndexOf("."));
                                 string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
 
+
                                 // si existe título en sus tags
                                 if (!string.IsNullOrWhiteSpace(cancion.Tag.Title))
                                 {
-                                    // agregamos la cancion a la lista CON tags
-                                    listaCancionesCT.Items.Add(new CancionDTO
+                                    CancionDTO cancionItem = new CancionDTO
                                     {
                                         Activo = true,
-                                        IdCarpeta = id, // TODO: generar de forma unica y no nula ni cero
+                                        CarpetaId = id, // TODO: generar de forma unica y no nula ni cero
                                         NombreActual = nombre,
                                         //NuevoNombre = NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists), // TODO: preparar segun el criterio
                                         Formato = formato,
@@ -134,21 +141,30 @@ namespace RenameMusic
                                         Artista = cancion.Tag.JoinedPerformers,
                                         Duracion = cancion.Properties.Duration,
                                         AlbumArtista = cancion.Tag.JoinedAlbumArtists
-                                    });
+                                    };
+                                    // agregamos la cancion a la lista CON tags
+                                    listaCancionesCT.Items.Add(cancionItem);
+
+                                    // Creo la tabla si no existe aún
+                                    //DbNasho database = new DbNasho();
+                                    //var connection = database.CreateConnection();
+                                    //database.CreateTable(connection);
+                                    //database.InsertData(connection, "Canciones", cancionItem);
+                                    //database.InsertData(connection, "Carpetas", carpetaItem);
                                 }
                                 else // si no tiene título en sus tags
                                 {
-                                    // agregamos la cancion a la lista SIN tags
-                                    listaCancionesST.Items.Add(new CancionDTO
+                                    CancionDTO cancionItem = new CancionDTO
                                     {
                                         Activo = true,
-                                        IdCarpeta = id,
+                                        CarpetaId = id,
                                         NombreActual = nombre,
                                         Formato = formato,
                                         Duracion = cancion.Properties.Duration
-                                    });
+                                    };
+                                    // agregamos la cancion a la lista SIN tags
+                                    listaCancionesST.Items.Add(cancionItem);
                                 }
-
                             }
                         }
                     }
@@ -186,7 +202,7 @@ namespace RenameMusic
                                     // tambien, por seguridad verifico esto
                                     if (archivo != null)
                                     {
-                                        if (archivo.Activo && archivo.IdCarpeta == carpeta.IdCanciones) // solo trabaja con las canciones que dejamos los "checkboxes" marcados
+                                        if (archivo.Activo && archivo.CarpetaId == carpeta.CancionesId) // solo trabaja con las canciones que dejamos los "checkboxes" marcados
                                         {
                                             string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
                                             TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);

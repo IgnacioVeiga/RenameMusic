@@ -4,7 +4,8 @@ namespace RenameMusic.DTOs
 {
     public class CancionDTO
     {
-        public string IdCarpeta { get; set; } // identifica la carpeta
+        public int Id { get; set; } // va a usarse en un futuro para la db
+        public string CarpetaId { get; set; } // identifica la carpeta
         public bool Activo { get; set; } // para filtrar
         public string NombreActual { get; set; } // del archivo
         public string NuevoNombre { get; set; } // del archivo
@@ -18,14 +19,8 @@ namespace RenameMusic.DTOs
 
     public class CarpetaDTO
     {
-        public string IdCanciones { get; set; } // identifica sus canciones
+        public int Id { get; set; } // va a usarse en un futuro para la db
+        public string CancionesId { get; set; } // identifica sus canciones
         public string Ruta { get; set; }
-    }
-
-    public enum ArchivoRepetidoEnum
-    {
-        Reemplazar = 1,
-        Renombrar = 2,
-        Omitir = 3
     }
 }
