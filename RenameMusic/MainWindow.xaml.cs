@@ -138,7 +138,7 @@ namespace RenameMusic
                                         Formato = formato,
                                         Titulo = cancion.Tag.Title,
                                         Album = cancion.Tag.Album,
-                                        Artista = cancion.Tag.JoinedArtists,
+                                        Artista = cancion.Tag.JoinedPerformers,
                                         Duracion = cancion.Properties.Duration,
                                         AlbumArtista = cancion.Tag.JoinedAlbumArtists
                                     };
@@ -204,13 +204,14 @@ namespace RenameMusic
                                     {
                                         if (archivo.Activo && archivo.CarpetaId == carpeta.CancionesId) // solo trabaja con las canciones que dejamos los "checkboxes" marcados
                                         {
-                                            TagLib.File cancion = TagLib.File.Create(carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato);
+                                            string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
+                                            TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);
 
                                             // TODO: esto hay que prepararlo segun el criterio seleccionado
                                             string nuevoNombreConRuta = carpeta.Ruta + @"\";
-                                            if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedArtists))
+                                            if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedPerformers))
                                             {
-                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists);
+                                                nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedPerformers);
                                             }
                                             else if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedAlbumArtists))
                                             {
@@ -222,13 +223,13 @@ namespace RenameMusic
                                             }
 
                                             // antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
-                                            if (nuevoNombreConRuta + "." + archivo.Formato != cancion.Name)
+                                            if ((nuevoNombreConRuta + "." + archivo.Formato).ToLower() != (antiguoNombreConRuta + "." + archivo.Formato).ToLower())
                                             {
                                                 // verifico que no exista archivo con el nuevo nombre
                                                 if (!File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
                                                 {
                                                     // cambiar el nombre del archivo
-                                                    File.Move(cancion.Name, nuevoNombreConRuta + "." + archivo.Formato);
+                                                    File.Move(antiguoNombreConRuta + "." + archivo.Formato, nuevoNombreConRuta + "." + archivo.Formato);
                                                 }
                                                 /*
                                                  * Si existe un archivo con el mismo nombre le doy a elegir al usuario:
