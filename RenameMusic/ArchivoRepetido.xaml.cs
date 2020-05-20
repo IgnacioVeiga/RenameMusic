@@ -1,4 +1,4 @@
-﻿using RenameMusic.DTOs;
+﻿using RenameMusic.N39;
 using System;
 using System.IO;
 using System.Windows;
@@ -10,11 +10,11 @@ namespace RenameMusic
     /// </summary>
     public partial class ArchivoRepetido : Window
     {
-        private CancionDTO archivo = new CancionDTO();
+        private SongN39 archivo = new SongN39();
         private TagLib.File cancion = null;
         private string nuevoNombreConRuta = "";
 
-        public ArchivoRepetido(CancionDTO pArchivo, TagLib.File pCancion, string pNuevoNombreConRuta)
+        public ArchivoRepetido(SongN39 pArchivo, TagLib.File pCancion, string pNuevoNombreConRuta)
         {
             try
             {
@@ -57,14 +57,14 @@ namespace RenameMusic
 
         private void Renombrar_Click(object sender, RoutedEventArgs e)
         {
+            int num = 2;
+            while (File.Exists(nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato))
+            {
+                num += 1; // se incrementa en 1 en cada ciclo
+            }
+
             try
             {
-                int num = 2;
-                while (File.Exists(nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato))
-                {
-                    num += 1; // se incrementa en 1 en cada ciclo
-                }
-
                 File.Move(cancion.Name, nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato);
 
                 string mensaje = "El nombre del archivo\n" + nuevoNombreConRuta + "." + archivo.Formato +
@@ -77,6 +77,18 @@ namespace RenameMusic
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Close();
+        }
+
+        private void RepetirEleccion_Check(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // TODO: según si el checkbox está marcado hacer lo que corresponda
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

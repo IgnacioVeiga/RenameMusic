@@ -53,8 +53,8 @@
     </Window.Resources>
 
     <Grid Background="Black">
-        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="200,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="Ruta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
-        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,200,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="Renombrar_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
+        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="200,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
+        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,200,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenombrarArchivos_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
 
         <TabControl x:Name="pestañas" BorderBrush="Green" Background="Black" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,0,50">
             <TabControl.Resources>

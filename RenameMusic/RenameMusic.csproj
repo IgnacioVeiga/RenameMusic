@@ -6,6 +6,8 @@
     <RootNamespace>RenameMusic</RootNamespace>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Authors>Ignacio Veiga</Authors>
+    <StartupObject>RenameMusic.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

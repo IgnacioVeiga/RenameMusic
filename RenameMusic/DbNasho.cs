@@ -1,5 +1,4 @@
-﻿using RenameMusic;
-using RenameMusic.DTOs;
+﻿using RenameMusic.N39;
 using System;
 using System.Data.SQLite;
 using System.IO;
@@ -61,12 +60,12 @@ namespace SQLiteDemo
                     switch (tabla)
                     {
                         case "Carpetas":
-                            CarpetaDTO carpeta = datos as CarpetaDTO;
+                            FolderN39 carpeta = datos as FolderN39;
                             sqlite_cmd.CommandText = "INSERT INTO Carpetas (CancionesId, RutaCompleta) VALUES ('" + carpeta.CancionesId +"','"+ carpeta.Ruta + "');";
                             sqlite_cmd.ExecuteNonQuery();
                             break;
                         case "Canciones":
-                            CancionDTO cancion = datos as CancionDTO;
+                            SongN39 cancion = datos as SongN39;
                             sqlite_cmd.CommandText = "INSERT INTO Canciones (CarpetaId, Titulo, Album, AlbumArtista, Artista, NombreArchivo, Formato) VALUES ('" + cancion.CarpetaId + "', '" + cancion.Titulo + "', '" + cancion.Album + "', '" + cancion.AlbumArtista + "', '" + cancion.Artista + "', '" + cancion.NombreActual + "', '" + cancion.Formato + "');";
                             sqlite_cmd.ExecuteNonQuery();
                             break;
