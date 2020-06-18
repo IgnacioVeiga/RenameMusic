@@ -83,7 +83,7 @@ namespace RenameMusic
         {
             try
             {
-                // TODO: según si el checkbox está marcado hacer lo que corresponda
+                MainWindow.noAbrirVentanaDeAR = (bool)repetirEleccion.IsChecked;
             }
             catch (Exception ex)
             {

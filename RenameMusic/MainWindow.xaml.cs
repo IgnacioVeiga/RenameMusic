@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RenameMusic
 {
@@ -13,24 +14,27 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
-        /* El objetivo de la app es poder renombrar archivos mp3 por sus "tags" según
-         * un criterio definido por el usuario o no (uno predeterminado).
-         * Por ejemplo: Si tengo una canción con el nombre "AUD-01230101-WA0123.mp3" pero
-         * esta misma tiene "tags", entonces puedo decidir que con estos se llame según
-         * el siguiente orden: NroDePista-Titulo-Artista.mp3, pero tengo que hacerlo con muchas
-         * canciones (ya es engorroso con una sola). Esa es la utilidad de esta app, quizas
-         * en un futuro se pueda modificar los "tags" desde esta misma app en grandes cantidades.
-         * 
-         * Se debe poder:
-         * Mostar una lista con todos los archivos compatibles. [Listo]
-         * Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña. [Listo]
-         * Agregar más de una carpeta y eliminar tambien. [Parcial]
-         * Enseñar los nombres de los archivos y en un lado sus futuros nombres. [Parcial]
-         * Ordenar la lista por diversas formas (nombre, tamaño, carpeta, duración, etc).
-         * Definir la posición de los "tags" como nombre.
-         * Tener un criterio predeterminado para las posiciones.
-         * Reproducir el archivo desde esta app o una externa.
-         */
+        /*
+              El objetivo de la app es poder renombrar archivos mp3 por sus "tags" según
+              un criterio definido por el usuario o no (uno predeterminado).
+              Por ejemplo: Si tengo una canción con el nombre "AUD-01230101-WA0123.mp3" pero
+              esta misma tiene "tags", entonces puedo decidir que con estos se llame según
+              el siguiente orden: NroDePista-Titulo-Artista.mp3, pero tengo que hacerlo con muchas
+              canciones (ya es engorroso con una sola). Esa es la utilidad de esta app, quizas
+              en un futuro se pueda modificar los "tags" desde esta misma app en grandes cantidades.
+
+              Se debe poder:
+              Mostar una lista con todos los archivos compatibles. [Listo]
+              Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña. [Listo]
+              Agregar más de una carpeta y eliminar tambien. [Parcial]
+              Enseñar los nombres de los archivos y en un lado sus futuros nombres. [Parcial]
+              Ordenar la lista por diversas formas (nombre, tamaño, carpeta, duración, etc).
+              Definir la posición de los "tags" como nombre.
+              Tener un criterio predeterminado para las posiciones.
+              Reproducir el archivo desde esta app o una externa.
+        */
+
+        public static bool noAbrirVentanaDeAR = false;
 
         public MainWindow()
         {
@@ -126,6 +130,7 @@ namespace RenameMusic
                                     SongN39 cancionItem = new SongN39
                                     {
                                         Activo = true,
+                                        Id = Guid.NewGuid().ToString("N"),
                                         CarpetaId = id,
                                         NombreActual = nombre,
                                         //NuevoNombre = NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists), // TODO: preparar segun el criterio
@@ -153,6 +158,7 @@ namespace RenameMusic
                                     SongN39 cancionItem = new SongN39
                                     {
                                         Activo = true,
+                                        Id = Guid.NewGuid().ToString("N"),
                                         CarpetaId = id,
                                         NombreActual = nombre,
                                         Formato = formato,
@@ -204,42 +210,38 @@ namespace RenameMusic
                                             string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
                                             TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);
 
-                                            FunctionsN39 functionN39 = new FunctionsN39();
-
                                             // TODO: esto hay que prepararlo segun el criterio seleccionado
                                             string nuevoNombreConRuta = carpeta.Ruta + @"\";
                                             if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedPerformers))
                                             {
-                                                nuevoNombreConRuta += functionN39.NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedPerformers);
+                                                nuevoNombreConRuta += FunctionsN39.NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedPerformers);
                                             }
                                             else if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedAlbumArtists))
                                             {
-                                                nuevoNombreConRuta += functionN39.NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists);
+                                                nuevoNombreConRuta += FunctionsN39.NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists);
                                             }
                                             else
                                             {
-                                                nuevoNombreConRuta += functionN39.NormalizeFileName(cancion.Tag.Title);
+                                                nuevoNombreConRuta += FunctionsN39.NormalizeFileName(cancion.Tag.Title);
                                             }
 
-                                            // antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
+                                            // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
                                             if ((nuevoNombreConRuta + "." + archivo.Formato).ToLower() != (antiguoNombreConRuta + "." + archivo.Formato).ToLower())
                                             {
-                                                // verifico si ya existe un archivo con el nuevo nombre
+                                                // Verifico si ya existe un archivo con el nuevo nombre
                                                 if (File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
                                                 {
-                                                    /*
-                                                     * Si existe un archivo con el mismo nombre le doy a elegir al usuario:
-                                                     * Reemplazar, Omitir o Renombrar
-                                                    */
+                                                    // Si existe un archivo con el mismo nombre le doy a elegir al usuario:
+                                                    // Reemplazar, Omitir o Renombrar
 
                                                     ArchivoRepetido VentanaArchivoRepetido = new ArchivoRepetido(archivo, cancion, nuevoNombreConRuta);
-                                                    VentanaArchivoRepetido.ShowDialog();
 
-                                                    // TODO: agregar botón para repetir el paso elegido en los proximos casos
+                                                    if (noAbrirVentanaDeAR)
+                                                        VentanaArchivoRepetido.ShowDialog();
                                                 }
                                                 else
                                                 {
-                                                    // cambiar el nombre del archivo
+                                                    // Cambiar el nombre del archivo
                                                     File.Move(antiguoNombreConRuta + "." + archivo.Formato, nuevoNombreConRuta + "." + archivo.Formato);
                                                 }
                                             }

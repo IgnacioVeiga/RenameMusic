@@ -4,7 +4,7 @@ namespace RenameMusic.N39
 {
     public class FileN39
     {
-        public int Id { get; set; } // va a usarse en un futuro para la db
+        public string Id { get; set; } // va a usarse en un futuro para la db
         public string CarpetaId { get; set; } // identifica la carpeta
         public bool Activo { get; set; } // para filtrar
         public string NombreActual { get; set; }
@@ -24,7 +24,7 @@ namespace RenameMusic.N39
 
     public class FolderN39
     {
-        public int Id { get; set; } // va a usarse en un futuro para la db
+        public string Id { get; set; } // va a usarse en un futuro para la db
         public string CancionesId { get; set; } // identifica sus canciones
         public string Ruta { get; set; }
     }
