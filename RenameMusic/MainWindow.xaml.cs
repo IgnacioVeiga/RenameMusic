@@ -171,6 +171,10 @@ namespace RenameMusic
                                 }
                             }
                         }
+                        else
+                        {
+                            listaCarpetas.Items.Remove(carpetaItem);
+                        }
                     }
 
                 }
