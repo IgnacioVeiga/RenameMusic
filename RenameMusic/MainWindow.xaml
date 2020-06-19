@@ -106,7 +106,7 @@
                                 <GridViewColumn x:Name="album" Header="Album" DisplayMemberBinding="{Binding Album}"/>
                                 <GridViewColumn x:Name="artista" Header="Artista" DisplayMemberBinding="{Binding Artista}"/>
                                 <GridViewColumn x:Name="albumArtista" Header="Album artista" DisplayMemberBinding="{Binding AlbumArtista}"/>
-                                <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding IdCarpeta}"/>
+                                <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -121,7 +121,7 @@
                                 <GridViewColumn x:Name="nombreST" Header="Nombre" DisplayMemberBinding="{Binding NombreActual}"/>
                                 <GridViewColumn x:Name="formatoST" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
                                 <GridViewColumn x:Name="duracionST" Header="Duración (hh:mm:ss.ms)" DisplayMemberBinding="{Binding Duracion}"/>
-                                <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding IdCarpeta}"/>
+                                <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -141,7 +141,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn x:Name="ruta" Header="Ruta" DisplayMemberBinding="{Binding Ruta}"/>
-                                <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding IdCanciones}"/>
+                                <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
