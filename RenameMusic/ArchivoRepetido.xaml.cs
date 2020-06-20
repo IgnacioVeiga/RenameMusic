@@ -27,7 +27,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -35,7 +35,7 @@ namespace RenameMusic
         {
             try
             {
-                // antes hay que verificar si el archivo todavia existe por las dudas
+                // Antes hay que verificar si el archivo todavia existe por las dudas
                 // TODO: revisar si es necesario
                 if (File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
                 {
@@ -45,9 +45,12 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Close();
+            finally
+            {
+                Close();
+            }
         }
 
         private void Omitir_Click(object sender, RoutedEventArgs e)
@@ -57,14 +60,14 @@ namespace RenameMusic
 
         private void Renombrar_Click(object sender, RoutedEventArgs e)
         {
-            int num = 2;
-            while (File.Exists(nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato))
-            {
-                num += 1; // se incrementa en 1 en cada ciclo
-            }
-
             try
             {
+                int num = 2;
+                while (File.Exists(nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato))
+                {
+                    num += 1; // se incrementa en 1 en cada ciclo
+                }
+
                 File.Move(cancion.Name, nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato);
 
                 string mensaje = "El nombre del archivo\n" + nuevoNombreConRuta + "." + archivo.Formato +
@@ -74,9 +77,12 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Close();
+            finally
+            {
+                Close();
+            }
         }
 
         private void RepetirEleccion_Check(object sender, RoutedEventArgs e)
@@ -87,7 +93,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

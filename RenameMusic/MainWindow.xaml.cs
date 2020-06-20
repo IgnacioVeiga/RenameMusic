@@ -49,7 +49,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
                 // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
             }
         }
@@ -61,10 +61,10 @@ namespace RenameMusic
         {
             try
             {
-                // muesta dialogo para seleccion de carpetas
+                // Sirve para mostrar el dialogo selector de carpetas
                 CommonOpenFileDialog dialog = new CommonOpenFileDialog
                 {
-                    // TODO: reemplazar el dialogo de abajo por un buscador propio de carpetas
+                    // TODO: reemplazar este dialogo por el propio en creación
                     AllowNonFileSystemItems = true,
                     IsFolderPicker = true,
                     Multiselect = true,
@@ -73,121 +73,128 @@ namespace RenameMusic
                     DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) // carpeta de musica por defecto
                 };
 
-                // Condicion: debo heber hecho clic en "Ok" y no tener rutas nulas
-                if (dialog.ShowDialog() == CommonFileDialogResult.Ok && dialog.FileNames.All(fn => !string.IsNullOrWhiteSpace(fn)))
-                {
-                    // Ahora se hace la lista de carpetas seleccionadas
-                    List<string> carpetasSeleccionadas = dialog.FileNames.ToList();
-                    for (int i = 0; i < carpetasSeleccionadas.Count; i++)
-                    {
-                        /* 
-                         * Esto ahora genera un id en formato de string, unico y no nulo
-                         * El ID solo debe coincidir entre una carpeta y los archivos contenidos de la misma
-                         */
-                        // TODO: borrar la linea de a continuacion una vez implementada la base de datos
-                        string id = Guid.NewGuid().ToString("N");
+                // Muestra la ventana para seleccionar carpeta y guarda el resultado.
+                // A resultado me refiero a si la ventana fue cerrada, dieron clic en "cancelar",
+                // una carpeta fue seleccionada correctamente, etcetera.
+                CommonFileDialogResult resultDialog = dialog.ShowDialog();
 
-                        // Creo el objeto carpeta
+                List<string> rutasDeCarpetasSeleccionadas = new List<string>();
+
+                if (resultDialog != CommonFileDialogResult.Ok)
+                {
+                    MessageBox.Show("No hay carpeta/s cargada/s", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+                else if (dialog.FileNames.Any(fn => string.IsNullOrWhiteSpace(fn)))
+                {
+                    // Guardo en "carpetasSeleccionadas" todas aquellas carpetas que su "path" no sea nulo o un espacio vacio
+                    rutasDeCarpetasSeleccionadas = dialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
+                }
+
+                // Ahora se hace la lista de carpetas seleccionadas
+                rutasDeCarpetasSeleccionadas = dialog.FileNames.ToList();
+
+                foreach (string rutaDeCarpetaSeleccionada in rutasDeCarpetasSeleccionadas)
+                {
+                    // Con esto defino si quiero incluir subdirectotios en la busqueda de archivos
+                    bool incluirSubdirectorios = false;
+                    SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+                    // Toma lista de archivos con formato mp3, m4a, flac, wav y ogg en cada carpeta
+                    string[] arrayMP3 = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.mp3", searchOption);
+                    string[] arrayM4A = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.m4a", searchOption);
+                    string[] arrayFLAC = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.flac", searchOption);
+                    string[] arrayWAV = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.wav", searchOption);
+                    string[] arrayOGG = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.ogg", searchOption);
+
+                    // Ahora todos los array de arriba se unen en uno solo
+                    string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayWAV).Union(arrayOGG).ToArray();
+
+                    // Por seguridad filtro aquellos items que son nulos
+                    arrayDeCanciones = arrayDeCanciones.Where(fn => fn != null).ToArray();
+
+                    // Verifico si existe al menos un item
+                    if (arrayDeCanciones.Any())
+                    {
+                        // Si tengo archivos de música, debo agregar la carpeta a su correspondiente tabla
+                        // Por ahora se genera un id en formato de string, unico y no nulo
+                        // El ID solo debe coincidir entre una carpeta y sus archivos contenidos en la misma
+                        // TODO: borrar la linea de a continuacion una vez implementada la base de datos, si fuese necesario
+                        string id = Guid.NewGuid().ToString("N");
                         FolderN39 carpetaItem = new FolderN39
                         {
                             CancionesId = id,
-                            Ruta = carpetasSeleccionadas[i]
+                            Ruta = rutaDeCarpetaSeleccionada
                         };
-                        // El objeto carpeta es añadido a la lista
                         listaCarpetas.Items.Add(carpetaItem);
 
-                        // Con esto defino si quiero incluir subdirectotios en la busqueda
-                        bool incluirSubdirectorios = false;
-                        SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-                        // Toma lista de archivos con formato mp3, m4a, flac, wav y ogg en cada carpeta
-                        string[] arrayMP3 = Directory.GetFiles(carpetasSeleccionadas[i], "*.mp3", searchOption);
-                        string[] arrayM4A = Directory.GetFiles(carpetasSeleccionadas[i], "*.m4a", searchOption);
-                        string[] arrayFLAC = Directory.GetFiles(carpetasSeleccionadas[i], "*.flac", searchOption);
-                        string[] arrayWAV = Directory.GetFiles(carpetasSeleccionadas[i], "*.wav", searchOption);
-                        string[] arrayOGG = Directory.GetFiles(carpetasSeleccionadas[i], "*.ogg", searchOption);
-
-                        // Ahora todos los array de arriba se unen en uno solo
-                        string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayWAV).Union(arrayOGG).ToArray();
-
-                        // Verifico si hay items en ese array de canciones
-                        if (arrayDeCanciones.Length > 0)
+                        // Ahora debo agregar cada archivo de música a su correspondiente lista
+                        foreach (string rutaArchivo in arrayDeCanciones)
                         {
-                            for (int x = 0; x < arrayDeCanciones.Length; x++) // siendo "x" la posicion del vector a trabajar
+                            //TODO: el archivos debe ser de audio 100% valido y no dañado. Ni nada de, por ejemplo, un .pdf renombrado a .mp3
+                            // Creo un objeto archivo/cancion y tomo los datos
+                            TagLib.File cancion = TagLib.File.Create(rutaArchivo);
+
+                            // Obtengo el nombre y formato para usarlo más adelante
+                            string archivo = rutaArchivo.Substring(rutaArchivo.LastIndexOf(@"\") + 1);
+                            string nombre = archivo.Remove(archivo.LastIndexOf("."));
+                            string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
+
+                            // Según si el tag "Title" no es nulo o un espacio vacio, el item va en una tabla u otra
+                            if (string.IsNullOrWhiteSpace(cancion.Tag.Title))
                             {
-                                //TODO: el archivos debe ser de audio 100% valido y no dañado, nada de pdf renombrado a mp3
-                                // Creo un objeto archivo/cancion y tomo los datos del que estoy analizando en el vector
-                                TagLib.File cancion = TagLib.File.Create(arrayDeCanciones[x]);
-
-                                // Obtengo el nombre y formato para usarlo más adelante
-                                string archivo = arrayDeCanciones[x].Substring(arrayDeCanciones[x].LastIndexOf(@"\") + 1);
-                                string nombre = archivo.Remove(archivo.LastIndexOf("."));
-                                string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
-
-                                // Condicion: debe existir un título en sus tags
-                                if (!string.IsNullOrWhiteSpace(cancion.Tag.Title))
+                                // Agrego el item a la tabla "SIN tags"
+                                listaCancionesST.Items.Add(new SongN39
                                 {
-                                    // Creo un objeto cancion para que la tabla lo pueda usar
-                                    SongN39 cancionItem = new SongN39
-                                    {
-                                        Activo = true,
-                                        Id = Guid.NewGuid().ToString("N"),
-                                        CarpetaId = id,
-                                        NombreActual = nombre,
-                                        //NuevoNombre = NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedArtists), // TODO: preparar segun el criterio
-                                        Formato = formato,
-                                        Titulo = cancion.Tag.Title,
-                                        Album = cancion.Tag.Album,
-                                        Artista = cancion.Tag.JoinedPerformers,
-                                        Duracion = cancion.Properties.Duration,
-                                        AlbumArtista = cancion.Tag.JoinedAlbumArtists
-                                    };
-
-                                    // Agrego la cancion a la lista CON tags
-                                    listaCancionesCT.Items.Add(cancionItem);
-
-                                    // Creo la tabla si no existe aún
-                                    //DbNasho database = new DbNasho();
-                                    //var connection = database.CreateConnection();
-                                    //database.CreateTable(connection);
-                                    //database.InsertData(connection, "Canciones", cancionItem);
-                                    //database.InsertData(connection, "Carpetas", carpetaItem);
-                                }
-                                else // Si no cumple la condicion (Existencia de titulo en sus tags), hay que agregarlo en la otra tabla
+                                    Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
+                                    Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                                    CarpetaId = id,                             // Se le asocia el ID de su carpeta
+                                    NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
+                                    Formato = formato,                          // El formato pero sin el "." del principio
+                                    Duracion = cancion.Properties.Duration      // TODO: buscar como darle forma con algún pipe
+                                });
+                            }
+                            else
+                            {
+                                // Agrego el item a la tabla "CON tags"
+                                listaCancionesCT.Items.Add(new SongN39
                                 {
-                                    // Creo un objeto cancion para que la tabla lo pueda usar, este usa el mismo DTO pero con menos atributos
-                                    SongN39 cancionItem = new SongN39
-                                    {
-                                        Activo = true,
-                                        Id = Guid.NewGuid().ToString("N"),
-                                        CarpetaId = id,
-                                        NombreActual = nombre,
-                                        Formato = formato,
-                                        Duracion = cancion.Properties.Duration
-                                    };
+                                    Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
+                                    Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                                    CarpetaId = id,                             // Se le asocia el ID de su carpeta
+                                    // TODO: segun un criterio definido,
+                                    // el nombre futuro del archivo debe
+                                    // poder mostrarse en la tabla
+                                    Formato = formato,                          // El formato pero sin el "." del principio
+                                    Duracion = cancion.Properties.Duration,     // TODO: buscar como darle forma con algún pipe
 
-                                    // Agrego la cancion a la lista SIN tags
-                                    listaCancionesST.Items.Add(cancionItem);
-                                }
+                                    #region Tags
+                                    Titulo = cancion.Tag.Title,
+                                    Album = cancion.Tag.Album,
+                                    Artista = cancion.Tag.JoinedPerformers,
+                                    AlbumArtista = cancion.Tag.JoinedAlbumArtists
+                                    #endregion Tags
+                                });
                             }
                         }
                     }
-
                 }
             }
 
             // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (TagLib.CorruptFileException)
             {
-                string msg = "Al menos uno de tus archivos está dañado, por lo que no puedo manejar esta carpeta";
-                MessageBox.Show(msg, "Problema detectado", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                // TODO: filtrar todos los archivos dañados y enseñarlos al final, no se debe interrumpir el proceso
+                string msg1 = "Al menos uno de tus archivos está dañado, por lo que no puedo manejar esta carpeta.\n";
+                string msg2 = "Proximamente se filtrará este archivo de la lista de forma automatica.";
+                MessageBox.Show(msg1 + msg2, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 listaCancionesCT.Items.Clear();
                 listaCancionesST.Items.Clear();
                 listaCarpetas.Items.Clear();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -195,16 +202,19 @@ namespace RenameMusic
         {
             try
             {
-                if (listaCarpetas.Items.Count <= 0)
+                if (listaCarpetas.Items.IsEmpty)
                 {
-                    MessageBox.Show("No hay carpetas para trabajar.\nUtilice la función \"Agregar carpeta\" para continuar.", "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    string msg1 = "No hay carpetas para trabajar.";
+                    string msg2 = "\nUtilice la función \"Agregar carpeta\" para continuar.";
+                    MessageBox.Show(msg1 + msg2, "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
+
                 // Reviso la tabla de carpetas
-                for (int pos = 0; pos < listaCarpetas.Items.Count; pos++)
+                foreach (var carpetaItem in listaCarpetas.Items)
                 {
                     // Creo un objeto la carpeta para trabajar
-                    FolderN39 carpeta = listaCarpetas.Items[pos] as FolderN39;
+                    FolderN39 carpeta = carpetaItem as FolderN39;
 
                     // Esto se verifica por seguridad, que el objeto no sea nulo
                     if (carpeta == null)
@@ -216,38 +226,33 @@ namespace RenameMusic
                     {
                         // TODO: VOLVER A VERIFICAR SI LOS ARCHIVOS EXISTEN
                         // Verifico que existan items en la tabla de canciones con tags
-                        if (listaCancionesCT.Items.Count > 0)
+                        if (listaCancionesCT.Items.IsEmpty)
                         {
-                            for (int x = 0; x < listaCancionesCT.Items.Count; x++)
+                            // TODO: mandar este mensaje una sola vez y con una lista de rutas
+                            MessageBox.Show("Sin archivos compatibles en la ruta \n" + carpeta.Ruta, "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+                        else
+                        {
+                            foreach (var itemCT in listaCancionesCT.Items)
                             {
-                                SongN39 archivo = listaCancionesCT.Items[x] as SongN39;
+                                SongN39 archivo = itemCT as SongN39;
 
                                 if (archivo == null)
                                 {
                                     // TODO: mandar este mensaje una sola vez y con la lista de canciones
-                                    MessageBox.Show("No se pudo encontrar una canción", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    MessageBox.Show("No se pudo encontrar una canción", "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Error);
                                 }
                                 else
                                 {
-                                    if (archivo.Activo && archivo.CarpetaId == carpeta.CancionesId) // solo trabaja con las canciones que dejamos los "checkboxes" marcados
+                                    // Solo se trabaja con los items con los "checkboxes" marcados
+                                    if (archivo.Activo && archivo.CarpetaId == carpeta.CancionesId)
                                     {
                                         string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
                                         TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);
 
                                         // TODO: esto hay que prepararlo segun el criterio seleccionado
                                         string nuevoNombreConRuta = carpeta.Ruta + @"\";
-                                        if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedPerformers))
-                                        {
-                                            nuevoNombreConRuta += FunctionsN39.NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedPerformers);
-                                        }
-                                        else if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedAlbumArtists))
-                                        {
-                                            nuevoNombreConRuta += FunctionsN39.NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists);
-                                        }
-                                        else
-                                        {
-                                            nuevoNombreConRuta += FunctionsN39.NormalizeFileName(cancion.Tag.Title);
-                                        }
+                                        nuevoNombreConRuta = FunctionsN39.RenombrarArchivoCriterioDefault(cancion, nuevoNombreConRuta);
 
                                         // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
                                         if ((nuevoNombreConRuta + "." + archivo.Formato).ToLower() != (antiguoNombreConRuta + "." + archivo.Formato).ToLower())
@@ -273,10 +278,6 @@ namespace RenameMusic
                                 }
                             }
                         }
-                        else
-                        {
-                            MessageBox.Show("Sin archivos compatibles en la ruta \n" + ruta, "Atención", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        }
                     }
                 }
 
@@ -287,11 +288,11 @@ namespace RenameMusic
             catch (IOException)
             {
                 string msg = "No puedo encontrar al menos una de las canciones en la lista";
-                MessageBox.Show(msg, "Problema detectado", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show(msg, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -309,7 +310,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -321,7 +322,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
