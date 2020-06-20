@@ -162,6 +162,7 @@ namespace RenameMusic
                                     Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
                                     Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
                                     CarpetaId = id,                             // Se le asocia el ID de su carpeta
+                                    NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
                                     // TODO: segun un criterio definido,
                                     // el nombre futuro del archivo debe
                                     // poder mostrarse en la tabla
@@ -176,10 +177,6 @@ namespace RenameMusic
                                     #endregion Tags
                                 });
                             }
-                        }
-                        else
-                        {
-                            listaCarpetas.Items.Remove(carpetaItem);
                         }
                     }
                 }
