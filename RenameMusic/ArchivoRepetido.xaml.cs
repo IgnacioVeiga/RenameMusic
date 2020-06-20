@@ -1,4 +1,4 @@
-﻿using RenameMusic.DTOs;
+﻿using RenameMusic.N39;
 using System;
 using System.IO;
 using System.Windows;
@@ -10,11 +10,11 @@ namespace RenameMusic
     /// </summary>
     public partial class ArchivoRepetido : Window
     {
-        private CancionDTO archivo = new CancionDTO();
+        private SongN39 archivo = new SongN39();
         private TagLib.File cancion = null;
         private string nuevoNombreConRuta = "";
 
-        public ArchivoRepetido(CancionDTO pArchivo, TagLib.File pCancion, string pNuevoNombreConRuta)
+        public ArchivoRepetido(SongN39 pArchivo, TagLib.File pCancion, string pNuevoNombreConRuta)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -35,7 +35,7 @@ namespace RenameMusic
         {
             try
             {
-                // antes hay que verificar si el archivo todavia existe por las dudas
+                // Antes hay que verificar si el archivo todavia existe por las dudas
                 // TODO: revisar si es necesario
                 if (File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
                 {
@@ -45,9 +45,12 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Close();
+            finally
+            {
+                Close();
+            }
         }
 
         private void Omitir_Click(object sender, RoutedEventArgs e)
@@ -74,9 +77,24 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Close();
+            finally
+            {
+                Close();
+            }
+        }
+
+        private void RepetirEleccion_Check(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainWindow.noAbrirVentanaDeAR = (bool)repetirEleccion.IsChecked;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

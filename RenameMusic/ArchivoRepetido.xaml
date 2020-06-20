@@ -19,5 +19,6 @@
         <Button Content="Reemplazar" HorizontalAlignment="Center" Margin="0,0,250,20" VerticalAlignment="Bottom" Width="100" Height="30" Cursor="Hand" Foreground="White" Background="#3F008000" BorderBrush="Green" Click="Reemplazar_Click"/>
         <Button Content="Omitir" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="100" Height="30" Cursor="Hand" Foreground="White" Background="#3F008000" BorderBrush="Green" Click="Omitir_Click"/>
         <Button Content="Renombrar" HorizontalAlignment="Center" Margin="250,0,0,20" VerticalAlignment="Bottom" Width="100" Height="30" Cursor="Hand" Foreground="White" Background="#3F008000" BorderBrush="Green" Click="Renombrar_Click"/>
+        <CheckBox x:Name="repetirEleccion" Content="Repetir eleccion con las siguientes N canciones" HorizontalAlignment="Left" Margin="20,305,0,0" VerticalAlignment="Top" Height="24" Width="280" Cursor="Hand" Click="RepetirEleccion_Check" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
     </Grid>
 </Window>

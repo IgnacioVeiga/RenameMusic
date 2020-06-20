@@ -53,8 +53,8 @@
     </Window.Resources>
 
     <Grid Background="Black">
-        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="200,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="Ruta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
-        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,200,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="Renombrar_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
+        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="200,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
+        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,200,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenombrarArchivos_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
 
         <TabControl x:Name="pestañas" BorderBrush="Green" Background="Black" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,0,50">
             <TabControl.Resources>
@@ -106,7 +106,7 @@
                                 <GridViewColumn x:Name="album" Header="Album" DisplayMemberBinding="{Binding Album}"/>
                                 <GridViewColumn x:Name="artista" Header="Artista" DisplayMemberBinding="{Binding Artista}"/>
                                 <GridViewColumn x:Name="albumArtista" Header="Album artista" DisplayMemberBinding="{Binding AlbumArtista}"/>
-                                <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding IdCarpeta}"/>
+                                <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -121,7 +121,7 @@
                                 <GridViewColumn x:Name="nombreST" Header="Nombre" DisplayMemberBinding="{Binding NombreActual}"/>
                                 <GridViewColumn x:Name="formatoST" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
                                 <GridViewColumn x:Name="duracionST" Header="Duración (hh:mm:ss.ms)" DisplayMemberBinding="{Binding Duracion}"/>
-                                <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding IdCarpeta}"/>
+                                <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -141,7 +141,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn x:Name="ruta" Header="Ruta" DisplayMemberBinding="{Binding Ruta}"/>
-                                <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding IdCanciones}"/>
+                                <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
