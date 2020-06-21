@@ -1,5 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace RenameMusic.N39
 {
@@ -34,6 +39,12 @@ namespace RenameMusic.N39
             {
                 return nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title);
             }
+        }
+
+        public static void ShowProblemsList(List<string> problems)
+        {
+            string msg = string.Join("\n", problems);
+            MessageBox.Show(msg, "Problemas detectados :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
     }
 }
