@@ -46,5 +46,21 @@ namespace RenameMusic.N39
             string msg = string.Join("\n", problems);
             MessageBox.Show(msg, "Problemas detectados :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
+
+        public static TagLibResultN39 CreateMusicObj(string rutaArchivo, List<string> problems)
+        {
+            TagLibResultN39 result = new TagLibResultN39();
+            try
+            {
+                // Creo un objeto archivo/cancion y tomo los datos
+                result.File = TagLib.File.Create(rutaArchivo);
+            }
+            catch (TagLib.CorruptFileException)
+            {
+                result.File = null;
+                problems.Add("No se añadirá a la lista el siguiente archivo corrupto o incompatible: " + rutaArchivo);
+            }
+            return result;
+        }
     }
 }

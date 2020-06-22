@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RenameMusic.N39
 {
@@ -27,5 +28,11 @@ namespace RenameMusic.N39
         public string Id { get; set; } // va a usarse en un futuro para la db
         public string CancionesId { get; set; } // identifica sus canciones
         public string Ruta { get; set; }
+    }
+
+    public class TagLibResultN39
+    {
+        public TagLib.File File { get; set; }
+        public List<string> Problems { get; set; }
     }
 }
