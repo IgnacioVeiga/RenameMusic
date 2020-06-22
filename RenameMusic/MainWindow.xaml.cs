@@ -80,7 +80,7 @@ namespace RenameMusic
 
                 List<string> rutasDeCarpetasSeleccionadas = new List<string>();
 
-                if (resultDialog != CommonFileDialogResult.Ok)
+                if (resultDialog != CommonFileDialogResult.Ok || dialog.FileNames.All(fn => string.IsNullOrWhiteSpace(fn)))
                 {
                     MessageBox.Show("No hay carpeta/s cargada/s", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
@@ -179,6 +179,11 @@ namespace RenameMusic
                             }
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("No se encontró ningún archivo de música", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
                 }
             }
 
@@ -275,10 +280,10 @@ namespace RenameMusic
                                                 }
                                             }
                                         }
-                                        // Si el archivo no existe, guardo el mensaje de error para más adelante
+                                        // Si el archivo no existe, guardo el mensaje de error para más adelanteggg
                                         else
                                         {
-                                            string msg = "No existe el archivo:\n" + carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato;
+                                            string msg = "No existe el archivo: " + carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato;
                                             problems.Add(msg);
                                         }
                                     }
@@ -287,8 +292,6 @@ namespace RenameMusic
                         }
                     }
                 }
-
-                MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
             }
 
             // TODO: generar un archivo de log con todos los errores y encriptarlo
@@ -312,6 +315,8 @@ namespace RenameMusic
                 {
                     FunctionsN39.ShowProblemsList(problems);
                 }
+
+                MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
             }
         }
 
