@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace RenameMusic
 {
@@ -191,9 +190,8 @@ namespace RenameMusic
             catch (TagLib.CorruptFileException)
             {
                 // TODO: filtrar todos los archivos dañados y enseñarlos al final, no se debe interrumpir el proceso
-                string msg1 = "Al menos uno de tus archivos está dañado, por lo que no puedo manejar esta carpeta.\n";
-                string msg2 = "Proximamente se filtrará este archivo de la lista de forma automatica.";
-                MessageBox.Show(msg1 + msg2, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                string msg1 = "Al menos uno de tus archivos está dañado, por lo que no puedo manejar esta carpeta.";
+                MessageBox.Show(msg1, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 listaCancionesCT.Items.Clear();
                 listaCancionesST.Items.Clear();
                 listaCarpetas.Items.Clear();
