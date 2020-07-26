@@ -58,6 +58,8 @@ namespace RenameMusic
         /// </summary>
         private void AñadirCarpeta_Click(object sender, RoutedEventArgs e)
         {
+            // Para mostrar al final del proceso los errores ocurridos
+            List<string> problems = new List<string>();
             try
             {
                 // Sirve para mostrar el dialogo selector de carpetas
@@ -130,51 +132,54 @@ namespace RenameMusic
                         // Ahora debo agregar cada archivo de música a su correspondiente lista
                         foreach (string rutaArchivo in arrayDeCanciones)
                         {
-                            //TODO: el archivos debe ser de audio 100% valido y no dañado. Ni nada de, por ejemplo, un .pdf renombrado a .mp3
-                            // Creo un objeto archivo/cancion y tomo los datos
-                            TagLib.File cancion = TagLib.File.Create(rutaArchivo);
+                            // Creo el objeto con la libreria TagLib en un metodo aparte para capturar errores
+                            TagLibResultN39 result = FunctionsN39.CreateMusicObj(rutaArchivo, problems);
 
-                            // Obtengo el nombre y formato para usarlo más adelante
-                            string archivo = rutaArchivo.Substring(rutaArchivo.LastIndexOf(@"\") + 1);
-                            string nombre = archivo.Remove(archivo.LastIndexOf("."));
-                            string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
-
-                            // Según si el tag "Title" no es nulo o un espacio vacio, el item va en una tabla u otra
-                            if (string.IsNullOrWhiteSpace(cancion.Tag.Title))
+                            // No continuar con el mismo archivo si hay errores con la creación del objeto TagLib
+                            if (result.Problems == null && result.File != null)
                             {
-                                // Agrego el item a la tabla "SIN tags"
-                                listaCancionesST.Items.Add(new SongN39
-                                {
-                                    Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
-                                    Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
-                                    CarpetaId = id,                             // Se le asocia el ID de su carpeta
-                                    NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
-                                    Formato = formato,                          // El formato pero sin el "." del principio
-                                    Duracion = cancion.Properties.Duration      // TODO: buscar como darle forma con algún pipe
-                                });
-                            }
-                            else
-                            {
-                                // Agrego el item a la tabla "CON tags"
-                                listaCancionesCT.Items.Add(new SongN39
-                                {
-                                    Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
-                                    Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
-                                    CarpetaId = id,                             // Se le asocia el ID de su carpeta
-                                    NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
-                                    // TODO: segun un criterio definido,
-                                    // el nombre futuro del archivo debe
-                                    // poder mostrarse en la tabla
-                                    Formato = formato,                          // El formato pero sin el "." del principio
-                                    Duracion = cancion.Properties.Duration,     // TODO: buscar como darle forma con algún pipe
+                                // Obtengo el nombre y formato para usarlo más adelante
+                                string archivo = rutaArchivo.Substring(rutaArchivo.LastIndexOf(@"\") + 1);
+                                string nombre = archivo.Remove(archivo.LastIndexOf("."));
+                                string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
 
-                                    #region Tags
-                                    Titulo = cancion.Tag.Title,
-                                    Album = cancion.Tag.Album,
-                                    Artista = cancion.Tag.JoinedPerformers,
-                                    AlbumArtista = cancion.Tag.JoinedAlbumArtists
-                                    #endregion Tags
-                                });
+                                // Según si el tag "Title" no es nulo o un espacio vacio, el item va en una tabla u otra
+                                if (string.IsNullOrWhiteSpace(result.File.Tag.Title))
+                                {
+                                    // Agrego el item a la tabla "SIN tags"
+                                    listaCancionesST.Items.Add(new SongN39
+                                    {
+                                        Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
+                                        Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                                        CarpetaId = id,                             // Se le asocia el ID de su carpeta
+                                        NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
+                                        Formato = formato,                          // El formato pero sin el "." del principio
+                                        Duracion = result.File.Properties.Duration      // TODO: buscar como darle forma con algún pipe
+                                    });
+                                }
+                                else
+                                {
+                                    // Agrego el item a la tabla "CON tags"
+                                    listaCancionesCT.Items.Add(new SongN39
+                                    {
+                                        Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
+                                        Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                                        CarpetaId = id,                             // Se le asocia el ID de su carpeta
+                                        NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
+                                                                                    // TODO: segun un criterio definido,
+                                                                                    // el nombre futuro del archivo debe
+                                                                                    // poder mostrarse en la tabla
+                                        Formato = formato,                          // El formato pero sin el "." del principio
+                                        Duracion = result.File.Properties.Duration,     // TODO: buscar como darle forma con algún pipe
+
+                                        #region Tags
+                                        Titulo = result.File.Tag.Title,
+                                        Album = result.File.Tag.Album,
+                                        Artista = result.File.Tag.JoinedPerformers,
+                                        AlbumArtista = result.File.Tag.JoinedAlbumArtists
+                                        #endregion Tags
+                                    });
+                                }
                             }
                         }
                     }
@@ -187,18 +192,17 @@ namespace RenameMusic
             }
 
             // TODO: generar un archivo de log con todos los errores y encriptarlo
-            catch (TagLib.CorruptFileException)
-            {
-                // TODO: filtrar todos los archivos dañados y enseñarlos al final, no se debe interrumpir el proceso
-                string msg1 = "Al menos uno de tus archivos está dañado, por lo que no puedo manejar esta carpeta.";
-                MessageBox.Show(msg1, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                listaCancionesCT.Items.Clear();
-                listaCancionesST.Items.Clear();
-                listaCarpetas.Items.Clear();
-            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                // Si existe por lo menos un problema en la lista, enseñamos un mensaje con todos los problemas detectados
+                if (problems.Any())
+                {
+                    FunctionsN39.ShowProblemsList(problems);
+                }
             }
         }
 
