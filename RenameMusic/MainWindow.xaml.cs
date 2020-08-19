@@ -13,27 +13,28 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
-        /*
-              El objetivo de la app es poder renombrar archivos mp3 por sus "tags" según
-              un criterio definido por el usuario o no (uno predeterminado).
-              Por ejemplo: Si tengo una canción con el nombre "AUD-01230101-WA0123.mp3" pero
-              esta misma tiene "tags", entonces puedo decidir que con estos se llame según
-              el siguiente orden: NroDePista-Titulo-Artista.mp3, pero tengo que hacerlo con muchas
-              canciones (ya es engorroso con una sola). Esa es la utilidad de esta app, quizas
-              en un futuro se pueda modificar los "tags" desde esta misma app en grandes cantidades.
-
-              Se debe poder:
-              Mostar una lista con todos los archivos compatibles. [Listo]
-              Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña. [Listo]
-              Agregar más de una carpeta y eliminar tambien. [Parcial]
-              Enseñar los nombres de los archivos y en un lado sus futuros nombres. [Parcial]
-              Ordenar la lista por diversas formas (nombre, tamaño, carpeta, duración, etc).
-              Definir la posición de los "tags" como nombre.
-              Tener un criterio predeterminado para las posiciones.
-              Reproducir el archivo desde esta app o una externa.
-        */
-
+        public const string ExceptionMsg = "Error, por favor notificar al desarrollador";
         public static bool noAbrirVentanaDeAR = false;
+
+        /*
+        El objetivo de la app es poder renombrar archivos mp3 por sus "tags" según
+        un criterio definido por el usuario o no (uno predeterminado).
+        Por ejemplo: Si tengo una canción con el nombre "AUD-01230101-WA0123.mp3" pero
+        esta misma tiene "tags", entonces puedo decidir que con estos se llame según
+        el siguiente orden: NroDePista-Titulo-Artista.mp3, pero tengo que hacerlo con muchas
+        canciones (ya es engorroso con una sola). Esa es la utilidad de esta app, quizas
+        en un futuro se pueda modificar los "tags" desde esta misma app en grandes cantidades.
+        
+        Se debe poder:
+        Mostar una lista con todos los archivos compatibles. [Listo]
+        Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña. [Listo]
+        Agregar más de una carpeta y eliminar tambien. [Parcial]
+        Enseñar los nombres de los archivos y en un lado sus futuros nombres. [Parcial]
+        Ordenar la lista por diversas formas (nombre, tamaño, carpeta, duración, etc).
+        Definir la posición de los "tags" como nombre.
+        Tener un criterio predeterminado para las posiciones.
+        Reproducir el archivo desde esta app o una externa.
+        */
 
         public MainWindow()
         {
@@ -48,7 +49,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
                 // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
             }
         }
@@ -71,7 +72,9 @@ namespace RenameMusic
                     Multiselect = true,
                     Title = "Agregar carpeta/s",
                     EnsurePathExists = true,
-                    DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) // carpeta de musica por defecto
+
+                    // Carpeta de musica por defecto
+                    DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
                 };
 
                 // Muestra la ventana para seleccionar carpeta y guarda el resultado.
@@ -194,7 +197,7 @@ namespace RenameMusic
             // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -304,7 +307,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -330,7 +333,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -342,8 +345,40 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error, por favor notificar al desarrollador", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void ConfigCriterio_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ConfigCriterio config = new ConfigCriterio();
+                config.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void CargarAjustes_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: para los proximos ajustes a añadir
+            MessageBox.Show("Ajustes cargados", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void GuardarAjustes_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: para los proximos ajustes a añadir
+            MessageBox.Show("Ajustes guardados", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void BorrarAjustes_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default["criterioCfg"] = "<tn>. <t> - <a>";
+            Properties.Settings.Default.Save();
+            MessageBox.Show("Ajustes borrados. Usando ajustes predeterminados", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
