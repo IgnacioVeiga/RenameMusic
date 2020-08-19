@@ -108,11 +108,10 @@ namespace RenameMusic
                     string[] arrayMP3 = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.mp3", searchOption);
                     string[] arrayM4A = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.m4a", searchOption);
                     string[] arrayFLAC = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.flac", searchOption);
-                    string[] arrayWAV = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.wav", searchOption);
                     string[] arrayOGG = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.ogg", searchOption);
 
                     // Ahora todos los array de arriba se unen en uno solo
-                    string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayWAV).Union(arrayOGG).ToArray();
+                    string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayOGG).ToArray();
 
                     // Por seguridad filtro aquellos items que son nulos
                     arrayDeCanciones = arrayDeCanciones.Where(fn => fn != null).ToArray();
