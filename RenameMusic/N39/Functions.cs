@@ -66,13 +66,24 @@ namespace RenameMusic.N39
                 }
             }
 
-            return ruta + NormalizeFileName(fileName);
+            if (!IsValidFileName(fileName))
+            {
+                fileName = NormalizeFileName(fileName);
+            }
+
+            return ruta + fileName;
         }
 
-        public static string CheckCriterio()
+        public static bool IsValidFileName(string filename)
         {
-            string crtcfg = Properties.Settings.Default.criterioCfg;
-            return crtcfg;
+            foreach (char item in Path.GetInvalidFileNameChars())
+            {
+                if (filename.Contains(item))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static void ShowProblemsList(List<string> problems)
