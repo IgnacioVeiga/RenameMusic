@@ -41,6 +41,12 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
+                if (string.IsNullOrWhiteSpace(Properties.Settings.Default.criterioCfg))
+                {
+                    Properties.Settings.Default["criterioCfg"] = "<tn>. <t> - <a>";
+                    Properties.Settings.Default.Save();
+                }
+
                 /*
                  * TODO: leer base de datos y completar las tablas,
                  * validar todos los items de cada pestaña que aún existen
