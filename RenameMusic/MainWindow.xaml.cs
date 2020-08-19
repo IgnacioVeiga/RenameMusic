@@ -262,9 +262,7 @@ namespace RenameMusic
                                             string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
                                             TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);
 
-                                            // TODO: esto hay que prepararlo segun el criterio seleccionado
-                                            string nuevoNombreConRuta = carpeta.Ruta + @"\";
-                                            nuevoNombreConRuta = FunctionsN39.RenombrarArchivoCriterioDefault(cancion, nuevoNombreConRuta);
+                                            string nuevoNombreConRuta = FunctionsN39.GetNewName(cancion, carpeta.Ruta + @"\");
 
                                             // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
                                             if ((nuevoNombreConRuta + "." + archivo.Formato).ToLower() != (antiguoNombreConRuta + "." + archivo.Formato).ToLower())
@@ -285,7 +283,7 @@ namespace RenameMusic
                                                 }
                                             }
                                         }
-                                        // Si el archivo no existe, guardo el mensaje de error para más adelanteggg
+                                        // Si el archivo no existe, guardo el mensaje de error para más adelante
                                         else
                                         {
                                             string msg = "No existe el archivo: " + carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace RenameMusic.N39
 {
@@ -25,20 +22,57 @@ namespace RenameMusic.N39
             return Regex.Replace(fileName, invalidRegStr, "_");
         }
 
-        public static string RenombrarArchivoCriterioDefault(TagLib.File cancion, string nuevoNombreConRuta)
+        public static string GetNewName(TagLib.File song, string ruta)
         {
-            if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedPerformers))
+            /*
+                <tn> = Track Number
+                <t> = Title song
+                <a> = Album
+                <aAt> = Album Artist
+                <At> = Artist
+                <yr> = Year
+             */
+            string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
+            string fileName = Properties.Settings.Default.criterioCfg;
+
+            foreach (var tag in tags)
             {
-                return nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedPerformers);
+                if (fileName.Contains(tag))
+                {
+
+                    switch (tag)
+                    {
+                        case "<tn>":
+                            fileName = fileName.Replace(tag, song.Tag.Track.ToString());
+                            break;
+                        case "<t>":
+                            fileName = fileName.Replace(tag, song.Tag.Title);
+                            break;
+                        case "<a>":
+                            fileName = fileName.Replace(tag, song.Tag.Album);
+                            break;
+                        case "<aAt>":
+                            fileName = fileName.Replace(tag, song.Tag.JoinedAlbumArtists);
+                            break;
+                        case "<At>":
+                            fileName = fileName.Replace(tag, song.Tag.JoinedPerformers);
+                            break;
+                        case "<yr>":
+                            fileName = fileName.Replace(tag, song.Tag.Year.ToString());
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
-            else if (!string.IsNullOrWhiteSpace(cancion.Tag.JoinedAlbumArtists))
-            {
-                return nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title + " - " + cancion.Tag.JoinedAlbumArtists);
-            }
-            else
-            {
-                return nuevoNombreConRuta += NormalizeFileName(cancion.Tag.Title);
-            }
+
+            return ruta + NormalizeFileName(fileName);
+        }
+
+        public static string CheckCriterio()
+        {
+            string crtcfg = Properties.Settings.Default.criterioCfg;
+            return crtcfg;
         }
 
         public static void ShowProblemsList(List<string> problems)

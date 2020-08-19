@@ -27,7 +27,7 @@ namespace RenameMusic
                 criterioElegido.Text = backupCriterioCfg;
                 simbolos.Text += "\n" + Properties.Resources.Simbols;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
             }
