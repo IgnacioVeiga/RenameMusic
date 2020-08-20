@@ -365,19 +365,19 @@ namespace RenameMusic
             }
         }
 
-        private void CargarAjustes_Click(object sender, RoutedEventArgs e)
+        private void ImportarAjustes_Click(object sender, RoutedEventArgs e)
         {
             // TODO: para los proximos ajustes a añadir
-            MessageBox.Show("Ajustes cargados", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Ajustes importados con exito", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void GuardarAjustes_Click(object sender, RoutedEventArgs e)
+        private void ExportarAjustes_Click(object sender, RoutedEventArgs e)
         {
             // TODO: para los proximos ajustes a añadir
-            MessageBox.Show("Ajustes guardados", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Ajustes exportados con exito", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void BorrarAjustes_Click(object sender, RoutedEventArgs e)
+        private void ReestablecerAjustes_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default["criterioCfg"] = "<tn>. <t> - <a>";
             Properties.Settings.Default.Save();

@@ -18,14 +18,12 @@ namespace RenameMusic
     /// </summary>
     public partial class ConfigCriterio : Window
     {
-        private string backupCriterioCfg = Properties.Settings.Default.criterioCfg;
-
         public ConfigCriterio()
         {
             try
             {
                 InitializeComponent();
-                criterioElegido.Text = backupCriterioCfg;
+                criterioElegido.Text = Properties.Settings.Default.criterioCfg;
                 simbolos.Text += "\n" + Properties.Resources.Simbols;
             }
             catch (Exception ex)
@@ -59,6 +57,7 @@ namespace RenameMusic
                 {
                     // Guarda cambios en la configuración de la app
                     Properties.Settings.Default["criterioCfg"] = criterioElegido.Text;
+                    Properties.Settings.Default.Save();
                     MessageBox.Show("Ajuste guardado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();
                 }
@@ -81,8 +80,7 @@ namespace RenameMusic
 
         private void Cancelar_Click(object sender, RoutedEventArgs e)
         {
-            // Descarta los cambios y restaura los ajustes anteriores
-            Properties.Settings.Default["criterioCfg"] = backupCriterioCfg;
+            // Descarta los cambios
             Close();
         }
     }
