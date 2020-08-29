@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 
 namespace RenameMusic
 {
@@ -88,7 +89,7 @@ namespace RenameMusic
                 // una carpeta fue seleccionada correctamente, etcetera.
                 CommonFileDialogResult resultDialog = dialog.ShowDialog();
 
-                List<string> rutasDeCarpetasSeleccionadas = new List<string>();
+                List<string> selectedFoldersPaths = new List<string>();
 
                 if (resultDialog != CommonFileDialogResult.Ok || dialog.FileNames.All(fn => string.IsNullOrWhiteSpace(fn)))
                 {
@@ -98,29 +99,16 @@ namespace RenameMusic
                 else if (dialog.FileNames.Any(fn => string.IsNullOrWhiteSpace(fn)))
                 {
                     // Guardo en "carpetasSeleccionadas" todas aquellas carpetas que su "path" no sea nulo o un espacio vacio
-                    rutasDeCarpetasSeleccionadas = dialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
+                    selectedFoldersPaths = dialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
                 }
 
                 // Ahora se hace la lista de carpetas seleccionadas
-                rutasDeCarpetasSeleccionadas = dialog.FileNames.ToList();
+                selectedFoldersPaths = dialog.FileNames.ToList();
 
-                foreach (string rutaDeCarpetaSeleccionada in rutasDeCarpetasSeleccionadas)
+                foreach (string aFolderPath in selectedFoldersPaths)
                 {
-                    // Con esto defino si quiero incluir subdirectotios en la busqueda de archivos
-                    bool incluirSubdirectorios = false;
-                    SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-                    // Toma lista de archivos con formato mp3, m4a, flac, wav y ogg en cada carpeta
-                    string[] arrayMP3 = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.mp3", searchOption);
-                    string[] arrayM4A = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.m4a", searchOption);
-                    string[] arrayFLAC = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.flac", searchOption);
-                    string[] arrayOGG = Directory.GetFiles(rutaDeCarpetaSeleccionada, "*.ogg", searchOption);
-
-                    // Ahora todos los array de arriba se unen en uno solo
-                    string[] arrayDeCanciones = arrayMP3.Union(arrayM4A).Union(arrayFLAC).Union(arrayOGG).ToArray();
-
-                    // Por seguridad filtro aquellos items que son nulos
-                    arrayDeCanciones = arrayDeCanciones.Where(fn => fn != null).ToArray();
+                    // Toma lista de archivos con formato mp3, m4a, flac y ogg en cada carpeta
+                    string[] arrayDeCanciones = FunctionsN39.GetAnArrayOfFilePaths(aFolderPath);
 
                     // Verifico si existe al menos un item
                     if (arrayDeCanciones.Any())
@@ -133,7 +121,7 @@ namespace RenameMusic
                         FolderN39 carpetaItem = new FolderN39
                         {
                             CancionesId = id,
-                            Ruta = rutaDeCarpetaSeleccionada
+                            Ruta = aFolderPath
                         };
                         listaCarpetas.Items.Add(carpetaItem);
 

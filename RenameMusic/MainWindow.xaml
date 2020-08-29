@@ -53,10 +53,13 @@
     </Window.Resources>
 
     <Grid Background="Black">
-        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="200,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
-        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,200,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenombrarArchivos_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
+        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="100,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
+        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,300,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenombrarArchivos_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
 
-        <TabControl x:Name="pestañas" BorderBrush="Green" Background="Black" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,0,50">
+        <Image x:Name="cover" HorizontalAlignment="Right" Height="170" Margin="0,30,10,0" VerticalAlignment="Top" Width="170" Source="/icon.ico"/>
+        <TextBlock x:Name="infoTags" HorizontalAlignment="Right" Margin="0,0,10,50" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="245" Width="170" Foreground="White" Background="#FF171717" Cursor="IBeam"/>
+
+        <TabControl x:Name="pestañas" BorderBrush="Green" Background="Black" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,200,50">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -157,6 +160,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>

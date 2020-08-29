@@ -12,18 +12,12 @@
     <Compile Update="ArchivoRepetido.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="BuscadorCarpetas.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Ajustes\ConfigCriterio.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ArchivoRepetido.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="BuscadorCarpetas.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Ajustes\ConfigCriterio.xaml">

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -106,6 +108,29 @@ namespace RenameMusic.N39
                 problems.Add("No se añadirá a la lista el siguiente archivo corrupto o incompatible: " + rutaArchivo);
             }
             return result;
+        }
+
+        public static string[] GetAnArrayOfFilePaths(string path)
+        {
+            try
+            {
+                // Con esto defino si quiero incluir subdirectotios en la busqueda de archivos
+                bool incluirSubdirectorios = false;
+                SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+                string[] exts = new string[] { ".mp3", ".m4a", ".flac", ".ogg", };
+                string[] array = Directory.GetFiles(path, "*.*", searchOption)
+                    .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
+                    .ToArray();
+
+                // Por seguridad filtro aquellos items que son nulos
+                return array.Where(fn => fn != null).ToArray();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                return Array.Empty<string>();
+            }
         }
     }
 }
