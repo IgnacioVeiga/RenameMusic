@@ -56,7 +56,7 @@
         <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="100,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
         <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,300,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenombrarArchivos_Click" Foreground="White" Background="#3F008000" BorderBrush="Green"/>
 
-        <Image x:Name="cover" HorizontalAlignment="Right" Height="170" Margin="0,30,10,0" VerticalAlignment="Top" Width="170" Source="/icon.ico"/>
+        <Image x:Name="cover" HorizontalAlignment="Right" Height="170" Margin="0,30,10,0" VerticalAlignment="Top" Width="170" Source="/icon.ico" Cursor="Hand"/>
         <TextBlock x:Name="infoTags" HorizontalAlignment="Right" Margin="0,0,10,50" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="245" Width="170" Foreground="White" Background="#FF171717" Cursor="IBeam"/>
 
         <TabControl x:Name="pestañas" BorderBrush="Green" Background="Black" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,200,50">
@@ -90,7 +90,7 @@
             </TabControl.Resources>
 
             <TabItem x:Name="pCancionesCT" Header="Canciones CON tags" Cursor="Hand" Foreground="White">
-                <Grid>
+                <!--<Grid>-->
                     <ListView x:Name="listaCancionesCT" Margin="10,10,10,10" Cursor="Arrow" Background="#3F008000" BorderBrush="Green" Foreground="White" ItemContainerStyle="{StaticResource ListViewItemStyle1}">
                         <ListView.View>
                             <GridView>
@@ -102,7 +102,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn x:Name="nombreActualCT" Header="Nombre actual" DisplayMemberBinding="{Binding NombreActual}"/>
-                                <!--<GridViewColumn x:Name="nuevoNombreCT" Header="Nuevo nombre" DisplayMemberBinding="{Binding NuevoNombre}"/>-->
+                                <GridViewColumn x:Name="nuevoNombreCT" Header="Nuevo nombre" DisplayMemberBinding="{Binding NuevoNombre}"/>
                                 <GridViewColumn x:Name="formatoCT" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
                                 <GridViewColumn x:Name="duracionCT" Header="Duración (hh:mm:ss.ms)" DisplayMemberBinding="{Binding Duracion}"/>
                                 <GridViewColumn x:Name="titulo" Header="Titulo" DisplayMemberBinding="{Binding Titulo}"/>
@@ -113,11 +113,11 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </Grid>
+                <!--</Grid>-->
             </TabItem>
 
             <TabItem x:Name="pCancionesST" Header="Canciones SIN tags" Cursor="Hand" Foreground="White">
-                <Grid>
+                <!--<Grid>-->
                     <ListView x:Name="listaCancionesST" Margin="10,10,10,10" Cursor="Arrow" Background="#3F008000" BorderBrush="Green" Foreground="White" ItemContainerStyle="{StaticResource ListViewItemStyle1}">
                         <ListView.View>
                             <GridView>
@@ -128,11 +128,11 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </Grid>
+                <!--</Grid>-->
             </TabItem>
 
             <TabItem x:Name="pCarpetas" Header="Carpetas añadidas" Cursor="Hand" Foreground="White">
-                <Grid>
+                <!--<Grid>-->
                     <ListView x:Name="listaCarpetas" Margin="10,10,10,10" Cursor="Arrow" Background="#3F008000" BorderBrush="Green" Foreground="White" ItemContainerStyle="{StaticResource ListViewItemStyle1}">
                         <ListView.View>
                             <GridView>
@@ -148,7 +148,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </Grid>
+                <!--</Grid>-->
             </TabItem>
 
             <TabItem x:Name="pAjustes" Header="Ajustes" Cursor="Hand" Foreground="White">

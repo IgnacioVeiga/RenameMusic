@@ -24,7 +24,13 @@ namespace RenameMusic.N39
             return Regex.Replace(fileName, invalidRegStr, "_");
         }
 
-        public static string GetNewName(TagLib.File song, string ruta)
+
+        /// <summary>
+        /// Sirve para generar un nuevo nombre a un archivo según el criterio definido
+        /// </summary>
+        /// <param name="song">Objeto con tags del archivo</param>
+        /// <returns>Retorna el nuevo nombre del archivo sin la ruta</returns>
+        public static string GetNewName(TagLib.File song)
         {
             /*
                 <tn> = Track Number
@@ -73,7 +79,7 @@ namespace RenameMusic.N39
                 fileName = NormalizeFileName(fileName);
             }
 
-            return ruta + fileName;
+            return fileName;
         }
 
         public static bool IsValidFileName(string filename)
@@ -86,6 +92,11 @@ namespace RenameMusic.N39
                 }
             }
             return true;
+        }
+
+        public static bool HasTitleTag(TagLib.File musicFile)
+        {
+            return string.IsNullOrWhiteSpace(musicFile.Tag.Title);
         }
 
         public static void ShowProblemsList(List<string> problems)
@@ -131,6 +142,11 @@ namespace RenameMusic.N39
                 MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
                 return Array.Empty<string>();
             }
+        }
+
+        public static void AddToListView()
+        {
+
         }
     }
 }

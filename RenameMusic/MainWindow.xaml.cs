@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace RenameMusic
 {
@@ -140,16 +142,16 @@ namespace RenameMusic
                                 string formato = archivo.Substring(archivo.LastIndexOf(".") + 1);
 
                                 // Según si el tag "Title" no es nulo o un espacio vacio, el item va en una tabla u otra
-                                if (string.IsNullOrWhiteSpace(result.File.Tag.Title))
+                                if (FunctionsN39.HasTitleTag(result.File))
                                 {
                                     // Agrego el item a la tabla "SIN tags"
                                     listaCancionesST.Items.Add(new SongN39
                                     {
-                                        Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
-                                        Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
-                                        CarpetaId = id,                             // Se le asocia el ID de su carpeta
-                                        NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
-                                        Formato = formato,                          // El formato pero sin el "." del principio
+                                        Activo = true,                                  // Por defecto su "checkbox" en la lista está marcado
+                                        Id = Guid.NewGuid().ToString("N"),              // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                                        CarpetaId = id,                                 // Se le asocia el ID de su carpeta
+                                        NombreActual = nombre,                          // Nombre del archivo, sin formato ni ruta de archivo
+                                        Formato = formato,                              // El formato pero sin el "." del principio
                                         Duracion = result.File.Properties.Duration      // TODO: buscar como darle forma con algún pipe
                                     });
                                 }
@@ -158,15 +160,13 @@ namespace RenameMusic
                                     // Agrego el item a la tabla "CON tags"
                                     listaCancionesCT.Items.Add(new SongN39
                                     {
-                                        Activo = true,                              // Por defecto su "checkbox" en la lista está marcado
-                                        Id = Guid.NewGuid().ToString("N"),          // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
-                                        CarpetaId = id,                             // Se le asocia el ID de su carpeta
-                                        NombreActual = nombre,                      // Nombre del archivo, sin formato ni ruta de archivo
-                                                                                    // TODO: segun un criterio definido,
-                                                                                    // el nombre futuro del archivo debe
-                                                                                    // poder mostrarse en la tabla
-                                        Formato = formato,                          // El formato pero sin el "." del principio
-                                        Duracion = result.File.Properties.Duration,     // TODO: buscar como darle forma con algún pipe
+                                        Activo = true,                                          // Por defecto su "checkbox" en la lista está marcado
+                                        Id = Guid.NewGuid().ToString("N"),                      // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                                        CarpetaId = id,                                         // Se le asocia el ID de su carpeta
+                                        NombreActual = nombre,                                  // Nombre del archivo, sin formato ni ruta de archivo
+                                        NuevoNombre = FunctionsN39.GetNewName(result.File),     // Nomre futuro del archivo
+                                        Formato = formato,                                      // El formato pero sin el "." del principio
+                                        Duracion = result.File.Properties.Duration,             // TODO: buscar como darle forma con algún pipe
 
                                         #region Tags
                                         Titulo = result.File.Tag.Title,
@@ -255,7 +255,7 @@ namespace RenameMusic
                                             string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
                                             TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);
 
-                                            string nuevoNombreConRuta = FunctionsN39.GetNewName(cancion, carpeta.Ruta + @"\");
+                                            string nuevoNombreConRuta = carpeta.Ruta + @"\" + FunctionsN39.GetNewName(cancion);
 
                                             // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
                                             if ((nuevoNombreConRuta + "." + archivo.Formato).ToLower() != (antiguoNombreConRuta + "." + archivo.Formato).ToLower())
