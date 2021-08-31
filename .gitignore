@@ -5,3 +5,5 @@
 /RenameMusic/bin/Debug/netcoreapp3.1
 /.vs
 /RenameMusic/obj
+.vscode/launch.json
+.vscode/tasks.json
