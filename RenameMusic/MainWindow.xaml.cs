@@ -72,42 +72,13 @@ namespace RenameMusic
             List<string> problems = new List<string>();
             try
             {
-                // Sirve para mostrar el dialogo selector de carpetas
-                CommonOpenFileDialog dialog = new CommonOpenFileDialog
-                {
-                    // TODO: reemplazar este dialogo por el propio en creación
-                    AllowNonFileSystemItems = true,
-                    IsFolderPicker = true,
-                    Multiselect = true,
-                    Title = "Agregar carpeta/s",
-                    EnsurePathExists = true,
+                // Seleccionamos carpetas
+                List<string> selectedFoldersList = FunctionsN39.SelectFolders();
+                if (selectedFoldersList == null) return;
 
-                    // Carpeta de musica por defecto
-                    DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
-                };
-
-                // Muestra la ventana para seleccionar carpeta y guarda el resultado.
-                // A resultado me refiero a si la ventana fue cerrada, dieron clic en "cancelar",
-                // una carpeta fue seleccionada correctamente, etcetera.
-                CommonFileDialogResult resultDialog = dialog.ShowDialog();
-
-                List<string> selectedFoldersPaths = new List<string>();
-
-                if (resultDialog != CommonFileDialogResult.Ok || dialog.FileNames.All(fn => string.IsNullOrWhiteSpace(fn)))
-                {
-                    MessageBox.Show("No hay carpeta/s cargada/s", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
-                else if (dialog.FileNames.Any(fn => string.IsNullOrWhiteSpace(fn)))
-                {
-                    // Guardo en "carpetasSeleccionadas" todas aquellas carpetas que su "path" no sea nulo o un espacio vacio
-                    selectedFoldersPaths = dialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
-                }
-
-                // Ahora se hace la lista de carpetas seleccionadas
-                selectedFoldersPaths = dialog.FileNames.ToList();
-
-                foreach (string aFolderPath in selectedFoldersPaths)
+                // Ahora hay que tomar de los directorios el contenido que buscamos
+                // Esto puede tardar mucho, hay que hacerlo en segundo plano
+                foreach (string aFolderPath in selectedFoldersList)
                 {
                     // Toma lista de archivos con formato mp3, m4a, flac y ogg en cada carpeta
                     string[] arrayDeCanciones = FunctionsN39.GetAnArrayOfFilePaths(aFolderPath);

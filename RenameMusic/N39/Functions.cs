@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace RenameMusic.N39
 {
@@ -147,6 +148,37 @@ namespace RenameMusic.N39
         public static void AddToListView()
         {
 
+        }
+
+        public static CommonOpenFileDialog ShowAddFolderDialog()
+        {
+            // Sirve para mostrar el dialogo selector de carpetas
+            CommonOpenFileDialog folderDialog = new CommonOpenFileDialog
+            {
+                // TODO: reemplazar este dialogo por el propio en creación
+                AllowNonFileSystemItems = true,
+                IsFolderPicker = true,
+                Multiselect = true,
+                Title = "Agregar carpeta/s",
+                EnsurePathExists = true,
+
+                // Carpeta de musica por defecto
+                DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
+            };
+
+            // Muestra la ventana para seleccionar carpeta y retornamos el contenido del dialogo
+            folderDialog.ShowDialog();
+            return folderDialog;
+        }
+
+        public static List<string> SelectFolders()
+        {
+            // Primero hay que mostar el dialogo de selección de carpetas
+            CommonOpenFileDialog folderDialog = ShowAddFolderDialog();
+
+            // Retornamos el contenido de la lista si es que existe
+            if (folderDialog.FileNames.All(fn => string.IsNullOrWhiteSpace(fn))) return null;
+            else return folderDialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
         }
     }
 }
