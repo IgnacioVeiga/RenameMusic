@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -78,6 +79,11 @@ namespace RenameMusic
 
                 // Ahora hay que tomar de los directorios el contenido que buscamos
                 // Esto puede tardar mucho, hay que hacerlo en segundo plano
+                LoadingN39 loadingWindow = new LoadingN39(0, selectedFoldersList.Count);
+
+                
+                loadingWindow.ShowDialog();
+
                 foreach (string aFolderPath in selectedFoldersList)
                 {
                     // Toma lista de archivos con formato mp3, m4a, flac y ogg en cada carpeta
@@ -147,6 +153,7 @@ namespace RenameMusic
                                         #endregion Tags
                                     });
                                 }
+                                loadingWindow.Increment(1);
                             }
                         }
                     }
