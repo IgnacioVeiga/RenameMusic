@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace RenameMusic.N39
 {
@@ -22,7 +25,13 @@ namespace RenameMusic.N39
             return Regex.Replace(fileName, invalidRegStr, "_");
         }
 
-        public static string GetNewName(TagLib.File song, string ruta)
+
+        /// <summary>
+        /// Sirve para generar un nuevo nombre a un archivo según el criterio definido
+        /// </summary>
+        /// <param name="song">Objeto con tags del archivo</param>
+        /// <returns>Retorna el nuevo nombre del archivo sin la ruta</returns>
+        public static string GetNewName(TagLib.File song)
         {
             /*
                 <tn> = Track Number
@@ -71,7 +80,7 @@ namespace RenameMusic.N39
                 fileName = NormalizeFileName(fileName);
             }
 
-            return ruta + fileName;
+            return fileName;
         }
 
         public static bool IsValidFileName(string filename)
@@ -84,6 +93,11 @@ namespace RenameMusic.N39
                 }
             }
             return true;
+        }
+
+        public static bool HasTitleTag(TagLib.File musicFile)
+        {
+            return string.IsNullOrWhiteSpace(musicFile.Tag.Title);
         }
 
         public static void ShowProblemsList(List<string> problems)
@@ -106,6 +120,53 @@ namespace RenameMusic.N39
                 problems.Add("No se añadirá a la lista el siguiente archivo corrupto o incompatible: " + rutaArchivo);
             }
             return result;
+        }
+
+        public static string[] GetAnArrayOfFilePaths(string path)
+        {
+            try
+            {
+                // Con esto defino si quiero incluir subdirectotios en la busqueda de archivos
+                bool incluirSubdirectorios = false;
+                SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+                string[] exts = new string[] { ".mp3", ".m4a", ".flac", ".ogg", };
+                string[] array = Directory.GetFiles(path, "*.*", searchOption)
+                    .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
+                    .ToArray();
+
+                // Por seguridad filtro aquellos items que son nulos
+                return array.Where(fn => fn != null).ToArray();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                return Array.Empty<string>();
+            }
+        }
+
+        public static List<string> SelectAndListFolders()
+        {
+            // Sirve para mostrar el dialogo selector de carpetas
+            CommonOpenFileDialog folderDialog = new CommonOpenFileDialog
+            {
+                // TODO: reemplazar este dialogo por el propio en creación
+                AllowNonFileSystemItems = true,
+                IsFolderPicker = true,
+                Multiselect = true,
+                Title = "Agregar carpeta/s",
+                EnsurePathExists = true,
+
+                // Carpeta de musica por defecto
+                DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
+            };
+
+            // Muestro la ventana para seleccionar carpeta y cargamos datos si es ok
+            if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                return folderDialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
+            }
+            return null;
         }
     }
 }

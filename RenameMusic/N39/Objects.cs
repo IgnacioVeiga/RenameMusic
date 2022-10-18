@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
+using TagLib;
 
 namespace RenameMusic.N39
 {
@@ -21,6 +23,7 @@ namespace RenameMusic.N39
         public string Album { get; set; }
         public string Artista { get; set; }
         public string AlbumArtista { get; set; }
+        public IPicture[] Pictures { get; set; }
     }
 
     public class FolderN39

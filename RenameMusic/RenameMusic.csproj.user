@@ -12,10 +12,10 @@
     <Compile Update="ArchivoRepetido.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="BuscadorCarpetas.xaml.cs">
+    <Compile Update="Ajustes\ConfigCriterio.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Ajustes\ConfigCriterio.xaml.cs">
+    <Compile Update="LoadingN39.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -23,10 +23,10 @@
     <Page Update="ArchivoRepetido.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="BuscadorCarpetas.xaml">
+    <Page Update="Ajustes\ConfigCriterio.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Ajustes\ConfigCriterio.xaml">
+    <Page Update="LoadingN39.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
