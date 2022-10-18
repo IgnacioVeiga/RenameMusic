@@ -145,12 +145,7 @@ namespace RenameMusic.N39
             }
         }
 
-        public static void AddToListView()
-        {
-
-        }
-
-        public static CommonOpenFileDialog ShowAddFolderDialog()
+        public static List<string> SelectAndListFolders()
         {
             // Sirve para mostrar el dialogo selector de carpetas
             CommonOpenFileDialog folderDialog = new CommonOpenFileDialog
@@ -166,19 +161,12 @@ namespace RenameMusic.N39
                 DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
             };
 
-            // Muestra la ventana para seleccionar carpeta y retornamos el contenido del dialogo
-            folderDialog.ShowDialog();
-            return folderDialog;
-        }
-
-        public static List<string> SelectFolders()
-        {
-            // Primero hay que mostar el dialogo de selección de carpetas
-            CommonOpenFileDialog folderDialog = ShowAddFolderDialog();
-
-            // Retornamos el contenido de la lista si es que existe
-            if (folderDialog.FileNames.All(fn => string.IsNullOrWhiteSpace(fn))) return null;
-            else return folderDialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
+            // Muestro la ventana para seleccionar carpeta y cargamos datos si es ok
+            if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                return folderDialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
+            }
+            return null;
         }
     }
 }

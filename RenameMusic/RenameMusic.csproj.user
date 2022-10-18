@@ -18,9 +18,6 @@
     <Compile Update="LoadingN39.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="TabListaCT.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ArchivoRepetido.xaml">
@@ -33,9 +30,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="TabListaCT.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
