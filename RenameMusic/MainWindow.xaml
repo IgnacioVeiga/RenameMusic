@@ -32,12 +32,12 @@
                             <GridViewColumn x:Name="nombreActualCT" Header="Nombre actual" DisplayMemberBinding="{Binding NombreActual}"/>
                             <GridViewColumn x:Name="nuevoNombreCT" Header="Nuevo nombre" DisplayMemberBinding="{Binding NuevoNombre}"/>
                             <GridViewColumn x:Name="formatoCT" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
-                            <GridViewColumn x:Name="duracionCT" Header="Duración (hh:mm:ss)" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
+                            <GridViewColumn x:Name="duracionCT" Header="Duración" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
                             <GridViewColumn x:Name="titulo" Header="Titulo" DisplayMemberBinding="{Binding Titulo}"/>
                             <GridViewColumn x:Name="album" Header="Album" DisplayMemberBinding="{Binding Album}"/>
                             <GridViewColumn x:Name="artista" Header="Artista" DisplayMemberBinding="{Binding Artista}"/>
                             <GridViewColumn x:Name="albumArtista" Header="Album artista" DisplayMemberBinding="{Binding AlbumArtista}"/>
-                            <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
+                            <!--<GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -49,8 +49,8 @@
                         <GridView>
                             <GridViewColumn x:Name="nombreST" Header="Nombre" DisplayMemberBinding="{Binding NombreActual}"/>
                             <GridViewColumn x:Name="formatoST" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
-                            <GridViewColumn x:Name="duracionST" Header="Duración (hh:mm:ss)" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
-                            <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
+                            <GridViewColumn x:Name="duracionST" Header="Duración" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
+                            <!--<GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -63,12 +63,12 @@
                             <GridViewColumn Header="Quitar">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="quitar" Content="X" Cursor="Hand" Click="quitar_Click"/>
+                                        <Button x:Name="quitar" Width="20" Height="20" Content="X" Cursor="Hand" Click="quitar_Click"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn x:Name="ruta" Header="Ruta" DisplayMemberBinding="{Binding Ruta}"/>
-                            <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>
+                            <!--<GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>

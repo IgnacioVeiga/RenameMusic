@@ -10,19 +10,19 @@ namespace RenameMusic
     /// </summary>
     public partial class ArchivoRepetido : Window
     {
-        private SongN39 archivo = new SongN39();
-        private TagLib.File cancion = null;
+        private MusicFile musicFile = new MusicFile();
+        private TagLib.File music;
         private string nuevoNombreConRuta = "";
 
-        public ArchivoRepetido(SongN39 pArchivo, TagLib.File pCancion, string pNuevoNombreConRuta)
+        public ArchivoRepetido(MusicFile pMusicFile, TagLib.File pMusic, string pNuevoNombreConRuta)
         {
             try
             {
                 InitializeComponent();
-                nombreArchivo.Content = pCancion.Name;
-                nuevoNombreArchivo.Content = pNuevoNombreConRuta + "." + pArchivo.Formato;
-                archivo = pArchivo;
-                cancion = pCancion;
+                nombreArchivo.Content = pMusic.Name;
+                nuevoNombreArchivo.Content = pNuevoNombreConRuta + "." + pMusicFile.Formato;
+                musicFile = pMusicFile;
+                music = pMusic;
                 nuevoNombreConRuta = pNuevoNombreConRuta;
             }
             catch (Exception ex)
@@ -37,10 +37,10 @@ namespace RenameMusic
             {
                 // Antes hay que verificar si el archivo todavia existe por las dudas
                 // TODO: revisar si es necesario
-                if (File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
+                if (File.Exists(nuevoNombreConRuta + "." + musicFile.Formato))
                 {
-                    File.Delete(nuevoNombreConRuta + "." + archivo.Formato);
-                    File.Move(cancion.Name, nuevoNombreConRuta + "." + archivo.Formato);
+                    File.Delete(nuevoNombreConRuta + "." + musicFile.Formato);
+                    File.Move(music.Name, nuevoNombreConRuta + "." + musicFile.Formato);
                 }
             }
             catch (Exception ex)
@@ -63,15 +63,15 @@ namespace RenameMusic
             try
             {
                 int num = 2;
-                while (File.Exists(nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato))
+                while (File.Exists(nuevoNombreConRuta + " " + "(" + num + ")" + "." + musicFile.Formato))
                 {
                     num += 1; // se incrementa en 1 en cada ciclo
                 }
 
-                File.Move(cancion.Name, nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato);
+                File.Move(music.Name, nuevoNombreConRuta + " " + "(" + num + ")" + "." + musicFile.Formato);
 
-                string mensaje = "El nombre del archivo\n" + nuevoNombreConRuta + "." + archivo.Formato +
-                    "\n" + "Fue renombrado como \n" + nuevoNombreConRuta + " " + "(" + num + ")" + "." + archivo.Formato + "\n";
+                string mensaje = "El nombre del archivo\n" + nuevoNombreConRuta + "." + musicFile.Formato +
+                    "\n" + "Fue renombrado como \n" + nuevoNombreConRuta + " " + "(" + num + ")" + "." + musicFile.Formato + "\n";
 
                 MessageBox.Show(mensaje, "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
             }

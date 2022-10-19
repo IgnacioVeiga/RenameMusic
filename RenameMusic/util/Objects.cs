@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
-using TagLib;
 
 namespace RenameMusic.N39
 {
-    public class FileN39
+    public class GenericFile
     {
         public string Id { get; set; } // va a usarse en un futuro para la db
         public string CarpetaId { get; set; } // identifica la carpeta
@@ -16,26 +14,21 @@ namespace RenameMusic.N39
         public double Peso { get; set; } // cuanto pesa el archivo
     }
 
-    public class SongN39 : FileN39
+    public class MusicFile : GenericFile
     {
         public TimeSpan Duracion { get; set; }
         public string Titulo { get; set; }
         public string Album { get; set; }
         public string Artista { get; set; }
         public string AlbumArtista { get; set; }
-        public IPicture[] Pictures { get; set; }
+        public TagLib.IPicture[] Pictures { get; set; }
     }
 
-    public class FolderN39
+    public class MusicFolder
     {
         public string Id { get; set; } // va a usarse en un futuro para la db
         public string CancionesId { get; set; } // identifica sus canciones
         public string Ruta { get; set; }
     }
 
-    public class TagLibResultN39
-    {
-        public TagLib.File File { get; set; }
-        public List<string> Problems { get; set; }
-    }
 }

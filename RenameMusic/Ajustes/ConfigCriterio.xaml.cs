@@ -1,24 +1,15 @@
 ﻿using RenameMusic.N39;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RenameMusic
 {
     /// <summary>
     /// Interaction logic for Configuración.xaml
     /// </summary>
-    public partial class ConfigCriterio : Window
+    public partial class ConfigTemplate : Window
     {
-        public ConfigCriterio()
+        public ConfigTemplate()
         {
             try
             {
@@ -53,7 +44,7 @@ namespace RenameMusic
                 }
 
                 // Si no hay simbolos extraños y existe al menos 1 tag
-                if (FunctionsN39.IsValidFileName(criterioParaChequear) && contieneUnTag)
+                if (MyFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
                 {
                     // Guarda cambios en la configuración de la app
                     Properties.Settings.Default["criterioCfg"] = criterioElegido.Text;
