@@ -16,7 +16,7 @@
         <Label Content="Omitir: el archivo no será renombrado y continua con el siguiente" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top"/>
         <Label Content="Renombrar: conserva ambos archivos pero al nuevo se le añade una numeración" HorizontalAlignment="Left" Margin="10,237,0,0" VerticalAlignment="Top"/>
 
-        <CheckBox x:Name="repetirEleccion" Content="Repetir eleccion con los archivos siguientes" HorizontalAlignment="Left" Margin="20,305,0,0" VerticalAlignment="Top" Height="24" Width="280" Cursor="Hand" Click="RepetirEleccion_Check"/>
+        <!--<CheckBox x:Name="repetirEleccion" Content="Repetir eleccion con los archivos siguientes" HorizontalAlignment="Left" Margin="20,305,0,0" VerticalAlignment="Top" Height="24" Width="280" Cursor="Hand" Click="RepetirEleccion_Check"/>-->
         
         <Button Content="Reemplazar" HorizontalAlignment="Center" Margin="0,0,250,20" VerticalAlignment="Bottom" Width="100" Height="30" Cursor="Hand" Click="Reemplazar_Click"/>
         <Button Content="Omitir" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="100" Height="30" Cursor="Hand" Click="Omitir_Click"/>

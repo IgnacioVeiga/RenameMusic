@@ -16,7 +16,6 @@ namespace RenameMusic
     public partial class MainWindow : Window
     {
         public const string ExceptionMsg = "Error, por favor notificar al desarrollador";
-        public static bool noAbrirVentanaDeAR;
 
         /*
         El objetivo de la app es poder renombrar archivos mp3 por sus "tags" según
@@ -151,8 +150,6 @@ namespace RenameMusic
 
         private void RenombrarArchivos_Click(object sender, RoutedEventArgs e)
         {
-            // Para mostrar al final del proceso los errores ocurridos
-            List<string> problems = new List<string>();
             try
             {
                 if (listaCarpetas.Items.IsEmpty)
@@ -162,74 +159,43 @@ namespace RenameMusic
                     return;
                 }
 
-                // Reviso la tabla de carpetas
-                foreach (var carpetaItem in listaCarpetas.Items)
+                if (listaCancionesCT.Items.IsEmpty)
                 {
-                    // Creo un objeto la carpeta para trabajar
-                    MusicFolder carpeta = carpetaItem as MusicFolder;
+                    string msg = "No hay archivos CON Tags para trabajar.\nUtilice la función \"Agregar carpeta\"para continuar.";
+                    MessageBox.Show(msg, "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
 
-                    // Esto se verifica por seguridad, que el objeto no sea nulo
-                    if (carpeta == null)
+                // Reviso la tabla de carpetas
+                foreach (MusicFolder carpetaItem in listaCarpetas.Items)
+                {
+                    foreach (MusicFile archivo in listaCancionesCT.Items)
                     {
-                        problems.Add("No se encontró una carpeta: " + carpetaItem);
-                    }
-                    else
-                    {
-                        // Verifico que existan items en la tabla de canciones con tags
-                        if (listaCancionesCT.Items.IsEmpty)
+                        // Solo se trabaja con los items con los "checkboxes" marcados, tambíen hay que asegurarse que todavia existe el archivo a trabajar
+                        if (archivo.Activo && archivo.CarpetaId == carpetaItem.CancionesId && System.IO.File.Exists(carpetaItem.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato))
                         {
-                            problems.Add("Sin archivos compatibles en la ruta \n" + carpeta.Ruta);
-                        }
-                        else
-                        {
-                            for (int pos = 0; pos < listaCancionesCT.Items.Count; pos++)
+                            string antiguoNombreConRuta = carpetaItem.Ruta + @"\" + archivo.NombreActual;
+                            // TODO: REVISAR QUE LA VARIABLE "archivo.NuevoNombre" TENGA TEXTO
+                            string nuevoNombreConRuta = carpetaItem.Ruta + @"\" + archivo.NuevoNombre;
+
+                            // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
+                            if ((nuevoNombreConRuta).ToLower() != (antiguoNombreConRuta).ToLower())
                             {
-                                MusicFile archivo = listaCancionesCT.Items[pos] as MusicFile;
-
-                                if (archivo == null)
+                                // Verifico si ya existe un archivo con el nuevo nombre
+                                if (System.IO.File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
                                 {
-                                    problems.Add("No se pudo encontrar una canción");
+                                    // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
+                                    ArchivoRepetido VentanaArchivoRepetido = new ArchivoRepetido(
+                                        archivo,
+                                        TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato),
+                                        nuevoNombreConRuta
+                                    );
+                                    VentanaArchivoRepetido.ShowDialog();
                                 }
                                 else
                                 {
-                                    // Solo se trabaja con los items con los "checkboxes" marcados
-                                    if (archivo.Activo && archivo.CarpetaId == carpeta.CancionesId)
-                                    {
-                                        // Antes de continuar, hay que asegurarse que todavia existe el archivo a trabajar
-                                        if (System.IO.File.Exists(carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato))
-                                        {
-                                            string antiguoNombreConRuta = carpeta.Ruta + @"\" + archivo.NombreActual;
-                                            TagLib.File cancion = TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato);
-
-                                            // TODO: REVISAR QUE LA VARIABLE "archivo.NuevoNombre" TENGA TEXTO
-                                            string nuevoNombreConRuta = carpeta.Ruta + @"\" + archivo.NuevoNombre;
-
-                                            // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
-                                            if ((nuevoNombreConRuta + "." + archivo.Formato).ToLower() != (antiguoNombreConRuta + "." + archivo.Formato).ToLower())
-                                            {
-                                                // Verifico si ya existe un archivo con el nuevo nombre
-                                                if (System.IO.File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
-                                                {
-                                                    // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
-                                                    ArchivoRepetido VentanaArchivoRepetido = new ArchivoRepetido(archivo, cancion, nuevoNombreConRuta);
-
-                                                    if (noAbrirVentanaDeAR)
-                                                        VentanaArchivoRepetido.ShowDialog();
-                                                }
-                                                else
-                                                {
-                                                    // Cambiar el nombre del archivo
-                                                    System.IO.File.Move(antiguoNombreConRuta + "." + archivo.Formato, nuevoNombreConRuta + "." + archivo.Formato);
-                                                }
-                                            }
-                                        }
-                                        // Si el archivo no existe, guardo el mensaje de error para más adelante
-                                        else
-                                        {
-                                            string msg = "No existe el archivo: " + carpeta.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato;
-                                            problems.Add(msg);
-                                        }
-                                    }
+                                    // Cambiar el nombre del archivo
+                                    System.IO.File.Move(antiguoNombreConRuta + "." + archivo.Formato, nuevoNombreConRuta + "." + archivo.Formato);
                                 }
                             }
                         }
@@ -238,7 +204,7 @@ namespace RenameMusic
             }
 
             // TODO: generar un archivo de log con todos los errores y encriptarlo
-            catch (System.IO.IOException)
+            catch (IOException)
             {
                 string msg = "No puedo encontrar al menos una de las canciones en la lista";
                 MessageBox.Show(msg, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -252,12 +218,6 @@ namespace RenameMusic
                 listaCancionesCT.Items.Clear();
                 listaCancionesST.Items.Clear();
                 listaCarpetas.Items.Clear();
-
-                // Si existe por lo menos un problema en la lista, enseñamos un mensaje con todos los problemas detectados
-                if (problems.Any())
-                {
-                    MyFunctions.ShowProblemsList(problems);
-                }
 
                 MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
             }

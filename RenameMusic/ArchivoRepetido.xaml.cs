@@ -87,14 +87,7 @@ namespace RenameMusic
 
         private void RepetirEleccion_Check(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                MainWindow.noAbrirVentanaDeAR = (bool)repetirEleccion.IsChecked;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //repetirEleccion.IsChecked;
         }
     }
 }
