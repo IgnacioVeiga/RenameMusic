@@ -1,11 +1,10 @@
-﻿using RenameMusic.N39;
-using System;
+﻿using System;
 using System.Windows;
 
 namespace RenameMusic
 {
     /// <summary>
-    /// Interaction logic for Configuración.xaml
+    /// Interaction logic for ConfigTemplate.xaml
     /// </summary>
     public partial class ConfigTemplate : Window
     {
@@ -14,8 +13,8 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                criterioElegido.Text = Properties.Settings.Default.criterioCfg;
-                simbolos.Text += "\n" + Properties.Resources.Simbols;
+                template.Text = Properties.Settings.Default.criterioCfg;
+                simbols.Text += "\n" + Properties.Resources.Simbols;
             }
             catch (Exception ex)
             {
@@ -30,7 +29,7 @@ namespace RenameMusic
                 // Chequear si el criterio es valido
                 
                 string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
-                string criterioParaChequear = criterioElegido.Text;
+                string criterioParaChequear = template.Text;
                 bool contieneUnTag = false;
 
                 foreach (var tag in tags)
@@ -47,7 +46,7 @@ namespace RenameMusic
                 if (MyFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
                 {
                     // Guarda cambios en la configuración de la app
-                    Properties.Settings.Default["criterioCfg"] = criterioElegido.Text;
+                    Properties.Settings.Default["criterioCfg"] = template.Text;
                     Properties.Settings.Default.Save();
                     MessageBox.Show("Ajuste guardado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();

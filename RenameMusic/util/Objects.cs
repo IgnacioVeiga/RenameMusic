@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RenameMusic.N39
+namespace RenameMusic
 {
     public class GenericFile
     {

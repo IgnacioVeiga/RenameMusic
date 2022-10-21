@@ -1,11 +1,7 @@
-﻿using RenameMusic.N39;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using TagLib;
 using System.IO;
 
 namespace RenameMusic
@@ -16,30 +12,6 @@ namespace RenameMusic
     public partial class MainWindow : Window
     {
         public const string ExceptionMsg = "Error, por favor notificar al desarrollador";
-
-        /*
-        El objetivo de la app es poder renombrar archivos mp3 por sus "tags" según
-        un criterio definido por el usuario o no (uno predeterminado).
-        Por ejemplo: Si tengo una canción con el nombre "AUD-01230101-WA0123.mp3" pero
-        esta misma tiene "tags", entonces puedo decidir que con estos se llame según
-        el siguiente orden: NroDePista-Titulo-Artista.mp3, pero tengo que hacerlo con muchas
-        canciones (ya es engorroso con una sola). Esa es la utilidad de esta app, quizas
-        en un futuro se pueda modificar los "tags" desde esta misma app en grandes cantidades.
-        
-        Se debe poder:
-        Mostar una lista con todos los archivos compatibles.                            [Listo]
-        Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña.       [Listo]
-        Agregar más de una carpeta y eliminar tambien.                                  [Listo]
-        Enseñar los nombres de los archivos y en un lado sus futuros nombres.           [Listo]
-        Definir la posición de los "tags" como nombre.                                  [Listo]
-        Tener un criterio predeterminado para las posiciones.                           [Listo]
-        Mostrar caratulas de los archivos.                                              [Listo]
-        Ordenar la lista por diversas formas (nombre, carpeta, duración, etc).
-        Reproducir el archivo desde esta app o una externa.
-        Impedir que se repitan archivos y/o directorios.
-        Arreglar los tamaños de los elementos.
-        Agregar temas personalizados.
-        */
 
         public MainWindow()
         {
@@ -81,10 +53,10 @@ namespace RenameMusic
 
                 // Ahora hay que tomar de los directorios el contenido que buscamos
                 // Esto puede tardar mucho, hay que hacerlo en segundo plano
-                foreach (string folderPath in selectedFoldersList.FindAll(f => MyFunctions.GetFilePaths(f).Count > 1))
+                foreach (string folderPath in selectedFoldersList.FindAll(f => MyFunctions.GetFilePaths(f, false).Count > 1))
                 {
                     // Toma lista de archivos con formato mp3, m4a, flac y ogg en cada carpeta
-                    var musicFileList = MyFunctions.GetFilePaths(folderPath);
+                    var musicFileList = MyFunctions.GetFilePaths(folderPath, false);
 
                     // Si tengo archivos de música, debo agregar la carpeta a su correspondiente tabla
                     // Por ahora se genera un id en formato de string, unico y no nulo
@@ -95,7 +67,7 @@ namespace RenameMusic
                         CancionesId = Guid.NewGuid().ToString("N"),
                         Ruta = folderPath
                     };
-                    listaCarpetas.Items.Add(carpetaItem);
+                    folderList.Items.Add(carpetaItem);
 
                     // Ahora debo agregar cada archivo de música a su correspondiente lista
                     foreach (string rutaArchivo in musicFileList)
@@ -152,7 +124,7 @@ namespace RenameMusic
         {
             try
             {
-                if (listaCarpetas.Items.IsEmpty)
+                if (folderList.Items.IsEmpty)
                 {
                     string msg = "No hay carpetas para trabajar.\nUtilice la función \"Agregar carpeta\"para continuar.";
                     MessageBox.Show(msg, "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -167,59 +139,29 @@ namespace RenameMusic
                 }
 
                 // Reviso la tabla de carpetas
-                foreach (MusicFolder carpetaItem in listaCarpetas.Items)
+                foreach (MusicFolder folderItem in folderList.Items)
                 {
-                    foreach (MusicFile archivo in listaCancionesCT.Items)
+                    foreach (MusicFile mFileItem in listaCancionesCT.Items)
                     {
                         // Solo se trabaja con los items con los "checkboxes" marcados, tambíen hay que asegurarse que todavia existe el archivo a trabajar
-                        if (archivo.Activo && archivo.CarpetaId == carpetaItem.CancionesId && System.IO.File.Exists(carpetaItem.Ruta + @"\" + archivo.NombreActual + "." + archivo.Formato))
+                        if (mFileItem.Activo && mFileItem.CarpetaId == folderItem.CancionesId && File.Exists(folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato))
                         {
-                            string antiguoNombreConRuta = carpetaItem.Ruta + @"\" + archivo.NombreActual;
-                            // TODO: REVISAR QUE LA VARIABLE "archivo.NuevoNombre" TENGA TEXTO
-                            string nuevoNombreConRuta = carpetaItem.Ruta + @"\" + archivo.NuevoNombre;
+                            string oldFileName = folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato;
+                            string newFileName = folderItem.Ruta + @"\" + mFileItem.NuevoNombre + "." + mFileItem.Formato;
 
-                            // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
-                            if ((nuevoNombreConRuta).ToLower() != (antiguoNombreConRuta).ToLower())
-                            {
-                                // Verifico si ya existe un archivo con el nuevo nombre
-                                if (System.IO.File.Exists(nuevoNombreConRuta + "." + archivo.Formato))
-                                {
-                                    // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
-                                    ArchivoRepetido VentanaArchivoRepetido = new ArchivoRepetido(
-                                        archivo,
-                                        TagLib.File.Create(antiguoNombreConRuta + "." + archivo.Formato),
-                                        nuevoNombreConRuta
-                                    );
-                                    VentanaArchivoRepetido.ShowDialog();
-                                }
-                                else
-                                {
-                                    // Cambiar el nombre del archivo
-                                    System.IO.File.Move(antiguoNombreConRuta + "." + archivo.Formato, nuevoNombreConRuta + "." + archivo.Formato);
-                                }
-                            }
+                            MyFunctions.RenameFile(oldFileName, newFileName);
+                            listaCancionesCT.Items.Clear();
+                            listaCancionesST.Items.Clear();
+                            folderList.Items.Clear();
+
+                            MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
                         }
                     }
                 }
             }
-
-            // TODO: generar un archivo de log con todos los errores y encriptarlo
-            catch (IOException)
-            {
-                string msg = "No puedo encontrar al menos una de las canciones en la lista";
-                MessageBox.Show(msg, "Problema detectado :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                listaCancionesCT.Items.Clear();
-                listaCancionesST.Items.Clear();
-                listaCarpetas.Items.Clear();
-
-                MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
             }
         }
 
@@ -254,11 +196,11 @@ namespace RenameMusic
                     }
                 }
 
-                for (int i = 0; i < listaCarpetas.Items.Count;)
+                for (int i = 0; i < folderList.Items.Count;)
                 {
-                    if (((MusicFolder)listaCarpetas.Items[i]).CancionesId == id)
+                    if (((MusicFolder)folderList.Items[i]).CancionesId == id)
                     {
-                        listaCarpetas.Items.RemoveAt(i);
+                        folderList.Items.RemoveAt(i);
                     }
                     else
                     {
@@ -272,11 +214,11 @@ namespace RenameMusic
             }
         }
 
-        private void ConfigCriterio_Click(object sender, RoutedEventArgs e)
+        private void ConfigTemplate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ConfigTemplate config = new ConfigTemplate();
+                ConfigTemplate config = new();
                 config.ShowDialog();
             }
             catch (Exception ex)
@@ -285,19 +227,7 @@ namespace RenameMusic
             }
         }
 
-        private void ImportarAjustes_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: para los proximos ajustes a añadir
-            MessageBox.Show("Aún no implementado");
-        }
-
-        private void ExportarAjustes_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: para los proximos ajustes a añadir
-            MessageBox.Show("Aún no implementado");
-        }
-
-        private void ReestablecerAjustes_Click(object sender, RoutedEventArgs e)
+        private void RestoreSettings_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default["criterioCfg"] = "<tn>. <t> - <a>";
             Properties.Settings.Default.Save();
@@ -315,7 +245,7 @@ namespace RenameMusic
 
             if (((MusicFile)((ListView)sender).SelectedItem).Pictures.Length >= 1)
             {
-                IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
+                TagLib.IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
 
                 // Load you image data in MemoryStream
                 MemoryStream ms = new MemoryStream(pic.Data.Data);

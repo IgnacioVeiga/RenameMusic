@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace RenameMusic.N39
+namespace RenameMusic
 {
     public static class MyFunctions
     {
@@ -17,7 +18,7 @@ namespace RenameMusic.N39
         public static string NormalizeFileName(string fileName)
         {
             string invalidChars = Regex.Escape(
-                 new string(System.IO.Path.GetInvalidFileNameChars())
+                 new string(Path.GetInvalidFileNameChars())
             );
             string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
 
@@ -88,7 +89,7 @@ namespace RenameMusic.N39
 
         public static bool IsValidFileName(string filename)
         {
-            foreach (char item in System.IO.Path.GetInvalidFileNameChars())
+            foreach (char item in Path.GetInvalidFileNameChars())
             {
                 if (filename.Contains(item))
                 {
@@ -117,16 +118,14 @@ namespace RenameMusic.N39
             }
         }
 
-        public static List<string> GetFilePaths(string path)
+        public static List<string> GetFilePaths(string path, bool includeSubFolders)
         {
             try
             {
-                // Con esto defino si quiero incluir subdirectotios en la busqueda de archivos
-                bool incluirSubdirectorios = false;
-                System.IO.SearchOption searchOption = incluirSubdirectorios ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly;
+                SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
                 string[] exts = new string[] { ".mp3", ".m4a", ".flac", ".ogg", };
-                string[] array = System.IO.Directory.GetFiles(path, "*.*", searchOption)
+                string[] array = Directory.GetFiles(path, "*.*", searchOption)
                     .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
                     .ToArray();
 
@@ -162,6 +161,37 @@ namespace RenameMusic.N39
                 return folderDialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
             }
             return null;
+        }
+
+        public static void RenameFile(string oldFileName, string newFileName)
+        {
+            try
+            {
+                // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
+                if ((newFileName).ToLower() != (oldFileName).ToLower())
+                {
+                    // Verifico si ya existe un archivo con el nuevo nombre
+                    if (File.Exists(newFileName))
+                    {
+                        // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
+                        RepeatedFile RepeatedFile = new(oldFileName, newFileName);
+                        RepeatedFile.ShowDialog();
+                    }
+                    else
+                    {
+                        // Cambiar el nombre del archivo
+                        File.Move(oldFileName, newFileName);
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("No puedo encontrar al menos uno de los archivos de la lista");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
