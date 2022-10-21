@@ -13,6 +13,11 @@
         },
         "runtime": {
           "RenameMusic.dll": {}
+        },
+        "resources": {
+          "es/RenameMusic.resources.dll": {
+            "locale": "es"
+          }
         }
       },
       "taglib-sharp-netstandard2.0/2.1.0": {

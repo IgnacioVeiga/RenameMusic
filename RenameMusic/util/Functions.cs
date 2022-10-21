@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using RenameMusic.Lang;
 
-namespace RenameMusic.N39
+namespace RenameMusic
 {
-    public static class FunctionsN39
+    public static class MyFunctions
     {
 
         /*
@@ -29,9 +30,9 @@ namespace RenameMusic.N39
         /// <summary>
         /// Sirve para generar un nuevo nombre a un archivo según el criterio definido
         /// </summary>
-        /// <param name="song">Objeto con tags del archivo</param>
+        /// <param name="pMusic">Objeto con tags del archivo</param>
         /// <returns>Retorna el nuevo nombre del archivo sin la ruta</returns>
-        public static string GetNewName(TagLib.File song)
+        public static string GetNewName(TagLib.File pMusic)
         {
             /*
                 <tn> = Track Number
@@ -44,30 +45,34 @@ namespace RenameMusic.N39
             string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
             string fileName = Properties.Settings.Default.criterioCfg;
 
+            if (string.IsNullOrWhiteSpace(pMusic.Tag.Title))
+            {
+                return null;
+            }
+
             foreach (var tag in tags)
             {
                 if (fileName.Contains(tag))
                 {
-
                     switch (tag)
                     {
                         case "<tn>":
-                            fileName = fileName.Replace(tag, song.Tag.Track.ToString());
+                            fileName = fileName.Replace(tag, pMusic.Tag.Track.ToString());
                             break;
                         case "<t>":
-                            fileName = fileName.Replace(tag, song.Tag.Title);
+                            fileName = fileName.Replace(tag, pMusic.Tag.Title);
                             break;
                         case "<a>":
-                            fileName = fileName.Replace(tag, song.Tag.Album);
+                            fileName = fileName.Replace(tag, pMusic.Tag.Album);
                             break;
                         case "<aAt>":
-                            fileName = fileName.Replace(tag, song.Tag.JoinedAlbumArtists);
+                            fileName = fileName.Replace(tag, pMusic.Tag.JoinedAlbumArtists);
                             break;
                         case "<At>":
-                            fileName = fileName.Replace(tag, song.Tag.JoinedPerformers);
+                            fileName = fileName.Replace(tag, pMusic.Tag.JoinedPerformers);
                             break;
                         case "<yr>":
-                            fileName = fileName.Replace(tag, song.Tag.Year.ToString());
+                            fileName = fileName.Replace(tag, pMusic.Tag.Year.ToString());
                             break;
                         default:
                             break;
@@ -95,40 +100,30 @@ namespace RenameMusic.N39
             return true;
         }
 
-        public static bool HasTitleTag(TagLib.File musicFile)
-        {
-            return string.IsNullOrWhiteSpace(musicFile.Tag.Title);
-        }
-
         public static void ShowProblemsList(List<string> problems)
         {
             string msg = string.Join("\n", problems);
             MessageBox.Show(msg, "Problemas detectados :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
-        public static TagLibResultN39 CreateMusicObj(string rutaArchivo, List<string> problems)
+        public static TagLib.File CreateMusicObj(string rutaArchivo)
         {
-            TagLibResultN39 result = new TagLibResultN39();
             try
             {
                 // Creo un objeto archivo/cancion y tomo los datos
-                result.File = TagLib.File.Create(rutaArchivo);
+                return TagLib.File.Create(rutaArchivo);
             }
             catch (TagLib.CorruptFileException)
             {
-                result.File = null;
-                problems.Add("No se añadirá a la lista el siguiente archivo corrupto o incompatible: " + rutaArchivo);
+                return null;
             }
-            return result;
         }
 
-        public static string[] GetAnArrayOfFilePaths(string path)
+        public static List<string> GetFilePaths(string path, bool includeSubFolders)
         {
             try
             {
-                // Con esto defino si quiero incluir subdirectotios en la busqueda de archivos
-                bool incluirSubdirectorios = false;
-                SearchOption searchOption = incluirSubdirectorios ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+                SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
                 string[] exts = new string[] { ".mp3", ".m4a", ".flac", ".ogg", };
                 string[] array = Directory.GetFiles(path, "*.*", searchOption)
@@ -136,12 +131,12 @@ namespace RenameMusic.N39
                     .ToArray();
 
                 // Por seguridad filtro aquellos items que son nulos
-                return array.Where(fn => fn != null).ToArray();
+                return array.Where(fn => fn != null).ToList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
-                return Array.Empty<string>();
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                return new List<string>();
             }
         }
 
@@ -167,6 +162,37 @@ namespace RenameMusic.N39
                 return folderDialog.FileNames.Where(fn => !string.IsNullOrWhiteSpace(fn)).ToList();
             }
             return null;
+        }
+
+        public static void RenameFile(string oldFileName, string newFileName)
+        {
+            try
+            {
+                // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
+                if (newFileName.ToLower() != oldFileName.ToLower())
+                {
+                    // Verifico si ya existe un archivo con el nuevo nombre
+                    if (File.Exists(newFileName))
+                    {
+                        // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
+                        RepeatedFile RepeatedFile = new(oldFileName, newFileName);
+                        RepeatedFile.ShowDialog();
+                    }
+                    else
+                    {
+                        // Cambiar el nombre del archivo
+                        File.Move(oldFileName, newFileName);
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("No puedo encontrar al menos uno de los archivos de la lista");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

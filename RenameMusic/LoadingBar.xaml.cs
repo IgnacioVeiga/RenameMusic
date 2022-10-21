@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RenameMusic.Lang;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RenameMusic
 {
     /// <summary>
-    /// Interaction logic for LoadingN39.xaml
+    /// Interaction logic for LoadingBar.xaml
     /// </summary>
-    public partial class LoadingN39 : Window
+    public partial class LoadingBar : Window
     {
-        public LoadingN39(double min, double max)
+        public LoadingBar(double min, double max)
         {
             try
             {
@@ -30,7 +22,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -1,5 +1,27 @@
 # RenameMusic
-Renombra archivos de música (de formatos mp3, m4a, ogg y flac) por sus "tags" en caso de que existan estos según un criterio definido.
+![RenameMusicIcon](/RenameMusic/icon.ico)<br /> <br />
+El objetivo de la app es poder renombrar archivos de música en base a sus "tags" según un criterio definido por el usuario o no (uno predeterminado).
 
-# Requisitos
-*Net Core 3.1*
+Por ejemplo: tengo una canción con el nombre `AUD-01230101-WA0123.mp3` pero esta misma tiene "tags", entonces puedo decidir que con estos se llame según el siguiente orden: `NroDePista-Titulo-Artista.mp3`
+
+## Funcionalidades:
+- [x] Mostar una lista con todos los archivos compatibles
+- [x] Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña
+- [x] Agregar más de una carpeta y eliminar tambien
+- [x] Enseñar los nombres de los archivos y en un lado sus futuros nombres
+- [x] Definir la posición de los "tags" como nombre
+- [x] Tener un criterio predeterminado para las posiciones
+- [x] Mostrar caratulas de los archivos
+- [ ] Soporte para más de un idioma.
+- [ ] Permitir ordenar la lista.
+- [ ] Reproducir el archivo desde esta app o una externa.
+- [ ] Impedir que se repitan archivos y/o directorios.
+- [ ] Arreglar los tamaños de los elementos.
+- [ ] Usar temas personalizados.
+
+## Requerido
+SDK .NET 6.0 (LTS)
+
+## Dependencias 
+- taglib-sharp-netstandard2.0 **v2.1.0**
+- WindowsAPICodePack-Shell **v1.1.1**

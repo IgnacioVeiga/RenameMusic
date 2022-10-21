@@ -10,9 +10,15 @@ namespace RenameMusic
     {
         private static System.Threading.Mutex _mutex = null;
 
+        App()
+        {
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es"); 
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            string mutexId = "nasho-0101";
+            string mutexId = "RenameMusic";
             _mutex = new System.Threading.Mutex(true, mutexId, out bool createdNew);
             if (createdNew)
             {
@@ -20,7 +26,7 @@ namespace RenameMusic
             }
             else
             {
-                MessageBox.Show("No se permiten multiples instancias de este programa", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("No se permiten multiples instancias de este programa");
                 Current.Shutdown();
             }
             base.OnStartup(e);

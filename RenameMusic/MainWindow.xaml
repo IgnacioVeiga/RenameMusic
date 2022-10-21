@@ -7,7 +7,7 @@
         MinHeight="540" MinWidth="960"
         SizeToContent="WidthAndHeight" 
         ResizeMode="CanResizeWithGrip"
-        Title="Rename Music" Foreground="#FF111111" Background="#FFAAAAAA">
+        Title="Rename Music" Foreground="#FF222222" Background="#FF999999">
 
     <Grid>
         <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="100,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click"/>
@@ -32,12 +32,12 @@
                             <GridViewColumn x:Name="nombreActualCT" Header="Nombre actual" DisplayMemberBinding="{Binding NombreActual}"/>
                             <GridViewColumn x:Name="nuevoNombreCT" Header="Nuevo nombre" DisplayMemberBinding="{Binding NuevoNombre}"/>
                             <GridViewColumn x:Name="formatoCT" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
-                            <GridViewColumn x:Name="duracionCT" Header="Duración (hh:mm:ss)" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
+                            <GridViewColumn x:Name="duracionCT" Header="Duración" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
                             <GridViewColumn x:Name="titulo" Header="Titulo" DisplayMemberBinding="{Binding Titulo}"/>
                             <GridViewColumn x:Name="album" Header="Album" DisplayMemberBinding="{Binding Album}"/>
                             <GridViewColumn x:Name="artista" Header="Artista" DisplayMemberBinding="{Binding Artista}"/>
                             <GridViewColumn x:Name="albumArtista" Header="Album artista" DisplayMemberBinding="{Binding AlbumArtista}"/>
-                            <GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
+                            <!--<GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -49,26 +49,26 @@
                         <GridView>
                             <GridViewColumn x:Name="nombreST" Header="Nombre" DisplayMemberBinding="{Binding NombreActual}"/>
                             <GridViewColumn x:Name="formatoST" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
-                            <GridViewColumn x:Name="duracionST" Header="Duración (hh:mm:ss)" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
-                            <GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>
+                            <GridViewColumn x:Name="duracionST" Header="Duración" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
+                            <!--<GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
             <TabItem x:Name="pCarpetas" Header="Carpetas añadidas" Cursor="Hand">
-                <ListView x:Name="listaCarpetas" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView x:Name="folderList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=5}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Quitar">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="quitar" Content="X" Cursor="Hand" Click="quitar_Click"/>
+                                        <Button x:Name="quitar" Width="20" Height="20" Content="X" Cursor="Hand" Click="quitar_Click"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn x:Name="ruta" Header="Ruta" DisplayMemberBinding="{Binding Ruta}"/>
-                            <GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>
+                            <!--<GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -76,10 +76,10 @@
 
             <TabItem x:Name="pAjustes" Header="Ajustes" Cursor="Hand">
                 <Grid Cursor="Arrow">
-                    <Button Content="Configurar criterio" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ConfigCriterio_Click"/>
-                    <Button Content="Reestablecer ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ReestablecerAjustes_Click"/>
-                    <Button Content="Importar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Width="200" Height="30" Cursor="Hand" Click="ImportarAjustes_Click" />
-                    <Button Content="Exportar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,45,0,0" Width="200" Height="30" Cursor="Hand" Click="ExportarAjustes_Click"/>
+                    <Button Content="Configurar criterio" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ConfigTemplate_Click"/>
+                    <Button Content="Reestablecer ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="RestoreSettings_Click"/>
+                    <Button Content="Importar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Width="200" Height="30" Cursor="Hand"/>
+                    <Button Content="Exportar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,45,0,0" Width="200" Height="30" Cursor="Hand"/>
                 </Grid>
             </TabItem>
         </TabControl>

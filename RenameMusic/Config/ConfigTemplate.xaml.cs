@@ -1,34 +1,26 @@
-﻿using RenameMusic.N39;
+﻿using RenameMusic.Lang;
+using RenameMusic.Properties;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RenameMusic
 {
     /// <summary>
-    /// Interaction logic for Configuración.xaml
+    /// Interaction logic for ConfigTemplate.xaml
     /// </summary>
-    public partial class ConfigCriterio : Window
+    public partial class ConfigTemplate : Window
     {
-        public ConfigCriterio()
+        public ConfigTemplate()
         {
             try
             {
                 InitializeComponent();
-                criterioElegido.Text = Properties.Settings.Default.criterioCfg;
-                simbolos.Text += "\n" + Properties.Resources.Simbols;
+                template.Text = Settings.Default.criterioCfg;
+                simbols.Text += "\n" + Properties.Resources.Simbols;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -39,7 +31,7 @@ namespace RenameMusic
                 // Chequear si el criterio es valido
                 
                 string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
-                string criterioParaChequear = criterioElegido.Text;
+                string criterioParaChequear = template.Text;
                 bool contieneUnTag = false;
 
                 foreach (var tag in tags)
@@ -53,11 +45,11 @@ namespace RenameMusic
                 }
 
                 // Si no hay simbolos extraños y existe al menos 1 tag
-                if (FunctionsN39.IsValidFileName(criterioParaChequear) && contieneUnTag)
+                if (MyFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
                 {
                     // Guarda cambios en la configuración de la app
-                    Properties.Settings.Default["criterioCfg"] = criterioElegido.Text;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.criterioCfg = template.Text;
+                    Settings.Default.Save();
                     MessageBox.Show("Ajuste guardado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();
                 }
@@ -74,7 +66,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -9,24 +9,32 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ArchivoRepetido.xaml.cs">
+    <Compile Update="RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Ajustes\ConfigCriterio.xaml.cs">
+    <Compile Update="Config\ConfigTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LoadingN39.xaml.cs">
+    <Compile Update="LoadingBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ArchivoRepetido.xaml">
+    <EmbeddedResource Update="Lang\Strings.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Ajustes\ConfigCriterio.xaml">
+    <Page Update="Config\ConfigTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="LoadingN39.xaml">
+    <Page Update="LoadingBar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

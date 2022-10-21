@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RenameMusic.Properties {
+namespace RenameMusic.Lang {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace RenameMusic.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace RenameMusic.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RenameMusic.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RenameMusic.Lang.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,26 +61,29 @@ namespace RenameMusic.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to TRADUCIR.
         /// </summary>
-        public static byte[] appIcon {
+        public static string EXCEPTION_MSG {
             get {
-                object obj = ResourceManager.GetObject("appIcon", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("EXCEPTION_MSG", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;tn&gt; = Track Number
-        ///&lt;t&gt; = Title song
-        ///&lt;a&gt; = Album
-        ///&lt;aAt&gt; = Album Artist
-        ///&lt;At&gt; = Artist
-        ///&lt;yr&gt; = Year.
+        ///   Looks up a localized string similar to TRADUCIR.
         /// </summary>
-        public static string Simbols {
+        public static string SETTINGS_RESTORED_MSG {
             get {
-                return ResourceManager.GetString("Simbols", resourceCulture);
+                return ResourceManager.GetString("SETTINGS_RESTORED_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TRADUCIR.
+        /// </summary>
+        public static string TASK_SUCCESFULL_MSG {
+            get {
+                return ResourceManager.GetString("TASK_SUCCESFULL_MSG", resourceCulture);
             }
         }
     }
