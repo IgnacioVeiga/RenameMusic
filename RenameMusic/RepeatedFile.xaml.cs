@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RenameMusic.Lang;
+using System;
 using System.IO;
 using System.Windows;
 
@@ -20,7 +21,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -37,7 +38,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -69,7 +70,7 @@ namespace RenameMusic
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+        //        MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
         //    }
         //    finally
         //    {

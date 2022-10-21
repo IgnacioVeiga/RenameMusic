@@ -117,16 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="appIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\icon.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="EXCEPTION_MSG" xml:space="preserve">
+    <value>TRADUCIR</value>
   </data>
-  <data name="Simbols" xml:space="preserve">
-    <value>&lt;tn&gt; = Track Number
-&lt;t&gt; = Title song
-&lt;a&gt; = Album
-&lt;aAt&gt; = Album Artist
-&lt;At&gt; = Artist
-&lt;yr&gt; = Year</value>
+  <data name="TASK_SUCCESFULL_MSG" xml:space="preserve">
+    <value>TRADUCIR</value>
+  </data>
+  <data name="SETTINGS_RESTORED_MSG" xml:space="preserve">
+    <value>TRADUCIR</value>
   </data>
 </root>

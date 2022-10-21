@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RenameMusic.Lang;
+using RenameMusic.Properties;
+using System;
 using System.Windows;
 
 namespace RenameMusic
@@ -13,12 +15,12 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                template.Text = Properties.Settings.Default.criterioCfg;
+                template.Text = Settings.Default.criterioCfg;
                 simbols.Text += "\n" + Properties.Resources.Simbols;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -46,8 +48,8 @@ namespace RenameMusic
                 if (MyFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
                 {
                     // Guarda cambios en la configuración de la app
-                    Properties.Settings.Default["criterioCfg"] = template.Text;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.criterioCfg = template.Text;
+                    Settings.Default.Save();
                     MessageBox.Show("Ajuste guardado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();
                 }
@@ -64,7 +66,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

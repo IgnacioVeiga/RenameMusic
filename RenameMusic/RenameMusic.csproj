@@ -45,6 +45,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Lang\Strings.es.Designer.cs">
+      <DependentUpon>Strings.es.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Lang\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -58,8 +68,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Lang\Strings.es.resx">
+      <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Lang\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
@@ -71,6 +89,6 @@
     </None>
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties lang_4es_1json__JsonSchema="https://download.stackhawk.com/hawk/jsonschema/hawkconfig.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

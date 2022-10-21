@@ -1,10 +1,11 @@
-﻿using System;
+﻿using RenameMusic.Lang;
+using System;
 using System.Windows;
 
 namespace RenameMusic
 {
     /// <summary>
-    /// Interaction logic for LoadingN39.xaml
+    /// Interaction logic for LoadingBar.xaml
     /// </summary>
     public partial class LoadingBar : Window
     {
@@ -21,7 +22,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -12,11 +12,12 @@ Por ejemplo: tengo una canción con el nombre `AUD-01230101-WA0123.mp3` pero est
 - [x] Definir la posición de los "tags" como nombre
 - [x] Tener un criterio predeterminado para las posiciones
 - [x] Mostrar caratulas de los archivos
-- [ ] Ordenar la lista por diversas formas (nombre, carpeta, duración, etc).
+- [ ] Soporte para más de un idioma.
+- [ ] Permitir ordenar la lista.
 - [ ] Reproducir el archivo desde esta app o una externa.
 - [ ] Impedir que se repitan archivos y/o directorios.
 - [ ] Arreglar los tamaños de los elementos.
-- [ ] Agregar temas personalizados.
+- [ ] Usar temas personalizados.
 
 ## Requerido
 SDK .NET 6.0 (LTS)

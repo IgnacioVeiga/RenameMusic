@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.IO;
+using RenameMusic.Lang;
+using RenameMusic.Properties;
 
 namespace RenameMusic
 {
@@ -11,17 +13,15 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
-        public const string ExceptionMsg = "Error, por favor notificar al desarrollador";
-
         public MainWindow()
         {
             try
             {
                 InitializeComponent();
-                if (string.IsNullOrWhiteSpace(Properties.Settings.Default.criterioCfg))
+                if (string.IsNullOrWhiteSpace(Settings.Default.criterioCfg))
                 {
-                    Properties.Settings.Default["criterioCfg"] = "<tn>. <t> - <a>";
-                    Properties.Settings.Default.Save();
+                    Settings.Default.criterioCfg = "<tn>. <t> - <a>";
+                    Settings.Default.Save();
                 }
 
                 infoTags.Text = "";
@@ -35,7 +35,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
             }
         }
@@ -116,7 +116,7 @@ namespace RenameMusic
             // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -148,20 +148,20 @@ namespace RenameMusic
                         {
                             string oldFileName = folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato;
                             string newFileName = folderItem.Ruta + @"\" + mFileItem.NuevoNombre + "." + mFileItem.Formato;
-
                             MyFunctions.RenameFile(oldFileName, newFileName);
-                            listaCancionesCT.Items.Clear();
-                            listaCancionesST.Items.Clear();
-                            folderList.Items.Clear();
-
-                            MessageBox.Show("Tarea finalizada", "Listo!", MessageBoxButton.OK);
                         }
                     }
                 }
+
+                listaCancionesCT.Items.Clear();
+                listaCancionesST.Items.Clear();
+                folderList.Items.Clear();
+
+                MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -210,7 +210,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -223,15 +223,15 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void RestoreSettings_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default["criterioCfg"] = "<tn>. <t> - <a>";
-            Properties.Settings.Default.Save();
-            MessageBox.Show("Ajustes borrados. Usando ajustes predeterminados", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+            Settings.Default.criterioCfg = "<tn>. <t> - <a>";
+            Settings.Default.Save();
+            MessageBox.Show(Strings.SETTINGS_RESTORED_MSG);
         }
 
         private void listaCancionesCT_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using RenameMusic.Lang;
 
 namespace RenameMusic
 {
@@ -134,7 +135,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), MainWindow.ExceptionMsg, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 return new List<string>();
             }
         }
@@ -168,7 +169,7 @@ namespace RenameMusic
             try
             {
                 // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
-                if ((newFileName).ToLower() != (oldFileName).ToLower())
+                if (newFileName.ToLower() != oldFileName.ToLower())
                 {
                     // Verifico si ya existe un archivo con el nuevo nombre
                     if (File.Exists(newFileName))
