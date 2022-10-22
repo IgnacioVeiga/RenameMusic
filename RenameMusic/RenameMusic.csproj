@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,7 +8,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <Authors>Ignacio Veiga Martín</Authors>
     <StartupObject>RenameMusic.App</StartupObject>
-    <Version>1.1.0</Version>
+    <Version>1.5.0</Version>
     <SignAssembly>False</SignAssembly>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -46,14 +46,14 @@
 
   <ItemGroup>
     <Compile Update="Lang\Strings.es.Designer.cs">
-      <DependentUpon>Strings.es.resx</DependentUpon>
+      <DependentUpon>strings.es.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Lang\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Strings.resx</DependentUpon>
+      <DependentUpon>strings.resx</DependentUpon>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -68,11 +68,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Lang\Strings.es.resx">
+    <EmbeddedResource Update="Lang\strings.es.resx">
       <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Lang\Strings.resx">
+    <EmbeddedResource Update="Lang\strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>

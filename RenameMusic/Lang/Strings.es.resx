@@ -126,4 +126,25 @@
   <data name="SETTINGS_RESTORED_MSG" xml:space="preserve">
     <value>Ajustes reestablecidos.</value>
   </data>
+  <data name="CANCEL_BTN" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="APPLY_BTN" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="ADD_FOLDER_BTN" xml:space="preserve">
+    <value>Agregar carpeta</value>
+  </data>
+  <data name="RENAME_FILES_BTN" xml:space="preserve">
+    <value>Renombrar archivos</value>
+  </data>
+  <data name="FILE_NAME_COL" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="NEW_FILE_NAME_COL" xml:space="preserve">
+    <value>Nuevo nombre</value>
+  </data>
+  <data name="TYPE_COL" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
 </root>

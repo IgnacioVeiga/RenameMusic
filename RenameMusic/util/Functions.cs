@@ -43,7 +43,7 @@ namespace RenameMusic
                 <yr> = Year
              */
             string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
-            string fileName = Properties.Settings.Default.criterioCfg;
+            string fileName = Properties.Settings.Default.DefaultTemplate;
 
             if (string.IsNullOrWhiteSpace(pMusic.Tag.Title))
             {
@@ -135,7 +135,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 return new List<string>();
             }
         }

@@ -18,9 +18,9 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                if (string.IsNullOrWhiteSpace(Settings.Default.criterioCfg))
+                if (string.IsNullOrWhiteSpace(Settings.Default.DefaultTemplate))
                 {
-                    Settings.Default.criterioCfg = "<tn>. <t> - <a>";
+                    Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
                     Settings.Default.Save();
                 }
 
@@ -35,7 +35,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
             }
         }
@@ -116,7 +116,7 @@ namespace RenameMusic
             // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -157,11 +157,11 @@ namespace RenameMusic
                 listaCancionesST.Items.Clear();
                 folderList.Items.Clear();
 
-                MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
+                MessageBox.Show(strings.TASK_SUCCESFULL_MSG);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -210,7 +210,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -223,15 +223,15 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void RestoreSettings_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.criterioCfg = "<tn>. <t> - <a>";
+            Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
             Settings.Default.Save();
-            MessageBox.Show(Strings.SETTINGS_RESTORED_MSG);
+            MessageBox.Show(strings.SETTINGS_RESTORED_MSG);
         }
 
         private void listaCancionesCT_SelectionChanged(object sender, SelectionChangedEventArgs e)

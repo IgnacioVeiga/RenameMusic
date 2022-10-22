@@ -69,19 +69,5 @@ namespace RenameMusic.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;tn&gt; = Track Number
-        ///&lt;t&gt; = Title song
-        ///&lt;a&gt; = Album
-        ///&lt;aAt&gt; = Album Artist
-        ///&lt;At&gt; = Artist
-        ///&lt;yr&gt; = Year.
-        /// </summary>
-        public static string Simbols {
-            get {
-                return ResourceManager.GetString("Simbols", resourceCulture);
-            }
-        }
     }
 }

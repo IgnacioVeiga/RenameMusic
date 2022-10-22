@@ -15,12 +15,12 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                template.Text = Settings.Default.criterioCfg;
-                simbols.Text += "\n" + Properties.Resources.Simbols;
+                template.Text = Settings.Default.DefaultTemplate;
+                simbols.Text = "<tn> = Track Number\r\n<t> = Title song\r\n<a> = Album\r\n<aAt> = Album Artist\r\n<At> = Artist\r\n<yr> = Year";
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -48,7 +48,7 @@ namespace RenameMusic
                 if (MyFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
                 {
                     // Guarda cambios en la configuración de la app
-                    Settings.Default.criterioCfg = template.Text;
+                    Settings.Default.DefaultTemplate = template.Text;
                     Settings.Default.Save();
                     MessageBox.Show("Ajuste guardado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
                     Close();
@@ -66,7 +66,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

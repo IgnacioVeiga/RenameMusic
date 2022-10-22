@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RenameMusic"
+        xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
         Title="Configurar criterio"
         MinHeight="250" MinWidth="300"
@@ -11,8 +11,8 @@
         ResizeMode="CanResizeWithGrip">
     <Grid>
         <TextBox x:Name="template" Margin="10,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button Content="Aplicar" HorizontalAlignment="Left" Margin="105,33,0,0" VerticalAlignment="Top" Click="Aplicar_Click"/>
-        <Button Content="Cancelar" HorizontalAlignment="Left" Margin="150,33,0,0" VerticalAlignment="Top" Click="Cancelar_Click"/>
-        <TextBlock x:Name="simbols" Margin="10,58,10,10" Text="Simbolos:" TextWrapping="Wrap"/>
+        <Button Content="{x:Static p:strings.APPLY_BTN}" HorizontalAlignment="Left" Margin="105,33,0,0" VerticalAlignment="Top" Click="Aplicar_Click"/>
+        <Button Content="{x:Static p:strings.CANCEL_BTN}" HorizontalAlignment="Left" Margin="150,33,0,0" VerticalAlignment="Top" Click="Cancelar_Click"/>
+        <TextBlock x:Name="simbols" Margin="10,58,10,10" TextWrapping="Wrap"/>
     </Grid>
 </Window>

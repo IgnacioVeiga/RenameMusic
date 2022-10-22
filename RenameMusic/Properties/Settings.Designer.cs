@@ -26,12 +26,12 @@ namespace RenameMusic.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string criterioCfg {
+        public string DefaultTemplate {
             get {
-                return ((string)(this["criterioCfg"]));
+                return ((string)(this["DefaultTemplate"]));
             }
             set {
-                this["criterioCfg"] = value;
+                this["DefaultTemplate"] = value;
             }
         }
         

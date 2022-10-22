@@ -22,14 +22,14 @@ namespace RenameMusic.Lang {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings {
+    public class strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        internal strings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace RenameMusic.Lang {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RenameMusic.Lang.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RenameMusic.Lang.strings", typeof(strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,34 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TRADUCIR.
+        ///   Looks up a localized string similar to Add folder.
+        /// </summary>
+        public static string ADD_FOLDER_BTN {
+            get {
+                return ResourceManager.GetString("ADD_FOLDER_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string APPLY_BTN {
+            get {
+                return ResourceManager.GetString("APPLY_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string CANCEL_BTN {
+            get {
+                return ResourceManager.GetString("CANCEL_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error has occurred, please notify the developer..
         /// </summary>
         public static string EXCEPTION_MSG {
             get {
@@ -70,7 +97,34 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TRADUCIR.
+        ///   Looks up a localized string similar to File name.
+        /// </summary>
+        public static string FILE_NAME_COL {
+            get {
+                return ResourceManager.GetString("FILE_NAME_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New file name.
+        /// </summary>
+        public static string NEW_FILE_NAME_COL {
+            get {
+                return ResourceManager.GetString("NEW_FILE_NAME_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename files.
+        /// </summary>
+        public static string RENAME_FILES_BTN {
+            get {
+                return ResourceManager.GetString("RENAME_FILES_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings restored..
         /// </summary>
         public static string SETTINGS_RESTORED_MSG {
             get {
@@ -79,11 +133,20 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TRADUCIR.
+        ///   Looks up a localized string similar to Task completed successfully..
         /// </summary>
         public static string TASK_SUCCESFULL_MSG {
             get {
                 return ResourceManager.GetString("TASK_SUCCESFULL_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string TYPE_COL {
+            get {
+                return ResourceManager.GetString("TYPE_COL", resourceCulture);
             }
         }
     }
