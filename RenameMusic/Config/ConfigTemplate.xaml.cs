@@ -24,7 +24,7 @@ namespace RenameMusic
             }
         }
 
-        private void Aplicar_Click(object sender, RoutedEventArgs e)
+        private void ApplyBTN_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace RenameMusic
             }
         }
 
-        private void Cancelar_Click(object sender, RoutedEventArgs e)
+        private void CancelBTN_Click(object sender, RoutedEventArgs e)
         {
             // Descarta los cambios
             Close();

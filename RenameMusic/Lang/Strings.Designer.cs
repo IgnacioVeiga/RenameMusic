@@ -70,6 +70,24 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Album artist.
+        /// </summary>
+        public static string ALBUM_ARTIST_COL {
+            get {
+                return ResourceManager.GetString("ALBUM_ARTIST_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Album.
+        /// </summary>
+        public static string ALBUM_COL {
+            get {
+                return ResourceManager.GetString("ALBUM_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         public static string APPLY_BTN {
@@ -79,11 +97,38 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artist.
+        /// </summary>
+        public static string ARTIST_COL {
+            get {
+                return ResourceManager.GetString("ARTIST_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CANCEL_BTN {
             get {
                 return ResourceManager.GetString("CANCEL_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory.
+        /// </summary>
+        public static string DIRECTORY_COL {
+            get {
+                return ResourceManager.GetString("DIRECTORY_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string DURATION_COL {
+            get {
+                return ResourceManager.GetString("DURATION_COL", resourceCulture);
             }
         }
         
@@ -106,11 +151,38 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Folders.
+        /// </summary>
+        public static string FOLDERS_TAB {
+            get {
+                return ResourceManager.GetString("FOLDERS_TAB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string LOADING_TITLE {
+            get {
+                return ResourceManager.GetString("LOADING_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New file name.
         /// </summary>
         public static string NEW_FILE_NAME_COL {
             get {
                 return ResourceManager.GetString("NEW_FILE_NAME_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No title tag.
+        /// </summary>
+        public static string NO_TITLE_TAG_TAB {
+            get {
+                return ResourceManager.GetString("NO_TITLE_TAG_TAB", resourceCulture);
             }
         }
         
@@ -124,11 +196,29 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore settings.
+        /// </summary>
+        public static string RESTORE_SETTINGS_BTN {
+            get {
+                return ResourceManager.GetString("RESTORE_SETTINGS_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings restored..
         /// </summary>
         public static string SETTINGS_RESTORED_MSG {
             get {
                 return ResourceManager.GetString("SETTINGS_RESTORED_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SETTINGS_TAB {
+            get {
+                return ResourceManager.GetString("SETTINGS_TAB", resourceCulture);
             }
         }
         
@@ -142,11 +232,38 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Template.
+        /// </summary>
+        public static string TEMPLATE_TITILE {
+            get {
+                return ResourceManager.GetString("TEMPLATE_TITILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string TITLE_COL {
+            get {
+                return ResourceManager.GetString("TITLE_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string TYPE_COL {
             get {
                 return ResourceManager.GetString("TYPE_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With tags.
+        /// </summary>
+        public static string WITH_TAGS_TAB {
+            get {
+                return ResourceManager.GetString("WITH_TAGS_TAB", resourceCulture);
             }
         }
     }

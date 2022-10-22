@@ -147,4 +147,43 @@
   <data name="TYPE_COL" xml:space="preserve">
     <value>Tipo</value>
   </data>
+  <data name="TITLE_COL" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="ALBUM_COL" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="LOADING_TITLE" xml:space="preserve">
+    <value>Cargando...</value>
+  </data>
+  <data name="TEMPLATE_TITILE" xml:space="preserve">
+    <value>Plantilla</value>
+  </data>
+  <data name="SETTINGS_TAB" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="ARTIST_COL" xml:space="preserve">
+    <value>Artista</value>
+  </data>
+  <data name="ALBUM_ARTIST_COL" xml:space="preserve">
+    <value>Artista del álbum</value>
+  </data>
+  <data name="DURATION_COL" xml:space="preserve">
+    <value>Duración</value>
+  </data>
+  <data name="FOLDERS_TAB" xml:space="preserve">
+    <value>Carpetas</value>
+  </data>
+  <data name="DIRECTORY_COL" xml:space="preserve">
+    <value>Directorio</value>
+  </data>
+  <data name="RESTORE_SETTINGS_BTN" xml:space="preserve">
+    <value>Reestablecer ajustes</value>
+  </data>
+  <data name="WITH_TAGS_TAB" xml:space="preserve">
+    <value>Con etiquetas</value>
+  </data>
+  <data name="NO_TITLE_TAG_TAB" xml:space="preserve">
+    <value>Sin etiqueta de título</value>
+  </data>
 </root>
