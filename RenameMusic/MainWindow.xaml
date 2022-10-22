@@ -19,8 +19,8 @@
 
         <TabControl x:Name="mainTabs" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,200,50">
 
-            <TabItem x:Name="pCancionesCT" Header="{x:Static p:strings.WITH_TAGS_TAB}" Cursor="Hand">
-                <ListView x:Name="listaCancionesCT" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
+            <TabItem x:Name="withTagsTab" Header="{x:Static p:strings.WITH_TAGS_TAB}" Cursor="Hand">
+                <ListView x:Name="withTagsList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="30">
@@ -44,8 +44,8 @@
                 </ListView>
             </TabItem>
 
-            <TabItem x:Name="pCancionesST" Header="{x:Static p:strings.NO_TITLE_TAG_TAB}" Cursor="Hand">
-                <ListView x:Name="listaCancionesST" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
+            <TabItem x:Name="noTitleTagTab" Header="{x:Static p:strings.NO_TITLE_TAG_TAB}" Cursor="Hand">
+                <ListView x:Name="noTitleTagList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn x:Name="nombreST" Header="{x:Static p:strings.FILE_NAME_COL}" DisplayMemberBinding="{Binding NombreActual}"/>
@@ -57,11 +57,11 @@
                 </ListView>
             </TabItem>
 
-            <TabItem x:Name="pCarpetas" Header="{x:Static p:strings.FOLDERS_TAB}" Cursor="Hand">
+            <TabItem x:Name="foldersTab" Header="{x:Static p:strings.FOLDERS_TAB}" Cursor="Hand">
                 <ListView x:Name="folderList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=10}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn>
+                            <GridViewColumn Width="30">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Width="20" Height="20" Content="X" Cursor="Hand" Click="RemoveFolderItem_Click"/>
@@ -75,7 +75,7 @@
                 </ListView>
             </TabItem>
 
-            <TabItem x:Name="pAjustes" Header="{x:Static p:strings.SETTINGS_TAB}" Cursor="Hand">
+            <TabItem x:Name="settingsTab" Header="{x:Static p:strings.SETTINGS_TAB}" Cursor="Hand">
                 <Grid Cursor="Arrow">
                     <Button Content="{x:Static p:strings.TEMPLATE_TITILE}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="TemplateBTN_Click"/>
                     <Button Content="{x:Static p:strings.RESTORE_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="RestoreSettingsBTN_Click"/>

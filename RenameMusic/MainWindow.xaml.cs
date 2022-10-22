@@ -99,18 +99,18 @@ namespace RenameMusic
                             if (musicItem.NuevoNombre == null)
                             {
                                 // Agrego el item a la tabla "SIN tags"
-                                listaCancionesST.Items.Add(musicItem);
+                                noTitleTagList.Items.Add(musicItem);
                             }
                             else
                             {
                                 // Agrego el item a la tabla "CON tags"
-                                listaCancionesCT.Items.Add(musicItem);
+                                withTagsList.Items.Add(musicItem);
                             }
                         }
                     }
                 }
 
-                renameFilesBTN.IsEnabled = (listaCancionesCT.Items.Count > 0) ? true : false;
+                renameFilesBTN.IsEnabled = (withTagsList.Items.Count > 0) ? true : false;
             }
 
             // TODO: generar un archivo de log con todos los errores y encriptarlo
@@ -127,7 +127,7 @@ namespace RenameMusic
                 // Reviso la tabla de carpetas
                 foreach (MusicFolder folderItem in folderList.Items)
                 {
-                    foreach (MusicFile mFileItem in listaCancionesCT.Items)
+                    foreach (MusicFile mFileItem in withTagsList.Items)
                     {
                         // Solo se trabaja con los items con los "checkboxes" marcados, tambíen hay que asegurarse que todavia existe el archivo a trabajar
                         if (mFileItem.Activo && mFileItem.CarpetaId == folderItem.CancionesId && File.Exists(folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato))
@@ -138,10 +138,9 @@ namespace RenameMusic
                         }
                     }
                 }
-
                 renameFilesBTN.IsEnabled = false;
-                listaCancionesCT.Items.Clear();
-                listaCancionesST.Items.Clear();
+                withTagsList.Items.Clear();
+                noTitleTagList.Items.Clear();
                 folderList.Items.Clear();
 
                 MessageBox.Show(strings.TASK_SUCCESFULL_MSG);
@@ -159,11 +158,11 @@ namespace RenameMusic
                 // Obtengo el id de los archivos asociados a la carpeta seleccionada
                 string id = ((MusicFolder)((Button)sender).DataContext).CancionesId;
 
-                for (int i = 0; i < listaCancionesCT.Items.Count;)
+                for (int i = 0; i < withTagsList.Items.Count;)
                 {
-                    if (((MusicFile)listaCancionesCT.Items[i]).CarpetaId.Equals(id))
+                    if (((MusicFile)withTagsList.Items[i]).CarpetaId.Equals(id))
                     {
-                        listaCancionesCT.Items.RemoveAt(i);
+                        withTagsList.Items.RemoveAt(i);
                     }
                     else
                     {
@@ -171,11 +170,11 @@ namespace RenameMusic
                     }
                 }
 
-                for (int i = 0; i < listaCancionesST.Items.Count;)
+                for (int i = 0; i < noTitleTagList.Items.Count;)
                 {
-                    if (((MusicFile)listaCancionesST.Items[i]).CarpetaId == id)
+                    if (((MusicFile)noTitleTagList.Items[i]).CarpetaId == id)
                     {
-                        listaCancionesST.Items.RemoveAt(i);
+                        noTitleTagList.Items.RemoveAt(i);
                     }
                     else
                     {
@@ -195,7 +194,7 @@ namespace RenameMusic
                     }
                 }
 
-                renameFilesBTN.IsEnabled = (listaCancionesCT.Items.Count > 0) ? true : false;
+                renameFilesBTN.IsEnabled = (withTagsList.Items.Count > 0) ? true : false;
             }
             catch (Exception ex)
             {

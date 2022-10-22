@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using RenameMusic.Lang;
 
 namespace RenameMusic
 {
@@ -13,7 +14,7 @@ namespace RenameMusic
         App()
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
-            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es"); 
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es");
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -26,7 +27,7 @@ namespace RenameMusic
             }
             else
             {
-                MessageBox.Show("No se permiten multiples instancias de este programa");
+                MessageBox.Show(strings.MULTI_INSTANCE_MSG);
                 Current.Shutdown();
             }
             base.OnStartup(e);

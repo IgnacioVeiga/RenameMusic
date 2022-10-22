@@ -186,4 +186,7 @@
   <data name="NO_TITLE_TAG_TAB" xml:space="preserve">
     <value>Sin etiqueta de título</value>
   </data>
+  <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
+    <value>No se permiten múltiples instancias de este programa.</value>
+  </data>
 </root>

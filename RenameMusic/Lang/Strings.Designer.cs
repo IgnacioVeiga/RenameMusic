@@ -169,6 +169,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multiple instances of this program are not allowed..
+        /// </summary>
+        public static string MULTI_INSTANCE_MSG {
+            get {
+                return ResourceManager.GetString("MULTI_INSTANCE_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New file name.
         /// </summary>
         public static string NEW_FILE_NAME_COL {
