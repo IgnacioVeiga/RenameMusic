@@ -19,12 +19,6 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                if (string.IsNullOrWhiteSpace(Settings.Default.DefaultTemplate))
-                {
-                    Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
-                    Settings.Default.Save();
-                }
-
                 infoTags.Text = "";
                 pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
 
@@ -77,7 +71,7 @@ namespace RenameMusic
                         {
 
                             // Obtengo el nombre y formato para usarlo más adelante
-                            string fileName = rutaArchivo.Substring(rutaArchivo.LastIndexOf(@"\") + 1);
+                            string fileName = rutaArchivo[(rutaArchivo.LastIndexOf(@"\") + 1)..];
 
                             MusicFile musicItem = new()
                             {
@@ -148,6 +142,33 @@ namespace RenameMusic
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            pictures.Source = null;
+            if ((MusicFile)((ListView)sender).SelectedItem == null)
+            {
+                pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
+                return;
+            }
+
+            if (((MusicFile)((ListView)sender).SelectedItem).Pictures.Length >= 1)
+            {
+                TagLib.IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
+
+                // Load you image data in MemoryStream
+                MemoryStream ms = new(pic.Data.Data);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                // ImageSource for System.Windows.Controls.Image
+                BitmapImage bitmap = new();
+                bitmap.BeginInit();
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+
+                pictures.Source = bitmap;
             }
         }
 
@@ -222,31 +243,19 @@ namespace RenameMusic
             MessageBox.Show(strings.SETTINGS_RESTORED_MSG);
         }
 
-        private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            pictures.Source = null;
-            if ((MusicFile)((ListView)sender).SelectedItem == null)
-            {
-                pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
-                return;
-            }
+            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+        }
 
-            if (((MusicFile)((ListView)sender).SelectedItem).Pictures.Length >= 1)
-            {
-                TagLib.IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
+        private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+        }
 
-                // Load you image data in MemoryStream
-                MemoryStream ms = new(pic.Data.Data);
-                ms.Seek(0, SeekOrigin.Begin);
-
-                // ImageSource for System.Windows.Controls.Image
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
-
-                pictures.Source = bitmap;
-            }
+        private void ChangeLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
         }
     }
 }

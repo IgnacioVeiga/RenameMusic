@@ -115,6 +115,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change language.
+        /// </summary>
+        public static string CHANGE_LANG_BTN {
+            get {
+                return ResourceManager.GetString("CHANGE_LANG_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Directory.
         /// </summary>
         public static string DIRECTORY_COL {
@@ -142,6 +151,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string EXPORT_SETTINGS_BTN {
+            get {
+                return ResourceManager.GetString("EXPORT_SETTINGS_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File name.
         /// </summary>
         public static string FILE_NAME_COL {
@@ -151,11 +169,29 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File not found..
+        /// </summary>
+        public static string FILE_NOT_FOUND_MSG {
+            get {
+                return ResourceManager.GetString("FILE_NOT_FOUND_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Folders.
         /// </summary>
         public static string FOLDERS_TAB {
             get {
                 return ResourceManager.GetString("FOLDERS_TAB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        public static string IMPORT_SETTINGS_BTN {
+            get {
+                return ResourceManager.GetString("IMPORT_SETTINGS_BTN", resourceCulture);
             }
         }
         
@@ -196,6 +232,24 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Function not implemented yet..
+        /// </summary>
+        public static string NOT_IMPLEMENTED_MSG {
+            get {
+                return ResourceManager.GetString("NOT_IMPLEMENTED_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        public static string RENAME_BTN {
+            get {
+                return ResourceManager.GetString("RENAME_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename files.
         /// </summary>
         public static string RENAME_FILES_BTN {
@@ -205,7 +259,25 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restore settings.
+        ///   Looks up a localized string similar to Repeated file.
+        /// </summary>
+        public static string REPEATED_FILE_TITLE {
+            get {
+                return ResourceManager.GetString("REPEATED_FILE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace.
+        /// </summary>
+        public static string REPLACE_BTN {
+            get {
+                return ResourceManager.GetString("REPLACE_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore.
         /// </summary>
         public static string RESTORE_SETTINGS_BTN {
             get {
@@ -228,6 +300,15 @@ namespace RenameMusic.Lang {
         public static string SETTINGS_TAB {
             get {
                 return ResourceManager.GetString("SETTINGS_TAB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip.
+        /// </summary>
+        public static string SKIP_BTN {
+            get {
+                return ResourceManager.GetString("SKIP_BTN", resourceCulture);
             }
         }
         

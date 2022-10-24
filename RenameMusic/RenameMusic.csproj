@@ -45,15 +45,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Lang\Strings.es.Designer.cs">
-      <DependentUpon>strings.es.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Lang\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Lang\Strings.es.Designer.cs">
+      <DependentUpon>strings.es.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -74,7 +74,7 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Lang\strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

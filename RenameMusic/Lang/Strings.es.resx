@@ -178,7 +178,7 @@
     <value>Directorio</value>
   </data>
   <data name="RESTORE_SETTINGS_BTN" xml:space="preserve">
-    <value>Reestablecer ajustes</value>
+    <value>Reestablecer</value>
   </data>
   <data name="WITH_TAGS_TAB" xml:space="preserve">
     <value>Con etiquetas</value>
@@ -188,5 +188,32 @@
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>No se permiten múltiples instancias de este programa.</value>
+  </data>
+  <data name="FILE_NOT_FOUND_MSG" xml:space="preserve">
+    <value>Archivo no encontrado.</value>
+  </data>
+  <data name="REPLACE_BTN" xml:space="preserve">
+    <value>Reemplazar</value>
+  </data>
+  <data name="SKIP_BTN" xml:space="preserve">
+    <value>Omitir</value>
+  </data>
+  <data name="RENAME_BTN" xml:space="preserve">
+    <value>Renombrar</value>
+  </data>
+  <data name="REPEATED_FILE_TITLE" xml:space="preserve">
+    <value>Archivo repetido</value>
+  </data>
+  <data name="IMPORT_SETTINGS_BTN" xml:space="preserve">
+    <value>Importar</value>
+  </data>
+  <data name="EXPORT_SETTINGS_BTN" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
+    <value>Función no implementada aún.</value>
+  </data>
+  <data name="CHANGE_LANG_BTN" xml:space="preserve">
+    <value>Cambiar idioma</value>
   </data>
 </root>

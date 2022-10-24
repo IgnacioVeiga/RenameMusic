@@ -46,5 +46,17 @@ namespace RenameMusic.Properties {
                 this["lang"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RepeatedFileRememberChoice {
+            get {
+                return ((bool)(this["RepeatedFileRememberChoice"]));
+            }
+            set {
+                this["RepeatedFileRememberChoice"] = value;
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@
         <TabControl x:Name="mainTabs" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,200,50">
 
             <TabItem x:Name="withTagsTab" Header="{x:Static p:strings.WITH_TAGS_TAB}" Cursor="Hand">
-                <ListView x:Name="withTagsList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
+                <ListView x:Name="withTagsList" Margin="10,10,10,10" Cursor="Arrow" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="30">
@@ -77,10 +77,18 @@
 
             <TabItem x:Name="settingsTab" Header="{x:Static p:strings.SETTINGS_TAB}" Cursor="Hand">
                 <Grid Cursor="Arrow">
-                    <Button Content="{x:Static p:strings.TEMPLATE_TITILE}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="TemplateBTN_Click"/>
-                    <Button Content="{x:Static p:strings.RESTORE_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="RestoreSettingsBTN_Click"/>
-                    <!--<Button Content="Importar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Width="200" Height="30" Cursor="Hand"/>
-                    <Button Content="Exportar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,45,0,0" Width="200" Height="30" Cursor="Hand"/>-->
+                    <Button Content="{x:Static p:strings.TEMPLATE_TITILE}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,45,0,0" Width="200" Height="30" Cursor="Hand" Click="TemplateBTN_Click"/>
+                    <Button Content="{x:Static p:strings.RESTORE_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="RestoreSettingsBTN_Click"/>
+                    <Button Content="{x:Static p:strings.IMPORT_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ImportSettingsBTN_Click"/>
+                    <Button Content="{x:Static p:strings.EXPORT_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ExportSettingsBTN_Click"/>
+                    <Button Content="{x:Static p:strings.CHANGE_LANG_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Width="200" Height="30" Cursor="Hand" Click="ChangeLanguage_Click"/>
+                    
+                    <ComboBox Visibility="Hidden" HorizontalAlignment="Left" Margin="460,49,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+                        <ComboBoxItem Content="Preguntar"/>
+                        <ComboBoxItem Content="Renombrar"/>
+                        <ComboBoxItem Content="Omitir"/>
+                        <ComboBoxItem Content="Reemplazar"/>
+                    </ComboBox>
                 </Grid>
             </TabItem>
         </TabControl>
