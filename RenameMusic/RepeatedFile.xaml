@@ -4,24 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
-        Width="680" MinHeight="250" mc:Ignorable="d" Title="{x:Static p:strings.REPEATED_FILE_TITLE}"
+        Width="680" MinHeight="240" mc:Ignorable="d" Title="{x:Static p:strings.REPEATED_FILE_TITLE}"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Content="El siguiente archivo:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" FontSize="12"/>
-        <Label x:Name="currentName" HorizontalAlignment="Left" Margin="220,5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Content="-"/>
+        <Label Content="{x:Static p:strings.FILE_REPEATED_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0" FontSize="12"/>
 
-        <Label Content="Se estaba por renombrar como:" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" FontSize="12"/>
-        <Label x:Name="newName" HorizontalAlignment="Left" Margin="220,40,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Content="-"/>
+        <Label Content="{x:Static p:strings.CURRENT_FILE_NAME_MSG}" HorizontalAlignment="Left" Margin="15,40,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
+        <Label x:Name="currentName" HorizontalAlignment="Left" Margin="140,40,0,0" VerticalAlignment="Top" FontSize="12"/>
 
-        <Label Content="Pero en su carpeta:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0" FontSize="12"/>
-        <Label x:Name="path" HorizontalAlignment="Left" Margin="220,70,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Content="-"/>
+        <Label Content="{x:Static p:strings.NEW_FILE_NAME_MSG}" HorizontalAlignment="Left" Margin="15,70,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
+        <Label x:Name="newName" HorizontalAlignment="Left" Margin="140,70,0,0" VerticalAlignment="Top" FontSize="12"/>
 
-        <Label Content="Ya existe un archivo con ese nuevo nombre ¿Cómo desea continuar?" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,105,0,0" FontSize="12"/>
+        <Label Content="{x:Static p:strings.LOCATION_MSG}" HorizontalAlignment="Left" Margin="15,100,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
+        <Label x:Name="location" HorizontalAlignment="Left" Margin="140,100,0,0" VerticalAlignment="Top" FontSize="12"/>
 
-        <CheckBox x:Name="rememberChoice" Content="Mantener mi eleccion con los próximos archivos" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,140,0,0" Height="24" Width="280" Cursor="Hand" Visibility="Hidden" Click="rememberChoice_Click"/>
+        <CheckBox x:Name="keepChoice" Content="{x:Static p:strings.KEEP_MY_CHOICE_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,130,0,0" Height="24" Width="300" Cursor="Hand" Click="RememberChoice_Click"/>
 
-        <Button Content="{x:Static p:strings.REPLACE_BTN}" HorizontalAlignment="Center" Margin="300,175,0,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="ReplaceBTN_Click"/>
-        <Button Content="{x:Static p:strings.SKIP_BTN}" HorizontalAlignment="Center" Margin="0,175,0,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="SkipBTN_Click"/>
-        <Button Content="{x:Static p:strings.RENAME_BTN}" HorizontalAlignment="Center" Margin="0,175,300,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="RenameBTN_Click"/>
+        <Button Content="{x:Static p:strings.REPLACE_BTN}" HorizontalAlignment="Center" Margin="0,160,260,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="ReplaceBTN_Click"/>
+        <Button Content="{x:Static p:strings.SKIP_BTN}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="SkipBTN_Click"/>
+        <Button Content="{x:Static p:strings.RENAME_BTN}" HorizontalAlignment="Center" Margin="260,160,0,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="RenameBTN_Click"/>
     </Grid>
 </Window>

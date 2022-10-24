@@ -12,6 +12,9 @@ Por ejemplo: tengo una canción con el nombre `AUD-01230101-WA0123.mp3` pero est
 - [x] Definir la posición de los "tags" como nombre
 - [x] Tener un criterio predeterminado para las posiciones
 - [x] Mostrar caratulas de los archivos
+- [x] Reconocer archivos de formato mp3, m4a y ogg
+
+## Incompleto:
 - [ ] Soporte para más de un idioma.
 - [ ] Permitir ordenar la lista.
 - [ ] Reproducir el archivo desde esta app o una externa.

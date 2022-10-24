@@ -6,7 +6,7 @@
         xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
         MinHeight="540" MinWidth="960"
-        SizeToContent="WidthAndHeight" 
+        SizeToContent="Manual" 
         ResizeMode="CanResizeWithGrip"
         Title="Rename Music" Foreground="#FF222222" Background="#FF999999">
 

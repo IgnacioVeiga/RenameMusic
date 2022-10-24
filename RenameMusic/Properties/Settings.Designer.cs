@@ -37,7 +37,7 @@ namespace RenameMusic.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("es")]
+        [global::System.Configuration.DefaultSettingValueAttribute("en")]
         public string lang {
             get {
                 return ((string)(this["lang"]));
@@ -50,12 +50,12 @@ namespace RenameMusic.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RepeatedFileRememberChoice {
+        public bool RepeatedFileKeepChoice {
             get {
-                return ((bool)(this["RepeatedFileRememberChoice"]));
+                return ((bool)(this["RepeatedFileKeepChoice"]));
             }
             set {
-                this["RepeatedFileRememberChoice"] = value;
+                this["RepeatedFileKeepChoice"] = value;
             }
         }
     }

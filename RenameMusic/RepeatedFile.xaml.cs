@@ -1,4 +1,5 @@
 ﻿using RenameMusic.Lang;
+using RenameMusic.Properties;
 using System;
 using System.IO;
 using System.Windows;
@@ -16,14 +17,14 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                rememberChoice.IsChecked = Properties.Settings.Default.RepeatedFileRememberChoice;
+                keepChoice.IsChecked = Settings.Default.RepeatedFileKeepChoice;
 
                 // Nombres sin la ubicación y con formato
                 currentName.Content = pOldFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
                 newName.Content = pNewFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
                 
                 // La ubicación
-                path.Content = pOldFileName.Substring(0, pOldFileName.LastIndexOf(@"\") + 1);
+                location.Content = pOldFileName[..(pOldFileName.LastIndexOf(@"\") + 1)];
             }
             catch (Exception ex)
             {
@@ -36,11 +37,11 @@ namespace RenameMusic
             try
             {
                 // Verificar si el archivo sigue existiendo luego de esta pausa.
-                if (File.Exists((string)path.Content + (string)newName.Content))
+                if (File.Exists((string)location.Content + (string)newName.Content))
                 {
-                    File.Delete((string)path.Content + (string)newName.Content);
-                    File.Move((string)path.Content + (string)currentName.Content,
-                        (string)path.Content + (string)newName.Content);
+                    File.Delete((string)location.Content + (string)newName.Content);
+                    File.Move((string)location.Content + (string)currentName.Content,
+                        (string)location.Content + (string)newName.Content);
                 }
                 else
                 {
@@ -64,14 +65,14 @@ namespace RenameMusic
             try
             {
                 int num = 2;
-                string pathAndName = path.Content.ToString() + newName.Content.ToString()[..^4];
-                string type = newName.Content.ToString().Substring(newName.Content.ToString().Length - 4);
+                string pathAndName = location.Content.ToString() + newName.Content.ToString()[..^4];
+                string type = newName.Content.ToString()[^4..];
                 while (File.Exists($"{pathAndName} ({num}){type}"))
                 {
-                    num += 1; // se incrementa en 1 en cada ciclo
+                    num += 1;
                 }
 
-                File.Move(path.Content.ToString() + currentName.Content.ToString(), $"{pathAndName} ({num}){type}");
+                File.Move(location.Content.ToString() + currentName.Content.ToString(), $"{pathAndName} ({num}){type}");
 
             }
             catch (Exception ex)
@@ -81,9 +82,9 @@ namespace RenameMusic
             Close();
         }
 
-        private void rememberChoice_Click(object sender, RoutedEventArgs e)
+        private void RememberChoice_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.RepeatedFileRememberChoice = (bool)rememberChoice.IsChecked;
+            Settings.Default.RepeatedFileKeepChoice = (bool)keepChoice.IsChecked;
         }
     }
 }

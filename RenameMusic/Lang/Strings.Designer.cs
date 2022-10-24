@@ -70,6 +70,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add folder.
+        /// </summary>
+        public static string ADD_FOLDER_TITLE {
+            get {
+                return ResourceManager.GetString("ADD_FOLDER_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album artist.
         /// </summary>
         public static string ALBUM_ARTIST_COL {
@@ -120,6 +129,15 @@ namespace RenameMusic.Lang {
         public static string CHANGE_LANG_BTN {
             get {
                 return ResourceManager.GetString("CHANGE_LANG_BTN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current name:.
+        /// </summary>
+        public static string CURRENT_FILE_NAME_MSG {
+            get {
+                return ResourceManager.GetString("CURRENT_FILE_NAME_MSG", resourceCulture);
             }
         }
         
@@ -178,6 +196,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is already a file with the same name in this location. How do you want to continue?.
+        /// </summary>
+        public static string FILE_REPEATED_MSG {
+            get {
+                return ResourceManager.GetString("FILE_REPEATED_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Folders.
         /// </summary>
         public static string FOLDERS_TAB {
@@ -196,11 +223,29 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keep my choice with the next files..
+        /// </summary>
+        public static string KEEP_MY_CHOICE_MSG {
+            get {
+                return ResourceManager.GetString("KEEP_MY_CHOICE_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string LOADING_TITLE {
             get {
                 return ResourceManager.GetString("LOADING_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location:.
+        /// </summary>
+        public static string LOCATION_MSG {
+            get {
+                return ResourceManager.GetString("LOCATION_MSG", resourceCulture);
             }
         }
         
@@ -219,6 +264,15 @@ namespace RenameMusic.Lang {
         public static string NEW_FILE_NAME_COL {
             get {
                 return ResourceManager.GetString("NEW_FILE_NAME_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New name:.
+        /// </summary>
+        public static string NEW_FILE_NAME_MSG {
+            get {
+                return ResourceManager.GetString("NEW_FILE_NAME_MSG", resourceCulture);
             }
         }
         

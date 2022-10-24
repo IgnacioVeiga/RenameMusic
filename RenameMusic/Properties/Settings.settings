@@ -6,9 +6,9 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="lang" Type="System.String" Scope="User">
-      <Value Profile="(Default)">es</Value>
+      <Value Profile="(Default)">en</Value>
     </Setting>
-    <Setting Name="RepeatedFileRememberChoice" Type="System.Boolean" Scope="User">
+    <Setting Name="RepeatedFileKeepChoice" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

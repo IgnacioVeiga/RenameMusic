@@ -216,4 +216,22 @@
   <data name="CHANGE_LANG_BTN" xml:space="preserve">
     <value>Change language</value>
   </data>
+  <data name="ADD_FOLDER_TITLE" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="FILE_REPEATED_MSG" xml:space="preserve">
+    <value>There is already a file with the same name in this location. How do you want to continue?</value>
+  </data>
+  <data name="KEEP_MY_CHOICE_MSG" xml:space="preserve">
+    <value>Keep my choice with the next files.</value>
+  </data>
+  <data name="LOCATION_MSG" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="NEW_FILE_NAME_MSG" xml:space="preserve">
+    <value>New name:</value>
+  </data>
+  <data name="CURRENT_FILE_NAME_MSG" xml:space="preserve">
+    <value>Current name:</value>
+  </data>
 </root>
