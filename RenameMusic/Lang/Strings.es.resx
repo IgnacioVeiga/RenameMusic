@@ -126,4 +126,112 @@
   <data name="SETTINGS_RESTORED_MSG" xml:space="preserve">
     <value>Ajustes reestablecidos.</value>
   </data>
+  <data name="CANCEL_BTN" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="APPLY_BTN" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="ADD_FOLDER_BTN" xml:space="preserve">
+    <value>Agregar carpeta</value>
+  </data>
+  <data name="RENAME_FILES_BTN" xml:space="preserve">
+    <value>Renombrar archivos</value>
+  </data>
+  <data name="FILE_NAME_COL" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="NEW_FILE_NAME_COL" xml:space="preserve">
+    <value>Nuevo nombre</value>
+  </data>
+  <data name="TYPE_COL" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="TITLE_COL" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="ALBUM_COL" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="LOADING_TITLE" xml:space="preserve">
+    <value>Cargando...</value>
+  </data>
+  <data name="TEMPLATE_TITILE" xml:space="preserve">
+    <value>Plantilla</value>
+  </data>
+  <data name="SETTINGS_TAB" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="ARTIST_COL" xml:space="preserve">
+    <value>Artista</value>
+  </data>
+  <data name="ALBUM_ARTIST_COL" xml:space="preserve">
+    <value>Artista del álbum</value>
+  </data>
+  <data name="DURATION_COL" xml:space="preserve">
+    <value>Duración</value>
+  </data>
+  <data name="FOLDERS_TAB" xml:space="preserve">
+    <value>Carpetas</value>
+  </data>
+  <data name="DIRECTORY_COL" xml:space="preserve">
+    <value>Directorio</value>
+  </data>
+  <data name="RESTORE_SETTINGS_BTN" xml:space="preserve">
+    <value>Reestablecer</value>
+  </data>
+  <data name="WITH_TAGS_TAB" xml:space="preserve">
+    <value>Con etiquetas</value>
+  </data>
+  <data name="NO_TITLE_TAG_TAB" xml:space="preserve">
+    <value>Sin etiqueta de título</value>
+  </data>
+  <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
+    <value>No se permiten múltiples instancias de este programa.</value>
+  </data>
+  <data name="FILE_NOT_FOUND_MSG" xml:space="preserve">
+    <value>Archivo no encontrado.</value>
+  </data>
+  <data name="REPLACE_BTN" xml:space="preserve">
+    <value>Reemplazar</value>
+  </data>
+  <data name="SKIP_BTN" xml:space="preserve">
+    <value>Omitir</value>
+  </data>
+  <data name="RENAME_BTN" xml:space="preserve">
+    <value>Renombrar</value>
+  </data>
+  <data name="REPEATED_FILE_TITLE" xml:space="preserve">
+    <value>Archivo repetido</value>
+  </data>
+  <data name="IMPORT_SETTINGS_BTN" xml:space="preserve">
+    <value>Importar</value>
+  </data>
+  <data name="EXPORT_SETTINGS_BTN" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
+    <value>Función no implementada aún.</value>
+  </data>
+  <data name="CHANGE_LANG_BTN" xml:space="preserve">
+    <value>Cambiar idioma</value>
+  </data>
+  <data name="ADD_FOLDER_TITLE" xml:space="preserve">
+    <value>Añadir carpetas</value>
+  </data>
+  <data name="FILE_REPEATED_MSG" xml:space="preserve">
+    <value>Ya existe un archivo con el mismo nombre en esta ubicación ¿Cómo desea continuar?</value>
+  </data>
+  <data name="KEEP_MY_CHOICE_MSG" xml:space="preserve">
+    <value>Mantener mí elección con los próximos archivos.</value>
+  </data>
+  <data name="LOCATION_MSG" xml:space="preserve">
+    <value>Ubicación:</value>
+  </data>
+  <data name="NEW_FILE_NAME_MSG" xml:space="preserve">
+    <value>Nuevo nombre:</value>
+  </data>
+  <data name="CURRENT_FILE_NAME_MSG" xml:space="preserve">
+    <value>Nombre actual:</value>
+  </data>
 </root>

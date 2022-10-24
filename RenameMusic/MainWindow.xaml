@@ -3,83 +3,92 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
         MinHeight="540" MinWidth="960"
-        SizeToContent="WidthAndHeight" 
+        SizeToContent="Manual" 
         ResizeMode="CanResizeWithGrip"
         Title="Rename Music" Foreground="#FF222222" Background="#FF999999">
 
     <Grid>
-        <Button Content="Añadir carpeta" HorizontalAlignment="Left" Margin="100,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AñadirCarpeta_Click"/>
-        <Button Content="Renombrar archivos" HorizontalAlignment="Right" Margin="0,0,300,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenombrarArchivos_Click"/>
+        <Button Content="{x:Static p:strings.ADD_FOLDER_BTN}" HorizontalAlignment="Left" Margin="100,0,0,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="AddFolderBTN_Click"/>
+        <Button x:Name="renameFilesBTN" Content="{x:Static p:strings.RENAME_FILES_BTN}" HorizontalAlignment="Right" Margin="0,0,300,10" VerticalAlignment="Bottom" Width="200" Height="30" Cursor="Hand" Click="RenameFilesBTN_Click" IsEnabled="False"/>
 
         <Image x:Name="pictures" HorizontalAlignment="Right" Height="170" Margin="0,30,10,0" VerticalAlignment="Top" Width="170" Source="{Binding Pictures}" Cursor="Hand"/>
-        <TextBlock x:Name="infoTags" HorizontalAlignment="Right" Margin="0,0,10,50" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="245" Width="170" Cursor="IBeam"/>
+        <TextBlock x:Name="infoTags" HorizontalAlignment="Right" Margin="0,0,10,50" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="245" Width="170" Cursor="IBeam"/>
 
-        <TabControl x:Name="pestañas" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,200,50">
+        <TabControl x:Name="mainTabs" Cursor="Hand" HorizontalAlignment="Stretch" Margin="0,0,200,50">
 
-            <TabItem x:Name="pCancionesCT" Header="Canciones CON tags" Cursor="Hand">
-                <ListView x:Name="listaCancionesCT" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="listaCancionesCT_SelectionChanged">
+            <TabItem x:Name="withTagsTab" Header="{x:Static p:strings.WITH_TAGS_TAB}" Cursor="Hand">
+                <ListView x:Name="withTagsList" Margin="10,10,10,10" Cursor="Arrow" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Marcar">
+                            <GridViewColumn Width="30">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox x:Name="activo" IsChecked="{Binding Activo}" Cursor="Hand"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn x:Name="nombreActualCT" Header="Nombre actual" DisplayMemberBinding="{Binding NombreActual}"/>
-                            <GridViewColumn x:Name="nuevoNombreCT" Header="Nuevo nombre" DisplayMemberBinding="{Binding NuevoNombre}"/>
-                            <GridViewColumn x:Name="formatoCT" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
-                            <GridViewColumn x:Name="duracionCT" Header="Duración" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
-                            <GridViewColumn x:Name="titulo" Header="Titulo" DisplayMemberBinding="{Binding Titulo}"/>
-                            <GridViewColumn x:Name="album" Header="Album" DisplayMemberBinding="{Binding Album}"/>
-                            <GridViewColumn x:Name="artista" Header="Artista" DisplayMemberBinding="{Binding Artista}"/>
-                            <GridViewColumn x:Name="albumArtista" Header="Album artista" DisplayMemberBinding="{Binding AlbumArtista}"/>
+                            <GridViewColumn x:Name="nombreActualCT" Header="{x:Static p:strings.FILE_NAME_COL}" DisplayMemberBinding="{Binding NombreActual}"/>
+                            <GridViewColumn x:Name="nuevoNombreCT" Header="{x:Static p:strings.NEW_FILE_NAME_COL}" DisplayMemberBinding="{Binding NuevoNombre}"/>
+                            <GridViewColumn x:Name="formatoCT" Header="{x:Static p:strings.TYPE_COL}" DisplayMemberBinding="{Binding Formato}"/>
+                            <GridViewColumn x:Name="duracionCT" Header="{x:Static p:strings.DURATION_COL}" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
+                            <GridViewColumn x:Name="titulo" Header="{x:Static p:strings.TITLE_COL}" DisplayMemberBinding="{Binding Titulo}"/>
+                            <GridViewColumn x:Name="album" Header="{x:Static p:strings.ALBUM_COL}" DisplayMemberBinding="{Binding Album}"/>
+                            <GridViewColumn x:Name="artista" Header="{x:Static p:strings.ARTIST_COL}" DisplayMemberBinding="{Binding Artista}"/>
+                            <GridViewColumn x:Name="albumArtista" Header="{x:Static p:strings.ALBUM_ARTIST_COL}" DisplayMemberBinding="{Binding AlbumArtista}"/>
                             <!--<GridViewColumn x:Name="idCarpetaCT" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
-            <TabItem x:Name="pCancionesST" Header="Canciones SIN tags" Cursor="Hand">
-                <ListView x:Name="listaCancionesST" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
+            <TabItem x:Name="noTitleTagTab" Header="{x:Static p:strings.NO_TITLE_TAG_TAB}" Cursor="Hand">
+                <ListView x:Name="noTitleTagList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn x:Name="nombreST" Header="Nombre" DisplayMemberBinding="{Binding NombreActual}"/>
-                            <GridViewColumn x:Name="formatoST" Header="Formato" DisplayMemberBinding="{Binding Formato}"/>
-                            <GridViewColumn x:Name="duracionST" Header="Duración" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
+                            <GridViewColumn x:Name="nombreST" Header="{x:Static p:strings.FILE_NAME_COL}" DisplayMemberBinding="{Binding NombreActual}"/>
+                            <GridViewColumn x:Name="formatoST" Header="{x:Static p:strings.TYPE_COL}" DisplayMemberBinding="{Binding Formato}"/>
+                            <GridViewColumn x:Name="duracionST" Header="{x:Static p:strings.DURATION_COL}" DisplayMemberBinding="{Binding Duracion, StringFormat=hh\\:mm\\:ss}"/>
                             <!--<GridViewColumn x:Name="idCarpetaST" Header="Id" DisplayMemberBinding="{Binding CarpetaId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
-            <TabItem x:Name="pCarpetas" Header="Carpetas añadidas" Cursor="Hand">
-                <ListView x:Name="folderList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <TabItem x:Name="foldersTab" Header="{x:Static p:strings.FOLDERS_TAB}" Cursor="Hand">
+                <ListView x:Name="folderList" Margin="10,10,10,10" Cursor="Arrow" d:ItemsSource="{d:SampleData ItemCount=10}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Quitar">
+                            <GridViewColumn Width="30">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="quitar" Width="20" Height="20" Content="X" Cursor="Hand" Click="quitar_Click"/>
+                                        <Button Width="20" Height="20" Content="X" Cursor="Hand" Click="RemoveFolderItem_Click"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn x:Name="ruta" Header="Ruta" DisplayMemberBinding="{Binding Ruta}"/>
+                            <GridViewColumn x:Name="ruta" Header="{x:Static p:strings.DIRECTORY_COL}" DisplayMemberBinding="{Binding Ruta}"/>
                             <!--<GridViewColumn x:Name="idCanciones" Header="Id" DisplayMemberBinding="{Binding CancionesId}"/>-->
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
-            <TabItem x:Name="pAjustes" Header="Ajustes" Cursor="Hand">
+            <TabItem x:Name="settingsTab" Header="{x:Static p:strings.SETTINGS_TAB}" Cursor="Hand">
                 <Grid Cursor="Arrow">
-                    <Button Content="Configurar criterio" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ConfigTemplate_Click"/>
-                    <Button Content="Reestablecer ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="RestoreSettings_Click"/>
-                    <Button Content="Importar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Width="200" Height="30" Cursor="Hand"/>
-                    <Button Content="Exportar ajustes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,45,0,0" Width="200" Height="30" Cursor="Hand"/>
+                    <Button Content="{x:Static p:strings.TEMPLATE_TITILE}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,45,0,0" Width="200" Height="30" Cursor="Hand" Click="TemplateBTN_Click"/>
+                    <Button Content="{x:Static p:strings.RESTORE_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200" Height="30" Cursor="Hand" Click="RestoreSettingsBTN_Click"/>
+                    <Button Content="{x:Static p:strings.IMPORT_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ImportSettingsBTN_Click"/>
+                    <Button Content="{x:Static p:strings.EXPORT_SETTINGS_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,10,0,0" Width="200" Height="30" Cursor="Hand" Click="ExportSettingsBTN_Click"/>
+                    <Button Content="{x:Static p:strings.CHANGE_LANG_BTN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Width="200" Height="30" Cursor="Hand" Click="ChangeLanguage_Click"/>
+                    
+                    <ComboBox Visibility="Hidden" HorizontalAlignment="Left" Margin="460,49,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+                        <ComboBoxItem Content="Preguntar"/>
+                        <ComboBoxItem Content="Renombrar"/>
+                        <ComboBoxItem Content="Omitir"/>
+                        <ComboBoxItem Content="Reemplazar"/>
+                    </ComboBox>
                 </Grid>
             </TabItem>
         </TabControl>

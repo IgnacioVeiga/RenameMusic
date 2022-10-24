@@ -118,12 +118,120 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EXCEPTION_MSG" xml:space="preserve">
-    <value>TRADUCIR</value>
+    <value>An error has occurred, please notify the developer.</value>
   </data>
   <data name="TASK_SUCCESFULL_MSG" xml:space="preserve">
-    <value>TRADUCIR</value>
+    <value>Task completed successfully.</value>
   </data>
   <data name="SETTINGS_RESTORED_MSG" xml:space="preserve">
-    <value>TRADUCIR</value>
+    <value>Settings restored.</value>
+  </data>
+  <data name="CANCEL_BTN" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="APPLY_BTN" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ADD_FOLDER_BTN" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="RENAME_FILES_BTN" xml:space="preserve">
+    <value>Rename files</value>
+  </data>
+  <data name="FILE_NAME_COL" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="NEW_FILE_NAME_COL" xml:space="preserve">
+    <value>New file name</value>
+  </data>
+  <data name="TYPE_COL" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TITLE_COL" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="ALBUM_COL" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="LOADING_TITLE" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="TEMPLATE_TITILE" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="SETTINGS_TAB" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ARTIST_COL" xml:space="preserve">
+    <value>Artist</value>
+  </data>
+  <data name="ALBUM_ARTIST_COL" xml:space="preserve">
+    <value>Album artist</value>
+  </data>
+  <data name="DURATION_COL" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="FOLDERS_TAB" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="DIRECTORY_COL" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="RESTORE_SETTINGS_BTN" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="WITH_TAGS_TAB" xml:space="preserve">
+    <value>With tags</value>
+  </data>
+  <data name="NO_TITLE_TAG_TAB" xml:space="preserve">
+    <value>No title tag</value>
+  </data>
+  <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
+    <value>Multiple instances of this program are not allowed.</value>
+  </data>
+  <data name="FILE_NOT_FOUND_MSG" xml:space="preserve">
+    <value>File not found.</value>
+  </data>
+  <data name="REPLACE_BTN" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="SKIP_BTN" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="RENAME_BTN" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="REPEATED_FILE_TITLE" xml:space="preserve">
+    <value>Repeated file</value>
+  </data>
+  <data name="IMPORT_SETTINGS_BTN" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="EXPORT_SETTINGS_BTN" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
+    <value>Function not implemented yet.</value>
+  </data>
+  <data name="CHANGE_LANG_BTN" xml:space="preserve">
+    <value>Change language</value>
+  </data>
+  <data name="ADD_FOLDER_TITLE" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="FILE_REPEATED_MSG" xml:space="preserve">
+    <value>There is already a file with the same name in this location. How do you want to continue?</value>
+  </data>
+  <data name="KEEP_MY_CHOICE_MSG" xml:space="preserve">
+    <value>Keep my choice with the next files.</value>
+  </data>
+  <data name="LOCATION_MSG" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="NEW_FILE_NAME_MSG" xml:space="preserve">
+    <value>New name:</value>
+  </data>
+  <data name="CURRENT_FILE_NAME_MSG" xml:space="preserve">
+    <value>Current name:</value>
   </data>
 </root>

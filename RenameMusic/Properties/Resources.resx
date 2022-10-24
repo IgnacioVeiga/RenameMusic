@@ -121,12 +121,4 @@
   <data name="appIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icon.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Simbols" xml:space="preserve">
-    <value>&lt;tn&gt; = Track Number
-&lt;t&gt; = Title song
-&lt;a&gt; = Album
-&lt;aAt&gt; = Album Artist
-&lt;At&gt; = Artist
-&lt;yr&gt; = Year</value>
-  </data>
 </root>

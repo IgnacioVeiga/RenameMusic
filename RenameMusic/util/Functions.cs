@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using RenameMusic.Lang;
+using RenameMusic.Properties;
 
 namespace RenameMusic
 {
@@ -26,12 +27,6 @@ namespace RenameMusic
             return Regex.Replace(fileName, invalidRegStr, "_");
         }
 
-
-        /// <summary>
-        /// Sirve para generar un nuevo nombre a un archivo según el criterio definido
-        /// </summary>
-        /// <param name="pMusic">Objeto con tags del archivo</param>
-        /// <returns>Retorna el nuevo nombre del archivo sin la ruta</returns>
         public static string GetNewName(TagLib.File pMusic)
         {
             /*
@@ -43,14 +38,14 @@ namespace RenameMusic
                 <yr> = Year
              */
             string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
-            string fileName = Properties.Settings.Default.criterioCfg;
+            string fileName = Settings.Default.DefaultTemplate;
 
             if (string.IsNullOrWhiteSpace(pMusic.Tag.Title))
             {
                 return null;
             }
 
-            foreach (var tag in tags)
+            foreach (string tag in tags)
             {
                 if (fileName.Contains(tag))
                 {
@@ -100,12 +95,6 @@ namespace RenameMusic
             return true;
         }
 
-        public static void ShowProblemsList(List<string> problems)
-        {
-            string msg = string.Join("\n", problems);
-            MessageBox.Show(msg, "Problemas detectados :(", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-        }
-
         public static TagLib.File CreateMusicObj(string rutaArchivo)
         {
             try
@@ -125,7 +114,8 @@ namespace RenameMusic
             {
                 SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
-                string[] exts = new string[] { ".mp3", ".m4a", ".flac", ".ogg", };
+                // TODO: añadir soporte a archivos ".flac" o con formato mayor a 3 caracteres
+                string[] exts = new string[] { ".mp3", ".m4a", ".ogg", };
                 string[] array = Directory.GetFiles(path, "*.*", searchOption)
                     .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
                     .ToArray();
@@ -135,7 +125,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 return new List<string>();
             }
         }
@@ -143,13 +133,13 @@ namespace RenameMusic
         public static List<string> SelectAndListFolders()
         {
             // Sirve para mostrar el dialogo selector de carpetas
-            CommonOpenFileDialog folderDialog = new CommonOpenFileDialog
+            CommonOpenFileDialog folderDialog = new()
             {
                 // TODO: reemplazar este dialogo por el propio en creación
                 AllowNonFileSystemItems = true,
                 IsFolderPicker = true,
                 Multiselect = true,
-                Title = "Agregar carpeta/s",
+                Title = strings.ADD_FOLDER_TITLE,
                 EnsurePathExists = true,
 
                 // Carpeta de musica por defecto
@@ -185,13 +175,13 @@ namespace RenameMusic
                     }
                 }
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                MessageBox.Show("No puedo encontrar al menos uno de los archivos de la lista");
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

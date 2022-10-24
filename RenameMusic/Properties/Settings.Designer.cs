@@ -26,24 +26,36 @@ namespace RenameMusic.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string criterioCfg {
+        public string DefaultTemplate {
             get {
-                return ((string)(this["criterioCfg"]));
+                return ((string)(this["DefaultTemplate"]));
             }
             set {
-                this["criterioCfg"] = value;
+                this["DefaultTemplate"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("es")]
+        [global::System.Configuration.DefaultSettingValueAttribute("en")]
         public string lang {
             get {
                 return ((string)(this["lang"]));
             }
             set {
                 this["lang"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RepeatedFileKeepChoice {
+            get {
+                return ((bool)(this["RepeatedFileKeepChoice"]));
+            }
+            set {
+                this["RepeatedFileKeepChoice"] = value;
             }
         }
     }

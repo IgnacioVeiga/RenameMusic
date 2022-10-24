@@ -1,4 +1,5 @@
 ﻿using RenameMusic.Lang;
+using RenameMusic.Properties;
 using System;
 using System.IO;
 using System.Windows;
@@ -16,71 +17,74 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                currentFileName.Content = pOldFileName;
-                newFileName.Content = pNewFileName;
+                keepChoice.IsChecked = Settings.Default.RepeatedFileKeepChoice;
+
+                // Nombres sin la ubicación y con formato
+                currentName.Content = pOldFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
+                newName.Content = pNewFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
+                
+                // La ubicación
+                location.Content = pOldFileName[..(pOldFileName.LastIndexOf(@"\") + 1)];
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void Reemplazar_Click(object sender, RoutedEventArgs e)
+        private void ReplaceBTN_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Verificar si el archivo sigue existiendo luego de esta pausa.
-                if (File.Exists((string)newFileName.Content))
+                if (File.Exists((string)location.Content + (string)newName.Content))
                 {
-                    File.Delete((string)newFileName.Content);
-                    File.Move((string)currentFileName.Content, (string)newFileName.Content);
+                    File.Delete((string)location.Content + (string)newName.Content);
+                    File.Move((string)location.Content + (string)currentName.Content,
+                        (string)location.Content + (string)newName.Content);
+                }
+                else
+                {
+                    MessageBox.Show(strings.FILE_NOT_FOUND_MSG);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            finally
-            {
-                Close();
-            }
+            Close();
         }
 
-        private void Omitir_Click(object sender, RoutedEventArgs e)
+        private void SkipBTN_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        //private void Renombrar_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        int num = 2;
-        //        while (File.Exists(newFileNameAndPath + " " + "(" + num + ")" + "." + musicFile.Formato))
-        //        {
-        //            num += 1; // se incrementa en 1 en cada ciclo
-        //        }
-
-        //        File.Move(music.Name, newFileNameAndPath + " " + "(" + num + ")" + "." + musicFile.Formato);
-
-        //        string mensaje = "El nombre del archivo\n" + newFileNameAndPath + "." + musicFile.Formato +
-        //            "\n" + "Fue renombrado como \n" + newFileNameAndPath + " (" + num + ")." + musicFile.Formato + "\n";
-
-        //        MessageBox.Show(mensaje, "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //    finally
-        //    {
-        //        Close();
-        //    }
-        //}
-
-        private void RepetirEleccion_Check(object sender, RoutedEventArgs e)
+        private void RenameBTN_Click(object sender, RoutedEventArgs e)
         {
-            //repetirEleccion.IsChecked;
+            try
+            {
+                int num = 2;
+                string pathAndName = location.Content.ToString() + newName.Content.ToString()[..^4];
+                string type = newName.Content.ToString()[^4..];
+                while (File.Exists($"{pathAndName} ({num}){type}"))
+                {
+                    num += 1;
+                }
+
+                File.Move(location.Content.ToString() + currentName.Content.ToString(), $"{pathAndName} ({num}){type}");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Close();
+        }
+
+        private void RememberChoice_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.RepeatedFileKeepChoice = (bool)keepChoice.IsChecked;
         }
     }
 }

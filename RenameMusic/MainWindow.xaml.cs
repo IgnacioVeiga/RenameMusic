@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.IO;
 using RenameMusic.Lang;
 using RenameMusic.Properties;
+using System.Collections.Generic;
 
 namespace RenameMusic
 {
@@ -18,12 +19,6 @@ namespace RenameMusic
             try
             {
                 InitializeComponent();
-                if (string.IsNullOrWhiteSpace(Settings.Default.criterioCfg))
-                {
-                    Settings.Default.criterioCfg = "<tn>. <t> - <a>";
-                    Settings.Default.Save();
-                }
-
                 infoTags.Text = "";
                 pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
 
@@ -35,34 +30,31 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
             }
         }
 
-        /// <summary>
-        /// Función que se ejecuta cuando se hace clic en el botón de "Añadir carpeta"
-        /// </summary>
-        private void AñadirCarpeta_Click(object sender, RoutedEventArgs e)
+        private void AddFolderBTN_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Seleccionamos carpetas
-                var selectedFoldersList = MyFunctions.SelectAndListFolders();
+                List<string> selectedFoldersList = MyFunctions.SelectAndListFolders();
                 if (selectedFoldersList == null) return;
 
                 // Ahora hay que tomar de los directorios el contenido que buscamos
                 // Esto puede tardar mucho, hay que hacerlo en segundo plano
-                foreach (string folderPath in selectedFoldersList.FindAll(f => MyFunctions.GetFilePaths(f, false).Count > 1))
+                foreach (string folderPath in selectedFoldersList.FindAll(f => MyFunctions.GetFilePaths(f, false).Count > 0))
                 {
                     // Toma lista de archivos con formato mp3, m4a, flac y ogg en cada carpeta
-                    var musicFileList = MyFunctions.GetFilePaths(folderPath, false);
+                    List<string> musicFileList = MyFunctions.GetFilePaths(folderPath, false);
 
                     // Si tengo archivos de música, debo agregar la carpeta a su correspondiente tabla
                     // Por ahora se genera un id en formato de string, unico y no nulo
                     // El ID solo debe coincidir entre una carpeta y sus archivos contenidos en la misma
                     // TODO: borrar la linea de a continuacion una vez implementada la base de datos, si fuese necesario
-                    MusicFolder carpetaItem = new MusicFolder
+                    MusicFolder carpetaItem = new()
                     {
                         CancionesId = Guid.NewGuid().ToString("N"),
                         Ruta = folderPath
@@ -79,9 +71,9 @@ namespace RenameMusic
                         {
 
                             // Obtengo el nombre y formato para usarlo más adelante
-                            string fileName = rutaArchivo.Substring(rutaArchivo.LastIndexOf(@"\") + 1);
+                            string fileName = rutaArchivo[(rutaArchivo.LastIndexOf(@"\") + 1)..];
 
-                            MusicFile musicItem = new MusicFile
+                            MusicFile musicItem = new()
                             {
                                 Activo = true,                                                  // Por defecto su "checkbox" en la lista está marcado
                                 Id = Guid.NewGuid().ToString("N"),                              // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
@@ -101,47 +93,35 @@ namespace RenameMusic
                             if (musicItem.NuevoNombre == null)
                             {
                                 // Agrego el item a la tabla "SIN tags"
-                                listaCancionesST.Items.Add(musicItem);
+                                noTitleTagList.Items.Add(musicItem);
                             }
                             else
                             {
                                 // Agrego el item a la tabla "CON tags"
-                                listaCancionesCT.Items.Add(musicItem);
+                                withTagsList.Items.Add(musicItem);
                             }
                         }
                     }
                 }
+
+                renameFilesBTN.IsEnabled = (withTagsList.Items.Count > 0) ? true : false;
             }
 
             // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void RenombrarArchivos_Click(object sender, RoutedEventArgs e)
+        private void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (folderList.Items.IsEmpty)
-                {
-                    string msg = "No hay carpetas para trabajar.\nUtilice la función \"Agregar carpeta\"para continuar.";
-                    MessageBox.Show(msg, "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    return;
-                }
-
-                if (listaCancionesCT.Items.IsEmpty)
-                {
-                    string msg = "No hay archivos CON Tags para trabajar.\nUtilice la función \"Agregar carpeta\"para continuar.";
-                    MessageBox.Show(msg, "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    return;
-                }
-
                 // Reviso la tabla de carpetas
                 foreach (MusicFolder folderItem in folderList.Items)
                 {
-                    foreach (MusicFile mFileItem in listaCancionesCT.Items)
+                    foreach (MusicFile mFileItem in withTagsList.Items)
                     {
                         // Solo se trabaja con los items con los "checkboxes" marcados, tambíen hay que asegurarse que todavia existe el archivo a trabajar
                         if (mFileItem.Activo && mFileItem.CarpetaId == folderItem.CancionesId && File.Exists(folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato))
@@ -152,31 +132,58 @@ namespace RenameMusic
                         }
                     }
                 }
-
-                listaCancionesCT.Items.Clear();
-                listaCancionesST.Items.Clear();
+                renameFilesBTN.IsEnabled = false;
+                withTagsList.Items.Clear();
+                noTitleTagList.Items.Clear();
                 folderList.Items.Clear();
 
-                MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
+                MessageBox.Show(strings.TASK_SUCCESFULL_MSG);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void quitar_Click(object sender, RoutedEventArgs e)
+        private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            pictures.Source = null;
+            if ((MusicFile)((ListView)sender).SelectedItem == null)
+            {
+                pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
+                return;
+            }
+
+            if (((MusicFile)((ListView)sender).SelectedItem).Pictures.Length >= 1)
+            {
+                TagLib.IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
+
+                // Load you image data in MemoryStream
+                MemoryStream ms = new(pic.Data.Data);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                // ImageSource for System.Windows.Controls.Image
+                BitmapImage bitmap = new();
+                bitmap.BeginInit();
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+
+                pictures.Source = bitmap;
+            }
+        }
+
+        private void RemoveFolderItem_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Obtengo el id de los archivos asociados a la carpeta seleccionada
                 string id = ((MusicFolder)((Button)sender).DataContext).CancionesId;
 
-                for (int i = 0; i < listaCancionesCT.Items.Count;)
+                for (int i = 0; i < withTagsList.Items.Count;)
                 {
-                    if (((MusicFile)listaCancionesCT.Items[i]).CarpetaId.Equals(id))
+                    if (((MusicFile)withTagsList.Items[i]).CarpetaId.Equals(id))
                     {
-                        listaCancionesCT.Items.RemoveAt(i);
+                        withTagsList.Items.RemoveAt(i);
                     }
                     else
                     {
@@ -184,11 +191,11 @@ namespace RenameMusic
                     }
                 }
 
-                for (int i = 0; i < listaCancionesST.Items.Count;)
+                for (int i = 0; i < noTitleTagList.Items.Count;)
                 {
-                    if (((MusicFile)listaCancionesST.Items[i]).CarpetaId == id)
+                    if (((MusicFile)noTitleTagList.Items[i]).CarpetaId == id)
                     {
-                        listaCancionesST.Items.RemoveAt(i);
+                        noTitleTagList.Items.RemoveAt(i);
                     }
                     else
                     {
@@ -207,14 +214,16 @@ namespace RenameMusic
                         i++;
                     }
                 }
+
+                renameFilesBTN.IsEnabled = (withTagsList.Items.Count > 0) ? true : false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void ConfigTemplate_Click(object sender, RoutedEventArgs e)
+        private void TemplateBTN_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -223,42 +232,30 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void RestoreSettings_Click(object sender, RoutedEventArgs e)
+        private void RestoreSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.criterioCfg = "<tn>. <t> - <a>";
+            Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
             Settings.Default.Save();
-            MessageBox.Show(Strings.SETTINGS_RESTORED_MSG);
+            MessageBox.Show(strings.SETTINGS_RESTORED_MSG);
         }
 
-        private void listaCancionesCT_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            pictures.Source = null;
-            if ((MusicFile)((ListView)sender).SelectedItem == null)
-            {
-                pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
-                return;
-            }
+            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+        }
 
-            if (((MusicFile)((ListView)sender).SelectedItem).Pictures.Length >= 1)
-            {
-                TagLib.IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
+        private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+        }
 
-                // Load you image data in MemoryStream
-                MemoryStream ms = new MemoryStream(pic.Data.Data);
-                ms.Seek(0, SeekOrigin.Begin);
-
-                // ImageSource for System.Windows.Controls.Image
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
-
-                pictures.Source = bitmap;
-            }
+        private void ChangeLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
         }
     }
 }

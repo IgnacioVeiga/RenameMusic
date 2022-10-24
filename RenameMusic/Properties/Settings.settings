@@ -2,11 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RenameMusic.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="criterioCfg" Type="System.String" Scope="User">
+    <Setting Name="DefaultTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="lang" Type="System.String" Scope="User">
-      <Value Profile="(Default)">es</Value>
+      <Value Profile="(Default)">en</Value>
+    </Setting>
+    <Setting Name="RepeatedFileKeepChoice" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
