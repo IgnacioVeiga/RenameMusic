@@ -28,3 +28,4 @@ SDK .NET 6.0 (LTS)
 ## Dependencias 
 - taglib-sharp-netstandard2.0 **v2.1.0**
 - WindowsAPICodePack-Shell **v1.1.1**
+- WinCopies.WindowsAPICodePack.Shell **2.12.0.2**
