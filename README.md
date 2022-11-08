@@ -22,9 +22,15 @@ Por ejemplo: tengo una canción con el nombre `AUD-01230101-WA0123.mp3` pero est
 - [ ] Arreglar los tamaños de los elementos.
 - [ ] Usar temas personalizados.
 
-## Requerido
-SDK .NET 6.0 (LTS)
+## Requerido:
+- Windows 7 o superior (Recomendado Windows 10/11)
+- SDK .NET 6.0 (LTS)
 
-## Dependencias 
+## Dependencias:
+### Frameworks
+- Microsoft.NETCore.App **v6.0.10**
+- Microsoft.WindowsDesktop.App.WPF **v6.0.10**
+
+### Paquetes
 - taglib-sharp-netstandard2.0 **v2.1.0**
-- WinCopies.WindowsAPICodePack.Shell **2.12.0.2**
+- WinCopies.WindowsAPICodePack.Shell **v2.12.0.2**
