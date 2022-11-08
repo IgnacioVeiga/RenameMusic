@@ -4,6 +4,8 @@ El objetivo de la app es poder renombrar archivos de música en base a sus "tags
 
 Por ejemplo: tengo una canción con el nombre `AUD-01230101-WA0123.mp3` pero esta misma tiene "tags", entonces puedo decidir que con estos se llame según el siguiente orden: `NroDePista-Titulo-Artista.mp3`
 
+## Capturas:
+
 ## Funcionalidades:
 - [x] Mostar una lista con todos los archivos compatibles
 - [x] Aquellos archivos que no contengan "tags" discriminarlos en otra pestaña
