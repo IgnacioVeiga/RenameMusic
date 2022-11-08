@@ -115,7 +115,7 @@ namespace RenameMusic
                 SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
                 // TODO: añadir soporte a archivos ".flac" o con formato mayor a 3 caracteres
-                string[] exts = new string[] { ".mp3", ".m4a", ".ogg", };
+                string[] exts = new string[] { ".mp3", ".m4a", ".ogg" };
                 string[] array = Directory.GetFiles(path, "*.*", searchOption)
                     .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
                     .ToArray();
