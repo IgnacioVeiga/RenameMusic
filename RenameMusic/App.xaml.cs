@@ -27,8 +27,9 @@ namespace RenameMusic
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            string mutexId = "RenameMusic";
-            _mutex = new Mutex(true, mutexId, out bool createdNew);
+            const string name = "RenameMusic";
+            const bool initiallyOwned = true;
+            _mutex = new Mutex(initiallyOwned, name, out bool createdNew);
             if (createdNew)
             {
                 Exit += CloseMutexHandler;
@@ -40,6 +41,7 @@ namespace RenameMusic
             }
             base.OnStartup(e);
         }
+
         protected virtual void CloseMutexHandler(object sender, EventArgs e)
         {
             _mutex?.Close();
