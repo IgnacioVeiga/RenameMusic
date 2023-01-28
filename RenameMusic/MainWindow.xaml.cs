@@ -1,11 +1,11 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
-using System.IO;
-using RenameMusic.Lang;
+﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace RenameMusic
 {

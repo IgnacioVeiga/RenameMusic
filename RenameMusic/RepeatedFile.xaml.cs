@@ -22,7 +22,7 @@ namespace RenameMusic
                 // Nombres sin la ubicación y con formato
                 currentName.Content = pOldFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
                 newName.Content = pNewFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
-                
+
                 // La ubicación
                 location.Content = pOldFileName[..(pOldFileName.LastIndexOf(@"\") + 1)];
             }

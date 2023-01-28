@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows;
-using RenameMusic.Lang;
+﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
-using System.Threading;
+using System;
 using System.Globalization;
+using System.Threading;
+using System.Windows;
 
 namespace RenameMusic
 {
