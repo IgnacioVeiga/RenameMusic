@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows;
-using RenameMusic.Lang;
+﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using System;
+using System.Diagnostics;
 using System.Threading;
-using System.Globalization;
+using System.Windows;
 
 namespace RenameMusic
 {
@@ -16,7 +16,7 @@ namespace RenameMusic
 
         App()
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(Settings.Default.lang);
+            AppLanguage.ChangeLanguage(Settings.Default.LangIndex);
 
             if (string.IsNullOrWhiteSpace(Settings.Default.DefaultTemplate))
             {
@@ -25,17 +25,28 @@ namespace RenameMusic
             }
         }
 
+        internal static void RestartApp()
+        {
+            try
+            {
+                Process.Start(Environment.ProcessPath);
+                Current.Shutdown();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            string mutexId = "RenameMusic";
-            _mutex = new Mutex(true, mutexId, out bool createdNew);
-            if (createdNew)
-            {
-                Exit += CloseMutexHandler;
-            }
+            const bool initiallyOwned = true;
+            const string name = "RenameMusic";
+            _mutex = new Mutex(initiallyOwned, name, out bool createdNew);
+            if (createdNew) Exit += CloseMutexHandler;
             else
             {
-                MessageBox.Show(strings.MULTI_INSTANCE_MSG);
+                MessageBox.Show(Strings.MULTI_INSTANCE_MSG);
                 Current.Shutdown();
             }
             base.OnStartup(e);

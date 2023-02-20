@@ -20,7 +20,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -29,7 +29,7 @@ namespace RenameMusic
             try
             {
                 // Chequear si el criterio es valido
-                
+
                 string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
                 string criterioParaChequear = template.Text;
                 bool contieneUnTag = false;
@@ -66,7 +66,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

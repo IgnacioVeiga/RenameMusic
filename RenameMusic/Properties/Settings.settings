@@ -5,11 +5,11 @@
     <Setting Name="DefaultTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="lang" Type="System.String" Scope="User">
-      <Value Profile="(Default)">en</Value>
-    </Setting>
     <Setting Name="RepeatedFileKeepChoice" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LangIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

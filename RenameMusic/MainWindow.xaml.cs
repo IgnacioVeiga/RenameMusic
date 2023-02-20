@@ -1,11 +1,11 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
-using System.IO;
-using RenameMusic.Lang;
+﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace RenameMusic
 {
@@ -30,7 +30,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
             }
         }
@@ -110,7 +110,7 @@ namespace RenameMusic
             // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -137,11 +137,11 @@ namespace RenameMusic
                 noTitleTagList.Items.Clear();
                 folderList.Items.Clear();
 
-                MessageBox.Show(strings.TASK_SUCCESFULL_MSG);
+                MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -219,7 +219,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -232,7 +232,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -240,22 +240,35 @@ namespace RenameMusic
         {
             Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
             Settings.Default.Save();
-            MessageBox.Show(strings.SETTINGS_RESTORED_MSG);
+            MessageBox.Show(Strings.SETTINGS_RESTORED_MSG);
         }
 
         private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void ChangeLanguage_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(strings.NOT_IMPLEMENTED_MSG);
+            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+        }
+
+        private void LangSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            {
+                AppLanguage.ChangeLanguage(((ComboBox)sender).SelectedIndex);
+
+                if (langSelected.IsVisible)
+                {
+                    MessageBox.Show(Strings.TOGGLE_LANG_MSG, "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    App.RestartApp();
+                }
+            }
         }
     }
 }

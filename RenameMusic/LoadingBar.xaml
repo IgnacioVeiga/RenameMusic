@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RenameMusic"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
-        Title="{x:Static p:strings.LOADING_TITLE}" Height="60" Width="360">
+        Title="{x:Static p:Strings.LOADING_TITLE}" Height="60" Width="360">
     <Grid>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="300" ValueChanged="ProgressBar_ValueChanged"/>
     </Grid>

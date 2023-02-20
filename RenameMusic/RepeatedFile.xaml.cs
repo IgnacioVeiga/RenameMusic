@@ -22,13 +22,13 @@ namespace RenameMusic
                 // Nombres sin la ubicación y con formato
                 currentName.Content = pOldFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
                 newName.Content = pNewFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
-                
+
                 // La ubicación
                 location.Content = pOldFileName[..(pOldFileName.LastIndexOf(@"\") + 1)];
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -45,12 +45,12 @@ namespace RenameMusic
                 }
                 else
                 {
-                    MessageBox.Show(strings.FILE_NOT_FOUND_MSG);
+                    MessageBox.Show(Strings.FILE_NOT_FOUND_MSG);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Close();
         }
@@ -77,7 +77,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Close();
         }

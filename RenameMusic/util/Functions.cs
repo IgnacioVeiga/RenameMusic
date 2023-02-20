@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using RenameMusic.Lang;
+using RenameMusic.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using RenameMusic.Lang;
-using RenameMusic.Properties;
 
 namespace RenameMusic
 {
@@ -125,7 +125,7 @@ namespace RenameMusic
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 return new List<string>();
             }
         }
@@ -139,7 +139,7 @@ namespace RenameMusic
                 AllowNonFileSystemItems = true,
                 IsFolderPicker = true,
                 Multiselect = true,
-                Title = strings.ADD_FOLDER_TITLE,
+                Title = Strings.ADD_FOLDER_TITLE,
                 EnsurePathExists = true,
 
                 // Carpeta de musica por defecto
@@ -177,11 +177,11 @@ namespace RenameMusic
             }
             catch (IOException ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

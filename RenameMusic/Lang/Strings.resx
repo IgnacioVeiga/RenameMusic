@@ -213,9 +213,6 @@
   <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
     <value>Function not implemented yet.</value>
   </data>
-  <data name="CHANGE_LANG_BTN" xml:space="preserve">
-    <value>Change language</value>
-  </data>
   <data name="ADD_FOLDER_TITLE" xml:space="preserve">
     <value>Add folder</value>
   </data>
@@ -233,5 +230,8 @@
   </data>
   <data name="CURRENT_FILE_NAME_MSG" xml:space="preserve">
     <value>Current name:</value>
+  </data>
+  <data name="TOGGLE_LANG_MSG" xml:space="preserve">
+    <value>The language will change when the application is restarted.</value>
   </data>
 </root>

@@ -22,14 +22,14 @@ namespace RenameMusic.Lang {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal strings() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace RenameMusic.Lang {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RenameMusic.Lang.strings", typeof(strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RenameMusic.Lang.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -120,15 +120,6 @@ namespace RenameMusic.Lang {
         public static string CANCEL_BTN {
             get {
                 return ResourceManager.GetString("CANCEL_BTN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Change language.
-        /// </summary>
-        public static string CHANGE_LANG_BTN {
-            get {
-                return ResourceManager.GetString("CHANGE_LANG_BTN", resourceCulture);
             }
         }
         
@@ -390,6 +381,15 @@ namespace RenameMusic.Lang {
         public static string TITLE_COL {
             get {
                 return ResourceManager.GetString("TITLE_COL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The language will change when the application is restarted..
+        /// </summary>
+        public static string TOGGLE_LANG_MSG {
+            get {
+                return ResourceManager.GetString("TOGGLE_LANG_MSG", resourceCulture);
             }
         }
         
