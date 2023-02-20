@@ -95,12 +95,30 @@ namespace RenameMusic
             return true;
         }
 
-        public static TagLib.File CreateMusicObj(string rutaArchivo)
+        public static MusicFile GetMusicFile(string filePath)
         {
             try
             {
                 // Creo un objeto archivo/cancion y tomo los datos
-                return TagLib.File.Create(rutaArchivo);
+                TagLib.File mFile = TagLib.File.Create(filePath);
+                if (mFile is null) return null;
+
+                // Obtengo el nombre y formato para usarlo más adelante
+                string fileName = filePath[(filePath.LastIndexOf(@"\") + 1)..];
+                return new MusicFile()
+                {
+                    Activo = true,                                                  // Por defecto su "checkbox" en la lista está marcado
+                    Id = Guid.NewGuid().ToString("N"),                              // Un ID generado automaticamente, TODO: cambiar esto ya mencionado arriba
+                    NombreActual = fileName.Remove(fileName.LastIndexOf(".")),      // Nombre del archivo, sin formato ni ruta de archivo
+                    Formato = fileName[(fileName.LastIndexOf(".") + 1)..],          // El formato pero sin el "." del principio
+                    Duracion = mFile.Properties.Duration,                           // Se visualiza en formato hh:mm:ss
+                    NuevoNombre = GetNewName(mFile),                                // Nuevo nombre del archivo
+                    Titulo = mFile.Tag.Title,
+                    Album = mFile.Tag.Album,
+                    Artista = mFile.Tag.JoinedPerformers,
+                    AlbumArtista = mFile.Tag.JoinedAlbumArtists,
+                    Pictures = mFile.Tag.Pictures
+                };
             }
             catch (TagLib.CorruptFileException)
             {
@@ -110,24 +128,23 @@ namespace RenameMusic
 
         public static List<string> GetFilePaths(string path, bool includeSubFolders)
         {
+            List<string> list = new();
             try
             {
                 SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
                 // TODO: añadir soporte a archivos ".flac" o con formato mayor a 3 caracteres
-                string[] exts = new string[] { ".mp3", ".m4a", ".ogg", };
-                string[] array = Directory.GetFiles(path, "*.*", searchOption)
-                    .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)))
-                    .ToArray();
-
-                // Por seguridad filtro aquellos items que son nulos
-                return array.Where(fn => fn != null).ToList();
+                string[] type = new string[] { ".mp3", ".m4a", ".ogg" };
+                list = Directory.GetFiles(path, "*.*", searchOption)
+                    .Where(file => type.Any(t => file.EndsWith(t, StringComparison.OrdinalIgnoreCase)))
+                    .ToList();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 return new List<string>();
             }
+            return list;
         }
 
         public static List<string> SelectAndListFolders()
@@ -158,21 +175,23 @@ namespace RenameMusic
         {
             try
             {
+                if (!File.Exists(oldFileName)) return;
+
                 // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
-                if (newFileName.ToLower() != oldFileName.ToLower())
+                if (string.Equals(newFileName, oldFileName, StringComparison.OrdinalIgnoreCase))
+                    return;
+
+                // Verifico si ya existe un archivo con el nuevo nombre
+                if (File.Exists(newFileName))
                 {
-                    // Verifico si ya existe un archivo con el nuevo nombre
-                    if (File.Exists(newFileName))
-                    {
-                        // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
-                        RepeatedFile RepeatedFile = new(oldFileName, newFileName);
-                        RepeatedFile.ShowDialog();
-                    }
-                    else
-                    {
-                        // Cambiar el nombre del archivo
-                        File.Move(oldFileName, newFileName);
-                    }
+                    // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
+                    RepeatedFile RepeatedFile = new(oldFileName, newFileName);
+                    RepeatedFile.ShowDialog();
+                }
+                else
+                {
+                    // Cambiar el nombre del archivo
+                    File.Move(oldFileName, newFileName);
                 }
             }
             catch (IOException ex)

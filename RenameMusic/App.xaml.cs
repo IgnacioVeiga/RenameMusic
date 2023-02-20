@@ -51,6 +51,7 @@ namespace RenameMusic
             }
             base.OnStartup(e);
         }
+
         protected virtual void CloseMutexHandler(object sender, EventArgs e)
         {
             _mutex?.Close();
