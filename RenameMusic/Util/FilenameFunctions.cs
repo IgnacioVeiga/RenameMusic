@@ -25,7 +25,7 @@ namespace RenameMusic.Util
             return Regex.Replace(fileName, invalidRegStr, "_");
         }
 
-        public static string GetNewName(TagLib.File pMusic)
+        public static string GetNewName(TagLib.Tag audioTags)
         {
             /*
                 <tn> = Track Number
@@ -38,7 +38,7 @@ namespace RenameMusic.Util
             string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
             string fileName = Settings.Default.DefaultTemplate;
 
-            if (string.IsNullOrWhiteSpace(pMusic.Tag.Title))
+            if (string.IsNullOrWhiteSpace(audioTags.Title))
             {
                 return null;
             }
@@ -50,22 +50,22 @@ namespace RenameMusic.Util
                     switch (tag)
                     {
                         case "<tn>":
-                            fileName = fileName.Replace(tag, pMusic.Tag.Track.ToString());
+                            fileName = fileName.Replace(tag, audioTags.Track.ToString());
                             break;
                         case "<t>":
-                            fileName = fileName.Replace(tag, pMusic.Tag.Title);
+                            fileName = fileName.Replace(tag, audioTags.Title);
                             break;
                         case "<a>":
-                            fileName = fileName.Replace(tag, pMusic.Tag.Album);
+                            fileName = fileName.Replace(tag, audioTags.Album);
                             break;
                         case "<aAt>":
-                            fileName = fileName.Replace(tag, pMusic.Tag.JoinedAlbumArtists);
+                            fileName = fileName.Replace(tag, audioTags.JoinedAlbumArtists);
                             break;
                         case "<At>":
-                            fileName = fileName.Replace(tag, pMusic.Tag.JoinedPerformers);
+                            fileName = fileName.Replace(tag, audioTags.JoinedPerformers);
                             break;
                         case "<yr>":
-                            fileName = fileName.Replace(tag, pMusic.Tag.Year.ToString());
+                            fileName = fileName.Replace(tag, audioTags.Year.ToString());
                             break;
                     }
                 }

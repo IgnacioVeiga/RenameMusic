@@ -234,4 +234,7 @@
   <data name="TOGGLE_LANG_MSG" xml:space="preserve">
     <value>The language will change when the application is restarted.</value>
   </data>
+  <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
+    <value>Corrupt or incorrect file.</value>
+  </data>
 </root>

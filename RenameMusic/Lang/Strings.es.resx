@@ -133,7 +133,7 @@
     <value>Aplicar</value>
   </data>
   <data name="ADD_FOLDER_BTN" xml:space="preserve">
-    <value>Agregar carpeta</value>
+    <value>Añadir carpeta/s</value>
   </data>
   <data name="RENAME_FILES_BTN" xml:space="preserve">
     <value>Renombrar archivos</value>
@@ -214,7 +214,7 @@
     <value>Función no implementada aún.</value>
   </data>
   <data name="ADD_FOLDER_TITLE" xml:space="preserve">
-    <value>Añadir carpetas</value>
+    <value>Añadir carpeta/s</value>
   </data>
   <data name="FILE_REPEATED_MSG" xml:space="preserve">
     <value>Ya existe un archivo con el mismo nombre en esta ubicación ¿Cómo desea continuar?</value>
@@ -233,5 +233,8 @@
   </data>
   <data name="TOGGLE_LANG_MSG" xml:space="preserve">
     <value>El idioma cambiará cuando se reinicie la aplicación.</value>
+  </data>
+  <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
+    <value>Archivo corrupto o incorrecto.</value>
   </data>
 </root>

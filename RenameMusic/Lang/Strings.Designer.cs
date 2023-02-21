@@ -124,6 +124,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Corrupt or incorrect file..
+        /// </summary>
+        public static string CORRUPT_FILE_EX_MSG {
+            get {
+                return ResourceManager.GetString("CORRUPT_FILE_EX_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current name:.
         /// </summary>
         public static string CURRENT_FILE_NAME_MSG {

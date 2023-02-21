@@ -2,7 +2,6 @@
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,38 +28,29 @@ namespace RenameMusic
 
         private void AddFolderBTN_Click(object sender, RoutedEventArgs e)
         {
+            string[] folders = MyFunctions.ShowFolderPickerDialog();
+            if (folders is null) return;
+
             try
             {
-                // Seleccionamos carpetas
-                List<string> selectedFolders = MyFunctions.SelectAndListFolders();
-                if (selectedFolders is null) return;
-
-                // Ahora hay que tomar de los directorios el contenido que buscamos
-                // Esto puede tardar mucho, hay que hacerlo en segundo plano
-                foreach (string folderPath in selectedFolders)
+                foreach (string folderPath in folders)
                 {
-                    MusicFolder folderItem = new()
-                    {
-                        CancionesId = Guid.NewGuid().ToString("N"),
-                        Ruta = folderPath
-                    };
+                    Folder folderItem = new(Guid.NewGuid().ToString("N"), folderPath + Path.DirectorySeparatorChar);
 
                     // Se toma lista de archivos con formato mp3, m4a y ogg de la carpeta
                     foreach (string filePath in MyFunctions.GetFilePaths(folderPath, false))
                     {
-                        // Creo el objeto con la libreria TagLib en un metodo aparte para capturar errores
-                        var mFile = MyFunctions.GetMusicFile(filePath);
+                        AudioFile audiofile = new(filePath);
 
-                        if (mFile is not null)
+                        if (audiofile.Tags is not null)
                         {
-                            // Se le asocia el ID de su carpeta
-                            mFile.CarpetaId = folderItem.CancionesId;
+                            audiofile.Id = folderItem.Id;
 
                             // Según si el nuevo nombre existe, entonces al menos tiene el tag de titulo
-                            if (string.IsNullOrEmpty(mFile.NuevoNombre))
-                                noTitleTagList.Items.Add(mFile);
+                            if (string.IsNullOrEmpty(audiofile.NewName))
+                                noTitleTagList.Items.Add(audiofile);
                             else
-                                withTagsList.Items.Add(mFile);
+                                withTagsList.Items.Add(audiofile);
                         }
                     }
 
@@ -81,16 +71,15 @@ namespace RenameMusic
             try
             {
                 // Reviso la tabla de carpetas
-                foreach (MusicFolder folderItem in folderList.Items)
+                foreach (Folder folderItem in folderList.Items)
                 {
-                    foreach (MusicFile mFileItem in withTagsList.Items)
+                    foreach (AudioFile mFileItem in withTagsList.Items)
                     {
-                        // Solo se trabaja con los items con los "checkboxes" marcados
-                        if (mFileItem.Activo && mFileItem.CarpetaId == folderItem.CancionesId)
+                        if (mFileItem.Id == folderItem.Id)
                         {
-                            string oldFileName = folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato;
-                            string newFileName = folderItem.Ruta + @"\" + mFileItem.NuevoNombre + "." + mFileItem.Formato;
-                            FilenameFunctions.RenameFile(oldFileName, newFileName);
+                            string oldName = mFileItem.FilePath;
+                            string newName = folderItem.Path + Path.DirectorySeparatorChar + mFileItem.NewName + mFileItem.Type;
+                            FilenameFunctions.RenameFile(oldName, newName);
                         }
                     }
                 }
@@ -110,15 +99,15 @@ namespace RenameMusic
         private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pictures.Source = null;
-            if ((MusicFile)((ListView)sender).SelectedItem is null)
+            if ((AudioFile)((ListView)sender).SelectedItem is null)
             {
                 pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
                 return;
             }
 
-            if (((MusicFile)((ListView)sender).SelectedItem).Pictures.Length >= 1)
+            if (((AudioFile)((ListView)sender).SelectedItem).Tags.Pictures.Length >= 1)
             {
-                TagLib.IPicture pic = ((MusicFile)((ListView)sender).SelectedItem).Pictures[0];
+                TagLib.IPicture pic = ((AudioFile)((ListView)sender).SelectedItem).Tags.Pictures[0];
 
                 // Load you image data in MemoryStream
                 MemoryStream ms = new(pic.Data.Data);
@@ -139,23 +128,23 @@ namespace RenameMusic
             try
             {
                 // Obtengo el id de los archivos asociados a la carpeta seleccionada
-                string id = ((MusicFolder)((Button)sender).DataContext).CancionesId;
+                string id = ((Folder)((Button)sender).DataContext).Id;
 
                 for (int i = 0; i < withTagsList.Items.Count;)
                 {
-                    if (((MusicFile)withTagsList.Items[i]).CarpetaId.Equals(id)) withTagsList.Items.RemoveAt(i);
+                    if (((AudioFile)withTagsList.Items[i]).Id.Equals(id)) withTagsList.Items.RemoveAt(i);
                     else i++;
                 }
 
                 for (int i = 0; i < noTitleTagList.Items.Count;)
                 {
-                    if (((MusicFile)noTitleTagList.Items[i]).CarpetaId == id) noTitleTagList.Items.RemoveAt(i);
+                    if (((AudioFile)noTitleTagList.Items[i]).Id == id) noTitleTagList.Items.RemoveAt(i);
                     else i++;
                 }
 
                 for (int i = 0; i < folderList.Items.Count;)
                 {
-                    if (((MusicFolder)folderList.Items[i]).CancionesId == id) folderList.Items.RemoveAt(i);
+                    if (((Folder)folderList.Items[i]).Id == id) folderList.Items.RemoveAt(i);
                     else i++;
                 }
 
@@ -182,24 +171,33 @@ namespace RenameMusic
 
         private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void LangSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // ToDo: preguntar antes de reiniciar
             AppLanguage.ChangeLanguage(((ComboBox)sender).SelectedIndex);
 
             if (langSelected.IsVisible)
             {
-                MessageBox.Show(Strings.TOGGLE_LANG_MSG, "", MessageBoxButton.OK, MessageBoxImage.Information);
-                App.RestartApp();
+                MessageBoxResult resp = MessageBox.Show(Strings.TOGGLE_LANG_MSG, "REINICIAR AHORA?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (resp == MessageBoxResult.Yes)
+                {
+                    App.RestartApp();
+                }
             }
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult resp = MessageBox.Show("DESEA SALIR DEL PROGRAMA?","SALIR", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (resp == MessageBoxResult.Yes)
+                Application.Current.Shutdown();
         }
     }
 }
