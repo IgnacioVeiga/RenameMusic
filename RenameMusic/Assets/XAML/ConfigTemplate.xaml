@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
-        Title="{x:Static p:Strings.TEMPLATE_TITILE}"
+        Title="{x:Static p:Strings.TEMPLATE}"
         MinHeight="250" MinWidth="300"
         SizeToContent="WidthAndHeight" 
         ResizeMode="CanResizeWithGrip">
     <Grid>
         <TextBlock x:Name="simbols" Margin="10,10,10,66" TextWrapping="Wrap"/>
         <TextBox x:Name="template" Margin="10,0,10,40" TextWrapping="Wrap" VerticalAlignment="Bottom"/>
-        <Button Content="{x:Static p:Strings.APPLY_BTN}" HorizontalAlignment="Center" Margin="0,0,100,10" VerticalAlignment="Bottom" Click="ApplyBTN_Click"/>
-        <Button Content="{x:Static p:Strings.CANCEL_BTN}" HorizontalAlignment="Center" Margin="100,0,0,10" VerticalAlignment="Bottom" Click="CancelBTN_Click"/>
+        <Button Content="{x:Static p:Strings.APPLY}" HorizontalAlignment="Center" Margin="0,0,100,10" VerticalAlignment="Bottom" Click="ApplyBTN_Click"/>
+        <Button Content="{x:Static p:Strings.CANCEL}" HorizontalAlignment="Center" Margin="100,0,0,10" VerticalAlignment="Bottom" Click="CancelBTN_Click"/>
     </Grid>
 </Window>

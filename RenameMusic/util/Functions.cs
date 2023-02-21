@@ -38,7 +38,7 @@ namespace RenameMusic.Util
                 AllowNonFileSystemItems = true,
                 IsFolderPicker = true,
                 Multiselect = true,
-                Title = Strings.ADD_FOLDER_TITLE,
+                Title = Strings.ADD_FOLDER,
                 EnsurePathExists = true,
                 DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
             };

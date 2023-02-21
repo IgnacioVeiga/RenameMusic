@@ -123,67 +123,67 @@
   <data name="TASK_SUCCESFULL_MSG" xml:space="preserve">
     <value>Tarea finalizada con éxito.</value>
   </data>
-  <data name="SETTINGS_RESTORED_MSG" xml:space="preserve">
+  <data name="SETTINGS_RESTORED" xml:space="preserve">
     <value>Ajustes reestablecidos.</value>
   </data>
-  <data name="CANCEL_BTN" xml:space="preserve">
+  <data name="CANCEL" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="APPLY_BTN" xml:space="preserve">
+  <data name="APPLY" xml:space="preserve">
     <value>Aplicar</value>
   </data>
-  <data name="ADD_FOLDER_BTN" xml:space="preserve">
-    <value>Añadir carpeta/s</value>
+  <data name="ADD_FOLDER" xml:space="preserve">
+    <value>Añadir carpeta</value>
   </data>
-  <data name="RENAME_FILES_BTN" xml:space="preserve">
+  <data name="RENAME_FILES" xml:space="preserve">
     <value>Renombrar archivos</value>
   </data>
-  <data name="FILE_NAME_COL" xml:space="preserve">
+  <data name="NAME" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="NEW_FILE_NAME_COL" xml:space="preserve">
+  <data name="NEW_NAME" xml:space="preserve">
     <value>Nuevo nombre</value>
   </data>
-  <data name="TYPE_COL" xml:space="preserve">
+  <data name="TYPE" xml:space="preserve">
     <value>Tipo</value>
   </data>
-  <data name="TITLE_COL" xml:space="preserve">
+  <data name="TITLE" xml:space="preserve">
     <value>Título</value>
   </data>
-  <data name="ALBUM_COL" xml:space="preserve">
+  <data name="ALBUM" xml:space="preserve">
     <value>Álbum</value>
   </data>
   <data name="LOADING_TITLE" xml:space="preserve">
     <value>Cargando...</value>
   </data>
-  <data name="TEMPLATE_TITILE" xml:space="preserve">
+  <data name="TEMPLATE" xml:space="preserve">
     <value>Plantilla</value>
   </data>
-  <data name="SETTINGS_TAB" xml:space="preserve">
+  <data name="SETTINGS" xml:space="preserve">
     <value>Ajustes</value>
   </data>
-  <data name="ARTIST_COL" xml:space="preserve">
+  <data name="ARTIST" xml:space="preserve">
     <value>Artista</value>
   </data>
-  <data name="ALBUM_ARTIST_COL" xml:space="preserve">
+  <data name="ALBUM_ARTIST" xml:space="preserve">
     <value>Artista del álbum</value>
   </data>
-  <data name="DURATION_COL" xml:space="preserve">
+  <data name="DURATION" xml:space="preserve">
     <value>Duración</value>
   </data>
-  <data name="FOLDERS_TAB" xml:space="preserve">
+  <data name="FOLDERS" xml:space="preserve">
     <value>Carpetas</value>
   </data>
-  <data name="DIRECTORY_COL" xml:space="preserve">
+  <data name="DIRECTORY" xml:space="preserve">
     <value>Directorio</value>
   </data>
-  <data name="RESTORE_SETTINGS_BTN" xml:space="preserve">
+  <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Reestablecer</value>
   </data>
-  <data name="WITH_TAGS_TAB" xml:space="preserve">
+  <data name="WITH_TAGS" xml:space="preserve">
     <value>Con etiquetas</value>
   </data>
-  <data name="NO_TITLE_TAG_TAB" xml:space="preserve">
+  <data name="NO_TITLE_TAG" xml:space="preserve">
     <value>Sin etiqueta de título</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
@@ -192,29 +192,26 @@
   <data name="FILE_NOT_FOUND_MSG" xml:space="preserve">
     <value>Archivo no encontrado.</value>
   </data>
-  <data name="REPLACE_BTN" xml:space="preserve">
+  <data name="REPLACE" xml:space="preserve">
     <value>Reemplazar</value>
   </data>
-  <data name="SKIP_BTN" xml:space="preserve">
+  <data name="SKIP" xml:space="preserve">
     <value>Omitir</value>
   </data>
-  <data name="RENAME_BTN" xml:space="preserve">
+  <data name="RENAME" xml:space="preserve">
     <value>Renombrar</value>
   </data>
-  <data name="REPEATED_FILE_TITLE" xml:space="preserve">
+  <data name="REPEATED_FILE" xml:space="preserve">
     <value>Archivo repetido</value>
   </data>
-  <data name="IMPORT_SETTINGS_BTN" xml:space="preserve">
+  <data name="IMPORT_SETTINGS" xml:space="preserve">
     <value>Importar</value>
   </data>
-  <data name="EXPORT_SETTINGS_BTN" xml:space="preserve">
+  <data name="EXPORT_SETTINGS" xml:space="preserve">
     <value>Exportar</value>
   </data>
   <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
     <value>Función no implementada aún.</value>
-  </data>
-  <data name="ADD_FOLDER_TITLE" xml:space="preserve">
-    <value>Añadir carpeta/s</value>
   </data>
   <data name="FILE_REPEATED_MSG" xml:space="preserve">
     <value>Ya existe un archivo con el mismo nombre en esta ubicación ¿Cómo desea continuar?</value>
@@ -225,9 +222,6 @@
   <data name="LOCATION_MSG" xml:space="preserve">
     <value>Ubicación:</value>
   </data>
-  <data name="NEW_FILE_NAME_MSG" xml:space="preserve">
-    <value>Nuevo nombre:</value>
-  </data>
   <data name="CURRENT_FILE_NAME_MSG" xml:space="preserve">
     <value>Nombre actual:</value>
   </data>
@@ -236,5 +230,32 @@
   </data>
   <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
     <value>Archivo corrupto o incorrecto.</value>
+  </data>
+  <data name="LANGUAGE" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="ADD_FILE" xml:space="preserve">
+    <value>Añadir archivo</value>
+  </data>
+  <data name="EXIT" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="FILE" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="SAVE_LIST" xml:space="preserve">
+    <value>Guardar lista</value>
+  </data>
+  <data name="RESTART" xml:space="preserve">
+    <value>Reiniciar</value>
+  </data>
+  <data name="EXIT_MSG" xml:space="preserve">
+    <value>¿Desea salir?</value>
+  </data>
+  <data name="HELP" xml:space="preserve">
+    <value>Ayuda</value>
+  </data>
+  <data name="ABOUT" xml:space="preserve">
+    <value>Acerca de</value>
   </data>
 </root>

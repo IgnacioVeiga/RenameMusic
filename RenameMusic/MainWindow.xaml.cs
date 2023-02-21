@@ -17,13 +17,8 @@ namespace RenameMusic
         public MainWindow()
         {
             InitializeComponent();
+            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
-
-            /*
-             * TODO: leer base de datos y completar las tablas,
-             * validar todos los items de cada pestaña que aún existen
-             * (En caso de que no existan se deben resaltar en color rojo)
-             */
         }
 
         private void AddFolderBTN_Click(object sender, RoutedEventArgs e)
@@ -56,10 +51,10 @@ namespace RenameMusic
 
                     folderList.Items.Add(folderItem);
                 }
+
+                tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
                 renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
             }
-
-            // TODO: generar un archivo de log con todos los errores y encriptarlo
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -70,7 +65,6 @@ namespace RenameMusic
         {
             try
             {
-                // Reviso la tabla de carpetas
                 foreach (Folder folderItem in folderList.Items)
                 {
                     foreach (AudioFile mFileItem in withTagsList.Items)
@@ -87,6 +81,7 @@ namespace RenameMusic
                 withTagsList.Items.Clear();
                 noTitleTagList.Items.Clear();
                 folderList.Items.Clear();
+                tabs.Visibility = Visibility.Hidden;
 
                 MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
             }
@@ -127,7 +122,6 @@ namespace RenameMusic
         {
             try
             {
-                // Obtengo el id de los archivos asociados a la carpeta seleccionada
                 string id = ((Folder)((Button)sender).DataContext).Id;
 
                 for (int i = 0; i < withTagsList.Items.Count;)
@@ -149,6 +143,7 @@ namespace RenameMusic
                 }
 
                 renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
+                tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             }
             catch (Exception ex)
             {
@@ -166,7 +161,7 @@ namespace RenameMusic
         {
             Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
             Settings.Default.Save();
-            MessageBox.Show(Strings.SETTINGS_RESTORED_MSG);
+            MessageBox.Show(Strings.SETTINGS_RESTORED);
         }
 
         private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
@@ -185,7 +180,7 @@ namespace RenameMusic
 
             if (langSelected.IsVisible)
             {
-                MessageBoxResult resp = MessageBox.Show(Strings.TOGGLE_LANG_MSG, "REINICIAR AHORA?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult resp = MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTART}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (resp == MessageBoxResult.Yes)
                 {
                     App.RestartApp();
@@ -195,7 +190,7 @@ namespace RenameMusic
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult resp = MessageBox.Show("DESEA SALIR DEL PROGRAMA?","SALIR", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult resp = MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (resp == MessageBoxResult.Yes)
                 Application.Current.Shutdown();
         }
