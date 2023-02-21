@@ -1,5 +1,6 @@
 ﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using RenameMusic.Util;
 using System;
 using System.Windows;
 
@@ -45,7 +46,7 @@ namespace RenameMusic
                 }
 
                 // Si no hay simbolos extraños y existe al menos 1 tag
-                if (MyFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
+                if (FilenameFunctions.IsValidFileName(criterioParaChequear) && contieneUnTag)
                 {
                     // Guarda cambios en la configuración de la app
                     Settings.Default.DefaultTemplate = template.Text;

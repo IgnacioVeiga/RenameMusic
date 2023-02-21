@@ -9,13 +9,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="RepeatedFile.xaml.cs">
+    <Compile Update="Assets\XAML\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Config\ConfigTemplate.xaml.cs">
+    <Compile Update="Assets\XAML\ConfigTemplate.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LoadingBar.xaml.cs">
+    <Compile Update="Assets\XAML\LoadingBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -31,13 +31,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="RepeatedFile.xaml">
+    <Page Update="Assets\XAML\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Config\ConfigTemplate.xaml">
+    <Page Update="Assets\XAML\ConfigTemplate.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="LoadingBar.xaml">
+    <Page Update="Assets\XAML\LoadingBar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

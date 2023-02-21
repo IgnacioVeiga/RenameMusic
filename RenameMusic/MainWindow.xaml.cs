@@ -1,5 +1,6 @@
 ﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using RenameMusic.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,22 +17,14 @@ namespace RenameMusic
     {
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
-                pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
+            InitializeComponent();
+            pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
 
-                /*
-                 * TODO: leer base de datos y completar las tablas,
-                 * validar todos los items de cada pestaña que aún existen
-                 * (En caso de que no existan se deben resaltar en color rojo)
-                 */
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-                // TODO: generar un log en cada exception y cambiar el mensaje de error por uno más amigable
-            }
+            /*
+             * TODO: leer base de datos y completar las tablas,
+             * validar todos los items de cada pestaña que aún existen
+             * (En caso de que no existan se deben resaltar en color rojo)
+             */
         }
 
         private void AddFolderBTN_Click(object sender, RoutedEventArgs e)
@@ -56,7 +49,7 @@ namespace RenameMusic
                     foreach (string filePath in MyFunctions.GetFilePaths(folderPath, false))
                     {
                         // Creo el objeto con la libreria TagLib en un metodo aparte para capturar errores
-                        MusicFile mFile = MyFunctions.GetMusicFile(filePath);
+                        var mFile = MyFunctions.GetMusicFile(filePath);
 
                         if (mFile is not null)
                         {
@@ -97,7 +90,7 @@ namespace RenameMusic
                         {
                             string oldFileName = folderItem.Ruta + @"\" + mFileItem.NombreActual + "." + mFileItem.Formato;
                             string newFileName = folderItem.Ruta + @"\" + mFileItem.NuevoNombre + "." + mFileItem.Formato;
-                            MyFunctions.RenameFile(oldFileName, newFileName);
+                            FilenameFunctions.RenameFile(oldFileName, newFileName);
                         }
                     }
                 }
@@ -119,7 +112,7 @@ namespace RenameMusic
             pictures.Source = null;
             if ((MusicFile)((ListView)sender).SelectedItem is null)
             {
-                pictures.Source = new BitmapImage(new Uri("./icon.ico", UriKind.Relative));
+                pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
                 return;
             }
 
@@ -150,28 +143,19 @@ namespace RenameMusic
 
                 for (int i = 0; i < withTagsList.Items.Count;)
                 {
-                    if (((MusicFile)withTagsList.Items[i]).CarpetaId.Equals(id))
-                    {
-                        withTagsList.Items.RemoveAt(i);
-                    }
+                    if (((MusicFile)withTagsList.Items[i]).CarpetaId.Equals(id)) withTagsList.Items.RemoveAt(i);
                     else i++;
                 }
 
                 for (int i = 0; i < noTitleTagList.Items.Count;)
                 {
-                    if (((MusicFile)noTitleTagList.Items[i]).CarpetaId == id)
-                    {
-                        noTitleTagList.Items.RemoveAt(i);
-                    }
+                    if (((MusicFile)noTitleTagList.Items[i]).CarpetaId == id) noTitleTagList.Items.RemoveAt(i);
                     else i++;
                 }
 
                 for (int i = 0; i < folderList.Items.Count;)
                 {
-                    if (((MusicFolder)folderList.Items[i]).CancionesId == id)
-                    {
-                        folderList.Items.RemoveAt(i);
-                    }
+                    if (((MusicFolder)folderList.Items[i]).CancionesId == id) folderList.Items.RemoveAt(i);
                     else i++;
                 }
 
@@ -206,21 +190,15 @@ namespace RenameMusic
             MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
-        private void ChangeLanguage_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
-        }
-
         private void LangSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            {
-                AppLanguage.ChangeLanguage(((ComboBox)sender).SelectedIndex);
+            // ToDo: preguntar antes de reiniciar
+            AppLanguage.ChangeLanguage(((ComboBox)sender).SelectedIndex);
 
-                if (langSelected.IsVisible)
-                {
-                    MessageBox.Show(Strings.TOGGLE_LANG_MSG, "", MessageBoxButton.OK, MessageBoxImage.Information);
-                    App.RestartApp();
-                }
+            if (langSelected.IsVisible)
+            {
+                MessageBox.Show(Strings.TOGGLE_LANG_MSG, "", MessageBoxButton.OK, MessageBoxImage.Information);
+                App.RestartApp();
             }
         }
     }
