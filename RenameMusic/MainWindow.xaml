@@ -15,22 +15,13 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="{x:Static p:Strings.FILE}">
-                    <MenuItem Header="{x:Static p:Strings.ADD_FILE}" IsEnabled="False"/>
-                    <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolderBTN_Click"/>
-                    <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" IsEnabled="False"/>
+                    <MenuItem Header="{x:Static p:Strings.ADD_FILE}" Click="AddFile_Click" IsEnabled="False"/>
+                    <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
+                    <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" Click="SaveList_Click" IsEnabled="False"/>
                     <Separator />
                     <MenuItem x:Name="renameFilesBTN" Header="{x:Static p:Strings.RENAME_FILES}" Click="RenameFilesBTN_Click" IsEnabled="False"/>
                     <Separator />
                     <MenuItem Header="{x:Static p:Strings.EXIT}" Click="ExitMenuItem_Click"/>
-                </MenuItem>
-
-                <MenuItem Header="{x:Static p:Strings.LANGUAGE}">
-                    <!--<MenuItem Header="English" IsCheckable="True" IsEnabled="False"/>
-                    <MenuItem Header="Español" IsCheckable="True" IsEnabled="False"/>-->
-                    <ComboBox x:Name="langSelected" SelectionChanged="LangSelected_SelectionChanged" SelectedIndex="{Binding LangIndex, Source={x:Static properties:Settings.Default}}">
-                        <ComboBoxItem Content="English"/>
-                        <ComboBoxItem Content="Español"/>
-                    </ComboBox>
                 </MenuItem>
 
                 <MenuItem Header="{x:Static p:Strings.SETTINGS}">
@@ -39,10 +30,17 @@
                     <MenuItem Header="{x:Static p:Strings.EXPORT_SETTINGS}" Click="ExportSettingsBTN_Click" IsEnabled="False"/>
                     <Separator />
                     <MenuItem Header="{x:Static p:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
+
+                    <MenuItem Header="{x:Static p:Strings.LANGUAGE}">
+                        <ComboBox x:Name="langSelected" SelectionChanged="LangSelected_SelectionChanged" SelectedIndex="{Binding LangIndex, Source={x:Static properties:Settings.Default}}">
+                            <ComboBoxItem Content="English"/>
+                            <ComboBoxItem Content="Español"/>
+                        </ComboBox>
+                    </MenuItem>
                 </MenuItem>
 
-                <MenuItem Header="{x:Static p:Strings.HELP}" IsEnabled="False">
-                    <MenuItem Header="{x:Static p:Strings.ABOUT}"/>
+                <MenuItem Header="{x:Static p:Strings.HELP}">
+                    <MenuItem Header="{x:Static p:Strings.ABOUT}" IsEnabled="False"/>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>
@@ -53,7 +51,7 @@
         <TabControl x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,25,200,10">
 
             <TabItem Header="{x:Static p:Strings.WITH_TAGS}">
-                <ListView x:Name="withTagsList" Margin="10,10,10,10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
+                <ListView x:Name="withTagsList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="{x:Static p:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
@@ -62,15 +60,15 @@
                             <GridViewColumn Header="{x:Static p:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
                             <GridViewColumn Header="{x:Static p:Strings.TITLE}" DisplayMemberBinding="{Binding Tags.Title}"/>
                             <GridViewColumn Header="{x:Static p:Strings.ALBUM}" DisplayMemberBinding="{Binding Tags.Album}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.Performers}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.AlbumArtistsSort}"/>
+                            <GridViewColumn Header="{x:Static p:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.Performers[0]}"/>
+                            <GridViewColumn Header="{x:Static p:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.AlbumArtists[0]}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
             <TabItem Header="{x:Static p:Strings.NO_TITLE_TAG}">
-                <ListView x:Name="noTitleTagList" Margin="10,10,10,10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
+                <ListView x:Name="noTitleTagList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="{x:Static p:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
@@ -82,7 +80,7 @@
             </TabItem>
 
             <TabItem Header="{x:Static p:Strings.FOLDERS}">
-                <ListView x:Name="folderList" Margin="10,10,10,10" d:ItemsSource="{d:SampleData ItemCount=10}">
+                <ListView x:Name="folderList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=10}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="30">

@@ -21,7 +21,12 @@ namespace RenameMusic
             pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
         }
 
-        private void AddFolderBTN_Click(object sender, RoutedEventArgs e)
+        private void AddFile_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+        }
+
+        private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
             string[] folders = MyFunctions.ShowFolderPickerDialog();
             if (folders is null) return;
@@ -59,6 +64,11 @@ namespace RenameMusic
             {
                 MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void SaveList_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
@@ -153,7 +163,7 @@ namespace RenameMusic
 
         private void TemplateBTN_Click(object sender, RoutedEventArgs e)
         {
-            ConfigTemplate config = new();
+            Template config = new();
             config.ShowDialog();
         }
 

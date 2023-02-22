@@ -12,7 +12,7 @@
     <Compile Update="Assets\XAML\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\XAML\ConfigTemplate.xaml.cs">
+    <Compile Update="Assets\XAML\Template.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Assets\XAML\LoadingBar.xaml.cs">
@@ -34,7 +34,7 @@
     <Page Update="Assets\XAML\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\XAML\ConfigTemplate.xaml">
+    <Page Update="Assets\XAML\Template.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\XAML\LoadingBar.xaml">
