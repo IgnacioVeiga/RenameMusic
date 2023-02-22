@@ -258,4 +258,16 @@
   <data name="ABOUT" xml:space="preserve">
     <value>Acerca de</value>
   </data>
+  <data name="YEAR" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="TRACK_NUM" xml:space="preserve">
+    <value>Número de pista</value>
+  </data>
+  <data name="INVALID_TEMPLATE_MSG" xml:space="preserve">
+    <value>La plantilla contiene caracteres inválidos y no pueden ser usados como nombre de archivo.</value>
+  </data>
+  <data name="NOT_ALLOWED" xml:space="preserve">
+    <value>No permitido</value>
+  </data>
 </root>

@@ -259,6 +259,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The template contains invalid characters and cannot be used as file name..
+        /// </summary>
+        public static string INVALID_TEMPLATE_MSG {
+            get {
+                return ResourceManager.GetString("INVALID_TEMPLATE_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keep my choice with the next files..
         /// </summary>
         public static string KEEP_MY_CHOICE_MSG {
@@ -327,6 +336,15 @@ namespace RenameMusic.Lang {
         public static string NO_TITLE_TAG {
             get {
                 return ResourceManager.GetString("NO_TITLE_TAG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not allowed.
+        /// </summary>
+        public static string NOT_ALLOWED {
+            get {
+                return ResourceManager.GetString("NOT_ALLOWED", resourceCulture);
             }
         }
         
@@ -466,6 +484,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Track number.
+        /// </summary>
+        public static string TRACK_NUM {
+            get {
+                return ResourceManager.GetString("TRACK_NUM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string TYPE {
@@ -480,6 +507,15 @@ namespace RenameMusic.Lang {
         public static string WITH_TAGS {
             get {
                 return ResourceManager.GetString("WITH_TAGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string YEAR {
+            get {
+                return ResourceManager.GetString("YEAR", resourceCulture);
             }
         }
     }
