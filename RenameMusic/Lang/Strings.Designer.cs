@@ -421,6 +421,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search in subfolders.
+        /// </summary>
+        public static string SEARCH_SUBFOLDERS {
+            get {
+                return ResourceManager.GetString("SEARCH_SUBFOLDERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string SETTINGS {

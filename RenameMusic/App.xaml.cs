@@ -17,12 +17,6 @@ namespace RenameMusic
         App()
         {
             AppLanguage.ChangeLanguage(Settings.Default.LangIndex);
-
-            if (string.IsNullOrWhiteSpace(Settings.Default.DefaultTemplate))
-            {
-                Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
-                Settings.Default.Save();
-            }
         }
 
         internal static void RestartApp()

@@ -31,6 +31,10 @@
                     <Separator />
                     <MenuItem Header="{x:Static p:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
 
+                    <MenuItem Header="{x:Static p:Strings.SEARCH_SUBFOLDERS}" IsCheckable="True"
+                              IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
+                              Checked="IncludeSubFolders_Check"/>
+
                     <MenuItem Header="{x:Static p:Strings.LANGUAGE}">
                         <ComboBox x:Name="langSelected" SelectionChanged="LangSelected_SelectionChanged" SelectedIndex="{Binding LangIndex, Source={x:Static properties:Settings.Default}}">
                             <ComboBoxItem Content="English"/>

@@ -270,4 +270,7 @@
   <data name="NOT_ALLOWED" xml:space="preserve">
     <value>No permitido</value>
   </data>
+  <data name="SEARCH_SUBFOLDERS" xml:space="preserve">
+    <value>Buscar en subcarpetas</value>
+  </data>
 </root>

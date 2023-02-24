@@ -38,7 +38,7 @@ namespace RenameMusic
             foreach (string folderpath in folders)
             {
                 Folder folderItem = new(Guid.NewGuid().ToString("N"), folderpath + Path.DirectorySeparatorChar);
-                List<string> audioFilesPath = MyFunctions.GetFilePaths(folderpath, false);
+                List<string> audioFilesPath = MyFunctions.GetFilePaths(folderpath);
 
                 if (audioFilesPath.Count > 0)
                 {
@@ -178,6 +178,11 @@ namespace RenameMusic
         private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+        }
+
+        private void IncludeSubFolders_Check(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.Save();
         }
 
         private void LangSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)

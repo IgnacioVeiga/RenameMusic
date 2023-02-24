@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using RenameMusic.Lang;
+using RenameMusic.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +11,12 @@ namespace RenameMusic.Util
 {
     public static class MyFunctions
     {
-        public static List<string> GetFilePaths(string path, bool includeSubFolders)
+        public static List<string> GetFilePaths(string path)
         {
             List<string> list = new();
             try
             {
-                SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+                SearchOption searchOption = Settings.Default.IncludeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
                 string[] type = new string[] { ".mp3", ".m4a", ".ogg", ".flac" };
                 list = Directory.GetFiles(path, "*.*", searchOption)
