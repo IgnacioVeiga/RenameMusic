@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using TagLib;
 
 namespace RenameMusic.Util
 {
@@ -26,26 +25,40 @@ namespace RenameMusic.Util
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-                return new List<string>();
+                list = new();
             }
             return list;
         }
 
-        public static string[] ShowFolderPickerDialog()
+        /// <summary>
+        /// Common dialog for selecting files or folders
+        /// </summary>
+        /// <param name="isFolderPicker">"True" to select folders or "false" to select files.</param>
+        /// <returns></returns>
+        public static string[] ShowFPickerDialog(bool isFolderPicker)
         {
-            CommonOpenFileDialog folderDialog = new()
+            CommonOpenFileDialog dialog = new()
             {
                 AllowNonFileSystemItems = true,
-                IsFolderPicker = true,
                 Multiselect = true,
-                Title = Strings.ADD_FOLDER,
                 EnsurePathExists = true,
                 DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
             };
 
-            if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
-                return folderDialog.FileNames.Where(fn => !string.IsNullOrEmpty(fn)).ToArray();
-            else return null;
+            if (isFolderPicker)
+            {
+                dialog.IsFolderPicker = true;
+                dialog.Title = Strings.ADD_FOLDER;
+            }
+            else
+            {
+                dialog.IsFolderPicker = false;
+                dialog.Title = Strings.ADD_FILE;
+            }
+
+            return dialog.ShowDialog() == CommonFileDialogResult.Ok
+                ? dialog.FileNames.Where(fn => !string.IsNullOrEmpty(fn)).ToArray()
+                : null;
         }
     }
 }

@@ -288,9 +288,9 @@ namespace RenameMusic.Lang {
         /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
-        public static string LOADING_TITLE {
+        public static string LOADING {
             get {
-                return ResourceManager.GetString("LOADING_TITLE", resourceCulture);
+                return ResourceManager.GetString("LOADING", resourceCulture);
             }
         }
         

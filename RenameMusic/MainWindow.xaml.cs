@@ -2,6 +2,7 @@
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,52 +24,47 @@ namespace RenameMusic
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+            string[] files = MyFunctions.ShowFPickerDialog(false);
+            if (files is null) return;
+
+            // ToDo: Do almost the same as in the function below. See how to reuse the code without repeating it.
         }
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            string[] folders = MyFunctions.ShowFolderPickerDialog();
+            string[] folders = MyFunctions.ShowFPickerDialog(true);
             if (folders is null) return;
 
-            try
+            foreach (string folderpath in folders)
             {
-                foreach (string folderPath in folders)
-                {
-                    Folder folderItem = new(Guid.NewGuid().ToString("N"), folderPath + Path.DirectorySeparatorChar);
+                Folder folderItem = new(Guid.NewGuid().ToString("N"), folderpath + Path.DirectorySeparatorChar);
+                List<string> audioFilesPath = MyFunctions.GetFilePaths(folderpath, false);
 
-                    // Se toma lista de archivos con formato mp3, m4a y ogg de la carpeta
-                    foreach (string filePath in MyFunctions.GetFilePaths(folderPath, false))
+                if (audioFilesPath.Count > 0)
+                {
+                    foreach (string filepath in audioFilesPath)
                     {
-                        AudioFile audiofile = new(filePath);
+                        AudioFile audiofile = new(filepath, folderItem.Id);
 
                         if (audiofile.Tags is not null)
                         {
-                            audiofile.Id = folderItem.Id;
-
-                            // Según si el nuevo nombre existe, entonces al menos tiene el tag de titulo
                             if (string.IsNullOrEmpty(audiofile.NewName))
                                 noTitleTagList.Items.Add(audiofile);
                             else
                                 withTagsList.Items.Add(audiofile);
                         }
                     }
-
                     folderList.Items.Add(folderItem);
                 }
+            }
 
-                tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
-                renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
+            renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
         }
 
         private void SaveList_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
@@ -176,12 +172,12 @@ namespace RenameMusic
 
         private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
+            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private void LangSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)

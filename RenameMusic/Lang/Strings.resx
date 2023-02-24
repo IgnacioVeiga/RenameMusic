@@ -153,7 +153,7 @@
   <data name="ALBUM" xml:space="preserve">
     <value>Album</value>
   </data>
-  <data name="LOADING_TITLE" xml:space="preserve">
+  <data name="LOADING" xml:space="preserve">
     <value>Loading...</value>
   </data>
   <data name="TEMPLATE" xml:space="preserve">

@@ -1,19 +1,20 @@
 ﻿using RenameMusic.Lang;
 using System;
 using System.IO;
+using System.Windows;
 using TagLib;
 
 namespace RenameMusic.Util
 {
     public class AudioFile
     {
-        public AudioFile(string path)
+        public AudioFile(string path, string folderId)
         {
             try
             {
                 TagLib.File TLF = TagLib.File.Create(path);
 
-                Id = Guid.NewGuid().ToString("N");
+                Id = folderId;
                 Duration = TLF.Properties.Duration;
                 Tags = TLF.Tag;
                 Folder = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar;
@@ -22,7 +23,7 @@ namespace RenameMusic.Util
             catch (CorruptFileException)
             {
                 Tags = null;
-                throw new CorruptFileException($"{Strings.CORRUPT_FILE_EX_MSG} \n {path}");
+                MessageBox.Show($"{Strings.CORRUPT_FILE_EX_MSG}\n{path}", Strings.LOADING, MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 
