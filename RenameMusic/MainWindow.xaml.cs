@@ -21,17 +21,17 @@ namespace RenameMusic
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
 
-            foreach (Languages language in Enum.GetValues(typeof(Languages)))
+            foreach (var language in AppLanguage.Languages)
             {
+                bool isLangSelected = Settings.Default.Lang == language.Key;
                 MenuItem menuItem = new()
                 {
-                    Tag = EnumHelper.GetDisplayValue(language),
-                    Header = language,
-                    IsCheckable = true
+                    Tag = language.Key,
+                    Header = language.Value,
+                    IsCheckable = true,
+                    IsChecked = isLangSelected,
+                    IsEnabled = !isLangSelected
                 };
-                bool condition = Settings.Default.Lang == menuItem.Tag.ToString();
-                menuItem.IsChecked = condition;
-                menuItem.IsEnabled = !condition;
                 menuItem.Click += LanguageSelected_Click;
                 languages.Items.Add(menuItem);
             }
@@ -234,7 +234,7 @@ namespace RenameMusic
 
         private void LanguageSelected_Click(object sender, RoutedEventArgs e)
         {
-            string lang = (sender as MenuItem).Tag.ToString();
+            string lang = (sender as MenuItem)?.Tag.ToString();
             AppLanguage.ChangeLanguage(lang);
             MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTARTING}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 

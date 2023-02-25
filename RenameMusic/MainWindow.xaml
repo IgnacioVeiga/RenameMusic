@@ -13,7 +13,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="20"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -39,9 +39,9 @@
                 <Separator />
                 <MenuItem Header="{x:Static p:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
 
-                <MenuItem Header="{x:Static p:Strings.SEARCH_SUBFOLDERS}" IsCheckable="True"
-                              IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
-                              Checked="IncludeSubFolders_Check"/>
+                <MenuItem Header="{x:Static p:Strings.SEARCH_SUBFOLDERS}"
+                          IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
+                          Checked="IncludeSubFolders_Check" IsCheckable="True"/>
 
                 <MenuItem x:Name="languages" Header="{x:Static p:Strings.LANGUAGE}"/>
 
