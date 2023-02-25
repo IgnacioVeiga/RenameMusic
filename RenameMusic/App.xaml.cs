@@ -16,7 +16,7 @@ namespace RenameMusic
 
         App()
         {
-            AppLanguage.ChangeLanguage(Settings.Default.LangIndex);
+            AppLanguage.ChangeLanguage(Settings.Default.Lang);
         }
 
         internal static void RestartApp()

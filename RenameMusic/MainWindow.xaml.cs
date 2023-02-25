@@ -20,6 +20,21 @@ namespace RenameMusic
             InitializeComponent();
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
+
+            foreach (Languages language in Enum.GetValues(typeof(Languages)))
+            {
+                MenuItem menuItem = new()
+                {
+                    Tag = EnumHelper.GetDisplayValue(language),
+                    Header = language,
+                    IsCheckable = true
+                };
+                bool condition = Settings.Default.Lang == menuItem.Tag.ToString();
+                menuItem.IsChecked = condition;
+                menuItem.IsEnabled = !condition;
+                menuItem.Click += LanguageSelected_Click;
+                languages.Items.Add(menuItem);
+            }
         }
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
@@ -217,18 +232,15 @@ namespace RenameMusic
             Settings.Default.Save();
         }
 
-        private void LangSelected_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LanguageSelected_Click(object sender, RoutedEventArgs e)
         {
-            AppLanguage.ChangeLanguage(((ComboBox)sender).SelectedIndex);
+            string lang = (sender as MenuItem).Tag.ToString();
+            AppLanguage.ChangeLanguage(lang);
+            MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTARTING}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
-            if (langSelected.IsVisible)
-            {
-                MessageBoxResult resp = MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTART}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (resp == MessageBoxResult.Yes)
-                {
-                    App.RestartApp();
-                }
-            }
+            // ToDo: Make a temporary backup copy of the changes made to restore it later.
+
+            App.RestartApp();
         }
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)

@@ -49,13 +49,13 @@ namespace RenameMusic.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int LangIndex {
+        [global::System.Configuration.DefaultSettingValueAttribute("en")]
+        public string Lang {
             get {
-                return ((int)(this["LangIndex"]));
+                return ((string)(this["Lang"]));
             }
             set {
-                this["LangIndex"] = value;
+                this["Lang"] = value;
             }
         }
         

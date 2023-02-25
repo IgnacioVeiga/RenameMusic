@@ -394,11 +394,11 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart.
+        ///   Looks up a localized string similar to Restarting....
         /// </summary>
-        public static string RESTART {
+        public static string RESTARTING {
             get {
-                return ResourceManager.GetString("RESTART", resourceCulture);
+                return ResourceManager.GetString("RESTARTING", resourceCulture);
             }
         }
         
@@ -484,7 +484,7 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The language will change when the application is restarted..
+        ///   Looks up a localized string similar to The application will restart and the selected language will be applied..
         /// </summary>
         public static string TOGGLE_LANG_MSG {
             get {

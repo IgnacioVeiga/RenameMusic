@@ -226,7 +226,7 @@
     <value>Current name:</value>
   </data>
   <data name="TOGGLE_LANG_MSG" xml:space="preserve">
-    <value>The language will change when the application is restarted.</value>
+    <value>The application will restart and the selected language will be applied.</value>
   </data>
   <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
     <value>Corrupt or incorrect file.</value>
@@ -246,8 +246,8 @@
   <data name="SAVE_LIST" xml:space="preserve">
     <value>Save list</value>
   </data>
-  <data name="RESTART" xml:space="preserve">
-    <value>Restart</value>
+  <data name="RESTARTING" xml:space="preserve">
+    <value>Restarting...</value>
   </data>
   <data name="EXIT_MSG" xml:space="preserve">
     <value>Do you want to exit?</value>
