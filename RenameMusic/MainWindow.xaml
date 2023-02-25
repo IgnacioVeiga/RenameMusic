@@ -9,50 +9,57 @@
         MinHeight="350" MinWidth="600"
         SizeToContent="Manual" 
         ResizeMode="CanResizeWithGrip"
-        Title="Rename Music" Foreground="#FF222222" Background="#FF999999">
+        Title="Rename Music" Foreground="#FF333333" Background="#FFBBBBBB">
 
     <Grid>
-        <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="{x:Static p:Strings.FILE}">
-                    <MenuItem Header="{x:Static p:Strings.ADD_FILE}" Click="AddFile_Click" IsEnabled="False"/>
-                    <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
-                    <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" Click="SaveList_Click" IsEnabled="False"/>
-                    <Separator />
-                    <MenuItem x:Name="renameFilesBTN" Header="{x:Static p:Strings.RENAME_FILES}" Click="RenameFilesBTN_Click" IsEnabled="False"/>
-                    <Separator />
-                    <MenuItem Header="{x:Static p:Strings.EXIT}" Click="ExitMenuItem_Click"/>
-                </MenuItem>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="400"></ColumnDefinition>
+            <ColumnDefinition Width="230"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-                <MenuItem Header="{x:Static p:Strings.SETTINGS}">
-                    <MenuItem Header="{x:Static p:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
-                    <MenuItem Header="{x:Static p:Strings.IMPORT_SETTINGS}" Click="ImportSettingsBTN_Click" IsEnabled="False"/>
-                    <MenuItem Header="{x:Static p:Strings.EXPORT_SETTINGS}" Click="ExportSettingsBTN_Click" IsEnabled="False"/>
-                    <Separator />
-                    <MenuItem Header="{x:Static p:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="{x:Static p:Strings.FILE}">
+                <MenuItem Header="{x:Static p:Strings.ADD_FILE}" Click="AddFile_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
+                <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" Click="SaveList_Click" IsEnabled="False"/>
+                <Separator />
+                <MenuItem x:Name="renameFilesBTN" Header="{x:Static p:Strings.RENAME_FILES}" Click="RenameFilesBTN_Click" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="{x:Static p:Strings.EXIT}" Click="ExitMenuItem_Click"/>
+            </MenuItem>
 
-                    <MenuItem Header="{x:Static p:Strings.SEARCH_SUBFOLDERS}" IsCheckable="True"
+            <MenuItem Header="{x:Static p:Strings.SETTINGS}">
+                <MenuItem Header="{x:Static p:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
+                <MenuItem Header="{x:Static p:Strings.IMPORT_SETTINGS}" Click="ImportSettingsBTN_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static p:Strings.EXPORT_SETTINGS}" Click="ExportSettingsBTN_Click" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="{x:Static p:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
+
+                <MenuItem Header="{x:Static p:Strings.SEARCH_SUBFOLDERS}" IsCheckable="True"
                               IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                               Checked="IncludeSubFolders_Check"/>
 
-                    <MenuItem Header="{x:Static p:Strings.LANGUAGE}">
-                        <ComboBox x:Name="langSelected" SelectionChanged="LangSelected_SelectionChanged" SelectedIndex="{Binding LangIndex, Source={x:Static properties:Settings.Default}}">
-                            <ComboBoxItem Content="English"/>
-                            <ComboBoxItem Content="Español"/>
-                        </ComboBox>
-                    </MenuItem>
+                <MenuItem Header="{x:Static p:Strings.LANGUAGE}">
+                    <ComboBox x:Name="langSelected" SelectionChanged="LangSelected_SelectionChanged" SelectedIndex="{Binding LangIndex, Source={x:Static properties:Settings.Default}}">
+                        <ComboBoxItem Content="English"/>
+                        <ComboBoxItem Content="Español"/>
+                    </ComboBox>
                 </MenuItem>
+            </MenuItem>
 
-                <MenuItem Header="{x:Static p:Strings.HELP}">
-                    <MenuItem Header="{x:Static p:Strings.ABOUT}" IsEnabled="False"/>
-                </MenuItem>
-            </Menu>
-            <StackPanel></StackPanel>
-        </DockPanel>
+            <MenuItem Header="{x:Static p:Strings.HELP}">
+                <MenuItem Header="{x:Static p:Strings.ABOUT}" IsEnabled="False"/>
+            </MenuItem>
+        </Menu>
 
-        <Image x:Name="pictures" HorizontalAlignment="Right" VerticalAlignment="Top" Height="170" Width="170" Margin="0,50,10,0" Source="{Binding Pictures}"/>
 
-        <TabControl x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,25,200,10">
+        <Image Grid.Row="1" Grid.Column="1" x:Name="pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Height="170" Width="170" Margin="10" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}"/>
+
+        <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10">
 
             <TabItem Header="{x:Static p:Strings.WITH_TAGS}">
                 <ListView x:Name="withTagsList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
