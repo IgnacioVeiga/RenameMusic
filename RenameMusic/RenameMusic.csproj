@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Images\SplashScreen.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\Icons\icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -21,6 +25,9 @@
   <ItemGroup>
     <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Assets\Images\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Lang\Strings.Designer.cs">
