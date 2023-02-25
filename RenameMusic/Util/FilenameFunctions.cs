@@ -10,11 +10,9 @@ namespace RenameMusic.Util
     internal static class FilenameFunctions
     {
         /// <summary>
-        /// Esta funcion se usa para cuando tengamos que renombrar a un archivo
-        /// Nos aseguramos que tenga solamente los caracteres permitidos por Windows
+        /// Use before renamed a file to make sure the new name contains characters allowed by Windows.
         /// </summary>
-        /// <param name="fileName">Nombre del archivo sin extensión</param>
-        /// <returns>El nombre del archivo pero normalizado</returns>
+        /// <param name="fileName">Filename without extension.</param>
         public static string NormalizeFileName(string fileName)
         {
             string invalidChars = Regex.Escape(

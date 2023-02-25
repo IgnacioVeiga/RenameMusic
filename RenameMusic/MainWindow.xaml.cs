@@ -2,11 +2,11 @@
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using WinCopies.Linq;
 
 namespace RenameMusic
 {
@@ -24,27 +24,59 @@ namespace RenameMusic
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
         {
-            string[] files = MyFunctions.ShowFPickerDialog(false);
+            string[] files = Picker.ShowFilePicker();
             if (files is null) return;
+
+            foreach (string file in files)
+            {
+                Folder folder = folderList.Items.As<Folder>()
+                    .FirstOrDefaultValuePredicate(f => f.Path == Path.GetDirectoryName(file) + Path.DirectorySeparatorChar);
+
+                if (folder is null)
+                {
+                    folder = new(Guid.NewGuid().ToString("N"), Path.GetDirectoryName(file) + Path.DirectorySeparatorChar);
+                    folderList.Items.Add(folder);
+                }
+                AudioFile audiofile = new(folder.Id, file);
+
+                bool alreadyAdded =
+                    withTagsList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == audiofile.FilePath) is not null
+                    || noTitleTagList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == audiofile.FilePath) is not null;
+
+                if (alreadyAdded) MessageBox.Show($"{audiofile.FilePath}", Strings.REPEATED_FILE, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                else
+                {
+                    if (audiofile.Tags is not null)
+                    {
+                        if (string.IsNullOrEmpty(audiofile.NewName))
+                            noTitleTagList.Items.Add(audiofile);
+                        else
+                            withTagsList.Items.Add(audiofile);
+                    }
+                }
+            }
+
+            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
+            renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
 
             // ToDo: Do almost the same as in the function below. See how to reuse the code without repeating it.
         }
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            string[] folders = MyFunctions.ShowFPickerDialog(true);
+            string[] folders = Picker.ShowFolderPicker();
             if (folders is null) return;
 
             foreach (string folderpath in folders)
             {
                 Folder folderItem = new(Guid.NewGuid().ToString("N"), folderpath + Path.DirectorySeparatorChar);
-                List<string> audioFilesPath = MyFunctions.GetFilePaths(folderpath);
+                string[] audioFilesPath = Picker.GetFilePaths(folderpath);
 
-                if (audioFilesPath.Count > 0)
+                if (audioFilesPath.Length > 0)
                 {
                     foreach (string filepath in audioFilesPath)
                     {
-                        AudioFile audiofile = new(filepath, folderItem.Id);
+                        AudioFile audiofile = new(folderItem.Id, filepath);
 
                         if (audiofile.Tags is not null)
                         {

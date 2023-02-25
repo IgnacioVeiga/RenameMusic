@@ -8,7 +8,7 @@ namespace RenameMusic.Util
 {
     public class AudioFile
     {
-        public AudioFile(string path, string folderId)
+        public AudioFile(string folderId, string path)
         {
             try
             {

@@ -23,7 +23,7 @@
 
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
             <MenuItem Header="{x:Static p:Strings.FILE}">
-                <MenuItem Header="{x:Static p:Strings.ADD_FILE}" Click="AddFile_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static p:Strings.ADD_FILE}" Click="AddFile_Click" />
                 <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
                 <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" Click="SaveList_Click" IsEnabled="False"/>
                 <Separator />
@@ -60,7 +60,7 @@
         <Image Grid.Row="1" Grid.Column="1" x:Name="pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Height="170" Width="170" Margin="10" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}"/>
 
         <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10">
-
+            
             <TabItem Header="{x:Static p:Strings.WITH_TAGS}">
                 <ListView x:Name="withTagsList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
                     <ListView.View>
