@@ -63,32 +63,24 @@ namespace RenameMusic
 
         private void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
         {
-            try
+            foreach (AudioFile mFileItem in primaryList.Items)
             {
-                foreach (Folder folderItem in folderList.Items)
-                {
-                    foreach (AudioFile mFileItem in primaryList.Items)
-                    {
-                        if (mFileItem.Id == folderItem.Id)
-                        {
-                            string oldName = mFileItem.FilePath;
-                            string newName = folderItem.Path + Path.DirectorySeparatorChar + mFileItem.NewName + mFileItem.Type;
-                            FilenameFunctions.RenameFile(oldName, newName);
-                        }
-                    }
-                }
-                renameFilesBTN.IsEnabled = false;
-                primaryList.Items.Clear();
-                secondaryList.Items.Clear();
-                folderList.Items.Clear();
-                tabs.Visibility = Visibility.Hidden;
+                string oldName = mFileItem.FilePath;
+                string newName = mFileItem.Folder + mFileItem.NewName + mFileItem.Type;
 
-                MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
+                if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase)|| !File.Exists(oldName))
+                    continue;
+
+                FilenameFunctions.RenameFile(oldName, newName);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            renameFilesBTN.IsEnabled = false;
+            primaryList.Items.Clear();
+            secondaryList.Items.Clear();
+            folderList.Items.Clear();
+            tabs.Visibility = Visibility.Hidden;
+
+            MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
 
         private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)

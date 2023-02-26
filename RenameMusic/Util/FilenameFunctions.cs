@@ -82,36 +82,23 @@ namespace RenameMusic.Util
             return true;
         }
 
-        public static void RenameFile(string oldFileName, string newFileName)
+        public static void RenameFile(string oldName, string newName)
         {
-            try
+            if (!File.Exists(newName))
             {
-                if (!File.Exists(oldFileName)) return;
-
-                // Antes hay que verificar si el nuevo nombre no coincide con el anterior para evitar errores
-                if (string.Equals(newFileName, oldFileName, StringComparison.OrdinalIgnoreCase))
-                    return;
-
-                // Verifico si ya existe un archivo con el nuevo nombre
-                if (File.Exists(newFileName))
+                try
                 {
-                    // Si existe un archivo con el mismo nombre le doy a elegir al usuario: Reemplazar, Omitir o Renombrar
-                    RepeatedFile RepeatedFile = new(oldFileName, newFileName);
-                    RepeatedFile.ShowDialog();
+                    // Rename it
+                    File.Move(oldName, newName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    // Cambiar el nombre del archivo
-                    File.Move(oldFileName, newFileName);
+                    MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (IOException ex)
+            else
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                _ = new RepeatedFile(oldName, newName).ShowDialog();
             }
         }
     }

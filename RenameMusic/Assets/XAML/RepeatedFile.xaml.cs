@@ -11,46 +11,29 @@ namespace RenameMusic
     /// </summary>
     public partial class RepeatedFile : Window
     {
-
-        public RepeatedFile(string pOldFileName, string pNewFileName)
+        public RepeatedFile(string oldName, string newName_Repeated)
         {
-            try
-            {
-                InitializeComponent();
-                keepChoice.IsChecked = Settings.Default.RepeatedFileKeepChoice;
-
-                // Nombres sin la ubicación y con formato
-                currentName.Content = pOldFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
-                newName.Content = pNewFileName[(pOldFileName.LastIndexOf(@"\") + 1)..];
-
-                // La ubicación
-                location.Content = pOldFileName[..(pOldFileName.LastIndexOf(@"\") + 1)];
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            InitializeComponent();
+            keepChoice.IsChecked = Settings.Default.RepeatedFileKeepChoice;
+            currentName.Content = Path.GetFileName(oldName);
+            newName.Content = Path.GetFileName(newName_Repeated);
+            location.Content = Path.GetDirectoryName(oldName) + Path.DirectorySeparatorChar;
         }
 
         private void ReplaceBTN_Click(object sender, RoutedEventArgs e)
         {
+            string oldFile = (string)location.Content + (string)currentName.Content;
+            string newFile = (string)location.Content + (string)newName.Content;
             try
             {
-                // Verificar si el archivo sigue existiendo luego de esta pausa.
-                if (File.Exists((string)location.Content + (string)newName.Content))
-                {
-                    File.Delete((string)location.Content + (string)newName.Content);
-                    File.Move((string)location.Content + (string)currentName.Content,
-                        (string)location.Content + (string)newName.Content);
-                }
-                else
-                {
-                    MessageBox.Show(Strings.FILE_NOT_FOUND_MSG);
-                }
+                if (File.Exists(newFile))
+                    File.Delete(newFile);
+
+                File.Move(oldFile, newFile);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(oldFile, Strings.FILE_NOT_FOUND_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Close();
         }
@@ -62,18 +45,19 @@ namespace RenameMusic
 
         private void RenameBTN_Click(object sender, RoutedEventArgs e)
         {
+            int num = 2;
+            string newFile = (string)location.Content + (string)newName.Content;
+            string dirAndFileName = location.Content.ToString() + Path.GetFileNameWithoutExtension(newFile);
+            string extension = Path.GetExtension(newFile);
+            
+            while (File.Exists($"{dirAndFileName} ({num}){extension}"))
+            {
+                num++;
+            }
+
             try
             {
-                int num = 2;
-                string pathAndName = location.Content.ToString() + newName.Content.ToString()[..^4];
-                string type = newName.Content.ToString()[^4..];
-                while (File.Exists($"{pathAndName} ({num}){type}"))
-                {
-                    num += 1;
-                }
-
-                File.Move(location.Content.ToString() + currentName.Content.ToString(), $"{pathAndName} ({num}){type}");
-
+                File.Move((string)location.Content + (string)currentName.Content, $"{dirAndFileName} ({num}){extension}");
             }
             catch (Exception ex)
             {
@@ -85,6 +69,7 @@ namespace RenameMusic
         private void RememberChoice_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.RepeatedFileKeepChoice = (bool)keepChoice.IsChecked;
+            Settings.Default.Save();
         }
     }
 }
