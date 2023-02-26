@@ -3,6 +3,7 @@ using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -44,6 +45,7 @@ namespace RenameMusic
                 string[] files = Picker.GetFilePaths(folderpath);
                 ListManager.AddFilesToListView(files, primaryList, secondaryList, folderList);
             }
+
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
         }
@@ -61,25 +63,32 @@ namespace RenameMusic
             MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
-        private void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
+        private async void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
         {
-            foreach (AudioFile mFileItem in primaryList.Items)
+            LoadingBar loadingbar = new(primaryList.Items.Count);
+            loadingbar.Show();
+
+            await Task.Run(() =>
             {
-                string oldName = mFileItem.FilePath;
-                string newName = mFileItem.Folder + mFileItem.NewName + mFileItem.Type;
+                foreach (AudioFile mFileItem in primaryList.Items)
+                {
+                    string oldName = mFileItem.FilePath;
+                    string newName = mFileItem.Folder + mFileItem.NewName + mFileItem.Type;
 
-                if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase)|| !File.Exists(oldName))
-                    continue;
+                    if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase) || !File.Exists(oldName))
+                        continue;
 
-                FilenameFunctions.RenameFile(oldName, newName);
-            }
+                    FilenameFunctions.RenameFile(oldName, newName);
+                    loadingbar.Dispatcher.Invoke(() => loadingbar.UpdateProgress());
+                }
+            });
 
             renameFilesBTN.IsEnabled = false;
             primaryList.Items.Clear();
             secondaryList.Items.Clear();
             folderList.Items.Clear();
             tabs.Visibility = Visibility.Hidden;
-
+            loadingbar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
 
