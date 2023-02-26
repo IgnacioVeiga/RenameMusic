@@ -6,8 +6,10 @@
         xmlns:local="clr-namespace:RenameMusic"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
-        Title="{x:Static p:Strings.LOADING}" Height="60" Width="360">
-    <Grid>
-        <ProgressBar x:Name="progressBar" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="300" ValueChanged="ProgressBar_ValueChanged"/>
+        ResizeMode="NoResize"
+        Title="{x:Static p:Strings.LOADING}" Height="100" Width="350">
+    <Grid Margin="20">
+        <ProgressBar Minimum="0" Maximum="100" Name="loadingBarStatus" ValueChanged="loadingBarStatus_ValueChanged" />
+        <TextBlock Text="{Binding ElementName=loadingBarStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </Window>

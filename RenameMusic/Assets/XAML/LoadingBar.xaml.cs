@@ -1,6 +1,4 @@
-﻿using RenameMusic.Lang;
-using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace RenameMusic
 {
@@ -11,24 +9,14 @@ namespace RenameMusic
     {
         public LoadingBar(double min, double max)
         {
-            try
-            {
-                InitializeComponent();
-
-                // 1. Recibir minimo y maximo y mapear estos valores entre 0 y 100.
-                // 2. Incrementar la barra a la par del otro proceso
-                progressBar.Minimum = min;
-                progressBar.Maximum = max;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            InitializeComponent();
+            loadingBarStatus.Minimum = min;
+            loadingBarStatus.Maximum = max;
         }
 
-        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void loadingBarStatus_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (progressBar.Value == progressBar.Maximum)
+            if (loadingBarStatus.Value == loadingBarStatus.Maximum)
             {
                 Close();
             }
@@ -36,7 +24,7 @@ namespace RenameMusic
 
         public void Increment(double val)
         {
-            progressBar.Value += val;
+            loadingBarStatus.Value += val;
         }
     }
 }
