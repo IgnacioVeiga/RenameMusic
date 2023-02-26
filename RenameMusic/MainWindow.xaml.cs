@@ -37,76 +37,23 @@ namespace RenameMusic
             }
         }
 
-        private void AddFile_Click(object sender, RoutedEventArgs e)
-        {
-            string[] files = Picker.ShowFilePicker();
-            if (files is null) return;
-
-            foreach (string file in files)
-            {
-                Folder folder = folderList.Items.As<Folder>()
-                    .FirstOrDefaultValuePredicate(f => f.Path == Path.GetDirectoryName(file) + Path.DirectorySeparatorChar);
-
-                if (folder is null)
-                {
-                    folder = new(Guid.NewGuid().ToString("N"), Path.GetDirectoryName(file) + Path.DirectorySeparatorChar);
-                    folderList.Items.Add(folder);
-                }
-                AudioFile audiofile = new(folder.Id, file);
-
-                bool alreadyAdded =
-                    withTagsList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == audiofile.FilePath) is not null
-                    || noTitleTagList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == audiofile.FilePath) is not null;
-
-                if (alreadyAdded) MessageBox.Show($"{audiofile.FilePath}", Strings.REPEATED_FILE, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                else
-                {
-                    if (audiofile.Tags is not null)
-                    {
-                        if (string.IsNullOrEmpty(audiofile.NewName))
-                            noTitleTagList.Items.Add(audiofile);
-                        else
-                            withTagsList.Items.Add(audiofile);
-                    }
-                }
-            }
-
-            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
-            renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
-
-            // ToDo: Do almost the same as in the function below. See how to reuse the code without repeating it.
-        }
-
         private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            string[] folders = Picker.ShowFolderPicker();
-            if (folders is null) return;
-
-            foreach (string folderpath in folders)
+            foreach (string folderpath in Picker.ShowFolderPicker())
             {
-                Folder folderItem = new(Guid.NewGuid().ToString("N"), folderpath + Path.DirectorySeparatorChar);
-                string[] audioFilesPath = Picker.GetFilePaths(folderpath);
-
-                if (audioFilesPath.Length > 0)
-                {
-                    foreach (string filepath in audioFilesPath)
-                    {
-                        AudioFile audiofile = new(folderItem.Id, filepath);
-
-                        if (audiofile.Tags is not null)
-                        {
-                            if (string.IsNullOrEmpty(audiofile.NewName))
-                                noTitleTagList.Items.Add(audiofile);
-                            else
-                                withTagsList.Items.Add(audiofile);
-                        }
-                    }
-                    folderList.Items.Add(folderItem);
-                }
+                string[] files = Picker.GetFilePaths(folderpath);
+                ListManager.AddFilesToListView(files, primaryList, secondaryList, folderList);
             }
+            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
+            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+        }
+
+        private void AddFile_Click(object sender, RoutedEventArgs e)
+        {
+            ListManager.AddFilesToListView(Picker.ShowFilePicker(), primaryList, secondaryList, folderList);
 
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
-            renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
+            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
         }
 
         private void SaveList_Click(object sender, RoutedEventArgs e)
@@ -120,7 +67,7 @@ namespace RenameMusic
             {
                 foreach (Folder folderItem in folderList.Items)
                 {
-                    foreach (AudioFile mFileItem in withTagsList.Items)
+                    foreach (AudioFile mFileItem in primaryList.Items)
                     {
                         if (mFileItem.Id == folderItem.Id)
                         {
@@ -131,8 +78,8 @@ namespace RenameMusic
                     }
                 }
                 renameFilesBTN.IsEnabled = false;
-                withTagsList.Items.Clear();
-                noTitleTagList.Items.Clear();
+                primaryList.Items.Clear();
+                secondaryList.Items.Clear();
                 folderList.Items.Clear();
                 tabs.Visibility = Visibility.Hidden;
 
@@ -177,15 +124,15 @@ namespace RenameMusic
             {
                 string id = ((Folder)((Button)sender).DataContext).Id;
 
-                for (int i = 0; i < withTagsList.Items.Count;)
+                for (int i = 0; i < primaryList.Items.Count;)
                 {
-                    if (((AudioFile)withTagsList.Items[i]).Id.Equals(id)) withTagsList.Items.RemoveAt(i);
+                    if (((AudioFile)primaryList.Items[i]).Id.Equals(id)) primaryList.Items.RemoveAt(i);
                     else i++;
                 }
 
-                for (int i = 0; i < noTitleTagList.Items.Count;)
+                for (int i = 0; i < secondaryList.Items.Count;)
                 {
-                    if (((AudioFile)noTitleTagList.Items[i]).Id == id) noTitleTagList.Items.RemoveAt(i);
+                    if (((AudioFile)secondaryList.Items[i]).Id == id) secondaryList.Items.RemoveAt(i);
                     else i++;
                 }
 
@@ -195,7 +142,7 @@ namespace RenameMusic
                     else i++;
                 }
 
-                renameFilesBTN.IsEnabled = withTagsList.Items.Count > 0;
+                renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
                 tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             }
             catch (Exception ex)
@@ -249,5 +196,40 @@ namespace RenameMusic
             if (resp == MessageBoxResult.Yes)
                 Application.Current.Shutdown();
         }
+
+        // ToDo: mover a otro lado
+        void AddFilesToFolderLists(string[] files)
+        {
+            foreach (string file in files)
+            {
+                bool alreadyAdded = primaryList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null
+                                 || secondaryList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null;
+
+                if (alreadyAdded)
+                {
+                    continue;
+                }
+
+                string folderPath = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
+                Folder folder = folderList.Items.As<Folder>().FirstOrDefaultValuePredicate(f => f.Path == folderPath);
+                if (folder is null)
+                {
+                    string id = Guid.NewGuid().ToString("N");
+                    folder = new(id, folderPath);
+                    folderList.Items.Add(folder);
+                }
+
+                AudioFile audiofile = new(folder.Id, file);
+
+                if (audiofile.Tags is not null)
+                {
+                    if (string.IsNullOrEmpty(audiofile.NewName))
+                        secondaryList.Items.Add(audiofile);
+                    else
+                        primaryList.Items.Add(audiofile);
+                }
+            }
+        }
+
     }
 }

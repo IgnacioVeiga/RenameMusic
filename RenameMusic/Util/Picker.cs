@@ -22,7 +22,7 @@ namespace RenameMusic.Util
 
             return folderDialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok
                 ? folderDialog.FileNames.Where(fn => !string.IsNullOrEmpty(fn)).ToArray()
-                : null;
+                : Array.Empty<string>();
         }
 
         public static string[] ShowFilePicker()
@@ -39,7 +39,7 @@ namespace RenameMusic.Util
 
             return (bool)fileDialog.ShowDialog()
                 ? fileDialog.FileNames.Where(fn => !string.IsNullOrEmpty(fn)).ToArray()
-                : null;
+                : Array.Empty<string>();
         }
 
         public static string[] GetFilePaths(string path)
