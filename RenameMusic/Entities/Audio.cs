@@ -1,14 +1,15 @@
 ﻿using RenameMusic.Lang;
+using RenameMusic.Util;
 using System;
 using System.IO;
 using System.Windows;
 using TagLib;
 
-namespace RenameMusic.Util
+namespace RenameMusic.Entities
 {
-    public class AudioFile
+    public class Audio
     {
-        public AudioFile(string folderId, string path)
+        public Audio(string folderId, string path)
         {
             try
             {

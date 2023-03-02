@@ -27,7 +27,7 @@
                 <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
                 <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" Click="SaveList_Click" IsEnabled="False"/>
                 <Separator />
-                <MenuItem x:Name="renameFilesBTN" Header="{x:Static p:Strings.RENAME_FILES}" Click="RenameFilesBTN_Click" IsEnabled="False"/>
+                <MenuItem x:Name="renameFilesBTN" Header="{x:Static p:Strings.RENAME_FILES}" Click="RenameFiles_Click" IsEnabled="False"/>
                 <Separator />
                 <MenuItem Header="{x:Static p:Strings.EXIT}" Click="ExitMenuItem_Click"/>
             </MenuItem>

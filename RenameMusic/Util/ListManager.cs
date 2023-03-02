@@ -1,4 +1,5 @@
-﻿using RenameMusic.Lang;
+﻿using RenameMusic.Entities;
+using RenameMusic.Lang;
 using System;
 using System.IO;
 using System.Windows;
@@ -13,8 +14,8 @@ namespace RenameMusic.Util
         {
             foreach (string file in files)
             {
-                bool alreadyAdded = primaryList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null
-                                || secondaryList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null;
+                bool alreadyAdded = primaryList.Items.As<Audio>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null
+                                || secondaryList.Items.As<Audio>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null;
 
                 if (alreadyAdded)
                 {
@@ -22,22 +23,22 @@ namespace RenameMusic.Util
                     continue;
                 }
 
-                string folderPath = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
-                Folder folder = folderList.Items.As<Folder>().FirstOrDefaultValuePredicate(f => f.Path == folderPath);
+                string directory = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
+                Folder folder = folderList.Items.As<Folder>().FirstOrDefaultValuePredicate(f => f.Path == directory);
                 if (folder is null)
                 {
                     string id = Guid.NewGuid().ToString("N");
-                    folder = new(id, folderPath);
+                    folder = new(id, directory);
                     folderList.Items.Add(folder);
                 }
 
-                AudioFile audiofile = new(folder.Id, file);
-                if (audiofile.Tags is not null)
+                Audio audio = new(folder.Id, file);
+                if (audio.Tags is not null)
                 {
-                    if (string.IsNullOrEmpty(audiofile.NewName))
-                        secondaryList.Items.Add(audiofile);
+                    if (string.IsNullOrEmpty(audio.NewName))
+                        secondaryList.Items.Add(audio);
                     else
-                        primaryList.Items.Add(audiofile);
+                        primaryList.Items.Add(audio);
                 }
             }
         }

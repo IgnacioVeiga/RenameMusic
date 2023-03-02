@@ -1,4 +1,5 @@
-﻿using RenameMusic.Lang;
+﻿using RenameMusic.Entities;
+using RenameMusic.Lang;
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using WinCopies.Linq;
 
 namespace RenameMusic
 {
@@ -40,9 +40,9 @@ namespace RenameMusic
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            foreach (string folderpath in Picker.ShowFolderPicker())
+            foreach (string directory in Picker.ShowFolderPicker())
             {
-                string[] files = Picker.GetFilePaths(folderpath);
+                string[] files = Picker.GetFilePaths(directory);
                 ListManager.AddFilesToListView(files, primaryList, secondaryList, folderList);
             }
 
@@ -63,14 +63,14 @@ namespace RenameMusic
             MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
-        private async void RenameFilesBTN_Click(object sender, RoutedEventArgs e)
+        private async void RenameFiles_Click(object sender, RoutedEventArgs e)
         {
-            LoadingBar loadingbar = new(primaryList.Items.Count);
-            loadingbar.Show();
+            LoadingBar loading_bar = new(primaryList.Items.Count);
+            loading_bar.Show();
 
             await Task.Run(() =>
             {
-                foreach (AudioFile mFileItem in primaryList.Items)
+                foreach (Audio mFileItem in primaryList.Items)
                 {
                     string oldName = mFileItem.FilePath;
                     string newName = mFileItem.Folder + mFileItem.NewName + mFileItem.Type;
@@ -79,31 +79,33 @@ namespace RenameMusic
                         continue;
 
                     FilenameFunctions.RenameFile(oldName, newName);
-                    loadingbar.Dispatcher.Invoke(() => loadingbar.UpdateProgress());
+                    loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
                 }
             });
 
             renameFilesBTN.IsEnabled = false;
+
             primaryList.Items.Clear();
             secondaryList.Items.Clear();
             folderList.Items.Clear();
+
             tabs.Visibility = Visibility.Hidden;
-            loadingbar.Close();
+            loading_bar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
 
         private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pictures.Source = null;
-            if ((AudioFile)((ListView)sender).SelectedItem is null)
+            if ((Audio)((ListView)sender).SelectedItem is null)
             {
                 pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
                 return;
             }
 
-            if (((AudioFile)((ListView)sender).SelectedItem).Tags.Pictures.Length >= 1)
+            if (((Audio)((ListView)sender).SelectedItem).Tags.Pictures.Length >= 1)
             {
-                TagLib.IPicture pic = ((AudioFile)((ListView)sender).SelectedItem).Tags.Pictures[0];
+                TagLib.IPicture pic = ((Audio)((ListView)sender).SelectedItem).Tags.Pictures[0];
 
                 // Load you image data in MemoryStream
                 MemoryStream ms = new(pic.Data.Data);
@@ -127,13 +129,13 @@ namespace RenameMusic
 
                 for (int i = 0; i < primaryList.Items.Count;)
                 {
-                    if (((AudioFile)primaryList.Items[i]).Id.Equals(id)) primaryList.Items.RemoveAt(i);
+                    if (((Audio)primaryList.Items[i]).Id.Equals(id)) primaryList.Items.RemoveAt(i);
                     else i++;
                 }
 
                 for (int i = 0; i < secondaryList.Items.Count;)
                 {
-                    if (((AudioFile)secondaryList.Items[i]).Id == id) secondaryList.Items.RemoveAt(i);
+                    if (((Audio)secondaryList.Items[i]).Id == id) secondaryList.Items.RemoveAt(i);
                     else i++;
                 }
 
@@ -142,20 +144,19 @@ namespace RenameMusic
                     if (((Folder)folderList.Items[i]).Id == id) folderList.Items.RemoveAt(i);
                     else i++;
                 }
-
-                renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
-                tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void TemplateBTN_Click(object sender, RoutedEventArgs e)
         {
-            Template config = new();
-            config.ShowDialog();
+            _ = new Template().ShowDialog();
         }
 
         private void RestoreSettingsBTN_Click(object sender, RoutedEventArgs e)
@@ -182,8 +183,8 @@ namespace RenameMusic
 
         private void LanguageSelected_Click(object sender, RoutedEventArgs e)
         {
-            string lang = (sender as MenuItem)?.Tag.ToString();
-            AppLanguage.ChangeLanguage(lang);
+            string language = (sender as MenuItem)?.Tag.ToString();
+            AppLanguage.ChangeLanguage(language);
             MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTARTING}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
             // ToDo: Make a temporary backup copy of the changes made to restore it later.
@@ -193,44 +194,9 @@ namespace RenameMusic
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult resp = MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (resp == MessageBoxResult.Yes)
-                Application.Current.Shutdown();
+            //MessageBoxResult resp = MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            //if (resp == MessageBoxResult.Yes)
+            Application.Current.Shutdown();
         }
-
-        // ToDo: mover a otro lado
-        void AddFilesToFolderLists(string[] files)
-        {
-            foreach (string file in files)
-            {
-                bool alreadyAdded = primaryList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null
-                                 || secondaryList.Items.As<AudioFile>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null;
-
-                if (alreadyAdded)
-                {
-                    continue;
-                }
-
-                string folderPath = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
-                Folder folder = folderList.Items.As<Folder>().FirstOrDefaultValuePredicate(f => f.Path == folderPath);
-                if (folder is null)
-                {
-                    string id = Guid.NewGuid().ToString("N");
-                    folder = new(id, folderPath);
-                    folderList.Items.Add(folder);
-                }
-
-                AudioFile audiofile = new(folder.Id, file);
-
-                if (audiofile.Tags is not null)
-                {
-                    if (string.IsNullOrEmpty(audiofile.NewName))
-                        secondaryList.Items.Add(audiofile);
-                    else
-                        primaryList.Items.Add(audiofile);
-                }
-            }
-        }
-
     }
 }

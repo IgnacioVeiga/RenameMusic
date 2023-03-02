@@ -27,8 +27,7 @@ namespace RenameMusic
 
             foreach (var tag in tags)
             {
-                string newtag = tag.Replace("<", "_").Replace(">", "_");
-                newTemplate = newTemplate.Replace(tag, newtag);
+                newTemplate = newTemplate.Replace(tag, tag.Replace("<", "_").Replace(">", "_"));
             }
 
             if (FilenameFunctions.IsValidFileName(newTemplate))

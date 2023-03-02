@@ -49,7 +49,6 @@ namespace RenameMusic
             string newFile = (string)location.Content + (string)newName.Content;
             string dirAndFileName = location.Content.ToString() + Path.GetFileNameWithoutExtension(newFile);
             string extension = Path.GetExtension(newFile);
-            
             while (File.Exists($"{dirAndFileName} ({num}){extension}"))
             {
                 num++;

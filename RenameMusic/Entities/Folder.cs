@@ -1,4 +1,4 @@
-﻿namespace RenameMusic.Util
+﻿namespace RenameMusic.Entities
 {
     public class Folder
     {
@@ -9,6 +9,6 @@
         }
 
         public string Id;
-        public string Path { get; private set; }
+        public string Path { get; set; }
     }
 }
