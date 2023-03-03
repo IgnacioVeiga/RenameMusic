@@ -6,7 +6,9 @@ namespace RenameMusic.DB
 {
     public class MyContext : DbContext
     {
+        // Revisar si es necesario utilizar AutoMapper
         public DbSet<AudioDTO> Audios { get; set; }
+        public DbSet<FolderDTO> Folders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,10 +19,10 @@ namespace RenameMusic.DB
             }
 
             // P: Primary S: Secondary F: Folder
-            optionsBuilder.UseSqlite($"Data Source={databaseFolder}database.db");
+            optionsBuilder.UseSqlite($"Data Source={databaseFolder}PSF_List.db");
         }
 
-        public void AddAudio(AudioDTO audio)
+        public void AddAudioToList(AudioDTO audio)
         {
             using (MyContext context = new())
             {
@@ -33,19 +35,45 @@ namespace RenameMusic.DB
             }
         }
 
-        public void ModifyAudio(int id)
+        public void AddFolderToList(FolderDTO folder)
         {
             using (MyContext context = new())
             {
+                // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
+                // Agrega un nuevo audio
+                context.Folders.Add(folder);
+                context.SaveChanges();
             }
         }
 
-        public void DeleteAudio(int id)
+        public void RemoveAudioFromList(int id)
         {
             using (MyContext context = new())
             {
-                context.Audios.Remove(context.Audios.FirstPredicate(a => a.Id == id));
+                AudioDTO audioToRemove = context.Audios.FirstPredicate(a => a.Id == id);
+                context.Audios.Remove(audioToRemove);
+
+                if (!context.Folders.AnyPredicate(f => f.Id == audioToRemove.FolderId))
+                {
+                    RemoveFolderFromList(audioToRemove.FolderId);
+                }
+
+                context.SaveChanges();
+            }
+        }
+
+        public void RemoveFolderFromList(int folderId)
+        {
+            using (MyContext context = new())
+            {
+                foreach (AudioDTO item in context.Audios.WherePredicate(a => a.FolderId == folderId))
+                {
+                    context.Audios.Remove(item);
+                }
+
+                context.Folders.Remove(context.Folders.FirstPredicate(a => a.Id == folderId));
                 context.SaveChanges();
             }
         }

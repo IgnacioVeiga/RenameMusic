@@ -14,15 +14,16 @@ namespace RenameMusic.Util
         {
             foreach (string file in files)
             {
+                // Chequear si ya existe en la base de datos
                 bool alreadyAdded = primaryList.Items.As<Audio>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null
                                 || secondaryList.Items.As<Audio>().FirstOrDefaultValuePredicate(f => f.FilePath == file) is not null;
-
                 if (alreadyAdded)
                 {
                     MessageBox.Show($"{file}", Strings.REPEATED_FILE, MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     continue;
                 }
 
+                // Tomar el directorio, chequear si ya existe en la base de datos y crearlo si es necesario
                 string directory = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
                 Folder folder = folderList.Items.As<Folder>().FirstOrDefaultValuePredicate(f => f.Path == directory);
                 if (folder is null)
@@ -32,6 +33,7 @@ namespace RenameMusic.Util
                     folderList.Items.Add(folder);
                 }
 
+                // Crear un objeto Audio para la base de datos y añadirlo a donde corresponda
                 Audio audio = new(folder.Id, file);
                 if (audio.Tags is not null)
                 {
@@ -40,6 +42,10 @@ namespace RenameMusic.Util
                     else
                         primaryList.Items.Add(audio);
                 }
+
+                // Desde la base de datos se debe retornar una lista pequeña para cada una de las 3 listas.
+                // Esto último debe funcionar como las páginas de un libro, con la posibilidad de elegir la
+                // cantidad de elementos a mostrar por cada página.
             }
         }
     }
