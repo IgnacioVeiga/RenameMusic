@@ -1,7 +1,9 @@
-﻿using RenameMusic.Entities;
+﻿using RenameMusic.DB;
+using RenameMusic.Entities;
 using RenameMusic.Lang;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WinCopies.Linq;
@@ -47,6 +49,34 @@ namespace RenameMusic.Util
                 // Esto último debe funcionar como las páginas de un libro, con la posibilidad de elegir la
                 // cantidad de elementos a mostrar por cada página.
             }
+        }
+
+        public async static void AddItemsToList(string[] files)
+        {
+            LoadingBar loadingBar = new(files.Length);
+            loadingBar.Show();
+
+            await Task.Run(() =>
+            {
+                foreach (var file in files)
+                {
+                    MyContext myContext = new();
+
+                    // Chequear si ya existe en la base de datos
+                    int folderId = myContext.AddFolderToList(new FolderDTO()
+                    {
+                        FolderPath = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar
+                    });
+
+                    // Crear un objeto Audio para la base de datos y añadirlo a donde corresponda
+                    Audio audio = new(folderId.ToString(), file);
+                    audio.Id = myContext.AddAudioToList(new AudioDTO() { FilePath = file }).ToString();
+
+                    loadingBar.Dispatcher.Invoke(() => loadingBar.UpdateProgress());
+                }
+            });
+
+            loadingBar.Close();
         }
     }
 }

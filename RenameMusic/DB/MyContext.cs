@@ -22,29 +22,35 @@ namespace RenameMusic.DB
             optionsBuilder.UseSqlite($"Data Source={databaseFolder}PSF_List.db");
         }
 
-        public void AddAudioToList(AudioDTO audio)
+        public int AddAudioToList(AudioDTO audio)
         {
             using (MyContext context = new())
             {
                 // Crea la base de datos si no existe
                 context.Database.EnsureCreated();
 
+                // Chequear si es repetido
+
                 // Agrega un nuevo audio
-                context.Audios.Add(audio);
+                var resp = context.Audios.Add(audio);
                 context.SaveChanges();
+                return resp.Entity.Id;
             }
         }
 
-        public void AddFolderToList(FolderDTO folder)
+        public int AddFolderToList(FolderDTO folder)
         {
             using (MyContext context = new())
             {
                 // Crea la base de datos si no existe
                 context.Database.EnsureCreated();
 
+                // Chequear si es repetido
+
                 // Agrega un nuevo audio
-                context.Folders.Add(folder);
+                var resp = context.Folders.Add(folder);
                 context.SaveChanges();
+                return resp.Entity.Id;
             }
         }
 
