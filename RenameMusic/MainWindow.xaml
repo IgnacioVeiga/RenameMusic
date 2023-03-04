@@ -57,7 +57,7 @@
         <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10">
 
             <TabItem Header="{x:Static p:Strings.WITH_TAGS}">
-                <ListView x:Name="primaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="ListWithTags_SelectionChanged">
+                <ListView x:Name="primaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="{x:Static p:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
@@ -74,7 +74,7 @@
             </TabItem>
 
             <TabItem Header="{x:Static p:Strings.NO_TITLE_TAG}">
-                <ListView x:Name="secondaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single">
+                <ListView x:Name="secondaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="{x:Static p:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>

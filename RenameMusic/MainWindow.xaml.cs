@@ -40,11 +40,15 @@ namespace RenameMusic
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            foreach (string directory in Picker.ShowFolderPicker())
+            string[] paths = Picker.ShowFolderPicker();
+
+            foreach (string directory in paths)
             {
                 string[] files = Picker.GetFilePaths(directory);
-                ListManager.AddFilesToListView(files, primaryList, secondaryList, folderList);
+                ListManager.AddToDatabase(files);
             }
+
+            // ToDo: Actualizar las listas con solo algunos pocos elementos
 
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
@@ -52,7 +56,10 @@ namespace RenameMusic
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
         {
-            ListManager.AddFilesToListView(Picker.ShowFilePicker(), primaryList, secondaryList, folderList);
+            string[] files = Picker.ShowFilePicker();
+            ListManager.AddToDatabase(files);
+
+            // ToDo: Actualizar las listas con solo algunos pocos elementos
 
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
@@ -94,7 +101,7 @@ namespace RenameMusic
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
 
-        private void ListWithTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pictures.Source = null;
             if ((Audio)((ListView)sender).SelectedItem is null)
@@ -102,6 +109,8 @@ namespace RenameMusic
                 pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
                 return;
             }
+
+            if (((Audio)((ListView)sender).SelectedItem).Tags is null) return;
 
             if (((Audio)((ListView)sender).SelectedItem).Tags.Pictures.Length >= 1)
             {
@@ -123,9 +132,10 @@ namespace RenameMusic
 
         private void RemoveFolderItem_Click(object sender, RoutedEventArgs e)
         {
+            // ToDo: hacer esto en la base de datos y refrescar listas
             try
             {
-                string id = ((Folder)((Button)sender).DataContext).Id;
+                int id = ((Folder)((Button)sender).DataContext).Id;
 
                 for (int i = 0; i < primaryList.Items.Count;)
                 {

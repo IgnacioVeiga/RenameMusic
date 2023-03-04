@@ -22,14 +22,12 @@ namespace RenameMusic.DB
             optionsBuilder.UseSqlite($"Data Source={databaseFolder}PSF_List.db");
         }
 
-        public int AddAudioToList(AudioDTO audio)
+        public int AddAudioToDB(AudioDTO audio)
         {
             using (MyContext context = new())
             {
                 // Crea la base de datos si no existe
                 context.Database.EnsureCreated();
-
-                // Chequear si es repetido
 
                 // Agrega un nuevo audio
                 var resp = context.Audios.Add(audio);
@@ -38,14 +36,12 @@ namespace RenameMusic.DB
             }
         }
 
-        public int AddFolderToList(FolderDTO folder)
+        public int AddFolderToDB(FolderDTO folder)
         {
             using (MyContext context = new())
             {
                 // Crea la base de datos si no existe
                 context.Database.EnsureCreated();
-
-                // Chequear si es repetido
 
                 // Agrega un nuevo audio
                 var resp = context.Folders.Add(folder);
@@ -54,7 +50,7 @@ namespace RenameMusic.DB
             }
         }
 
-        public void RemoveAudioFromList(int id)
+        public void RemoveAudioFromDB(int id)
         {
             using (MyContext context = new())
             {
@@ -63,14 +59,14 @@ namespace RenameMusic.DB
 
                 if (!context.Folders.AnyPredicate(f => f.Id == audioToRemove.FolderId))
                 {
-                    RemoveFolderFromList(audioToRemove.FolderId);
+                    RemoveFolderFromDB(audioToRemove.FolderId);
                 }
 
                 context.SaveChanges();
             }
         }
 
-        public void RemoveFolderFromList(int folderId)
+        public void RemoveFolderFromDB(int folderId)
         {
             using (MyContext context = new())
             {
@@ -81,6 +77,51 @@ namespace RenameMusic.DB
 
                 context.Folders.Remove(context.Folders.FirstPredicate(a => a.Id == folderId));
                 context.SaveChanges();
+            }
+        }
+
+        public bool AudioAlreadyAdded(string filepath)
+        {
+            using (MyContext context = new())
+            {
+                // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
+
+                return context.Audios.AnyPredicate(a => a.FilePath == filepath);
+            }
+        }
+
+        // ToDo: En caso de ser verdadero deberia retornar el bool y el id
+        public bool FolderAlreadyAdded(string folderpath)
+        {
+            using (MyContext context = new())
+            {
+                // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
+
+                return context.Folders.AnyPredicate(f => f.FolderPath == folderpath);
+            }
+        }
+
+        public int GetAudioId(string filepath)
+        {
+            using (MyContext context = new())
+            {
+                // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
+
+                return context.Audios.FirstPredicate(a => a.FilePath == filepath).Id;
+            }
+        }
+
+        public int GetFolderId(string folderpath)
+        {
+            using (MyContext context = new())
+            {
+                // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
+
+                return context.Folders.FirstPredicate(a => a.FolderPath == folderpath).Id;
             }
         }
     }

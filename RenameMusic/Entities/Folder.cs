@@ -2,13 +2,13 @@
 {
     public class Folder
     {
-        public Folder(string id, string path)
+        public Folder(int id, string path)
         {
             Id = id;
             Path = path;
         }
 
-        public string Id;
+        public int Id;
         public string Path { get; set; }
     }
 }

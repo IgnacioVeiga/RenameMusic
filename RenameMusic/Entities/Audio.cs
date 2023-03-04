@@ -9,13 +9,13 @@ namespace RenameMusic.Entities
 {
     public class Audio
     {
-        public Audio(string folderId, string path)
+        public Audio(int folderId, string path)
         {
             try
             {
                 TagLib.File TLF = TagLib.File.Create(path);
 
-                Id = folderId;
+                FolderId = folderId;
                 Duration = TLF.Properties.Duration;
                 Tags = TLF.Tag;
                 Folder = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar;
@@ -28,7 +28,8 @@ namespace RenameMusic.Entities
             }
         }
 
-        public string Id;
+        public int Id;
+        public int FolderId;
         public string Folder { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
