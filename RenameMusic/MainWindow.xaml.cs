@@ -41,16 +41,26 @@ namespace RenameMusic
             // ToDo: configurar selector de páginas y selector de cantidad de items
         }
 
-        private void AddFolder_Click(object sender, RoutedEventArgs e)
+        private async void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            foreach (string directory in Picker.ShowFolderPicker())
+            string[] directories = Picker.ShowFolderPicker();
+            if (directories.Length == 0) return;
+            LoadingBar loadingBar = new(directories.Length);
+            loadingBar.Show();
+
+            foreach (string directory in directories)
             {
+                await Task.Run(() =>
+                {
                 string[] files = Picker.GetFilePaths(directory);
                 ListManager.AddToDatabase(files);
+                    loadingBar.Dispatcher.Invoke(() => loadingBar.UpdateProgress());
+                });
             }
 
             // ToDo: Actualizar las listas con solo algunos pocos elementos
 
+            loadingBar.Close();
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
         }

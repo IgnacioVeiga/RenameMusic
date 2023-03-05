@@ -29,52 +29,35 @@ namespace RenameMusic.Util
         //    loadingBar.Close();
         //}
 
-        public async static void AddToDatabase(string[] files)
+        public static void AddToDatabase(string[] files)
         {
-            LoadingBar loadingBar = new(files.Length);
-            loadingBar.Show();
-
-            await Task.Run(() =>
+            // Crea la base de datos si no existe
+            _ = new MyContext().Database.EnsureCreated();
+            foreach (string file in files)
             {
-                foreach (string file in files)
+                // Chequear si ya existen el audio o la carpeta en la base de datos
+                if (AudioAlreadyAdded(file)) continue;
+
+                int folderId;
+                string folderPath = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
+                if (FolderAlreadyAdded(folderPath))
                 {
-                    // Crea la base de datos si no existe
-                    _ = new MyContext().Database.EnsureCreatedAsync();
-
-                    // Chequear si ya existen el audio o la carpeta en la base de datos
-                    if (AudioAlreadyAdded(file))
-                    {
-                        continue;
-                    }
-
-                    int folderId;
-                    string folderPath = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
-                    if (FolderAlreadyAdded(folderPath))
-                    {
-                        folderId = GetFolderId(folderPath);
-                    }
-                    else
-                    {
-                        folderId = AddFolderToDB(new FolderDTO() { FolderPath = folderPath });
-                    }
-
-                    AddAudioToDB(new AudioDTO() { FilePath = file, FolderId = folderId });
-
-                    loadingBar.Dispatcher.Invoke(() => loadingBar.UpdateProgress());
+                    folderId = GetFolderId(folderPath);
                 }
-            });
+                else
+                {
+                    folderId = AddFolderToDB(new FolderDTO() { FolderPath = folderPath });
+                }
 
-            loadingBar.Close();
+                AddAudioToDB(new AudioDTO() { FilePath = file, FolderId = folderId });
+
+            }
         }
 
         public static int AddAudioToDB(AudioDTO audio)
         {
             using (MyContext context = new())
             {
-                // Crea la base de datos si no existe
-                context.Database.EnsureCreated();
-
-                // Agrega un nuevo audio
                 var resp = context.Audios.Add(audio);
                 context.SaveChanges();
                 return resp.Entity.Id;
@@ -85,10 +68,6 @@ namespace RenameMusic.Util
         {
             using (MyContext context = new())
             {
-                // Crea la base de datos si no existe
-                context.Database.EnsureCreated();
-
-                // Agrega un nuevo audio
                 var resp = context.Folders.Add(folder);
                 context.SaveChanges();
                 return resp.Entity.Id;
@@ -133,7 +112,6 @@ namespace RenameMusic.Util
             }
         }
 
-        // ToDo: En caso de ser verdadero deberia retornar el bool y el id
         public static bool FolderAlreadyAdded(string folderpath)
         {
             using (MyContext context = new())
