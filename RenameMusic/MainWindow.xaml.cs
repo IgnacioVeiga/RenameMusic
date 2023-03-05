@@ -1,8 +1,10 @@
-﻿using RenameMusic.Entities;
+﻿using RenameMusic.DB;
+using RenameMusic.Entities;
 using RenameMusic.Lang;
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,8 +54,8 @@ namespace RenameMusic
             {
                 await Task.Run(() =>
                 {
-                string[] files = Picker.GetFilePaths(directory);
-                ListManager.AddToDatabase(files);
+                    string[] files = Picker.GetFilePaths(directory);
+                    ListManager.AddToDatabase(files);
                     loadingBar.Dispatcher.Invoke(() => loadingBar.UpdateProgress());
                 });
             }
@@ -63,17 +65,22 @@ namespace RenameMusic
             loadingBar.Close();
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+            PageBox.IsEnabled = TotalPages > 0;
+            PageBox.SelectedIndex = 0;
         }
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
         {
             string[] files = Picker.ShowFilePicker();
+            if (files.Length == 0) return;
             ListManager.AddToDatabase(files);
 
             // ToDo: Actualizar las listas con solo algunos pocos elementos
 
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+            PageBox.IsEnabled = TotalPages > 0;
+            PageBox.SelectedIndex = 0;
         }
 
         private void SaveList_Click(object sender, RoutedEventArgs e)
@@ -102,6 +109,7 @@ namespace RenameMusic
             });
 
             renameFilesBTN.IsEnabled = false;
+            PageBox.IsEnabled = false;
 
             primaryList.Items.Clear();
             secondaryList.Items.Clear();
@@ -197,7 +205,13 @@ namespace RenameMusic
         }
 
         private static int page = 1;
-        private static int totalPages = 1;
+        private static int TotalPages {
+            get
+            {
+                int totalItems = new MyContext().Audios.Count();
+                return (int)Math.Ceiling((double)(totalItems / 20));
+            }
+        }
         private void DecrementPage(object sender, RoutedEventArgs e)
         {
             --page;
@@ -221,6 +235,11 @@ namespace RenameMusic
             page = 1;
             Page.Text = $"Page {page}";
             // ToDo: implementar
+        }
+
+        private void PageBox_DropDownOpened(object sender, EventArgs e)
+        {
+            PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
         }
     }
 }
