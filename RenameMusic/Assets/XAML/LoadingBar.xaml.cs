@@ -7,16 +7,18 @@ namespace RenameMusic
     /// </summary>
     public partial class LoadingBar : Window
     {
+        private double value;
+        private double maximum;
         public LoadingBar(double max)
         {
             InitializeComponent();
-            loadingBarStatus.Minimum = 0;
-            loadingBarStatus.Maximum = max;
+            maximum = max;
         }
 
         public void UpdateProgress()
         {
-            loadingBarStatus.Value++;
+            value++;
+            loadingBarStatus.Value = (value/maximum) * 100;
         }
     }
 }
