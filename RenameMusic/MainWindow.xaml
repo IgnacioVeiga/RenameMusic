@@ -53,30 +53,28 @@
 
         <Image Grid.Row="1" Grid.Column="1" x:Name="pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Height="170" Width="170" Margin="10,30" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}"/>
 
-        <Button Grid.Row="1" Grid.Column="1" Content="Back" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"/>
-        <Label Grid.Row="1" Grid.Column="1" Content="0/N" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"/>
-        <Button Grid.Row="1" Grid.Column="1" Content="Next" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,40"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="&lt;"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"
+                IsEnabled="False" x:Name="PageLeft" Click="DecrementPage"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Page 1" x:Name="Page"
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"/>
+        <Button Grid.Row="1" Grid.Column="1" Content=">"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,40"
+                IsEnabled="False" x:Name="PageRight" Click="IncrementPage"/>
 
         <Label Grid.Row="1" Grid.Column="1" Content="Per page:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,170,10"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,70,10">
-            <ComboBoxItem Content="10" IsSelected="True"/>
-            <ComboBoxItem Content="20"/>
-            <ComboBoxItem Content="40"/>
-            <ComboBoxItem Content="80"/>
-            <ComboBoxItem Content="160"/>
-            <ComboBoxItem Content="320"/>
-            <ComboBoxItem Content="640"/>
+        <ComboBox x:Name="PerPageBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,70,10" SelectionChanged="PerPage_SelectionChanged">
+            <ComboBoxItem>10</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">20</ComboBoxItem>
+            <ComboBoxItem>40</ComboBoxItem>
+            <ComboBoxItem>80</ComboBoxItem>
+            <ComboBoxItem>160</ComboBoxItem>
+            <ComboBoxItem>320</ComboBoxItem>
         </ComboBox>
 
-        <Label Grid.Row="1" Grid.Column="1" Content="Page Nº:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="70,0,0,10"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="170,0,0,10">
-            <ComboBoxItem Content="0" IsSelected="True"/>
-            <ComboBoxItem Content="1"/>
-            <ComboBoxItem Content="2"/>
-            <ComboBoxItem Content="3"/>
-            <ComboBoxItem Content="..."/>
-            <ComboBoxItem Content="N"/>
-        </ComboBox>
+        <Label Grid.Row="1" Grid.Column="1" Content="Page:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="75,0,0,10"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="170,0,0,10"
+                  x:Name="PageBox" SelectionChanged="PageBox_SelectionChanged"/>
 
         <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10">
 

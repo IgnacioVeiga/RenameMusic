@@ -4,6 +4,7 @@ using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,13 +37,13 @@ namespace RenameMusic
                 menuItem.Click += LanguageSelected_Click;
                 languages.Items.Add(menuItem);
             }
+
+            // ToDo: configurar selector de páginas y selector de cantidad de items
         }
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
-            string[] paths = Picker.ShowFolderPicker();
-
-            foreach (string directory in paths)
+            foreach (string directory in Picker.ShowFolderPicker())
             {
                 string[] files = Picker.GetFilePaths(directory);
                 ListManager.AddToDatabase(files);
@@ -132,33 +133,9 @@ namespace RenameMusic
 
         private void RemoveFolderItem_Click(object sender, RoutedEventArgs e)
         {
-            // ToDo: hacer esto en la base de datos y refrescar listas
-            try
-            {
-                int id = ((Folder)((Button)sender).DataContext).Id;
-
-                for (int i = 0; i < primaryList.Items.Count;)
-                {
-                    if (((Audio)primaryList.Items[i]).Id.Equals(id)) primaryList.Items.RemoveAt(i);
-                    else i++;
-                }
-
-                for (int i = 0; i < secondaryList.Items.Count;)
-                {
-                    if (((Audio)secondaryList.Items[i]).Id == id) secondaryList.Items.RemoveAt(i);
-                    else i++;
-                }
-
-                for (int i = 0; i < folderList.Items.Count;)
-                {
-                    if (((Folder)folderList.Items[i]).Id == id) folderList.Items.RemoveAt(i);
-                    else i++;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            int folderId = ((Folder)((Button)sender).DataContext).Id;
+            ListManager.RemoveFolderFromDB(folderId);
+            // ToDo: refrescar listas
 
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
@@ -207,6 +184,33 @@ namespace RenameMusic
             //MessageBoxResult resp = MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             //if (resp == MessageBoxResult.Yes)
             Application.Current.Shutdown();
+        }
+
+        private static int page = 1;
+        private static int totalPages = 1;
+        private void DecrementPage(object sender, RoutedEventArgs e)
+        {
+            --page;
+            Page.Text = $"Page {page}";
+        }
+        private void IncrementPage(object sender, RoutedEventArgs e)
+        {
+            ++page;
+            Page.Text = $"Page {page}";
+        }
+
+        private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            page = (int)PageBox.SelectedValue;
+            Page.Text = $"Page {page}";
+            // ToDo: implementar
+        }
+
+        private void PerPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            page = 1;
+            Page.Text = $"Page {page}";
+            // ToDo: implementar
         }
     }
 }
