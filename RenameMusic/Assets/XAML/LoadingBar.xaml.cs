@@ -18,7 +18,7 @@ namespace RenameMusic
         public void UpdateProgress()
         {
             value++;
-            loadingBarStatus.Value = (value/maximum) * 100;
+            loadingBarStatus.Value = (value / maximum) * 100;
         }
     }
 }

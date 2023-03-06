@@ -1,8 +1,6 @@
 ﻿using RenameMusic.DB;
-using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using WinCopies.Linq;
 
 namespace RenameMusic.Util

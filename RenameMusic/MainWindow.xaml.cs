@@ -4,7 +4,6 @@ using RenameMusic.Lang;
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
-using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,7 +65,10 @@ namespace RenameMusic
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
             PageBox.IsEnabled = TotalPages > 0;
+            PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
+            PageLeft.IsEnabled = page > 1;
+            PageRight.IsEnabled = page < PageBox.Items.Count;
         }
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
@@ -80,7 +82,10 @@ namespace RenameMusic
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
             PageBox.IsEnabled = TotalPages > 0;
+            PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
+            PageLeft.IsEnabled = page > 1;
+            PageRight.IsEnabled = page < PageBox.Items.Count;
         }
 
         private void SaveList_Click(object sender, RoutedEventArgs e)
@@ -109,7 +114,10 @@ namespace RenameMusic
             });
 
             renameFilesBTN.IsEnabled = false;
+            PageBox.Items.Clear();
             PageBox.IsEnabled = false;
+            PageLeft.IsEnabled = false;
+            PageRight.IsEnabled = false;
 
             primaryList.Items.Clear();
             secondaryList.Items.Clear();
@@ -155,6 +163,9 @@ namespace RenameMusic
             ListManager.RemoveFolderFromDB(folderId);
             // ToDo: refrescar listas
 
+            PageBox.IsEnabled = TotalPages > 0;
+            PageLeft.IsEnabled = page > 1;
+            PageRight.IsEnabled = page < PageBox.Items.Count;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
             tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
         }
@@ -205,7 +216,8 @@ namespace RenameMusic
         }
 
         private static int page = 1;
-        private static int TotalPages {
+        private static int TotalPages
+        {
             get
             {
                 int totalItems = new MyContext().Audios.Count();
@@ -216,17 +228,23 @@ namespace RenameMusic
         {
             --page;
             Page.Text = $"Page {page}";
+            PageLeft.IsEnabled = page > 1;
+            PageRight.IsEnabled = page < PageBox.Items.Count;
         }
         private void IncrementPage(object sender, RoutedEventArgs e)
         {
             ++page;
             Page.Text = $"Page {page}";
+            PageLeft.IsEnabled = page > 1;
+            PageRight.IsEnabled = page < PageBox.Items.Count;
         }
 
         private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             page = (int)PageBox.SelectedValue;
             Page.Text = $"Page {page}";
+            PageLeft.IsEnabled = page > 1;
+            PageRight.IsEnabled = page < PageBox.Items.Count;
             // ToDo: implementar
         }
 
@@ -234,6 +252,11 @@ namespace RenameMusic
         {
             page = 1;
             Page.Text = $"Page {page}";
+            PageLeft.IsEnabled = page > 1;
+            if (PageBox is not null)
+            {
+                PageRight.IsEnabled = page < PageBox.Items.Count;
+            }
             // ToDo: implementar
         }
 
