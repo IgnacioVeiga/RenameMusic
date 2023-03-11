@@ -1,36 +1,13 @@
-﻿using RenameMusic.DB;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using WinCopies.Linq;
 
-namespace RenameMusic.Util
+namespace RenameMusic.DB
 {
-    public static class ListManager
+    public static class DatabaseAPI
     {
-        //public async static void FromDatabaseToListView(int pageSize)
-        //{
-        //    LoadingBar loadingBar = new(pageSize);
-        //    loadingBar.Show();
-        //    // Desde la base de datos se debe retornar una lista pequeña para cada una de las 3 listas.
-        //    // Esto último debe funcionar como las páginas de un libro, con la posibilidad de elegir la
-        //    // cantidad de elementos a mostrar por cada página.
-
-        //    await Task.Run(() =>
-        //    {
-        //        using (MyContext context = new())
-        //        {
-        //        }
-
-        //        loadingBar.Dispatcher.Invoke(() => loadingBar.UpdateProgress());
-        //    });
-
-        //    loadingBar.Close();
-        //}
-
         public static void AddToDatabase(string[] files)
         {
-            // Crea la base de datos si no existe
-            _ = new MyContext().Database.EnsureCreated();
             foreach (string file in files)
             {
                 // Chequear si ya existen el audio o la carpeta en la base de datos
@@ -48,7 +25,6 @@ namespace RenameMusic.Util
                 }
 
                 AddAudioToDB(new AudioDTO() { FilePath = file, FolderId = folderId });
-
             }
         }
 

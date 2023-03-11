@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:p = "clr-namespace:RenameMusic.Lang"
+        
+        xmlns:lang = "clr-namespace:RenameMusic.Lang"
         xmlns:properties="clr-namespace:RenameMusic.Properties"
         mc:Ignorable="d"
-        MinHeight="400" MinWidth="650"
-        SizeToContent="Manual" WindowStartupLocation="CenterScreen"
-        ResizeMode="CanResizeWithGrip"
-        Title="Rename Music" Foreground="#FF333333" Background="#FFBBBBBB">
+        
+        MinHeight="400" MinWidth="650" SizeToContent="Manual"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Title="Rename Music" Background="#FF252525" Foreground="#FFDADADA">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,36 +23,35 @@
         </Grid.ColumnDefinitions>
 
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="{x:Static p:Strings.FILE}">
-                <MenuItem Header="{x:Static p:Strings.ADD_FILE}" Click="AddFile_Click" />
-                <MenuItem Header="{x:Static p:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
-                <MenuItem Header="{x:Static p:Strings.SAVE_LIST}" Click="SaveList_Click" IsEnabled="False"/>
+            <MenuItem Header="{x:Static lang:Strings.FILE}">
+                <MenuItem Header="{x:Static lang:Strings.ADD_FILE}" Click="AddFile_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static lang:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
                 <Separator />
-                <MenuItem x:Name="renameFilesBTN" Header="{x:Static p:Strings.RENAME_FILES}" Click="RenameFiles_Click" IsEnabled="False"/>
+                <MenuItem x:Name="renameFilesBTN" Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
                 <Separator />
-                <MenuItem Header="{x:Static p:Strings.EXIT}" Click="ExitMenuItem_Click"/>
+                <MenuItem Header="{x:Static lang:Strings.EXIT}" Click="ExitMenuItem_Click"/>
             </MenuItem>
 
-            <MenuItem Header="{x:Static p:Strings.SETTINGS}">
-                <MenuItem Header="{x:Static p:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
-                <MenuItem Header="{x:Static p:Strings.IMPORT_SETTINGS}" Click="ImportSettingsBTN_Click" IsEnabled="False"/>
-                <MenuItem Header="{x:Static p:Strings.EXPORT_SETTINGS}" Click="ExportSettingsBTN_Click" IsEnabled="False"/>
-                <Separator />
-                <MenuItem Header="{x:Static p:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
+            <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
+                <MenuItem Header="{x:Static lang:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
 
-                <MenuItem Header="{x:Static p:Strings.SEARCH_SUBFOLDERS}"
+                <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
                           IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                           Checked="IncludeSubFolders_Check" IsCheckable="True"/>
-
-                <MenuItem x:Name="languages" Header="{x:Static p:Strings.LANGUAGE}"/>
-
+                <MenuItem x:Name="languages" Header="{x:Static lang:Strings.LANGUAGE}"/>
+                <Separator />
+                <MenuItem Header="{x:Static lang:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
+                <MenuItem Header="{x:Static lang:Strings.IMPORT_SETTINGS}" Click="ImportSettingsBTN_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static lang:Strings.EXPORT_SETTINGS}" Click="ExportSettingsBTN_Click" IsEnabled="False"/>
             </MenuItem>
-            <MenuItem Header="{x:Static p:Strings.HELP}">
-                <MenuItem Header="{x:Static p:Strings.ABOUT}" IsEnabled="False"/>
+            <MenuItem Header="{x:Static lang:Strings.HELP}">
+                <MenuItem Header="{x:Static lang:Strings.ABOUT}" IsEnabled="False"/>
             </MenuItem>
         </Menu>
 
-        <Image Grid.Row="1" Grid.Column="1" x:Name="pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Height="170" Width="170" Margin="10,30" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}"/>
+        <Image x:Name="pictures" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"
+               Height="170" Width="170" Margin="10,30" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}"/>
+
 
         <Button Grid.Row="1" Grid.Column="1" Content="&lt;"
                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"
@@ -62,52 +62,44 @@
                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,40"
                 IsEnabled="False" x:Name="PageRight" Click="IncrementPage"/>
 
-        <Label Grid.Row="1" Grid.Column="1" Content="Per page:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,170,10"/>
-        <ComboBox x:Name="PerPageBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,70,10" SelectionChanged="PerPage_SelectionChanged" IsEnabled="False">
-            <ComboBoxItem>10</ComboBoxItem>
-            <ComboBoxItem IsSelected="True">20</ComboBoxItem>
-            <ComboBoxItem>40</ComboBoxItem>
-            <ComboBoxItem>80</ComboBoxItem>
-            <ComboBoxItem>160</ComboBoxItem>
-            <ComboBoxItem>320</ComboBoxItem>
-        </ComboBox>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Page size:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,170,10"/>
+        <ComboBox x:Name="PageSizeBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,70,10" SelectionChanged="PageSizeBox_SelectionChanged"/>
 
-        <Label Grid.Row="1" Grid.Column="1" Content="Page:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="75,0,0,10"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Page:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="75,0,0,10"/>
         <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="170,0,0,10"
                   x:Name="PageBox" SelectionChanged="PageBox_SelectionChanged" DropDownOpened="PageBox_DropDownOpened"/>
 
-        <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10">
-
-            <TabItem Header="{x:Static p:Strings.WITH_TAGS}">
+        <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10" Visibility="{Binding TabsVisibility}">
+            <TabItem Header="{x:Static lang:Strings.WITH_TAGS}">
                 <ListView x:Name="primaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="{x:Static p:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.NEW_NAME}" DisplayMemberBinding="{Binding NewName}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.TYPE}" DisplayMemberBinding="{Binding Type}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.TITLE}" DisplayMemberBinding="{Binding Tags.Title}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.ALBUM}" DisplayMemberBinding="{Binding Tags.Album}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.Performers[0]}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.AlbumArtists[0]}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.NEW_NAME}" DisplayMemberBinding="{Binding NewName}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.TYPE}" DisplayMemberBinding="{Binding Type}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.TITLE}" DisplayMemberBinding="{Binding Tags.Title}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.ALBUM}" DisplayMemberBinding="{Binding Tags.Album}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.Performers[0]}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.AlbumArtists[0]}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
-            <TabItem Header="{x:Static p:Strings.NO_TITLE_TAG}">
+            <TabItem Header="{x:Static lang:Strings.NO_TITLE_TAG}">
                 <ListView x:Name="secondaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="{x:Static p:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.TYPE}" DisplayMemberBinding="{Binding Type}"/>
-                            <GridViewColumn Header="{x:Static p:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.TYPE}" DisplayMemberBinding="{Binding Type}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
-            <TabItem Header="{x:Static p:Strings.FOLDERS}">
+            <TabItem Header="{x:Static lang:Strings.FOLDERS}">
                 <ListView x:Name="folderList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=10}">
                     <ListView.View>
                         <GridView>
@@ -118,7 +110,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{x:Static p:Strings.DIRECTORY}" DisplayMemberBinding="{Binding Path}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.DIRECTORY}" DisplayMemberBinding="{Binding Path}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

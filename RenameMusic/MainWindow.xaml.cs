@@ -4,6 +4,7 @@ using RenameMusic.Lang;
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,10 +19,73 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
+        // ToDo: llamar estás funciones donde sea necesario
+        private void TabsVisibility()
+        {
+            tabs.Visibility = (primaryList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
+        }
+        private void IsEnabledRenameBTN()
+        {
+            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+        }
+        private void FromDatabaseToListView(int pageSize, int pageNumber)
+        {
+            // Desde la base de datos se debe retornar una lista pequeña para cada una de las 3 listas.
+            // Esto último debe funcionar como las páginas de un libro, con la posibilidad de elegir la
+            // cantidad de elementos a mostrar por cada página.
+            List<AudioDTO> audios = new();
+            List<FolderDTO> folders = new();
+
+            using (MyContext context = new())
+            {
+                audios = context.Audios
+                    .OrderBy(p => p.Id) // ordena los elementos para asegurarse de obtener el rango correcto
+                    .Skip((pageNumber - 1) * pageSize) // salta los primeros elementos del rango
+                    .Take(pageSize) // selecciona los siguientes elementos
+                    .ToList(); // convierte los elementos seleccionados en una lista
+
+                folders = context.Folders
+                    .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize).ToList();
+            }
+
+            // Mapear AudioDTO a la clase Audio y retornar la lista
+            foreach (AudioDTO audio in audios)
+            {
+                Audio item = new(audio.FolderId, audio.FilePath);
+
+                if (item.Tags != null)
+                {
+                    if(string.IsNullOrWhiteSpace(item.Tags.Title))
+                        secondaryList.Items.Add(item);
+                    else
+                        primaryList.Items.Add(item);
+                }
+                else
+                {
+                    // ToDo: enseñar un mensaje con los archivos corruptos
+                }
+            }
+
+            // Mapear FolderDTO a la clase Folder y retornar la lista
+            foreach (FolderDTO folder in folders)
+            {
+                folderList.Items.Add(new Folder(folder.Id, folder.FolderPath));
+            }
+        }
+        private void ClearTabLists()
+        {
+            primaryList.Items.Clear();
+            secondaryList.Items.Clear();
+            folderList.Items.Clear();
+        }
+
         public MainWindow()
         {
             InitializeComponent();
-            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
+
+            // Crea la base de datos si no existe
+            _ = new MyContext().Database.EnsureCreated();
             pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
 
             foreach (var language in AppLanguage.Languages)
@@ -39,58 +103,53 @@ namespace RenameMusic
                 languages.Items.Add(menuItem);
             }
 
+            for (int pageSizeItem = 5; pageSizeItem <= 1280;)
+            {
+                PageSizeBox.Items.Add(pageSizeItem);
+                pageSizeItem *= 2;
+            }
+
+            TabsVisibility();
+            IsEnabledRenameBTN();
+            PageSizeBox.SelectedIndex = 0;
             // ToDo: configurar selector de páginas y selector de cantidad de items
         }
 
-        private async void AddFolder_Click(object sender, RoutedEventArgs e)
+        private void AddFolder_Click(object sender, RoutedEventArgs e)
         {
             string[] directories = Picker.ShowFolderPicker();
             if (directories.Length == 0) return;
-            LoadingBar loadingBar = new(directories.Length);
-            loadingBar.Show();
 
             foreach (string directory in directories)
             {
-                await Task.Run(() =>
-                {
-                    string[] files = Picker.GetFilePaths(directory);
-                    ListManager.AddToDatabase(files);
-                    loadingBar.Dispatcher.Invoke(() => loadingBar.UpdateProgress());
-                });
+                string[] files = Picker.GetFilePaths(directory);
+                DatabaseAPI.AddToDatabase(files);
             }
-
-            // ToDo: Actualizar las listas con solo algunos pocos elementos
-
-            loadingBar.Close();
-            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
-            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
             PageBox.IsEnabled = TotalPages > 0;
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
+
+            ClearTabLists();
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            TabsVisibility();
+            IsEnabledRenameBTN();
         }
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
         {
             string[] files = Picker.ShowFilePicker();
             if (files.Length == 0) return;
-            ListManager.AddToDatabase(files);
+            DatabaseAPI.AddToDatabase(files);
 
             // ToDo: Actualizar las listas con solo algunos pocos elementos
 
-            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
-            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
             PageBox.IsEnabled = TotalPages > 0;
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
-        }
-
-        private void SaveList_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
         }
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
@@ -113,17 +172,13 @@ namespace RenameMusic
                 }
             });
 
-            renameFilesBTN.IsEnabled = false;
             PageBox.Items.Clear();
             PageBox.IsEnabled = false;
             PageLeft.IsEnabled = false;
             PageRight.IsEnabled = false;
-
-            primaryList.Items.Clear();
-            secondaryList.Items.Clear();
-            folderList.Items.Clear();
-
-            tabs.Visibility = Visibility.Hidden;
+            ClearTabLists();
+            TabsVisibility();
+            IsEnabledRenameBTN();
             loading_bar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
@@ -160,14 +215,13 @@ namespace RenameMusic
         private void RemoveFolderItem_Click(object sender, RoutedEventArgs e)
         {
             int folderId = ((Folder)((Button)sender).DataContext).Id;
-            ListManager.RemoveFolderFromDB(folderId);
+            DatabaseAPI.RemoveFolderFromDB(folderId);
             // ToDo: refrescar listas
 
             PageBox.IsEnabled = TotalPages > 0;
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
             renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
-            tabs.Visibility = (folderList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void TemplateBTN_Click(object sender, RoutedEventArgs e)
@@ -216,27 +270,37 @@ namespace RenameMusic
         }
 
         private static int page = 1;
-        private static int TotalPages
+        private int TotalPages
         {
             get
             {
                 int totalItems = new MyContext().Audios.Count();
-                return (int)Math.Ceiling((double)(totalItems / 20));
+                return (int)Math.Ceiling((double)(totalItems / (int)PageSizeBox.SelectedItem));
             }
         }
         private void DecrementPage(object sender, RoutedEventArgs e)
         {
-            --page;
+            page--;
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
+            ClearTabLists();
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            TabsVisibility();
+            IsEnabledRenameBTN();
+            PageBox.SelectedValue = page;
         }
         private void IncrementPage(object sender, RoutedEventArgs e)
         {
-            ++page;
+            page++;
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
+            ClearTabLists();
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            TabsVisibility();
+            IsEnabledRenameBTN();
+            PageBox.SelectedValue = page;
         }
 
         private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -245,15 +309,19 @@ namespace RenameMusic
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
+            ClearTabLists();
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            TabsVisibility();
+            IsEnabledRenameBTN();
             // ToDo: implementar
         }
 
-        private void PerPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void PageSizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             page = 1;
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
-            if (PageBox is not null)
+            if (PageBox != null)
             {
                 PageRight.IsEnabled = page < PageBox.Items.Count;
             }

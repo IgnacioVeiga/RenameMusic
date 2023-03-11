@@ -24,7 +24,8 @@ namespace RenameMusic.Entities
             catch (CorruptFileException)
             {
                 Tags = null;
-                MessageBox.Show($"{Strings.CORRUPT_FILE_EX_MSG}\n{path}", Strings.LOADING, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                // ToDo: mostrar en color rojo o deshabilitados
+                //MessageBox.Show($"{Strings.CORRUPT_FILE_EX_MSG}\n{path}", Strings.LOADING, MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 
