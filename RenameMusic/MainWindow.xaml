@@ -41,8 +41,8 @@
                 <MenuItem x:Name="languages" Header="{x:Static lang:Strings.LANGUAGE}"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
-                <MenuItem Header="{x:Static lang:Strings.IMPORT_SETTINGS}" Click="ImportSettingsBTN_Click" IsEnabled="False"/>
-                <MenuItem Header="{x:Static lang:Strings.EXPORT_SETTINGS}" Click="ExportSettingsBTN_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static lang:Strings.IMPORT_SETTINGS}" IsEnabled="False"/>
+                <MenuItem Header="{x:Static lang:Strings.EXPORT_SETTINGS}" IsEnabled="False"/>
             </MenuItem>
             <MenuItem Header="{x:Static lang:Strings.HELP}">
                 <MenuItem Header="{x:Static lang:Strings.ABOUT}" IsEnabled="False"/>

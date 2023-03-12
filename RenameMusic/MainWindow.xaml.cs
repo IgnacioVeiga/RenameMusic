@@ -19,75 +19,10 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
-        // ToDo: llamar estás funciones donde sea necesario
-        private void TabsVisibility()
-        {
-            tabs.Visibility = (primaryList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
-        }
-        private void IsEnabledRenameBTN()
-        {
-            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
-        }
-        private void FromDatabaseToListView(int pageSize, int pageNumber)
-        {
-            // Desde la base de datos se debe retornar una lista pequeña para cada una de las 3 listas.
-            // Esto último debe funcionar como las páginas de un libro, con la posibilidad de elegir la
-            // cantidad de elementos a mostrar por cada página.
-            List<AudioDTO> audios = new();
-            List<FolderDTO> folders = new();
-
-            using (MyContext context = new())
-            {
-                audios = context.Audios
-                    .OrderBy(p => p.Id) // ordena los elementos para asegurarse de obtener el rango correcto
-                    .Skip((pageNumber - 1) * pageSize) // salta los primeros elementos del rango
-                    .Take(pageSize) // selecciona los siguientes elementos
-                    .ToList(); // convierte los elementos seleccionados en una lista
-
-                folders = context.Folders
-                    .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize).ToList();
-            }
-
-            // Mapear AudioDTO a la clase Audio y retornar la lista
-            foreach (AudioDTO audio in audios)
-            {
-                Audio item = new(audio.FolderId, audio.FilePath);
-
-                if (item.Tags != null)
-                {
-                    if(string.IsNullOrWhiteSpace(item.Tags.Title))
-                        secondaryList.Items.Add(item);
-                    else
-                        primaryList.Items.Add(item);
-                }
-                else
-                {
-                    // ToDo: enseñar un mensaje con los archivos corruptos
-                }
-            }
-
-            // Mapear FolderDTO a la clase Folder y retornar la lista
-            foreach (FolderDTO folder in folders)
-            {
-                folderList.Items.Add(new Folder(folder.Id, folder.FolderPath));
-            }
-        }
-        private void ClearTabLists()
-        {
-            primaryList.Items.Clear();
-            secondaryList.Items.Clear();
-            folderList.Items.Clear();
-        }
-
         public MainWindow()
         {
             InitializeComponent();
-
-            // Crea la base de datos si no existe
             _ = new MyContext().Database.EnsureCreated();
-            pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
-
             foreach (var language in AppLanguage.Languages)
             {
                 bool isLangSelected = Settings.Default.Lang == language.Key;
@@ -112,6 +47,7 @@ namespace RenameMusic
             TabsVisibility();
             IsEnabledRenameBTN();
             PageSizeBox.SelectedIndex = 0;
+            pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
             // ToDo: configurar selector de páginas y selector de cantidad de items
         }
 
@@ -236,16 +172,6 @@ namespace RenameMusic
             MessageBox.Show(Strings.SETTINGS_RESTORED);
         }
 
-        private void ImportSettingsBTN_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
-        }
-
-        private void ExportSettingsBTN_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(Strings.NOT_IMPLEMENTED_MSG);
-        }
-
         private void IncludeSubFolders_Check(object sender, RoutedEventArgs e)
         {
             Settings.Default.Save();
@@ -269,15 +195,6 @@ namespace RenameMusic
             Application.Current.Shutdown();
         }
 
-        private static int page = 1;
-        private int TotalPages
-        {
-            get
-            {
-                int totalItems = new MyContext().Audios.Count();
-                return (int)Math.Ceiling((double)(totalItems / (int)PageSizeBox.SelectedItem));
-            }
-        }
         private void DecrementPage(object sender, RoutedEventArgs e)
         {
             page--;
@@ -313,7 +230,6 @@ namespace RenameMusic
             FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
             TabsVisibility();
             IsEnabledRenameBTN();
-            // ToDo: implementar
         }
 
         private void PageSizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -323,14 +239,90 @@ namespace RenameMusic
             PageLeft.IsEnabled = page > 1;
             if (PageBox != null)
             {
+                PageBox.IsEnabled = TotalPages > 0;
+                PageBox.SelectedIndex = 0;
+                PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
                 PageRight.IsEnabled = page < PageBox.Items.Count;
             }
-            // ToDo: implementar
+            ClearTabLists();
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            TabsVisibility();
+            IsEnabledRenameBTN();
         }
 
         private void PageBox_DropDownOpened(object sender, EventArgs e)
         {
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
+        }
+
+        private static int page = 1;
+        private int TotalPages
+        {
+            get
+            {
+                int totalItems = new MyContext().Audios.Count();
+                return (int)Math.Ceiling((double)(totalItems / (int)PageSizeBox.SelectedItem));
+            }
+        }
+
+        private void TabsVisibility()
+        {
+            tabs.Visibility = (primaryList.Items.Count > 0) ? Visibility.Visible : Visibility.Hidden;
+        }
+        private void IsEnabledRenameBTN()
+        {
+            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+        }
+        private void FromDatabaseToListView(int pageSize, int pageNumber)
+        {
+            // Desde la base de datos se debe retornar una lista pequeña para cada una de las 3 listas.
+            // Esto último debe funcionar como las páginas de un libro, con la posibilidad de elegir la
+            // cantidad de elementos a mostrar por cada página.
+            List<AudioDTO> audios = new();
+            List<FolderDTO> folders = new();
+
+            using (MyContext context = new())
+            {
+                audios = context.Audios
+                    .OrderBy(p => p.Id) // ordena los elementos para asegurarse de obtener el rango correcto
+                    .Skip((pageNumber - 1) * pageSize) // salta los primeros elementos del rango
+                    .Take(pageSize) // selecciona los siguientes elementos
+                    .ToList(); // convierte los elementos seleccionados en una lista
+
+                folders = context.Folders
+                    .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize).ToList();
+            }
+
+            // Mapear AudioDTO a la clase Audio y retornar la lista
+            foreach (AudioDTO audio in audios)
+            {
+                Audio item = new(audio.FolderId, audio.FilePath);
+
+                if (item.Tags != null)
+                {
+                    if (string.IsNullOrWhiteSpace(item.Tags.Title))
+                        secondaryList.Items.Add(item);
+                    else
+                        primaryList.Items.Add(item);
+                }
+                else
+                {
+                    // ToDo: enseñar un mensaje con los archivos corruptos
+                }
+            }
+
+            // Mapear FolderDTO a la clase Folder y retornar la lista
+            foreach (FolderDTO folder in folders)
+            {
+                folderList.Items.Add(new Folder(folder.Id, folder.FolderPath));
+            }
+        }
+        private void ClearTabLists()
+        {
+            primaryList.Items.Clear();
+            secondaryList.Items.Clear();
+            folderList.Items.Clear();
         }
     }
 }
