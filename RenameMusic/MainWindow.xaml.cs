@@ -155,12 +155,16 @@ namespace RenameMusic
         {
             int folderId = ((Folder)((Button)sender).DataContext).Id;
             DatabaseAPI.RemoveFolderFromDB(folderId);
-            // ToDo: refrescar listas
+
+            ClearTabLists();
+            page = 1;
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
 
             PageBox.IsEnabled = TotalPages > 0;
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
-            renameFilesBTN.IsEnabled = primaryList.Items.Count > 0;
+            TabsVisibility();
+            IsEnabledRenameBTN();
         }
 
         private void TemplateBTN_Click(object sender, RoutedEventArgs e)
