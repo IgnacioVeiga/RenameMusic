@@ -22,6 +22,7 @@ namespace RenameMusic
         public MainWindow()
         {
             InitializeComponent();
+            pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
             _ = new MyContext().Database.EnsureCreated();
             foreach (var language in AppLanguage.Languages)
             {
@@ -46,10 +47,11 @@ namespace RenameMusic
 
             TabsVisibility();
             IsEnabledRenameBTN();
+
+            // La base de datos se lee sola cuando ejecutamos esto:
             PageSizeBox.SelectedIndex = 0;
             PageBox.SelectedIndex = 0;
-            pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
-            // ToDo: configurar selector de páginas y selector de cantidad de items
+            // ToDo: revisar si las 2 lineas anteriores son necesarias para evitar la redundancia
         }
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
@@ -190,16 +192,18 @@ namespace RenameMusic
             AppLanguage.ChangeLanguage(language);
             MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTARTING}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
-            // ToDo: Make a temporary backup copy of the changes made to restore it later.
-
             App.RestartApp();
         }
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBoxResult resp = MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            //if (resp == MessageBoxResult.Yes)
-            Application.Current.Shutdown();
+            // Si hay items aún, preguntar antes de salir
+            if (folderList.Items.Count > 0)
+            {
+                if (MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    Application.Current.Shutdown();
+            }
+            else Application.Current.Shutdown();
         }
 
         private void DecrementPage(object sender, RoutedEventArgs e)
