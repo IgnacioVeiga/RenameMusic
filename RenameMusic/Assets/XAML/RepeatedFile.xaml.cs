@@ -15,15 +15,15 @@ namespace RenameMusic
         {
             InitializeComponent();
             keepChoice.IsChecked = Settings.Default.RepeatedFileKeepChoice;
-            currentName.Content = Path.GetFileName(oldName);
-            newName.Content = Path.GetFileName(newName_Repeated);
-            location.Content = Path.GetDirectoryName(oldName) + Path.DirectorySeparatorChar;
+            currentName.Text = Path.GetFileName(oldName);
+            newName.Text = Path.GetFileName(newName_Repeated);
+            location.Text = Path.GetDirectoryName(oldName) + Path.DirectorySeparatorChar;
         }
 
         private void ReplaceBTN_Click(object sender, RoutedEventArgs e)
         {
-            string oldFile = (string)location.Content + (string)currentName.Content;
-            string newFile = (string)location.Content + (string)newName.Content;
+            string oldFile = location.Text + currentName.Text;
+            string newFile = location.Text + newName.Text;
             try
             {
                 if (File.Exists(newFile))
@@ -46,8 +46,8 @@ namespace RenameMusic
         private void RenameBTN_Click(object sender, RoutedEventArgs e)
         {
             int num = 2;
-            string newFile = (string)location.Content + (string)newName.Content;
-            string dirAndFileName = location.Content.ToString() + Path.GetFileNameWithoutExtension(newFile);
+            string newFile = location.Text + newName.Text;
+            string dirAndFileName = location.Text + Path.GetFileNameWithoutExtension(newFile);
             string extension = Path.GetExtension(newFile);
             while (File.Exists($"{dirAndFileName} ({num}){extension}"))
             {
@@ -56,7 +56,7 @@ namespace RenameMusic
 
             try
             {
-                File.Move((string)location.Content + (string)currentName.Content, $"{dirAndFileName} ({num}){extension}");
+                File.Move(location.Text + currentName.Text, $"{dirAndFileName} ({num}){extension}");
             }
             catch (Exception ex)
             {

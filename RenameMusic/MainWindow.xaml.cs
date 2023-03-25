@@ -47,6 +47,7 @@ namespace RenameMusic
             TabsVisibility();
             IsEnabledRenameBTN();
             PageSizeBox.SelectedIndex = 0;
+            PageBox.SelectedIndex = 0;
             pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
             // ToDo: configurar selector de páginas y selector de cantidad de items
         }
@@ -125,6 +126,7 @@ namespace RenameMusic
             if ((Audio)((ListView)sender).SelectedItem is null)
             {
                 pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
+                pictures.Opacity = 0.5;
                 return;
             }
 
@@ -145,6 +147,7 @@ namespace RenameMusic
                 bitmap.EndInit();
 
                 pictures.Source = bitmap;
+                pictures.Opacity = 1;
             }
         }
 
@@ -255,13 +258,17 @@ namespace RenameMusic
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
         }
 
+        #region mover
         private static int page = 1;
         private int TotalPages
         {
             get
             {
-                int totalItems = new MyContext().Audios.Count();
-                return (int)Math.Ceiling((double)(totalItems / (int)PageSizeBox.SelectedItem));
+                int totalItems = (int)Math.Ceiling((double)(
+                    new MyContext().Audios.Count() / (int)PageSizeBox.SelectedItem
+                    ));
+                if (totalItems == 0) return 1;
+                else return totalItems;
             }
         }
 
@@ -324,5 +331,6 @@ namespace RenameMusic
             secondaryList.Items.Clear();
             folderList.Items.Clear();
         }
+        #endregion mover
     }
 }

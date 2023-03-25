@@ -1,8 +1,6 @@
-﻿using RenameMusic.Lang;
-using RenameMusic.Util;
+﻿using RenameMusic.Util;
 using System;
 using System.IO;
-using System.Windows;
 using TagLib;
 
 namespace RenameMusic.Entities

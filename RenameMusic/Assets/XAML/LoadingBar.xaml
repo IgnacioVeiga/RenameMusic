@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         Title="{x:Static p:Strings.LOADING}" Height="100" Width="350">
     <Grid Margin="20">
-        <ProgressBar Minimum="0" Maximum="100" Name="loadingBarStatus"/>
-        <TextBlock Text="{Binding ElementName=loadingBarStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <ProgressBar d:Value="50" Minimum="0" Maximum="100" Name="loadingBarStatus"/>
+        <TextBlock Text="{Binding ElementName=loadingBarStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
     </Grid>
 </Window>

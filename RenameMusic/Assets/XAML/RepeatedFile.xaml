@@ -7,18 +7,19 @@
         Width="680" MinHeight="240" mc:Ignorable="d" Title="{x:Static p:Strings.REPEATED_FILE}"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label Content="{x:Static p:Strings.FILE_REPEATED_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0" FontSize="12"/>
+        <TextBlock Text="{x:Static p:Strings.FILE_REPEATED_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0" FontSize="12"/>
 
-        <Label Content="{x:Static p:Strings.CURRENT_FILE_NAME_MSG}" HorizontalAlignment="Left" Margin="15,40,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
-        <Label x:Name="currentName" HorizontalAlignment="Left" Margin="140,40,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <TextBlock Text="{x:Static p:Strings.CURRENT_FILE_NAME_MSG}" HorizontalAlignment="Left" Margin="15,40,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
+        <TextBlock x:Name="currentName" HorizontalAlignment="Left" Margin="140,40,0,0" VerticalAlignment="Top" FontSize="12"/>
 
-        <Label Content="{x:Static p:Strings.NEW_NAME}" HorizontalAlignment="Left" Margin="15,70,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
-        <Label x:Name="newName" HorizontalAlignment="Left" Margin="140,70,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <TextBlock Text="{x:Static p:Strings.NEW_NAME}" HorizontalAlignment="Left" Margin="15,70,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
+        <TextBlock x:Name="newName" HorizontalAlignment="Left" Margin="140,70,0,0" VerticalAlignment="Top" FontSize="12"/>
 
-        <Label Content="{x:Static p:Strings.LOCATION_MSG}" HorizontalAlignment="Left" Margin="15,100,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
-        <Label x:Name="location" HorizontalAlignment="Left" Margin="140,100,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <TextBlock Text="{x:Static p:Strings.LOCATION_MSG}" HorizontalAlignment="Left" Margin="15,100,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
+        <TextBlock x:Name="location" HorizontalAlignment="Left" Margin="140,100,0,0" VerticalAlignment="Top" FontSize="12"/>
 
-        <CheckBox x:Name="keepChoice" Content="{x:Static p:Strings.KEEP_MY_CHOICE_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,130,0,0" Height="24" Width="300" Cursor="Hand" Click="RememberChoice_Click"/>
+        <CheckBox x:Name="keepChoice" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,130,0,0" Cursor="Hand" Click="RememberChoice_Click"/>
+        <TextBlock Text="{x:Static p:Strings.KEEP_MY_CHOICE_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,130,0,0" Width="300"/>
 
         <Button Content="{x:Static p:Strings.REPLACE}" HorizontalAlignment="Center" Margin="0,160,260,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="ReplaceBTN_Click"/>
         <Button Content="{x:Static p:Strings.SKIP}" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Width="100" Height="30" Cursor="Hand" Click="SkipBTN_Click"/>
