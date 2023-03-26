@@ -1,5 +1,3 @@
-# https://www.youtube.com/watch?v=VIlDni8-iWM
-
 name: "Deploy RM Project"
 
 on:
@@ -12,7 +10,11 @@ env:
 
 jobs:
   deploy:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [windows-latest]
+        arch: [x86, x64]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
 
@@ -22,9 +24,18 @@ jobs:
 
       - run: dotnet restore ${{ env.PROJECT_PATH }}
 
-      - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+      - name: Build
+        run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore --runtime ${{ matrix.arch }}
 
-      - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --no-build
+      - name: Zip
+        run: |
+          7z a -r -tzip "RenameMusic_${{ matrix.arch }}.zip" "./RenameMusic/bin/Release/net6.0-windows-${{ matrix.arch }}/publish/*"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: RenameMusic_${{ matrix.arch }}.zip
+          path: RenameMusic_${{ matrix.arch }}.zip
 
       - uses: actions/create-release@v1
         id: create_release
@@ -33,9 +44,19 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
 
-      - uses: csexton/release-asset-action@v2
+      - uses: actions/upload-release-asset@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: RenameMusic/bin/Release/net6.0-windows*/win-x64/publish/*.exe
-          release-url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: RenameMusic_x86.zip
+          asset_name: RenameMusic_x86.zip
+          asset_content_type: application/zip
+
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: RenameMusic_x64.zip
+          asset_name: RenameMusic_x64.zip
+          asset_content_type: application/zip
