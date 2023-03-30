@@ -327,7 +327,7 @@ namespace RenameMusic
             // Mapear AudioDTO a la clase Audio y retornar la lista
             foreach (AudioDTO audio in audios)
             {
-                Audio item = new(audio.FolderId, audio.FilePath);
+                Audio item = new(audio.FolderId, new MyContext().Folders.First(f => f.Id == audio.FolderId).FolderPath + audio.FileName);
 
                 if (item.Tags != null)
                 {

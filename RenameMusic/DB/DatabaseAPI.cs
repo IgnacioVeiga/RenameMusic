@@ -8,9 +8,9 @@ namespace RenameMusic.DB
     {
         public static void AddToDatabase(string[] files)
         {
+            // ToDo: Utilizar otro hilo para esta tarea!
             foreach (string file in files)
             {
-                // Chequear si ya existen el audio o la carpeta en la base de datos
                 if (AudioAlreadyAdded(file)) continue;
 
                 int folderId;
@@ -24,7 +24,7 @@ namespace RenameMusic.DB
                     folderId = AddFolderToDB(new FolderDTO() { FolderPath = folderPath });
                 }
 
-                AddAudioToDB(new AudioDTO() { FilePath = file, FolderId = folderId });
+                AddAudioToDB(new AudioDTO() { FileName = Path.GetFileName(file), FolderId = folderId });
             }
         }
 
@@ -82,7 +82,7 @@ namespace RenameMusic.DB
         {
             using (MyContext context = new())
             {
-                return context.Audios.AnyPredicate(a => a.FilePath == filepath);
+                return context.Audios.AnyPredicate(a => a.FileName == Path.GetFileName(filepath));
             }
         }
 
@@ -98,7 +98,7 @@ namespace RenameMusic.DB
         {
             using (MyContext context = new())
             {
-                return context.Audios.FirstPredicate(a => a.FilePath == filepath).Id;
+                return context.Audios.FirstPredicate(a => a.FileName == Path.GetFileName(filepath)).Id;
             }
         }
 
