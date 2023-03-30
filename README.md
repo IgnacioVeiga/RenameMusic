@@ -34,7 +34,7 @@ For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it
 - [ ] Play the file from this app or an external one.
 - [ ] Improve UI/UX.
 - [ ] Use theme selector (light, dark and more).
-- and more!
+and more!
 
 ## Required:
 - Windows 7 or higher (Recommended Windows 10/11) x86/x64.
