@@ -125,5 +125,14 @@ namespace RenameMusic.DB
                 return context.Folders.Count();
             }
         }
+
+        public static void ClearDatabase()
+        {
+            using (MyContext context = new())
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+            }
+        }
     }
 }

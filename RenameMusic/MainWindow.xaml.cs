@@ -118,14 +118,14 @@ namespace RenameMusic
                 }
             });
 
-            PageBox.Items.Clear();
+            PageBox.ItemsSource = Enumerable.Range(1, 1);
             PageBox.IsEnabled = false;
             PageLeft.IsEnabled = false;
             PageRight.IsEnabled = false;
             ClearTabLists();
             TabsVisibility();
             IsEnabledRenameBTN();
-            // ToDo: vaciar la base de datos si es necesario.
+            DatabaseAPI.ClearDatabase();
             UpdateTabHeader();
             loading_bar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
@@ -147,17 +147,18 @@ namespace RenameMusic
             {
                 TagLib.IPicture pic = ((Audio)((ListView)sender).SelectedItem).Tags.Pictures[0];
 
-                // Load you image data in MemoryStream
-                MemoryStream ms = new(pic.Data.Data);
-                ms.Seek(0, SeekOrigin.Begin);
+                using (MemoryStream ms = new(pic.Data.Data))
+                {
+                    ms.Seek(0, SeekOrigin.Begin);
 
-                // ImageSource for System.Windows.Controls.Image
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
+                    BitmapImage bitmap = new();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
 
-                pictures.Source = bitmap;
+                    pictures.Source = bitmap;
+                }
+
                 pictures.Opacity = 1;
             }
         }
@@ -287,7 +288,7 @@ namespace RenameMusic
             get
             {
                 int totalItems = (int)Math.Ceiling((double)(
-                    new MyContext().Audios.Count() / (int)PageSizeBox.SelectedItem
+                    DatabaseAPI.CountAudioItems() / (int)PageSizeBox.SelectedItem
                     ));
                 if (totalItems == 0) return 1;
                 else return totalItems;
@@ -357,9 +358,9 @@ namespace RenameMusic
         {
             // ToDo: traducir esa parte del Header
             const string format = "{0} | On page: {1}/{2} Loaded items: {3}/{4}";
-            primaryTab.Header = string.Format(format, Strings.WITH_TAGS, page, TotalPages, primaryList.Items.Count, new MyContext().Audios.Count());
-            secondaryTab.Header = string.Format(format, Strings.NO_TITLE_TAG, page, TotalPages, secondaryList.Items.Count, new MyContext().Audios.Count());
-            folderTab.Header = string.Format(format, Strings.FOLDERS, page, TotalPages, folderList.Items.Count, new MyContext().Folders.Count());
+            primaryTab.Header = string.Format(format, Strings.WITH_TAGS, page, TotalPages, primaryList.Items.Count, DatabaseAPI.CountAudioItems());
+            secondaryTab.Header = string.Format(format, Strings.NO_TITLE_TAG, page, TotalPages, secondaryList.Items.Count, DatabaseAPI.CountAudioItems());
+            folderTab.Header = string.Format(format, Strings.FOLDERS, page, TotalPages, folderList.Items.Count, DatabaseAPI.CountFolderItems());
         }
         #endregion mover
     }
