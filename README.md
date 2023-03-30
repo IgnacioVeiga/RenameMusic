@@ -34,6 +34,7 @@ For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it
 - [ ] Play the file from this app or an external one.
 - [ ] Improve UI/UX.
 - [ ] Use theme selector (light, dark and more).
+- and more!
 
 ## Required:
 - Windows 7 or higher (Recommended Windows 10/11) x86/x64.
@@ -52,4 +53,4 @@ For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it
 - WinCopies.WindowsAPICodePack.Shell **(2.12.0.2)**
 
 ## Compile:
-Compile via **Visual Studio 2022**. The other way is to run the `dotnet build` command from terminal (cmd/powershell) in the root of the repository and then check the `bin` folder.
+Compile via **Visual Studio 2022**. The other way is to run the `dotnet build` command from terminal (cmd/powershell) in the root of the repository and then check inside of the `\RenameMusic\bin\` folder.
