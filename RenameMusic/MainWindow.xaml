@@ -24,7 +24,7 @@
 
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
             <MenuItem Header="{x:Static lang:Strings.FILE}">
-                <MenuItem Header="{x:Static lang:Strings.ADD_FILE}" Click="AddFile_Click" IsEnabled="False"/>
+                <MenuItem Header="{x:Static lang:Strings.ADD_FILE}" Click="AddFile_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
                 <Separator />
                 <MenuItem x:Name="renameFilesBTN" Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
@@ -70,7 +70,7 @@
                   x:Name="PageBox" SelectionChanged="PageBox_SelectionChanged" DropDownOpened="PageBox_DropDownOpened"/>
 
         <TabControl Grid.Row="1" Grid.Column="0" x:Name="tabs" HorizontalAlignment="Stretch" Margin="0,10" Visibility="{Binding TabsVisibility}">
-            <TabItem Header="{x:Static lang:Strings.WITH_TAGS}">
+            <TabItem x:Name="primaryTab" d:Header="{x:Static lang:Strings.WITH_TAGS}">
                 <ListView x:Name="primaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <ListView.View>
                         <GridView>
@@ -80,14 +80,14 @@
                             <GridViewColumn Header="{x:Static lang:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
                             <GridViewColumn Header="{x:Static lang:Strings.TITLE}" DisplayMemberBinding="{Binding Tags.Title}"/>
                             <GridViewColumn Header="{x:Static lang:Strings.ALBUM}" DisplayMemberBinding="{Binding Tags.Album}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.Performers[0]}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.AlbumArtists[0]}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.JoinedPerformers}"/>
+                            <GridViewColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.JoinedAlbumArtists}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
 
-            <TabItem Header="{x:Static lang:Strings.NO_TITLE_TAG}">
+            <TabItem x:Name="secondaryTab" d:Header="{x:Static lang:Strings.NO_TITLE_TAG}">
                 <ListView x:Name="secondaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <ListView.View>
                         <GridView>
@@ -99,7 +99,7 @@
                 </ListView>
             </TabItem>
 
-            <TabItem Header="{x:Static lang:Strings.FOLDERS}">
+            <TabItem x:Name="folderTab" d:Header="{x:Static lang:Strings.FOLDERS}">
                 <ListView x:Name="folderList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=10}">
                     <ListView.View>
                         <GridView>

@@ -19,6 +19,7 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
+        // ToDo: todo lo relacionado a los selectores de páginas deben de ser independientes para cada "Tab"
         public MainWindow()
         {
             InitializeComponent();
@@ -51,7 +52,8 @@ namespace RenameMusic
             // La base de datos se lee sola cuando ejecutamos esto:
             PageSizeBox.SelectedIndex = 0;
             PageBox.SelectedIndex = 0;
-            // ToDo: revisar si las 2 lineas anteriores son necesarias para evitar la redundancia
+            UpdateTabHeader();
+            // ToDo: revisar si las lineas anteriores son necesarias para evitar la redundancia
         }
 
         private void AddFolder_Click(object sender, RoutedEventArgs e)
@@ -74,6 +76,7 @@ namespace RenameMusic
             FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
             TabsVisibility();
             IsEnabledRenameBTN();
+            UpdateTabHeader();
         }
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
@@ -82,13 +85,17 @@ namespace RenameMusic
             if (files.Length == 0) return;
             DatabaseAPI.AddToDatabase(files);
 
-            // ToDo: Actualizar las listas con solo algunos pocos elementos
-
             PageBox.IsEnabled = TotalPages > 0;
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
+
+            ClearTabLists();
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            TabsVisibility();
+            IsEnabledRenameBTN();
+            UpdateTabHeader();
         }
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
@@ -118,6 +125,8 @@ namespace RenameMusic
             ClearTabLists();
             TabsVisibility();
             IsEnabledRenameBTN();
+            // ToDo: vaciar la base de datos si es necesario.
+            UpdateTabHeader();
             loading_bar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
@@ -167,6 +176,7 @@ namespace RenameMusic
             PageRight.IsEnabled = page < PageBox.Items.Count;
             TabsVisibility();
             IsEnabledRenameBTN();
+            UpdateTabHeader();
         }
 
         private void TemplateBTN_Click(object sender, RoutedEventArgs e)
@@ -217,6 +227,7 @@ namespace RenameMusic
             TabsVisibility();
             IsEnabledRenameBTN();
             PageBox.SelectedValue = page;
+            UpdateTabHeader();
         }
         private void IncrementPage(object sender, RoutedEventArgs e)
         {
@@ -229,6 +240,7 @@ namespace RenameMusic
             TabsVisibility();
             IsEnabledRenameBTN();
             PageBox.SelectedValue = page;
+            UpdateTabHeader();
         }
 
         private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -241,6 +253,7 @@ namespace RenameMusic
             FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
             TabsVisibility();
             IsEnabledRenameBTN();
+            UpdateTabHeader();
         }
 
         private void PageSizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -259,6 +272,7 @@ namespace RenameMusic
             FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
             TabsVisibility();
             IsEnabledRenameBTN();
+            UpdateTabHeader();
         }
 
         private void PageBox_DropDownOpened(object sender, EventArgs e)
@@ -338,6 +352,14 @@ namespace RenameMusic
             primaryList.Items.Clear();
             secondaryList.Items.Clear();
             folderList.Items.Clear();
+        }
+        private void UpdateTabHeader()
+        {
+            // ToDo: traducir esa parte del Header
+            const string format = "{0} | On page: {1}/{2} Loaded items: {3}/{4}";
+            primaryTab.Header = string.Format(format, Strings.WITH_TAGS, page, TotalPages, primaryList.Items.Count, new MyContext().Audios.Count());
+            secondaryTab.Header = string.Format(format, Strings.NO_TITLE_TAG, page, TotalPages, secondaryList.Items.Count, new MyContext().Audios.Count());
+            folderTab.Header = string.Format(format, Strings.FOLDERS, page, TotalPages, folderList.Items.Count, new MyContext().Folders.Count());
         }
         #endregion mover
     }
