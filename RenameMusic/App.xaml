@@ -1,73 +1,12 @@
 ﻿<Application x:Class="RenameMusic.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:RenameMusic"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <!-- ToDo: Buscar como settear los colores una unica vez -->
-            <Style TargetType="{x:Type local:MainWindow}">
-                <Setter Property="Background" Value="#FF202020"/>
-                <Setter Property="Foreground" Value="#FFDADADA"/>
-            </Style>
-            <Style TargetType="{x:Type local:LoadingBar}">
-                <Setter Property="Background" Value="#FF202020"/>
-                <Setter Property="Foreground" Value="#FFDADADA"/>
-            </Style>
-            <Style TargetType="{x:Type local:RepeatedFile}">
-                <Setter Property="Background" Value="#FF202020"/>
-                <Setter Property="Foreground" Value="#FFDADADA"/>
-            </Style>
-            <Style TargetType="{x:Type local:Template}">
-                <Setter Property="Background" Value="#FF202020"/>
-                <Setter Property="Foreground" Value="#FFDADADA"/>
-            </Style>
-
-            <!-- Estilo para Menus -->
-            <Style TargetType="Menu">
-                <Setter Property="Background" Value="#FF252525" />
-                <Setter Property="Foreground" Value="#FFDADADA" />
-                <Setter Property="BorderBrush" Value="#FF3E3E3E" />
-                <Setter Property="BorderThickness" Value="0,0,0,1" />
-            </Style>
-            <!-- Estilo para MenuItems -->
-            <Style TargetType="MenuItem">
-                <Setter Property="Background" Value="#FF2B2B2B" />
-                <Setter Property="Foreground" Value="#FFDADADA" />
-                <Setter Property="BorderBrush" Value="#FF3E3E3E" />
-                <Setter Property="BorderThickness" Value="0,1,0,1" />
-                <Setter Property="Padding" Value="7,5" />
-                <Style.Triggers>
-                    <Trigger Property="IsHighlighted" Value="True">
-                        <Setter Property="Foreground" Value="#FF3C3C3C"/>
-                        <Setter Property="Background" Value="#FFA9A9A9"/>
-                        <Setter Property="BorderBrush" Value="#FF20DA20"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-            <Style TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="#FF20DA20"/>
-                <Setter Property="Foreground" Value="Black"/>
-                <Style.Triggers>
-                    <Trigger Property="IsFocused" Value="True">
-                        <Setter Property="Background" Value="DarkBlue"/>
-                        <Setter Property="Foreground" Value="#FFDADADA"/>
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="True">
-                        <Setter Property="Background" Value="Black"/>
-                        <Setter Property="Foreground" Value="#FFDADADA"/>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Opacity" Value="0.5"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-            <Style TargetType="{x:Type ProgressBar}">
-                <Setter Property="Background" Value="#FFDADADA"/>
-                <Setter Property="Foreground" Value="#FF20DA20"/>
-            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

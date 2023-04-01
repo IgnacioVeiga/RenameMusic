@@ -10,7 +10,7 @@
         
         MinHeight="400" MinWidth="650" SizeToContent="Manual"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-        Title="Rename Music">
+        Title="Rename Music (Beta)">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +34,7 @@
 
             <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
                 <MenuItem Header="{x:Static lang:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
-
+                
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
                           IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                           Checked="IncludeSubFolders_Check" IsCheckable="True"/>
@@ -45,6 +45,8 @@
                 <MenuItem Header="{x:Static lang:Strings.EXPORT_SETTINGS}" IsEnabled="False"/>
             </MenuItem>
             <MenuItem Header="{x:Static lang:Strings.HELP}">
+                <MenuItem Header="View help" IsEnabled="False"/>
+                <MenuItem Header="Check for Updates" IsEnabled="False"/>
                 <MenuItem Header="{x:Static lang:Strings.ABOUT}" IsEnabled="False"/>
             </MenuItem>
         </Menu>
