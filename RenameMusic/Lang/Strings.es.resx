@@ -273,4 +273,13 @@
   <data name="SEARCH_SUBFOLDERS" xml:space="preserve">
     <value>Buscar en subcarpetas</value>
   </data>
+  <data name="THEME" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="VIEW_HELP" xml:space="preserve">
+    <value>Ver ayuda</value>
+  </data>
+  <data name="CHECK_UPDATES" xml:space="preserve">
+    <value>Buscar actualizaciones</value>
+  </data>
 </root>

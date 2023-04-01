@@ -133,6 +133,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for updates.
+        /// </summary>
+        public static string CHECK_UPDATES {
+            get {
+                return ResourceManager.GetString("CHECK_UPDATES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Corrupt or incorrect file..
         /// </summary>
         public static string CORRUPT_FILE_EX_MSG {
@@ -475,6 +484,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        public static string THEME {
+            get {
+                return ResourceManager.GetString("THEME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string TITLE {
@@ -507,6 +525,15 @@ namespace RenameMusic.Lang {
         public static string TYPE {
             get {
                 return ResourceManager.GetString("TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View help.
+        /// </summary>
+        public static string VIEW_HELP {
+            get {
+                return ResourceManager.GetString("VIEW_HELP", resourceCulture);
             }
         }
         

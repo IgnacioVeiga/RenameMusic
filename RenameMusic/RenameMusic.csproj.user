@@ -43,7 +43,16 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\Button.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\ComboBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Menu.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

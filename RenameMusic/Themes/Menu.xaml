@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Style TargetType="Menu">
+        <Setter Property="Background" Value="#FF252525"/>
+        <Setter Property="Foreground" Value="#F1F1F1"/>
+        <Setter Property="BorderBrush" Value="#FF3E3E3E"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    </Style>
+    
+    <Style TargetType="MenuItem">
+        <Setter Property="Background" Value="#FF252525"/>
+        <Setter Property="Foreground" Value="#F1F1F1"/>
+        <Setter Property="BorderBrush" Value="#FF3E3E3E"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="7,5"/>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Foreground" Value="#FF3C3C3C"/>
+                <Setter Property="Background" Value="#FFA9A9A9"/>
+                <Setter Property="BorderBrush" Value="#115F58"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

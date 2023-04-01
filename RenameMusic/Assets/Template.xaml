@@ -10,7 +10,7 @@
         SizeToContent="WidthAndHeight" 
         ResizeMode="CanResizeWithGrip">
     <Grid>
-        <TextBlock x:Name="simbols" Margin="10,10,10,66" TextWrapping="Wrap"/>
+        <TextBlock x:Name="simbols" Margin="10,10,10,66" TextWrapping="Wrap" d:Text="Example"/>
         <TextBox x:Name="template" Margin="10,0,10,40" TextWrapping="Wrap" VerticalAlignment="Bottom" TextChanged="Template_TextChanged"/>
         <Button x:Name="apply" Content="{x:Static p:Strings.APPLY}" Width="80" HorizontalAlignment="Center" Margin="0,0,100,10" VerticalAlignment="Bottom" Click="ApplyBTN_Click"/>
         <Button Content="{x:Static p:Strings.CANCEL}" Width="80" HorizontalAlignment="Center" Margin="100,0,0,10" VerticalAlignment="Bottom" Click="CancelBTN_Click"/>
