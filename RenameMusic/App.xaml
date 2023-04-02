@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Themes/Button.xaml"/>
                 <ResourceDictionary Source="Themes/ComboBox.xaml"/>
                 <ResourceDictionary Source="Themes/TabControl.xaml"/>
+                <ResourceDictionary Source="Themes/ListView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
