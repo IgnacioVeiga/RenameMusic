@@ -2,6 +2,7 @@
 using RenameMusic.Properties;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 
@@ -17,6 +18,7 @@ namespace RenameMusic
         App()
         {
             AppLanguage.ChangeLanguage(Settings.Default.Lang);
+            SetDropDownMenuToBeRightAligned();
         }
 
         internal static void RestartApp()
@@ -49,6 +51,23 @@ namespace RenameMusic
         protected virtual void CloseMutexHandler(object sender, EventArgs e)
         {
             _mutex?.Close();
+        }
+
+        // Source: https://stackoverflow.com/a/67114984
+        private static void SetDropDownMenuToBeRightAligned()
+        {
+            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            Action setAlignmentValue = () =>
+            {
+                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
+            };
+
+            setAlignmentValue();
+
+            SystemParameters.StaticPropertyChanged += (sender, e) =>
+            {
+                setAlignmentValue();
+            };
         }
     }
 }
