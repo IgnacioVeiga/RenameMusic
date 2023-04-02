@@ -147,18 +147,15 @@ namespace RenameMusic
             {
                 TagLib.IPicture pic = ((Audio)((ListView)sender).SelectedItem).Tags.Pictures[0];
 
-                using (MemoryStream ms = new(pic.Data.Data))
-                {
-                    ms.Seek(0, SeekOrigin.Begin);
+                MemoryStream ms = new(pic.Data.Data);
+                ms.Seek(0, SeekOrigin.Begin);
 
-                    BitmapImage bitmap = new();
-                    bitmap.BeginInit();
-                    bitmap.StreamSource = ms;
-                    bitmap.EndInit();
+                BitmapImage bitmap = new();
+                bitmap.BeginInit();
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
 
-                    pictures.Source = bitmap;
-                }
-
+                pictures.Source = bitmap;
                 pictures.Opacity = 1;
             }
         }
