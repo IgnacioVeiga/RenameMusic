@@ -58,6 +58,9 @@
     <Page Update="Themes\Menu.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\TabControl.xaml">
       <SubType>Designer</SubType>
     </Page>

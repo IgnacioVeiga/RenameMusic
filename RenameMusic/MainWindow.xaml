@@ -109,7 +109,7 @@
                             <GridViewColumn Width="30">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Width="20" Height="20" Content="X" Click="RemoveFolderItem_Click"/>
+                                        <Button Width="24" Height="24" Content="X" Click="RemoveFolderItem_Click"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
