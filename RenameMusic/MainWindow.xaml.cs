@@ -332,10 +332,10 @@ namespace RenameMusic
                     else
                         primaryList.Items.Add(item);
                 }
-                else
-                {
-                    // ToDo: enseñar un mensaje con los archivos corruptos
-                }
+                //else
+                //{
+                //    // ToDo: enseñar un mensaje con los archivos corruptos
+                //}
             }
 
             // Mapear FolderDTO a la clase Folder y retornar la lista
@@ -353,10 +353,10 @@ namespace RenameMusic
         private void UpdateTabHeader()
         {
             // ToDo: traducir esa parte del Header
-            const string format = "\t{0}\nPage: {1}/{2}\tLoaded: {3}/{4}";
-            primaryTab.Header = string.Format(format, Strings.WITH_TAGS, page, TotalPages, primaryList.Items.Count, DatabaseAPI.CountAudioItems());
-            secondaryTab.Header = string.Format(format, Strings.NO_TITLE_TAG, page, TotalPages, secondaryList.Items.Count, DatabaseAPI.CountAudioItems());
-            folderTab.Header = string.Format(format, Strings.FOLDERS, page, TotalPages, folderList.Items.Count, DatabaseAPI.CountFolderItems());
+            const string format = "Page: {0}/{1}\tLoaded: {2}/{3}";
+            primaryTab.Text =   string.Format(format,   page, TotalPages, primaryList.Items.Count,      DatabaseAPI.CountAudioItems());
+            secondaryTab.Text = string.Format(format,   page, TotalPages, secondaryList.Items.Count,    DatabaseAPI.CountAudioItems());
+            folderTab.Text =    string.Format(format,   page, TotalPages, folderList.Items.Count,       DatabaseAPI.CountFolderItems());
         }
         #endregion mover
     }
