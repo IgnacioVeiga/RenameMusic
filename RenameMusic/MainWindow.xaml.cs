@@ -223,12 +223,12 @@ namespace RenameMusic
                     break;
 
                 case "<":
-            page--;
+                    page--;
                     break;
 
                 default:
                     return;
-        }
+            }
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
@@ -353,7 +353,7 @@ namespace RenameMusic
         private void UpdateTabHeader()
         {
             // ToDo: traducir esa parte del Header
-            const string format = "{0} | Page: {1}/{2} Loaded: {3}/{4}";
+            const string format = "\t{0}\nPage: {1}/{2}\tLoaded: {3}/{4}";
             primaryTab.Header = string.Format(format, Strings.WITH_TAGS, page, TotalPages, primaryList.Items.Count, DatabaseAPI.CountAudioItems());
             secondaryTab.Header = string.Format(format, Strings.NO_TITLE_TAG, page, TotalPages, secondaryList.Items.Count, DatabaseAPI.CountAudioItems());
             folderTab.Header = string.Format(format, Strings.FOLDERS, page, TotalPages, folderList.Items.Count, DatabaseAPI.CountFolderItems());
