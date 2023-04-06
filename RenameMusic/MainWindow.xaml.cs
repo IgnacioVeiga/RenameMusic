@@ -214,22 +214,21 @@ namespace RenameMusic
             else Application.Current.Shutdown();
         }
 
-        private void DecrementPage(object sender, RoutedEventArgs e)
+        private void ChangePage(object sender, RoutedEventArgs e)
         {
+            switch (((Button)sender).Content)
+            {
+                case ">":
+                    page++;
+                    break;
+
+                case "<":
             page--;
-            Page.Text = $"Page {page}";
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
-            ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            PageBox.SelectedValue = page;
-            UpdateTabHeader();
+                    break;
+
+                default:
+                    return;
         }
-        private void IncrementPage(object sender, RoutedEventArgs e)
-        {
-            page++;
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
