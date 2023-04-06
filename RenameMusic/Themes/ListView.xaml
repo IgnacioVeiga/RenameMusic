@@ -12,13 +12,18 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border Name="border" BorderThickness="1" BorderBrush="Transparent">
+                                <Border Name="border"
+                                        BorderThickness="1"
+                                        BorderBrush="Transparent"
+                                        Background="#1E1E1E">
                                     <GridViewRowPresenter />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#115F58" />
-                                        <Setter TargetName="border" Property="BorderThickness" Value="1" />
+                                        <Setter TargetName="border" Property="Background" Value="#115F58"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#115F58"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
