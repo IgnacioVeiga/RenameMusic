@@ -53,7 +53,9 @@
         </Menu>
 
         <Image x:Name="pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
-               Height="170" Width="170" Margin="0,30" Opacity="0.5" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}"/>
+               Height="170" Width="170" Margin="0,30" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}" Panel.ZIndex="1"/>
+        <Rectangle Grid.Column="0" Grid.Row="1" Height="170" Width="170" Margin="0,30"
+                   VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
         <Button Grid.Row="1" Grid.Column="0" Content="&lt;" Width="32" Height="24"
                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"
@@ -83,20 +85,18 @@
                         <TextBlock x:Name="primaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
-                <ListView x:Name="primaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="{x:Static lang:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.NEW_NAME}" DisplayMemberBinding="{Binding NewName}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.TYPE}" DisplayMemberBinding="{Binding Type}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.TITLE}" DisplayMemberBinding="{Binding Tags.Title}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.ALBUM}" DisplayMemberBinding="{Binding Tags.Album}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.ARTIST}" DisplayMemberBinding="{Binding Tags.JoinedPerformers}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" DisplayMemberBinding="{Binding Tags.JoinedAlbumArtists}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid x:Name="primaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="48" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TITLE}" Binding="{Binding Tags.Title}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM}" Binding="{Binding Tags.Album}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ARTIST}" Binding="{Binding Tags.JoinedPerformers}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" Binding="{Binding Tags.JoinedAlbumArtists}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
 
             <TabItem>
@@ -110,15 +110,13 @@
                         <TextBlock x:Name="secondaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
-                <ListView x:Name="secondaryList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="{x:Static lang:Strings.NAME}" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.TYPE}" DisplayMemberBinding="{Binding Type}"/>
-                            <GridViewColumn Header="{x:Static lang:Strings.DURATION}" DisplayMemberBinding="{Binding Duration, StringFormat=hh\\:mm\\:ss}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid x:Name="secondaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="48" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
 
             <TabItem>
@@ -132,20 +130,18 @@
                         <TextBlock x:Name="folderTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
-                <ListView x:Name="folderList" Margin="10" d:ItemsSource="{d:SampleData ItemCount=10}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="36">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Width="24" Height="24" Content="X" Click="RemoveFolderItem_Click"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="{x:Static lang:Strings.DIRECTORY}" DisplayMemberBinding="{Binding Path}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid x:Name="folderList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=7}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="36" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="24" Height="24" Content="X" Click="RemoveFolderItem_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.DIRECTORY}" Binding="{Binding Path, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
     </Grid>

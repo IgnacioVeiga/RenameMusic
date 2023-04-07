@@ -49,10 +49,10 @@
     <Page Update="Themes\ComboBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Generic.xaml">
+    <Page Update="Themes\DataGrid.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ListView.xaml">
+    <Page Update="Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Menu.xaml">

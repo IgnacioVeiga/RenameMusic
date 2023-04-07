@@ -134,18 +134,17 @@ namespace RenameMusic
         private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pictures.Source = null;
-            if ((Audio)((ListView)sender).SelectedItem is null)
+            if ((Audio)((DataGrid)sender).SelectedItem is null)
             {
                 pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
-                pictures.Opacity = 0.5;
                 return;
             }
 
-            if (((Audio)((ListView)sender).SelectedItem).Tags is null) return;
+            if (((Audio)((DataGrid)sender).SelectedItem).Tags is null) return;
 
-            if (((Audio)((ListView)sender).SelectedItem).Tags.Pictures.Length >= 1)
+            if (((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures.Length >= 1)
             {
-                TagLib.IPicture pic = ((Audio)((ListView)sender).SelectedItem).Tags.Pictures[0];
+                TagLib.IPicture pic = ((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures[0];
 
                 MemoryStream ms = new(pic.Data.Data);
                 ms.Seek(0, SeekOrigin.Begin);
@@ -156,7 +155,6 @@ namespace RenameMusic
                 bitmap.EndInit();
 
                 pictures.Source = bitmap;
-                pictures.Opacity = 1;
             }
         }
 
@@ -211,7 +209,10 @@ namespace RenameMusic
                 if (MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     Application.Current.Shutdown();
             }
-            else Application.Current.Shutdown();
+            else
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void ChangePage(object sender, RoutedEventArgs e)
