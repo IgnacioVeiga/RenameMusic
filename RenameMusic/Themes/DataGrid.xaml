@@ -3,12 +3,12 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="RowBackground" Value="#202020"/>
         <Setter Property="AlternatingRowBackground" Value="#2A2A2A"/>
-        <Setter Property="VerticalGridLinesBrush" Value="{x:Null}"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="{x:Null}"/>
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="#F1F1F1"/>
-        <Setter Property="BorderBrush" Value="#424242"/>
+        <Setter Property="BorderBrush" Value="#454545"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="GridLinesVisibility" Value="Vertical"/>
+        <Setter Property="VerticalGridLinesBrush" Value="#454545"/>
     </Style>
 
     <Style TargetType="{x:Type DataGridColumnHeader}">

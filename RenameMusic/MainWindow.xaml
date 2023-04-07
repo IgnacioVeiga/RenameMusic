@@ -87,14 +87,14 @@
                 </TabItem.Header>
                 <DataGrid x:Name="primaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True" Width="*" d:Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="48" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="36"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.TITLE}" Binding="{Binding Tags.Title}" IsReadOnly="True" Width="*" d:Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM}" Binding="{Binding Tags.Album}" IsReadOnly="True" Width="*" d:Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.ARTIST}" Binding="{Binding Tags.JoinedPerformers}" IsReadOnly="True" Width="*" d:Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" Binding="{Binding Tags.JoinedAlbumArtists}" IsReadOnly="True" Width="*" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TITLE}" Binding="{Binding Tags.Title}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM}" Binding="{Binding Tags.Album}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ARTIST}" Binding="{Binding Tags.JoinedPerformers}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" Binding="{Binding Tags.JoinedAlbumArtists}" IsReadOnly="True" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
@@ -112,8 +112,8 @@
                 </TabItem.Header>
                 <DataGrid x:Name="secondaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="48" d:Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="36"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
