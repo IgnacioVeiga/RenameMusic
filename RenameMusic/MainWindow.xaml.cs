@@ -134,18 +134,17 @@ namespace RenameMusic
         private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pictures.Source = null;
-            if ((Audio)((ListView)sender).SelectedItem is null)
+            if ((Audio)((DataGrid)sender).SelectedItem is null)
             {
                 pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
-                pictures.Opacity = 0.5;
                 return;
             }
 
-            if (((Audio)((ListView)sender).SelectedItem).Tags is null) return;
+            if (((Audio)((DataGrid)sender).SelectedItem).Tags is null) return;
 
-            if (((Audio)((ListView)sender).SelectedItem).Tags.Pictures.Length >= 1)
+            if (((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures.Length >= 1)
             {
-                TagLib.IPicture pic = ((Audio)((ListView)sender).SelectedItem).Tags.Pictures[0];
+                TagLib.IPicture pic = ((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures[0];
 
                 MemoryStream ms = new(pic.Data.Data);
                 ms.Seek(0, SeekOrigin.Begin);
@@ -156,7 +155,6 @@ namespace RenameMusic
                 bitmap.EndInit();
 
                 pictures.Source = bitmap;
-                pictures.Opacity = 1;
             }
         }
 
@@ -211,25 +209,27 @@ namespace RenameMusic
                 if (MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     Application.Current.Shutdown();
             }
-            else Application.Current.Shutdown();
+            else
+            {
+                Application.Current.Shutdown();
+            }
         }
 
-        private void DecrementPage(object sender, RoutedEventArgs e)
+        private void ChangePage(object sender, RoutedEventArgs e)
         {
-            page--;
-            Page.Text = $"Page {page}";
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
-            ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            PageBox.SelectedValue = page;
-            UpdateTabHeader();
-        }
-        private void IncrementPage(object sender, RoutedEventArgs e)
-        {
-            page++;
+            switch (((Button)sender).Content)
+            {
+                case ">":
+                    page++;
+                    break;
+
+                case "<":
+                    page--;
+                    break;
+
+                default:
+                    return;
+            }
             Page.Text = $"Page {page}";
             PageLeft.IsEnabled = page > 1;
             PageRight.IsEnabled = page < PageBox.Items.Count;
@@ -333,10 +333,10 @@ namespace RenameMusic
                     else
                         primaryList.Items.Add(item);
                 }
-                else
-                {
-                    // ToDo: enseñar un mensaje con los archivos corruptos
-                }
+                //else
+                //{
+                //    // ToDo: enseñar un mensaje con los archivos corruptos
+                //}
             }
 
             // Mapear FolderDTO a la clase Folder y retornar la lista
@@ -354,10 +354,10 @@ namespace RenameMusic
         private void UpdateTabHeader()
         {
             // ToDo: traducir esa parte del Header
-            const string format = "{0} | Page: {1}/{2} Loaded: {3}/{4}";
-            primaryTab.Header = string.Format(format, Strings.WITH_TAGS, page, TotalPages, primaryList.Items.Count, DatabaseAPI.CountAudioItems());
-            secondaryTab.Header = string.Format(format, Strings.NO_TITLE_TAG, page, TotalPages, secondaryList.Items.Count, DatabaseAPI.CountAudioItems());
-            folderTab.Header = string.Format(format, Strings.FOLDERS, page, TotalPages, folderList.Items.Count, DatabaseAPI.CountFolderItems());
+            const string format = "Page: {0}/{1}\tLoaded: {2}/{3}";
+            primaryTab.Text =   string.Format(format,   page, TotalPages, primaryList.Items.Count,      DatabaseAPI.CountAudioItems());
+            secondaryTab.Text = string.Format(format,   page, TotalPages, secondaryList.Items.Count,    DatabaseAPI.CountAudioItems());
+            folderTab.Text =    string.Format(format,   page, TotalPages, folderList.Items.Count,       DatabaseAPI.CountFolderItems());
         }
         #endregion mover
     }

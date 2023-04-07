@@ -5,6 +5,7 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
     </Style>
     <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="#F1F1F1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -29,15 +30,15 @@
                                               TextElement.FontFamily="{TemplateBinding FontFamily}"
                                               TextElement.FontWeight="{TemplateBinding FontWeight}"
                                               TextElement.FontSize="{TemplateBinding FontSize}"
-                                              TextElement.Foreground="#F1F1F1"/>
+                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#4F4F4F" />
+                            <Setter TargetName="Border" Property="Background" Value="#4F4F4F"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#115F58" />
+                            <Setter TargetName="Border" Property="Background" Value="#115F58"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
