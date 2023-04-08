@@ -180,11 +180,11 @@
   <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Restore</value>
   </data>
-  <data name="WITH_TAGS" xml:space="preserve">
-    <value>With tags</value>
+  <data name="CAN_BE_RENAMED" xml:space="preserve">
+    <value>Can be renamed</value>
   </data>
-  <data name="NO_TITLE_TAG" xml:space="preserve">
-    <value>No title tag</value>
+  <data name="IMPOSSIBLE_TO_RENAME" xml:space="preserve">
+    <value>Imposible to rename</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>Multiple instances of this program are not allowed.</value>
@@ -262,7 +262,7 @@
     <value>Year</value>
   </data>
   <data name="TRACK_NUM" xml:space="preserve">
-    <value>Track number</value>
+    <value>Track Nº</value>
   </data>
   <data name="INVALID_TEMPLATE_MSG" xml:space="preserve">
     <value>The template contains invalid characters and cannot be used as file name.</value>
@@ -281,5 +281,14 @@
   </data>
   <data name="CHECK_UPDATES" xml:space="preserve">
     <value>Check for updates</value>
+  </data>
+  <data name="PAGE" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="LOADED" xml:space="preserve">
+    <value>Loaded</value>
+  </data>
+  <data name="PAGE_SIZE" xml:space="preserve">
+    <value>Page size</value>
   </data>
 </root>

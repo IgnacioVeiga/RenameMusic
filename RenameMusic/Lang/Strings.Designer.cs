@@ -124,6 +124,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can be renamed.
+        /// </summary>
+        public static string CAN_BE_RENAMED {
+            get {
+                return ResourceManager.GetString("CAN_BE_RENAMED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CANCEL {
@@ -268,6 +277,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Imposible to rename.
+        /// </summary>
+        public static string IMPOSSIBLE_TO_RENAME {
+            get {
+                return ResourceManager.GetString("IMPOSSIBLE_TO_RENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The template contains invalid characters and cannot be used as file name..
         /// </summary>
         public static string INVALID_TEMPLATE_MSG {
@@ -291,6 +309,15 @@ namespace RenameMusic.Lang {
         public static string LANGUAGE {
             get {
                 return ResourceManager.GetString("LANGUAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loaded.
+        /// </summary>
+        public static string LOADED {
+            get {
+                return ResourceManager.GetString("LOADED", resourceCulture);
             }
         }
         
@@ -340,15 +367,6 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No title tag.
-        /// </summary>
-        public static string NO_TITLE_TAG {
-            get {
-                return ResourceManager.GetString("NO_TITLE_TAG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Not allowed.
         /// </summary>
         public static string NOT_ALLOWED {
@@ -363,6 +381,24 @@ namespace RenameMusic.Lang {
         public static string NOT_IMPLEMENTED_MSG {
             get {
                 return ResourceManager.GetString("NOT_IMPLEMENTED_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page.
+        /// </summary>
+        public static string PAGE {
+            get {
+                return ResourceManager.GetString("PAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page size.
+        /// </summary>
+        public static string PAGE_SIZE {
+            get {
+                return ResourceManager.GetString("PAGE_SIZE", resourceCulture);
             }
         }
         
@@ -511,7 +547,7 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Track number.
+        ///   Looks up a localized string similar to Track Nº.
         /// </summary>
         public static string TRACK_NUM {
             get {
@@ -534,15 +570,6 @@ namespace RenameMusic.Lang {
         public static string VIEW_HELP {
             get {
                 return ResourceManager.GetString("VIEW_HELP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to With tags.
-        /// </summary>
-        public static string WITH_TAGS {
-            get {
-                return ResourceManager.GetString("WITH_TAGS", resourceCulture);
             }
         }
         

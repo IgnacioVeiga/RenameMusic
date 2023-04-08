@@ -180,11 +180,11 @@
   <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Reestablecer</value>
   </data>
-  <data name="WITH_TAGS" xml:space="preserve">
-    <value>Con etiquetas</value>
+  <data name="CAN_BE_RENAMED" xml:space="preserve">
+    <value>Puede renombrarse</value>
   </data>
-  <data name="NO_TITLE_TAG" xml:space="preserve">
-    <value>Sin etiqueta de título</value>
+  <data name="IMPOSSIBLE_TO_RENAME" xml:space="preserve">
+    <value>Imposible renombrar</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>No se permiten múltiples instancias de este programa.</value>
@@ -262,7 +262,7 @@
     <value>Año</value>
   </data>
   <data name="TRACK_NUM" xml:space="preserve">
-    <value>Número de pista</value>
+    <value>Nº de pista</value>
   </data>
   <data name="INVALID_TEMPLATE_MSG" xml:space="preserve">
     <value>La plantilla contiene caracteres inválidos y no pueden ser usados como nombre de archivo.</value>
@@ -281,5 +281,14 @@
   </data>
   <data name="CHECK_UPDATES" xml:space="preserve">
     <value>Buscar actualizaciones</value>
+  </data>
+  <data name="PAGE" xml:space="preserve">
+    <value>Página</value>
+  </data>
+  <data name="LOADED" xml:space="preserve">
+    <value>Cargado</value>
+  </data>
+  <data name="PAGE_SIZE" xml:space="preserve">
+    <value>Tamaño de página</value>
   </data>
 </root>

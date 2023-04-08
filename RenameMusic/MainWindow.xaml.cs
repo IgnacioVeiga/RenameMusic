@@ -69,11 +69,11 @@ namespace RenameMusic
             PageBox.IsEnabled = TotalPages > 0;
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
+            PageLeft.IsEnabled = PageGeneral > 1;
+            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
 
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -88,11 +88,11 @@ namespace RenameMusic
             PageBox.IsEnabled = TotalPages > 0;
             PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
             PageBox.SelectedIndex = 0;
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
+            PageLeft.IsEnabled = PageGeneral > 1;
+            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
 
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -164,12 +164,12 @@ namespace RenameMusic
             DatabaseAPI.RemoveFolderFromDB(folderId);
 
             ClearTabLists();
-            page = 1;
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            PageGeneral = 1;
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
 
             PageBox.IsEnabled = TotalPages > 0;
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
+            PageLeft.IsEnabled = PageGeneral > 1;
+            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -220,35 +220,33 @@ namespace RenameMusic
             switch (((Button)sender).Content)
             {
                 case ">":
-                    page++;
+                    PageGeneral++;
                     break;
 
                 case "<":
-                    page--;
+                    PageGeneral--;
                     break;
 
                 default:
                     return;
             }
-            Page.Text = $"Page {page}";
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
+            PageLeft.IsEnabled = PageGeneral > 1;
+            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
-            PageBox.SelectedValue = page;
+            PageBox.SelectedValue = PageGeneral;
             UpdateTabHeader();
         }
 
         private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            page = (int)PageBox.SelectedValue;
-            Page.Text = $"Page {page}";
-            PageLeft.IsEnabled = page > 1;
-            PageRight.IsEnabled = page < PageBox.Items.Count;
+            PageGeneral = (int)PageBox.SelectedValue;
+            PageLeft.IsEnabled = PageGeneral > 1;
+            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -256,18 +254,17 @@ namespace RenameMusic
 
         private void PageSizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            page = 1;
-            Page.Text = $"Page {page}";
-            PageLeft.IsEnabled = page > 1;
+            PageGeneral = 1;
+            PageLeft.IsEnabled = PageGeneral > 1;
             if (PageBox != null)
             {
                 PageBox.IsEnabled = TotalPages > 0;
                 PageBox.SelectedIndex = 0;
                 PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
-                PageRight.IsEnabled = page < PageBox.Items.Count;
+                PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
             }
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, page);
+            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -279,7 +276,7 @@ namespace RenameMusic
         }
 
         #region mover
-        private static int page = 1;
+        private static int PageGeneral = 1;
         private int TotalPages
         {
             get
@@ -353,11 +350,10 @@ namespace RenameMusic
         }
         private void UpdateTabHeader()
         {
-            // ToDo: traducir esa parte del Header
-            const string format = "Page: {0}/{1}\tLoaded: {2}/{3}";
-            primaryTab.Text =   string.Format(format,   page, TotalPages, primaryList.Items.Count,      DatabaseAPI.CountAudioItems());
-            secondaryTab.Text = string.Format(format,   page, TotalPages, secondaryList.Items.Count,    DatabaseAPI.CountAudioItems());
-            folderTab.Text =    string.Format(format,   page, TotalPages, folderList.Items.Count,       DatabaseAPI.CountFolderItems());
+            string format = Strings.PAGE + ": {0}/{1}\t" + Strings.LOADED + ": {2}/{3}";
+            primaryTab.Text =   string.Format(format,   PageGeneral, TotalPages, primaryList.Items.Count,      DatabaseAPI.CountAudioItems());
+            secondaryTab.Text = string.Format(format,   PageGeneral, TotalPages, secondaryList.Items.Count,    DatabaseAPI.CountAudioItems());
+            folderTab.Text =    string.Format(format,   PageGeneral, TotalPages, folderList.Items.Count,       DatabaseAPI.CountFolderItems());
         }
         #endregion mover
     }
