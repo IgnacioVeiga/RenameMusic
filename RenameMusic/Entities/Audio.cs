@@ -38,7 +38,7 @@ namespace RenameMusic.Entities
         {
             get
             {
-                return FilenameFunctions.GetNewName(Tags);
+                return (Tags != null) ? FilenameFunctions.GetNewName(Tags) : null;
             }
         }
 

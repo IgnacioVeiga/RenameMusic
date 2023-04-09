@@ -9,21 +9,24 @@ namespace RenameMusic
     /// <summary>
     /// Interaction logic for Template.xaml
     /// </summary>
-    public partial class Template : Window
+    public partial class RenamingRule : Window
     {
         readonly string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
 
-        public Template()
+        public RenamingRule()
         {
             InitializeComponent();
-            template.Text = Settings.Default.DefaultTemplate;
-            simbols.Text = $"<tn> = {Strings.TRACK_NUM}\r\n<t> = {Strings.TITLE}\r\n<a> =" +
-                $" {Strings.ALBUM}\r\n<aAt> = {Strings.ALBUM_ARTIST}\r\n<At> = {Strings.ARTIST}\r\n<yr> = {Strings.YEAR}";
+            renamingRule.Text = Settings.Default.DefaultTemplate;
+            titleRequired.Content = $"<t> = {Strings.TITLE}";
+            albumRequired.Content = $"<a> = {Strings.ALBUM}";
+            albumArtistRequired.Content = $"<aAt> = {Strings.ALBUM_ARTIST}";
+            artistRequired.Content = $"<At> = {Strings.ARTIST}";
+            simbols.Text = $"<tn> = {Strings.TRACK_NUM}\r\n<yr> = {Strings.YEAR}";
         }
 
         private void ApplyBTN_Click(object sender, RoutedEventArgs e)
         {
-            string newTemplate = template.Text;
+            string newTemplate = renamingRule.Text;
 
             foreach (var tag in tags)
             {
@@ -32,7 +35,7 @@ namespace RenameMusic
 
             if (FilenameFunctions.IsValidFileName(newTemplate))
             {
-                Settings.Default.DefaultTemplate = template.Text;
+                Settings.Default.DefaultTemplate = renamingRule.Text;
                 Settings.Default.Save();
                 Close();
             }
@@ -49,7 +52,7 @@ namespace RenameMusic
 
         private void Template_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(template.Text))
+            if (string.IsNullOrWhiteSpace(renamingRule.Text))
             {
                 apply.IsEnabled = false;
             }
@@ -57,12 +60,15 @@ namespace RenameMusic
             {
                 foreach (var tag in tags)
                 {
-                    if (template.Text.Contains(tag))
+                    if (renamingRule.Text.Contains(tag))
                     {
                         apply.IsEnabled = true;
                         break;
                     }
-                    else apply.IsEnabled = false;
+                    else
+                    {
+                        apply.IsEnabled = false;
+                    }
                 }
             }
         }

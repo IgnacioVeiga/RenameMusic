@@ -124,15 +124,6 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can be renamed.
-        /// </summary>
-        public static string CAN_BE_RENAMED {
-            get {
-                return ResourceManager.GetString("CAN_BE_RENAMED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CANCEL {
@@ -174,6 +165,15 @@ namespace RenameMusic.Lang {
         public static string DIRECTORY {
             get {
                 return ResourceManager.GetString("DIRECTORY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t rename.
+        /// </summary>
+        public static string DO_NOT_RENAME {
+            get {
+                return ResourceManager.GetString("DO_NOT_RENAME", resourceCulture);
             }
         }
         
@@ -273,15 +273,6 @@ namespace RenameMusic.Lang {
         public static string IMPORT_SETTINGS {
             get {
                 return ResourceManager.GetString("IMPORT_SETTINGS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Imposible to rename.
-        /// </summary>
-        public static string IMPOSSIBLE_TO_RENAME {
-            get {
-                return ResourceManager.GetString("IMPOSSIBLE_TO_RENAME", resourceCulture);
             }
         }
         
@@ -421,6 +412,24 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Renaming Rule.
+        /// </summary>
+        public static string RENAMING_RULE {
+            get {
+                return ResourceManager.GetString("RENAMING_RULE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check the required tags which should not be empty fields, this helps to define which files will be renamed later..
+        /// </summary>
+        public static string RENAMING_RULE_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("RENAMING_RULE_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repeated file.
         /// </summary>
         public static string REPEATED_FILE {
@@ -511,15 +520,6 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Template.
-        /// </summary>
-        public static string TEMPLATE {
-            get {
-                return ResourceManager.GetString("TEMPLATE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string THEME {
@@ -534,6 +534,15 @@ namespace RenameMusic.Lang {
         public static string TITLE {
             get {
                 return ResourceManager.GetString("TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To rename.
+        /// </summary>
+        public static string TO_RENAME {
+            get {
+                return ResourceManager.GetString("TO_RENAME", resourceCulture);
             }
         }
         

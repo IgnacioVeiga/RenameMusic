@@ -70,5 +70,53 @@ namespace RenameMusic.Properties {
                 this["IncludeSubFolders"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TitleRequired {
+            get {
+                return ((bool)(this["TitleRequired"]));
+            }
+            set {
+                this["TitleRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AlbumRequired {
+            get {
+                return ((bool)(this["AlbumRequired"]));
+            }
+            set {
+                this["AlbumRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlbumArtistRequired {
+            get {
+                return ((bool)(this["AlbumArtistRequired"]));
+            }
+            set {
+                this["AlbumArtistRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ArtistRequired {
+            get {
+                return ((bool)(this["ArtistRequired"]));
+            }
+            set {
+                this["ArtistRequired"] = value;
+            }
+        }
     }
 }

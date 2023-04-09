@@ -156,8 +156,8 @@
   <data name="LOADING" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="TEMPLATE" xml:space="preserve">
-    <value>Template</value>
+  <data name="RENAMING_RULE" xml:space="preserve">
+    <value>Renaming Rule</value>
   </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Settings</value>
@@ -180,11 +180,11 @@
   <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Restore</value>
   </data>
-  <data name="CAN_BE_RENAMED" xml:space="preserve">
-    <value>Can be renamed</value>
+  <data name="TO_RENAME" xml:space="preserve">
+    <value>To rename</value>
   </data>
-  <data name="IMPOSSIBLE_TO_RENAME" xml:space="preserve">
-    <value>Imposible to rename</value>
+  <data name="DO_NOT_RENAME" xml:space="preserve">
+    <value>Don't rename</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>Multiple instances of this program are not allowed.</value>
@@ -290,5 +290,8 @@
   </data>
   <data name="PAGE_SIZE" xml:space="preserve">
     <value>Page size</value>
+  </data>
+  <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
+    <value>Check the required tags which should not be empty fields, this helps to define which files will be renamed later.</value>
   </data>
 </root>

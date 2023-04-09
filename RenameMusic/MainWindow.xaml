@@ -14,7 +14,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
             </MenuItem>
 
             <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
-                <MenuItem Header="{x:Static lang:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
+                <MenuItem Header="{x:Static lang:Strings.RENAMING_RULE}" Click="RenamingRuleBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.THEME}" IsEnabled="False"/>
                 
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
@@ -57,7 +57,7 @@
         <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,50"
                    VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
-        <Button Grid.Row="1" Grid.Column="0" Content="&lt;" Width="32" Height="24"
+        <!--<Button Grid.Row="1" Grid.Column="0" Content="&lt;" Width="32" Height="24"
                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"
                 IsEnabled="False" x:Name="PageLeft" Click="ChangePage"/>
         <ComboBox Grid.Row="1" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"
@@ -67,9 +67,9 @@
                 IsEnabled="False" x:Name="PageRight" Click="ChangePage"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:Strings.PAGE_SIZE}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,14"/>
-        <ComboBox x:Name="PageSizeBox" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,10" SelectionChanged="PageSizeBox_SelectionChanged"/>
+        <ComboBox x:Name="PageSizeBox" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,10" SelectionChanged="PageSizeBox_SelectionChanged"/>-->
 
-        <TabControl Grid.Row="1" Grid.Column="1" x:Name="tabs" HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding TabsVisibility}">
+        <TabControl Grid.Row="1" Grid.Column="1" x:Name="tabs" HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding TabsVisibility}" SelectionChanged="Tabs_SelectionChanged">
             <TabItem>
                 <TabItem.Header>
                     <Grid>
@@ -77,7 +77,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.CAN_BE_RENAMED}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <TextBlock Text="{x:Static lang:Strings.TO_RENAME}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
                         <TextBlock x:Name="primaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
@@ -103,7 +103,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.IMPOSSIBLE_TO_RENAME}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <TextBlock Text="{x:Static lang:Strings.DO_NOT_RENAME}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
                         <TextBlock x:Name="secondaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
@@ -136,7 +136,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.DIRECTORY}" Binding="{Binding Path, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.DIRECTORY}" Binding="{Binding Path, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

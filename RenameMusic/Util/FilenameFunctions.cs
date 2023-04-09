@@ -36,36 +36,29 @@ namespace RenameMusic.Util
             string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
             string fileName = Settings.Default.DefaultTemplate;
 
-            if (string.IsNullOrWhiteSpace(audioTags.Title))
-            {
-                return null;
-            }
-
             foreach (string tag in tags)
             {
-                if (fileName.Contains(tag))
+                if (!fileName.Contains(tag)) continue;
+                switch (tag)
                 {
-                    switch (tag)
-                    {
-                        case "<tn>":
-                            fileName = fileName.Replace(tag, audioTags.Track.ToString());
-                            break;
-                        case "<t>":
-                            fileName = fileName.Replace(tag, audioTags.Title);
-                            break;
-                        case "<a>":
-                            fileName = fileName.Replace(tag, audioTags.Album);
-                            break;
-                        case "<aAt>":
-                            fileName = fileName.Replace(tag, audioTags.JoinedAlbumArtists);
-                            break;
-                        case "<At>":
-                            fileName = fileName.Replace(tag, audioTags.JoinedPerformers);
-                            break;
-                        case "<yr>":
-                            fileName = fileName.Replace(tag, audioTags.Year.ToString());
-                            break;
-                    }
+                    case "<tn>":
+                        fileName = fileName.Replace(tag, audioTags.Track.ToString());
+                        break;
+                    case "<t>":
+                        fileName = fileName.Replace(tag, audioTags.Title);
+                        break;
+                    case "<a>":
+                        fileName = fileName.Replace(tag, audioTags.Album);
+                        break;
+                    case "<aAt>":
+                        fileName = fileName.Replace(tag, audioTags.JoinedAlbumArtists);
+                        break;
+                    case "<At>":
+                        fileName = fileName.Replace(tag, audioTags.JoinedPerformers);
+                        break;
+                    case "<yr>":
+                        fileName = fileName.Replace(tag, audioTags.Year.ToString());
+                        break;
                 }
             }
             if (!IsValidFileName(fileName)) fileName = NormalizeFileName(fileName);

@@ -40,18 +40,19 @@ namespace RenameMusic
                 languages.Items.Add(menuItem);
             }
 
-            for (int pageSizeItem = 5; pageSizeItem <= 1280;)
-            {
-                PageSizeBox.Items.Add(pageSizeItem);
-                pageSizeItem *= 2;
-            }
+            //for (int pageSizeItem = 5; pageSizeItem <= 1280;)
+            //{
+            //    PageSizeBox.Items.Add(pageSizeItem);
+            //    pageSizeItem *= 2;
+            //}
 
             TabsVisibility();
             IsEnabledRenameBTN();
 
             // La base de datos se lee sola cuando ejecutamos esto:
-            PageSizeBox.SelectedIndex = 0;
-            PageBox.SelectedIndex = 0;
+            //PageSizeBox.SelectedIndex = 0;
+            //PageBox.SelectedIndex = 0;
+
             UpdateTabHeader();
             // ToDo: revisar si las lineas anteriores son necesarias para evitar la redundancia
         }
@@ -66,14 +67,14 @@ namespace RenameMusic
                 string[] files = Picker.GetFilePaths(directory);
                 DatabaseAPI.AddToDatabase(files);
             }
-            PageBox.IsEnabled = TotalPages > 0;
-            PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
-            PageBox.SelectedIndex = 0;
-            PageLeft.IsEnabled = PageGeneral > 1;
-            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+            //PageBox.IsEnabled = PageControl.PrimaryListTotalPages > 0;
+            //PageBox.ItemsSource = Enumerable.Range(1, PageControl.PrimaryListTotalPages);
+            //PageBox.SelectedIndex = 0;
+            //PageLeft.IsEnabled = PageGeneral > 1;
+            //PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
 
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
+            //FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -85,14 +86,14 @@ namespace RenameMusic
             if (files.Length == 0) return;
             DatabaseAPI.AddToDatabase(files);
 
-            PageBox.IsEnabled = TotalPages > 0;
-            PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
-            PageBox.SelectedIndex = 0;
-            PageLeft.IsEnabled = PageGeneral > 1;
-            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+            //PageBox.IsEnabled = PageControl.PrimaryListTotalPages > 0;
+            //PageBox.ItemsSource = Enumerable.Range(1, PageControl.PrimaryListTotalPages);
+            //PageBox.SelectedIndex = 0;
+            //PageLeft.IsEnabled = PageGeneral > 1;
+            //PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
 
             ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
+            //FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
@@ -100,11 +101,12 @@ namespace RenameMusic
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
         {
-            LoadingBar loading_bar = new(primaryList.Items.Count);
+            LoadingBar loading_bar = new(DatabaseAPI.CountAudioItems(true));
             loading_bar.Show();
 
             await Task.Run(() =>
             {
+                // ToDo: se debe renombrar todas las páginas de esa lista, no solo la cargada actualmente
                 foreach (Audio mFileItem in primaryList.Items)
                 {
                     string oldName = mFileItem.FilePath;
@@ -118,10 +120,10 @@ namespace RenameMusic
                 }
             });
 
-            PageBox.ItemsSource = Enumerable.Range(1, 1);
-            PageBox.IsEnabled = false;
-            PageLeft.IsEnabled = false;
-            PageRight.IsEnabled = false;
+            //PageBox.ItemsSource = Enumerable.Range(1, 1);
+            //PageBox.IsEnabled = false;
+            //PageLeft.IsEnabled = false;
+            //PageRight.IsEnabled = false;
             ClearTabLists();
             TabsVisibility();
             IsEnabledRenameBTN();
@@ -164,20 +166,29 @@ namespace RenameMusic
             DatabaseAPI.RemoveFolderFromDB(folderId);
 
             ClearTabLists();
-            PageGeneral = 1;
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
-
-            PageBox.IsEnabled = TotalPages > 0;
-            PageLeft.IsEnabled = PageGeneral > 1;
-            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+            //PageGeneral = 1;
+            //if (DatabaseAPI.CountFolderItems() > 0)
+            //{
+            //    FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
+            //    PageBox.IsEnabled = PageControl.PrimaryListTotalPages > 0;
+            //    PageLeft.IsEnabled = PageGeneral > 1;
+            //    PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+            //}
+            //else
+            //{
+            //    PageBox.ItemsSource = Enumerable.Range(1, 1);
+            //    PageBox.IsEnabled = false;
+            //    PageLeft.IsEnabled = false;
+            //    PageRight.IsEnabled = false;
+            //}
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
         }
 
-        private void TemplateBTN_Click(object sender, RoutedEventArgs e)
+        private void RenamingRuleBTN_Click(object sender, RoutedEventArgs e)
         {
-            _ = new Template().ShowDialog();
+            _ = new RenamingRule().ShowDialog();
         }
 
         private void RestoreSettingsBTN_Click(object sender, RoutedEventArgs e)
@@ -203,7 +214,6 @@ namespace RenameMusic
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            // Si hay items aún, preguntar antes de salir
             if (folderList.Items.Count > 0)
             {
                 if (MessageBox.Show(Strings.EXIT_MSG, $"{Strings.EXIT}?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -215,79 +225,85 @@ namespace RenameMusic
             }
         }
 
-        private void ChangePage(object sender, RoutedEventArgs e)
+        //private void ChangePage(object sender, RoutedEventArgs e)
+        //{
+        //    switch (((Button)sender).Content)
+        //    {
+        //        case ">":
+        //            PageGeneral++;
+        //            break;
+
+        //        case "<":
+        //            PageGeneral--;
+        //            break;
+
+        //        default:
+        //            return;
+        //    }
+        //    PageLeft.IsEnabled = PageGeneral > 1;
+        //    PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+        //    ClearTabLists();
+        //    FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
+        //    TabsVisibility();
+        //    IsEnabledRenameBTN();
+        //    PageBox.SelectedValue = PageGeneral;
+        //    UpdateTabHeader();
+        //}
+
+        //private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    PageGeneral = (int)PageBox.SelectedValue;
+        //    PageLeft.IsEnabled = PageGeneral > 1;
+        //    PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+        //    ClearTabLists();
+        //    FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
+        //    TabsVisibility();
+        //    IsEnabledRenameBTN();
+        //    UpdateTabHeader();
+        //}
+
+        //private void PageSizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    PageGeneral = 1;
+        //    PageLeft.IsEnabled = PageGeneral > 1;
+        //    if (PageBox != null)
+        //    {
+        //        PageBox.IsEnabled = PageControl.PrimaryListTotalPages > 0;
+        //        PageBox.SelectedIndex = 0;
+        //        PageBox.ItemsSource = Enumerable.Range(1, PageControl.PrimaryListTotalPages);
+        //        PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
+        //        PageControl.PageSizeBox_SelctedItem = (int)PageSizeBox.SelectedValue;
+        //    }
+        //    ClearTabLists();
+        //    FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
+        //    TabsVisibility();
+        //    IsEnabledRenameBTN();
+        //    UpdateTabHeader();
+        //}
+
+        //private void PageBox_DropDownOpened(object sender, EventArgs e)
+        //{
+        //    PageBox.ItemsSource = Enumerable.Range(1, PageControl.PrimaryListTotalPages);
+        //}
+
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (((Button)sender).Content)
-            {
-                case ">":
-                    PageGeneral++;
-                    break;
-
-                case "<":
-                    PageGeneral--;
-                    break;
-
-                default:
-                    return;
-            }
-            PageLeft.IsEnabled = PageGeneral > 1;
-            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
-            ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            PageBox.SelectedValue = PageGeneral;
-            UpdateTabHeader();
-        }
-
-        private void PageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            PageGeneral = (int)PageBox.SelectedValue;
-            PageLeft.IsEnabled = PageGeneral > 1;
-            PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
-            ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
-        }
-
-        private void PageSizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            PageGeneral = 1;
-            PageLeft.IsEnabled = PageGeneral > 1;
-            if (PageBox != null)
-            {
-                PageBox.IsEnabled = TotalPages > 0;
-                PageBox.SelectedIndex = 0;
-                PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
-                PageRight.IsEnabled = PageGeneral < PageBox.Items.Count;
-            }
-            ClearTabLists();
-            FromDatabaseToListView((int)PageSizeBox.SelectedValue, PageGeneral);
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
-        }
-
-        private void PageBox_DropDownOpened(object sender, EventArgs e)
-        {
-            PageBox.ItemsSource = Enumerable.Range(1, TotalPages);
+        //    switch (((TabControl)sender).SelectedIndex)
+        //    {
+        //        case 0:
+        //            PageGeneral = PageControl.PrimaryList_Page;
+        //            break;
+        //        case 1:
+        //            PageGeneral = PageControl.SecondaryList_Page;
+        //            break;
+        //        case 2:
+        //            PageGeneral = PageControl.FoldersList_Page;
+        //            break;
+        //    }
         }
 
         #region mover
-        private static int PageGeneral = 1;
-        private int TotalPages
-        {
-            get
-            {
-                int totalItems = (int)Math.Ceiling((double)(
-                    DatabaseAPI.CountAudioItems() / (int)PageSizeBox.SelectedItem
-                    ));
-                if (totalItems == 0) return 1;
-                else return totalItems;
-            }
-        }
+        //private static int PageGeneral = 1;
 
         private void TabsVisibility()
         {
@@ -325,10 +341,10 @@ namespace RenameMusic
 
                 if (item.Tags != null)
                 {
-                    if (string.IsNullOrWhiteSpace(item.Tags.Title))
-                        secondaryList.Items.Add(item);
-                    else
+                    if (audio.Rename)
                         primaryList.Items.Add(item);
+                    else
+                        secondaryList.Items.Add(item);
                 }
                 //else
                 //{
@@ -351,9 +367,15 @@ namespace RenameMusic
         private void UpdateTabHeader()
         {
             string format = Strings.PAGE + ": {0}/{1}\t" + Strings.LOADED + ": {2}/{3}";
-            primaryTab.Text =   string.Format(format,   PageGeneral, TotalPages, primaryList.Items.Count,      DatabaseAPI.CountAudioItems());
-            secondaryTab.Text = string.Format(format,   PageGeneral, TotalPages, secondaryList.Items.Count,    DatabaseAPI.CountAudioItems());
-            folderTab.Text =    string.Format(format,   PageGeneral, TotalPages, folderList.Items.Count,       DatabaseAPI.CountFolderItems());
+            primaryTab.Text = string.Format(format,
+                                            PageControl.PrimaryList_Page, PageControl.PrimaryListTotalPages,
+                                            primaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
+            secondaryTab.Text = string.Format(format,
+                                            PageControl.SecondaryList_Page, PageControl.SecondaryListTotalPages,
+                                            secondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
+            folderTab.Text = string.Format(format,
+                                            PageControl.FoldersList_Page, PageControl.FolderListTotalPages,
+                                            folderList.Items.Count, DatabaseAPI.CountFolderItems());
         }
         #endregion mover
     }

@@ -156,8 +156,8 @@
   <data name="LOADING" xml:space="preserve">
     <value>Cargando...</value>
   </data>
-  <data name="TEMPLATE" xml:space="preserve">
-    <value>Plantilla</value>
+  <data name="RENAMING_RULE" xml:space="preserve">
+    <value>Regla de renombramiento</value>
   </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Ajustes</value>
@@ -180,11 +180,11 @@
   <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Reestablecer</value>
   </data>
-  <data name="CAN_BE_RENAMED" xml:space="preserve">
-    <value>Puede renombrarse</value>
+  <data name="TO_RENAME" xml:space="preserve">
+    <value>Para renombrar</value>
   </data>
-  <data name="IMPOSSIBLE_TO_RENAME" xml:space="preserve">
-    <value>Imposible renombrar</value>
+  <data name="DO_NOT_RENAME" xml:space="preserve">
+    <value>No renombrar</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>No se permiten múltiples instancias de este programa.</value>
@@ -290,5 +290,8 @@
   </data>
   <data name="PAGE_SIZE" xml:space="preserve">
     <value>Tamaño de página</value>
+  </data>
+  <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
+    <value>Marque las etiquetas requeridas que no deben ser campos vacios, esto ayuda a definir que archivos se renombraran luego.</value>
   </data>
 </root>

@@ -13,8 +13,12 @@
         <Setter Property="Background" Value="#FF202020"/>
         <Setter Property="Foreground" Value="#F1F1F1"/>
     </Style>
-    <Style TargetType="{x:Type local:Template}">
+    <Style TargetType="{x:Type local:RenamingRule}">
         <Setter Property="Background" Value="#FF202020"/>
+        <Setter Property="Foreground" Value="#F1F1F1"/>
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="#F1F1F1"/>
     </Style>
 </ResourceDictionary>
