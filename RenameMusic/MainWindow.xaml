@@ -57,19 +57,7 @@
         <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,50"
                    VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
-        <!--<Button Grid.Row="1" Grid.Column="0" Content="&lt;" Width="32" Height="24"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"
-                IsEnabled="False" x:Name="PageLeft" Click="ChangePage"/>
-        <ComboBox Grid.Row="1" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"
-                  x:Name="PageBox" SelectionChanged="PageBox_SelectionChanged" DropDownOpened="PageBox_DropDownOpened"/>
-        <Button Grid.Row="1" Grid.Column="0" Content=">" Width="32" Height="24"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,40"
-                IsEnabled="False" x:Name="PageRight" Click="ChangePage"/>
-
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static lang:Strings.PAGE_SIZE}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,14"/>
-        <ComboBox x:Name="PageSizeBox" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,10" SelectionChanged="PageSizeBox_SelectionChanged"/>-->
-
-        <TabControl Grid.Row="1" Grid.Column="1" x:Name="tabs" HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding TabsVisibility}" SelectionChanged="Tabs_SelectionChanged">
+        <TabControl Grid.Row="1" Grid.Column="1" x:Name="tabs" SelectedIndex="{Binding CurrentTabIndex}" HorizontalAlignment="Stretch" Margin="10">
             <TabItem>
                 <TabItem.Header>
                     <Grid>
@@ -81,7 +69,7 @@
                         <TextBlock x:Name="primaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
-                <DataGrid x:Name="primaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+                <DataGrid x:Name="PrimaryList" Loaded="PrimaryList_Loaded" ScrollViewer.ScrollChanged="PrimaryList_ScrollChanged" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True"/>
@@ -107,7 +95,7 @@
                         <TextBlock x:Name="secondaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
-                <DataGrid x:Name="secondaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+                <DataGrid x:Name="SecondaryList" Loaded="SecondaryList_Loaded" ScrollViewer.ScrollChanged="SecondaryList_ScrollChanged" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="36"/>
@@ -127,7 +115,7 @@
                         <TextBlock x:Name="folderTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
                     </Grid>
                 </TabItem.Header>
-                <DataGrid x:Name="folderList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=7}">
+                <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" ScrollViewer.ScrollChanged="FolderList_ScrollChanged" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=7}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="36" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>

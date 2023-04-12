@@ -1,15 +1,16 @@
-﻿using RenameMusic.Properties;
+﻿using RenameMusic.Entities;
+using RenameMusic.Properties;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using WinCopies.Linq;
 
 namespace RenameMusic.DB
 {
     public static class DatabaseAPI
     {
-        public static void AddToDatabase(string[] files)
+        public static void BeforeAddToDB(string[] files)
         {
             // ToDo: Utilizar otro hilo para esta tarea!
             foreach (string file in files)
@@ -139,6 +140,46 @@ namespace RenameMusic.DB
         {
             using MyContext context = new();
             return context.Folders.FirstPredicate(a => a.FolderPath == folderpath).Id;
+        }
+
+        public static List<Audio> GetPageOfAudios(int pageSize, int pageNumber, bool canRename)
+        {
+            using MyContext context = new();
+            List<AudioDTO> audios = context.Audios.WherePredicate(a => a.Rename == canRename)
+                .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+            // ToDo: Buscar otra forma más facil. Se puede hacer con AutoMapper?
+            List<Audio> list = new();
+            foreach (AudioDTO audio in audios)
+            {
+                Audio item = new(
+                    audio.FolderId,
+                    new MyContext().Folders.First(f => f.Id == audio.FolderId).FolderPath + audio.FileName
+                    );
+
+                if (item.Tags != null)
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
+        }
+
+        public static List<Folder> GetPageOfFolders(int pageSize, int pageNumber)
+        {
+            using MyContext context = new();
+            List<FolderDTO> folders = context.Folders
+                .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToList();
+
+            // ToDo: Buscar otra forma más facil. Se puede hacer con AutoMapper?
+            List<Folder> list = new();
+            foreach (FolderDTO folder in folders)
+            {
+                list.Add(new Folder(folder.Id, folder.FolderPath));
+            }
+            return list;
         }
 
         public static int CountAudioItems(bool canRename)
