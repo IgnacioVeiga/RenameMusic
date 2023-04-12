@@ -12,7 +12,6 @@ namespace RenameMusic.DB
     {
         public static void BeforeAddToDB(string[] files)
         {
-            // ToDo: Utilizar otro hilo para esta tarea!
             foreach (string file in files)
             {
                 if (AudioAlreadyAdded(file)) continue;
@@ -75,7 +74,14 @@ namespace RenameMusic.DB
                 AddAudioToDB(audio);
             }
         }
+        public static void ClearDatabase()
+        {
+            using MyContext context = new();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+        }
 
+        #region AddToDB
         public static int AddAudioToDB(AudioDTO audio)
         {
             using MyContext context = new();
@@ -83,7 +89,6 @@ namespace RenameMusic.DB
             context.SaveChanges();
             return resp.Entity.Id;
         }
-
         public static int AddFolderToDB(FolderDTO folder)
         {
             using MyContext context = new();
@@ -91,7 +96,9 @@ namespace RenameMusic.DB
             context.SaveChanges();
             return resp.Entity.Id;
         }
+        #endregion AddtoDB
 
+        #region RemoveFromDB
         public static void RemoveAudioFromDB(int id)
         {
             using MyContext context = new();
@@ -105,7 +112,6 @@ namespace RenameMusic.DB
 
             context.SaveChanges();
         }
-
         public static void RemoveFolderFromDB(int folderId)
         {
             using MyContext context = new();
@@ -117,31 +123,35 @@ namespace RenameMusic.DB
             context.Folders.Remove(context.Folders.FirstPredicate(a => a.Id == folderId));
             context.SaveChanges();
         }
+        #endregion RemoveFromDB
 
+        #region AlreadyAdded
         public static bool AudioAlreadyAdded(string filepath)
         {
             using MyContext context = new();
             return context.Audios.AnyPredicate(a => a.FileName == Path.GetFileName(filepath));
         }
-
         public static bool FolderAlreadyAdded(string folderpath)
         {
             using MyContext context = new();
             return context.Folders.AnyPredicate(f => f.FolderPath == folderpath);
         }
+        #endregion AlreadyAdded
 
+        #region GetByID
         public static int GetAudioId(string filepath)
         {
             using MyContext context = new();
             return context.Audios.FirstPredicate(a => a.FileName == Path.GetFileName(filepath)).Id;
         }
-
         public static int GetFolderId(string folderpath)
         {
             using MyContext context = new();
             return context.Folders.FirstPredicate(a => a.FolderPath == folderpath).Id;
         }
+        #endregion GetByID
 
+        #region GetByPage
         public static List<Audio> GetPageOfAudios(int pageSize, int pageNumber, bool canRename)
         {
             using MyContext context = new();
@@ -165,7 +175,6 @@ namespace RenameMusic.DB
             }
             return list;
         }
-
         public static List<Folder> GetPageOfFolders(int pageSize, int pageNumber)
         {
             using MyContext context = new();
@@ -181,24 +190,19 @@ namespace RenameMusic.DB
             }
             return list;
         }
+        #endregion GetByPage
 
+        #region CountItems
         public static int CountAudioItems(bool canRename)
         {
             using MyContext context = new();
             return context.Audios.Count(a => a.Rename == canRename);
         }
-
         public static int CountFolderItems()
         {
             using MyContext context = new();
             return context.Folders.Count();
         }
-
-        public static void ClearDatabase()
-        {
-            using MyContext context = new();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-        }
+        #endregion CountItems
     }
 }

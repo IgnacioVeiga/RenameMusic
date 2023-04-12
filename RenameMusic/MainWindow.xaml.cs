@@ -18,11 +18,10 @@ namespace RenameMusic
     /// </summary>
     public partial class MainWindow : Window
     {
-        // ToDo: todo lo relacionado a los selectores de páginas deben de ser independientes para cada "Tab"
         public MainWindow()
         {
             InitializeComponent();
-            pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
+            Pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
             _ = new MyContext().Database.EnsureCreated();
             foreach (var language in AppLanguage.Languages)
             {
@@ -39,39 +38,59 @@ namespace RenameMusic
                 languages.Items.Add(menuItem);
             }
 
-            PageSize = 64;
-            CurrentTabIndex = 0;
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
-        }
-
-        private void AddFolder_Click(object sender, RoutedEventArgs e)
-        {
-            string[] directories = Picker.ShowFolderPicker();
-            if (directories.Length == 0) return;
-
-            foreach (string directory in directories)
-            {
-                string[] files = Picker.GetFilePaths(directory);
-                DatabaseAPI.BeforeAddToDB(files);
-            }
-
-            CurrentTabIndex = 0;
+            PageSize = 128;
+            MainTabs.SelectedIndex = 0;
             LoadData();
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
         }
 
-        private void AddFile_Click(object sender, RoutedEventArgs e)
+        private async void AddFile_Click(object sender, RoutedEventArgs e)
         {
             string[] files = Picker.ShowFilePicker();
             if (files.Length == 0) return;
-            DatabaseAPI.BeforeAddToDB(files);
+
+            LoadingBar loading_bar = new(files.Length);
+            loading_bar.Show();
+
+            await Task.Run(() =>
+            {
+                DatabaseAPI.BeforeAddToDB(files);
+                loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
+            });
+
+            MainTabs.SelectedIndex = 0;
+            LoadData();
             TabsVisibility();
             IsEnabledRenameBTN();
             UpdateTabHeader();
+            loading_bar.Close();
+        }
+        private async void AddFolder_Click(object sender, RoutedEventArgs e)
+        {
+            string[] directories = Picker.ShowFolderPicker();
+            if (directories.Length == 0) return;
+
+            LoadingBar loading_bar = new(directories.Length);
+            loading_bar.Show();
+
+            await Task.Run(() =>
+            {
+                foreach (string directory in directories)
+                {
+                    string[] files = Picker.GetFilePaths(directory);
+                    DatabaseAPI.BeforeAddToDB(files);
+                    loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
+                }
+            });
+
+            MainTabs.SelectedIndex = 0;
+            LoadData();
+            TabsVisibility();
+            IsEnabledRenameBTN();
+            UpdateTabHeader();
+            loading_bar.Close();
         }
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
@@ -105,10 +124,10 @@ namespace RenameMusic
 
         private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            pictures.Source = null;
+            Pictures.Source = null;
             if ((Audio)((DataGrid)sender).SelectedItem is null)
             {
-                pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
+                Pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
                 return;
             }
 
@@ -126,7 +145,7 @@ namespace RenameMusic
                 bitmap.StreamSource = ms;
                 bitmap.EndInit();
 
-                pictures.Source = bitmap;
+                Pictures.Source = bitmap;
             }
         }
 
@@ -178,9 +197,12 @@ namespace RenameMusic
             }
         }
 
-        public int CurrentTabIndex;
-        public int PageSize;
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateTabHeader();
+        }
 
+        public int PageSize;
         private int _currentPage;
         public int CurrentPage
         {
@@ -189,83 +211,41 @@ namespace RenameMusic
             {
                 _currentPage = value;
                 LoadData();
-            }
-        }
-
-        private void PrimaryList_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
-            {
-                CurrentPage++;
-            }
-            else if (e.VerticalOffset == 0)
-            {
-                if (CurrentPage > 1)
-                {
-                    CurrentPage--;
-                }
-            }
-        }
-        private void SecondaryList_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
-            {
-                CurrentPage++;
-            }
-            else if (e.VerticalOffset == 0)
-            {
-                if (CurrentPage > 1)
-                {
-                    CurrentPage--;
-                }
-            }
-        }
-        private void FolderList_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            if (e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
-            {
-                CurrentPage++;
-            }
-            else if (e.VerticalOffset == 0)
-            {
-                if (CurrentPage > 1)
-                {
-                    CurrentPage--;
-                }
+                UpdateTabHeader();
             }
         }
 
         private void PrimaryList_Loaded(object sender, RoutedEventArgs e)
         {
+            PrimaryList.Items.Clear();
             CurrentPage = 1;
         }
         private void SecondaryList_Loaded(object sender, RoutedEventArgs e)
         {
+            SecondaryList.Items.Clear();
             CurrentPage = 1;
         }
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
+            FolderList.Items.Clear();
             CurrentPage = 1;
         }
 
         private void LoadData()
         {
-            switch (CurrentTabIndex)
+            switch (MainTabs.SelectedIndex)
             {
                 case 0:
-                    PrimaryList.Items.Clear();
                     PrimaryList.Items.AddRange(
                         DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true)
                         );
                     break;
                 case 1:
-                    SecondaryList.Items.Clear();
                     SecondaryList.Items.AddRange(
                         DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, false)
                         );
                     break;
                 case 2:
-                    FolderList.Items.Clear();
                     FolderList.Items.AddRange(
                         DatabaseAPI.GetPageOfFolders(PageSize, CurrentPage)
                         );
@@ -275,7 +255,7 @@ namespace RenameMusic
 
         private void TabsVisibility()
         {
-            tabs.Visibility = (PrimaryList.Items.Count > 0
+            MainTabs.Visibility = (PrimaryList.Items.Count > 0
                 || SecondaryList.Items.Count > 0
                 || FolderList.Items.Count > 0)
                 ? Visibility.Visible : Visibility.Hidden;
@@ -286,16 +266,16 @@ namespace RenameMusic
         }
         private void UpdateTabHeader()
         {
-            string format = Strings.PAGE + ": {0}/{1}\t" + Strings.LOADED + ": {2}/{3}";
-            primaryTab.Text = string.Format(format,
-                                            PageControl.PrimaryList_Page, PageControl.PrimaryListTotalPages,
-                                            PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
-            secondaryTab.Text = string.Format(format,
-                                            PageControl.SecondaryList_Page, PageControl.SecondaryListTotalPages,
-                                            SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
-            folderTab.Text = string.Format(format,
-                                            PageControl.FoldersList_Page, PageControl.FolderListTotalPages,
-                                            FolderList.Items.Count, DatabaseAPI.CountFolderItems());
+            string format = Strings.LOADED + ": {0}/{1}";
+            PrimaryTab.Text = string.Format(format, PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
+            SecondaryTab.Text = string.Format(format, SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
+            FolderTab.Text = string.Format(format, FolderList.Items.Count, DatabaseAPI.CountFolderItems());
         }
+        //private static int GetTotalPages(int totalItems, int pageSize)
+        //{
+        //    int pages = (int)Math.Ceiling((double)totalItems / pageSize);
+        //    if (pages == 0) return 1;
+        //    else return pages;
+        //}
     }
 }
