@@ -142,15 +142,6 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Corrupt or incorrect file..
-        /// </summary>
-        public static string CORRUPT_FILE_EX_MSG {
-            get {
-                return ResourceManager.GetString("CORRUPT_FILE_EX_MSG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Current name:.
         /// </summary>
         public static string CURRENT_FILE_NAME_MSG {
@@ -367,33 +358,6 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function not implemented yet..
-        /// </summary>
-        public static string NOT_IMPLEMENTED_MSG {
-            get {
-                return ResourceManager.GetString("NOT_IMPLEMENTED_MSG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Page.
-        /// </summary>
-        public static string PAGE {
-            get {
-                return ResourceManager.GetString("PAGE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Page size.
-        /// </summary>
-        public static string PAGE_SIZE {
-            get {
-                return ResourceManager.GetString("PAGE_SIZE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
         public static string RENAME {
@@ -462,15 +426,6 @@ namespace RenameMusic.Lang {
         public static string RESTORE_SETTINGS {
             get {
                 return ResourceManager.GetString("RESTORE_SETTINGS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save list.
-        /// </summary>
-        public static string SAVE_LIST {
-            get {
-                return ResourceManager.GetString("SAVE_LIST", resourceCulture);
             }
         }
         

@@ -210,9 +210,6 @@
   <data name="EXPORT_SETTINGS" xml:space="preserve">
     <value>Exportar</value>
   </data>
-  <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
-    <value>Función no implementada aún.</value>
-  </data>
   <data name="FILE_REPEATED_MSG" xml:space="preserve">
     <value>Ya existe un archivo con el mismo nombre en esta ubicación ¿Cómo desea continuar?</value>
   </data>
@@ -228,9 +225,6 @@
   <data name="TOGGLE_LANG_MSG" xml:space="preserve">
     <value>Se reiniciará la aplicación y se aplicará el idioma seleccionado.</value>
   </data>
-  <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
-    <value>Archivo corrupto o incorrecto.</value>
-  </data>
   <data name="LANGUAGE" xml:space="preserve">
     <value>Idioma</value>
   </data>
@@ -242,9 +236,6 @@
   </data>
   <data name="FILE" xml:space="preserve">
     <value>Archivo</value>
-  </data>
-  <data name="SAVE_LIST" xml:space="preserve">
-    <value>Guardar lista</value>
   </data>
   <data name="RESTARTING" xml:space="preserve">
     <value>Reiniciando...</value>
@@ -282,14 +273,8 @@
   <data name="CHECK_UPDATES" xml:space="preserve">
     <value>Buscar actualizaciones</value>
   </data>
-  <data name="PAGE" xml:space="preserve">
-    <value>Página</value>
-  </data>
   <data name="LOADED" xml:space="preserve">
     <value>Cargado</value>
-  </data>
-  <data name="PAGE_SIZE" xml:space="preserve">
-    <value>Tamaño de página</value>
   </data>
   <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
     <value>Marque las etiquetas requeridas que no deben ser campos vacios, esto ayuda a definir que archivos se renombraran luego.</value>
