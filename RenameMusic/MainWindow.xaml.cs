@@ -39,7 +39,7 @@ namespace RenameMusic
             }
 
             PageSize = 128;
-            TabsVisibility(); // Previene que se la base de datos 2 veces
+            TabsVisibility(); // Previene que se acceda a la base de datos 2 veces
             CheckRenameBTN();
         }
 

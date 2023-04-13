@@ -58,6 +58,10 @@ Por ejemplo: Tengo un archivo de audio con el nombre `AUD-01230101-WA0123.mp3` p
 - taglib-sharp-netstandard2.0 **(2.1.0)**
 - WinCopies.WindowsAPICodePack.Shell **(2.12.0.2)**
 
+## Idiomas
+Para añadir/modificar idiomas recomiendo ampliamente la **extensión** para **Visual Studio 2022** llamada `ResX Manager`. Hace mucho más facil manejar varios idiomas.
+Los arhivos `.resx` de idioma se guardan en la carpeta `.\RenameMusic\Lang\`.
+
 ## Compilar:
 Compilar a través de **Visual Studio 2022**. La otra forma es ejecutar el comando `dotnet build` desde el terminal (cmd/powershell) en la raíz del repositorio y luego comprobar dentro de la carpeta `\RenameMusic\bin\`.
 

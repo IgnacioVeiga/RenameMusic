@@ -6,7 +6,7 @@
 ![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
 <div>
-  <span>English</span> / <a href="README-es.md">Español</a> </a>
+  <span>English</span> / <a href="README_es.md">Español</a> </a>
 </div></br>
 
 ![RenameMusicIcon](/RenameMusic/Assets/Images/RM39.svg)
@@ -57,6 +57,10 @@ For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it
 - Microsoft.EntityFrameworkCore.Sqlite **(7.0.3)**
 - taglib-sharp-netstandard2.0 **(2.1.0)**
 - WinCopies.WindowsAPICodePack.Shell **(2.12.0.2)**
+
+## Languajes
+For adding/modifying languages I highly recommend the **extension** for **Visual Studio 2022** called `ResX Manager`. It makes it much easier to manage multiple languages.
+The language `.resx` files are saved in the `.\RenameMusic\Lang\` folder.
 
 ## Compile:
 Compile via **Visual Studio 2022**. The other way is to run the `dotnet build` command from terminal (cmd/powershell) in the root of the repository and then check inside of the `\RenameMusic\bin\` folder.
