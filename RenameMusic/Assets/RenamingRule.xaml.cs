@@ -37,6 +37,7 @@ namespace RenameMusic
             {
                 Settings.Default.DefaultTemplate = renamingRule.Text;
                 Settings.Default.Save();
+                DialogResult = true;
                 Close();
             }
             else
@@ -54,7 +55,7 @@ namespace RenameMusic
         {
             if (string.IsNullOrWhiteSpace(renamingRule.Text))
             {
-                apply.IsEnabled = false;
+                ApplyBTN.IsEnabled = false;
             }
             else
             {
@@ -62,12 +63,12 @@ namespace RenameMusic
                 {
                     if (renamingRule.Text.Contains(tag))
                     {
-                        apply.IsEnabled = true;
+                        ApplyBTN.IsEnabled = true;
                         break;
                     }
                     else
                     {
-                        apply.IsEnabled = false;
+                        ApplyBTN.IsEnabled = false;
                     }
                 }
             }

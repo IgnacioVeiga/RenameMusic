@@ -279,4 +279,7 @@
   <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
     <value>Check the required tags which should not be empty fields, this helps to define which files will be renamed later.</value>
   </data>
+  <data name="LOAD_PREV_DATA" xml:space="preserve">
+    <value>Load previous data</value>
+  </data>
 </root>

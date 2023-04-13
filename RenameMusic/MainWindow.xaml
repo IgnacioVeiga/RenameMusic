@@ -16,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -26,8 +27,9 @@
             <MenuItem Header="{x:Static lang:Strings.FILE}">
                 <MenuItem Header="{x:Static lang:Strings.ADD_FILE}" Click="AddFile_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
+                <MenuItem Header="{x:Static lang:Strings.LOAD_PREV_DATA}" Click="LoadPrevData_Click"/>
                 <Separator />
-                <MenuItem x:Name="renameFilesBTN" Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
+                <MenuItem x:Name="RenameMenuItemBTN" Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.EXIT}" Click="ExitMenuItem_Click"/>
             </MenuItem>
@@ -39,7 +41,7 @@
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
                           IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                           Checked="IncludeSubFolders_Check" IsCheckable="True"/>
-                <MenuItem x:Name="languages" Header="{x:Static lang:Strings.LANGUAGE}"/>
+                <MenuItem x:Name="Languages" Header="{x:Static lang:Strings.LANGUAGE}"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.IMPORT_SETTINGS}" IsEnabled="False"/>
@@ -52,23 +54,15 @@
             </MenuItem>
         </Menu>
 
+        <Button x:Name="RenameBTN" Grid.Row="1" Grid.Column="0" Content="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10"/>
+
         <Image x:Name="Pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
-               Height="230" Width="230" Margin="0,50" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}" Panel.ZIndex="1"/>
-        <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,50"
+               Height="230" Width="230" Margin="0,80" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}" Panel.ZIndex="1"/>
+        <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,80"
                    VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
-        <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10" SelectionChanged="Tabs_SelectionChanged">
-            <TabItem>
-                <TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.TO_RENAME}" Grid.Row="0" FontWeight="Bold"/>
-                        <TextBlock x:Name="PrimaryTab" d:Text="Loaded: 0/0" Grid.Row="1"/>
-                    </Grid>
-                </TabItem.Header>
+        <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10">
+            <TabItem Header="{x:Static lang:Strings.TO_RENAME}">
                 <DataGrid x:Name="PrimaryList" Loaded="PrimaryList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True"/>
@@ -84,17 +78,7 @@
                 </DataGrid>
             </TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.DO_NOT_RENAME}" Grid.Row="0" FontWeight="Bold"/>
-                        <TextBlock x:Name="SecondaryTab" d:Text="Loaded: 0/0" Grid.Row="1"/>
-                    </Grid>
-                </TabItem.Header>
+            <TabItem Header="{x:Static lang:Strings.DO_NOT_RENAME}">
                 <DataGrid x:Name="SecondaryList" Loaded="SecondaryList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
@@ -104,17 +88,7 @@
                 </DataGrid>
             </TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.FOLDERS}" Grid.Row="0" FontWeight="Bold"/>
-                        <TextBlock x:Name="FolderTab" d:Text="Loaded: 0/0" Grid.Row="1"/>
-                    </Grid>
-                </TabItem.Header>
+            <TabItem Header="{x:Static lang:Strings.FOLDERS}">
                 <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=7}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="36" IsReadOnly="True">
@@ -129,5 +103,11 @@
                 </DataGrid>
             </TabItem>
         </TabControl>
+
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
+            <StatusBarItem>
+                <TextBlock x:Name="MainStatusBar" d:Text="Loaded: 0/0" Margin="2,0"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

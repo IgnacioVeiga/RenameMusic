@@ -31,7 +31,7 @@
 
         <TextBox Grid.Row="2" Grid.ColumnSpan="2" x:Name="renamingRule" HorizontalAlignment="Stretch" Height="25" Margin="10,5,10,5" TextChanged="Template_TextChanged"/>
     
-        <Button Grid.Row="3" Grid.Column="0" x:Name="apply" Content="{x:Static p:Strings.APPLY}" Width="80" Margin="0,10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ApplyBTN_Click"/>
-        <Button Grid.Row="3" Grid.Column="1" Content="{x:Static p:Strings.CANCEL}" Width="80" Margin="0,10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CancelBTN_Click"/>
+        <Button Grid.Row="3" Grid.Column="0" IsDefault="True" IsCancel="False" x:Name="ApplyBTN" Content="{x:Static p:Strings.APPLY}" Width="80" Margin="0,10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ApplyBTN_Click"/>
+        <Button Grid.Row="3" Grid.Column="1" IsCancel="True" Content="{x:Static p:Strings.CANCEL}" Width="80" Margin="0,10" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CancelBTN_Click"/>
     </Grid>
 </Window>

@@ -35,15 +35,12 @@ namespace RenameMusic
                     IsEnabled = !isLangSelected
                 };
                 menuItem.Click += LanguageSelected_Click;
-                languages.Items.Add(menuItem);
+                Languages.Items.Add(menuItem);
             }
 
             PageSize = 128;
-            MainTabs.SelectedIndex = 0;
-            LoadData();
-            TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
+            TabsVisibility(); // Previene que se la base de datos 2 veces
+            CheckRenameBTN();
         }
 
         private async void AddFile_Click(object sender, RoutedEventArgs e)
@@ -63,8 +60,7 @@ namespace RenameMusic
             MainTabs.SelectedIndex = 0;
             LoadData();
             TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
+            CheckRenameBTN();
             loading_bar.Close();
         }
         private async void AddFolder_Click(object sender, RoutedEventArgs e)
@@ -88,9 +84,20 @@ namespace RenameMusic
             MainTabs.SelectedIndex = 0;
             LoadData();
             TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
+            CheckRenameBTN();
             loading_bar.Close();
+        }
+
+        private void LoadPrevData_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabs.SelectedIndex = 0;
+            PrimaryList.Items.Clear();
+            SecondaryList.Items.Clear();
+            FolderList.Items.Clear();
+            CurrentPage = 1;
+            LoadData();
+            TabsVisibility();
+            CheckRenameBTN();
         }
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
@@ -115,9 +122,8 @@ namespace RenameMusic
             });
 
             TabsVisibility();
-            IsEnabledRenameBTN();
+            CheckRenameBTN();
             DatabaseAPI.ClearDatabase();
-            UpdateTabHeader();
             loading_bar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
@@ -153,21 +159,42 @@ namespace RenameMusic
         {
             int folderId = ((Folder)((Button)sender).DataContext).Id;
             DatabaseAPI.RemoveFolderFromDB(folderId);
+
+            PrimaryList.Items.Clear();
+            SecondaryList.Items.Clear();
+            FolderList.Items.Clear();
+            CurrentPage = 1;
+
+            LoadData();
             TabsVisibility();
-            IsEnabledRenameBTN();
-            UpdateTabHeader();
+            CheckRenameBTN();
         }
 
         private void RenamingRuleBTN_Click(object sender, RoutedEventArgs e)
         {
-            _ = new RenamingRule().ShowDialog();
+            bool? ruleChanged = new RenamingRule().ShowDialog();
+            if (ruleChanged == true)
+            {
+                PrimaryList.Items.Clear();
+                SecondaryList.Items.Clear();
+                FolderList.Items.Clear();
+                LoadData();
+            }
         }
 
         private void RestoreSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
+            Settings.Default.Lang = "en";
             Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
+            Settings.Default.TitleRequired = true;
+            Settings.Default.AlbumRequired = true;
+            Settings.Default.AlbumArtistRequired = false;
+            Settings.Default.ArtistRequired = false;
+            Settings.Default.IncludeSubFolders = true;
+            Settings.Default.RepeatedFileKeepChoice = false;
             Settings.Default.Save();
             MessageBox.Show(Strings.SETTINGS_RESTORED);
+            App.RestartApp();
         }
 
         private void IncludeSubFolders_Check(object sender, RoutedEventArgs e)
@@ -197,58 +224,65 @@ namespace RenameMusic
             }
         }
 
-        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateTabHeader();
-        }
-
         public int PageSize;
-        private int _currentPage;
-        public int CurrentPage
-        {
-            get { return _currentPage; }
-            set
-            {
-                _currentPage = value;
-                LoadData();
-                UpdateTabHeader();
-            }
-        }
+        public int CurrentPage;
 
         private void PrimaryList_Loaded(object sender, RoutedEventArgs e)
         {
-            PrimaryList.Items.Clear();
-            CurrentPage = 1;
+            if (PrimaryList.IsVisible)
+            {
+                PrimaryList.Items.Clear();
+                CurrentPage = 1;
+                LoadData();
+            }
         }
         private void SecondaryList_Loaded(object sender, RoutedEventArgs e)
         {
-            SecondaryList.Items.Clear();
-            CurrentPage = 1;
+            if (SecondaryList.IsVisible)
+            {
+                SecondaryList.Items.Clear();
+                CurrentPage = 1;
+                LoadData();
+            }
         }
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
-            FolderList.Items.Clear();
-            CurrentPage = 1;
+            if (FolderList.IsVisible)
+            {
+                FolderList.Items.Clear();
+                CurrentPage = 1;
+                LoadData();
+            }
         }
 
         private void LoadData()
         {
+            string format = Strings.LOADED + ": {0}/{1}";
             switch (MainTabs.SelectedIndex)
             {
                 case 0:
                     PrimaryList.Items.AddRange(
                         DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true)
                         );
+
+                    MainStatusBar.Text = string.Format(format,
+                        PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
                     break;
                 case 1:
                     SecondaryList.Items.AddRange(
                         DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, false)
                         );
+
+                    MainStatusBar.Text = string.Format(format,
+                        SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
                     break;
                 case 2:
                     FolderList.Items.AddRange(
                         DatabaseAPI.GetPageOfFolders(PageSize, CurrentPage)
                         );
+
+                    MainStatusBar.Text = string.Format(format,
+                        FolderList.Items.Count, DatabaseAPI.CountFolderItems());
                     break;
             }
         }
@@ -260,22 +294,10 @@ namespace RenameMusic
                 || FolderList.Items.Count > 0)
                 ? Visibility.Visible : Visibility.Hidden;
         }
-        private void IsEnabledRenameBTN()
+        private void CheckRenameBTN()
         {
-            renameFilesBTN.IsEnabled = PrimaryList.Items.Count > 0;
+            RenameMenuItemBTN.IsEnabled = PrimaryList.Items.Count > 0;
+            RenameBTN.IsEnabled = PrimaryList.Items.Count > 0;
         }
-        private void UpdateTabHeader()
-        {
-            string format = Strings.LOADED + ": {0}/{1}";
-            PrimaryTab.Text = string.Format(format, PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
-            SecondaryTab.Text = string.Format(format, SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
-            FolderTab.Text = string.Format(format, FolderList.Items.Count, DatabaseAPI.CountFolderItems());
-        }
-        //private static int GetTotalPages(int totalItems, int pageSize)
-        //{
-        //    int pages = (int)Math.Ceiling((double)totalItems / pageSize);
-        //    if (pages == 0) return 1;
-        //    else return pages;
-        //}
     }
 }

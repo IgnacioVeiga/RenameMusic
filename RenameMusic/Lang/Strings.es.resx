@@ -279,4 +279,7 @@
   <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
     <value>Marque las etiquetas requeridas que no deben ser campos vacios, esto ayuda a definir que archivos se renombraran luego.</value>
   </data>
+  <data name="LOAD_PREV_DATA" xml:space="preserve">
+    <value>Cargar datos anteriores</value>
+  </data>
 </root>

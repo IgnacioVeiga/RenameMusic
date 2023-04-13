@@ -295,6 +295,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load previous data.
+        /// </summary>
+        public static string LOAD_PREV_DATA {
+            get {
+                return ResourceManager.GetString("LOAD_PREV_DATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loaded.
         /// </summary>
         public static string LOADED {
