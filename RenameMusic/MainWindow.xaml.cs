@@ -4,6 +4,7 @@ using RenameMusic.Lang;
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +22,6 @@ namespace RenameMusic
         public MainWindow()
         {
             InitializeComponent();
-            Pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
             _ = new MyContext().Database.EnsureCreated();
             foreach (var language in AppLanguage.Languages)
             {
@@ -42,6 +42,24 @@ namespace RenameMusic
             TabsVisibility(); // Previene que se acceda a la base de datos 2 veces
             CheckRenameBTN();
         }
+
+        #region Util
+        public int PageSize;
+        public int CurrentPage;
+
+        private void TabsVisibility()
+        {
+            MainTabs.Visibility = (PrimaryList.Items.Count > 0
+                || SecondaryList.Items.Count > 0
+                || FolderList.Items.Count > 0)
+                ? Visibility.Visible : Visibility.Hidden;
+        }
+        private void CheckRenameBTN()
+        {
+            RenameMenuItemBTN.IsEnabled = PrimaryList.Items.Count > 0;
+            RenameBTN.IsEnabled = PrimaryList.Items.Count > 0;
+        }
+        #endregion Util
 
         private async void AddFile_Click(object sender, RoutedEventArgs e)
         {
@@ -102,25 +120,38 @@ namespace RenameMusic
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
         {
-            LoadingBar loading_bar = new(DatabaseAPI.CountAudioItems(true));
+            int totalItems = DatabaseAPI.CountAudioItems(true);
+            LoadingBar loading_bar = new(totalItems);
             loading_bar.Show();
 
             await Task.Run(() =>
             {
-                // ToDo: se debe renombrar todas las páginas de esa lista, no solo la cargada actualmente
-                foreach (Audio mFileItem in PrimaryList.Items)
+                CurrentPage = 1;
+                while (CurrentPage <= totalItems)
                 {
-                    string oldName = mFileItem.FilePath;
-                    string newName = mFileItem.Folder + mFileItem.NewName + mFileItem.Type;
+                    string oldName = "", newName = "";
+                    List<Audio> PartialAudioList = DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true);
+                    foreach (Audio audioItem in PartialAudioList)
+                    {
+                        loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
+                        oldName = audioItem.FilePath;
+                        newName = audioItem.Folder + audioItem.NewName + audioItem.Type;
 
-                    if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase) || !File.Exists(oldName))
-                        continue;
+                        if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase) || !File.Exists(oldName))
+                            continue;
 
-                    FilenameFunctions.RenameFile(oldName, newName);
-                    loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
+                        FilenameFunctions.RenameFile(oldName, newName);
+                    }
+                    PartialAudioList.Clear();
+                    CurrentPage++;
                 }
             });
 
+            CurrentPage = 1;
+            MainTabs.SelectedIndex = 0;
+            PrimaryList.Items.Clear();
+            SecondaryList.Items.Clear();
+            FolderList.Items.Clear();
             TabsVisibility();
             CheckRenameBTN();
             DatabaseAPI.ClearDatabase();
@@ -131,12 +162,7 @@ namespace RenameMusic
         private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Pictures.Source = null;
-            if ((Audio)((DataGrid)sender).SelectedItem is null)
-            {
-                Pictures.Source = new BitmapImage(new Uri("./Assets/Icons/icon.ico", UriKind.Relative));
-                return;
-            }
-
+            if ((Audio)((DataGrid)sender).SelectedItem is null) return;
             if (((Audio)((DataGrid)sender).SelectedItem).Tags is null) return;
 
             if (((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures.Length >= 1)
@@ -224,9 +250,6 @@ namespace RenameMusic
             }
         }
 
-        public int PageSize;
-        public int CurrentPage;
-
         private void PrimaryList_Loaded(object sender, RoutedEventArgs e)
         {
             if (PrimaryList.IsVisible)
@@ -285,19 +308,6 @@ namespace RenameMusic
                         FolderList.Items.Count, DatabaseAPI.CountFolderItems());
                     break;
             }
-        }
-
-        private void TabsVisibility()
-        {
-            MainTabs.Visibility = (PrimaryList.Items.Count > 0
-                || SecondaryList.Items.Count > 0
-                || FolderList.Items.Count > 0)
-                ? Visibility.Visible : Visibility.Hidden;
-        }
-        private void CheckRenameBTN()
-        {
-            RenameMenuItemBTN.IsEnabled = PrimaryList.Items.Count > 0;
-            RenameBTN.IsEnabled = PrimaryList.Items.Count > 0;
         }
     }
 }

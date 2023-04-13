@@ -138,7 +138,7 @@ namespace RenameMusic.DB
         }
         #endregion AlreadyAdded
 
-        #region GetByID
+        #region GetID
         public static int GetAudioId(string filepath)
         {
             using MyContext context = new();
@@ -149,7 +149,7 @@ namespace RenameMusic.DB
             using MyContext context = new();
             return context.Folders.FirstPredicate(a => a.FolderPath == folderpath).Id;
         }
-        #endregion GetByID
+        #endregion GetID
 
         #region GetByPage
         public static List<Audio> GetPageOfAudios(int pageSize, int pageNumber, bool canRename)

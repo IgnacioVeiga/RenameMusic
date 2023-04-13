@@ -57,7 +57,7 @@
         <Button x:Name="RenameBTN" Grid.Row="1" Grid.Column="0" Content="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10"/>
 
         <Image x:Name="Pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
-               Height="230" Width="230" Margin="0,80" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}" Panel.ZIndex="1"/>
+               Height="230" Width="230" Margin="0,80" Source="{Binding Pictures}" Panel.ZIndex="1"/>
         <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,80"
                    VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
