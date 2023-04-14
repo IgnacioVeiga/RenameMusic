@@ -29,7 +29,8 @@
                 <MenuItem Header="{x:Static lang:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.LOAD_PREV_DATA}" Click="LoadPrevData_Click"/>
                 <Separator />
-                <MenuItem x:Name="RenameMenuItemBTN" Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
+                <MenuItem x:Name="RenameMenuItemBTN" IsEnabled="False"
+                          Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.EXIT}" Click="ExitMenuItem_Click"/>
             </MenuItem>
@@ -54,14 +55,15 @@
             </MenuItem>
         </Menu>
 
-        <Button x:Name="RenameBTN" Grid.Row="1" Grid.Column="0" Content="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10"/>
+        <Button x:Name="RenameBTN" Grid.Row="1" Grid.Column="0" Content="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10" IsEnabled="False"/>
 
         <Image x:Name="Pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
                Height="230" Width="230" Margin="0,80" Source="{Binding Pictures}" Panel.ZIndex="1"/>
         <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,80"
                    VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
-        <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10">
+        <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10" Visibility="Hidden" d:Visibility="Visible">
             <TabItem Header="{x:Static lang:Strings.TO_RENAME}">
                 <DataGrid x:Name="PrimaryList" Loaded="PrimaryList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>

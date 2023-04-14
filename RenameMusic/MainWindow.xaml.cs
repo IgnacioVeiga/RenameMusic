@@ -22,7 +22,9 @@ namespace RenameMusic
         public MainWindow()
         {
             InitializeComponent();
-            _ = new MyContext().Database.EnsureCreated();
+            new MyContext().Database.EnsureCreated();
+
+            #region Lang
             foreach (var language in AppLanguage.Languages)
             {
                 bool isLangSelected = Settings.Default.Lang == language.Key;
@@ -37,14 +39,11 @@ namespace RenameMusic
                 menuItem.Click += LanguageSelected_Click;
                 Languages.Items.Add(menuItem);
             }
-
-            PageSize = 128;
-            TabsVisibility(); // Previene que se acceda a la base de datos 2 veces
-            CheckRenameBTN();
+            #endregion Lang
         }
 
         #region Util
-        public int PageSize;
+        public int PageSize = 128;
         public int CurrentPage;
 
         private void TabsVisibility()
@@ -56,8 +55,40 @@ namespace RenameMusic
         }
         private void CheckRenameBTN()
         {
-            RenameMenuItemBTN.IsEnabled = PrimaryList.Items.Count > 0;
-            RenameBTN.IsEnabled = PrimaryList.Items.Count > 0;
+            bool canRename = PrimaryList.Items.Count > 0;
+            RenameMenuItemBTN.IsEnabled = canRename;
+            RenameBTN.IsEnabled = canRename;
+        }
+        private void LoadData()
+        {
+            string format = Strings.LOADED + ": {0}/{1}";
+            switch (MainTabs.SelectedIndex)
+            {
+                case 0:
+                    PrimaryList.Items.AddRange(
+                        DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true)
+                        );
+
+                    MainStatusBar.Text = string.Format(format,
+                        PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
+                    break;
+                case 1:
+                    SecondaryList.Items.AddRange(
+                        DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, false)
+                        );
+
+                    MainStatusBar.Text = string.Format(format,
+                        SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
+                    break;
+                case 2:
+                    FolderList.Items.AddRange(
+                        DatabaseAPI.GetPageOfFolders(PageSize, CurrentPage)
+                        );
+
+                    MainStatusBar.Text = string.Format(format,
+                        FolderList.Items.Count, DatabaseAPI.CountFolderItems());
+                    break;
+            }
         }
         #endregion Util
 
@@ -96,6 +127,7 @@ namespace RenameMusic
                     string[] files = Picker.GetFilePaths(directory);
                     DatabaseAPI.BeforeAddToDB(files);
                     loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
+                    Dispatcher.Invoke(() => MainStatusBar.Text = directory);
                 }
             });
 
@@ -133,10 +165,12 @@ namespace RenameMusic
                     List<Audio> PartialAudioList = DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true);
                     foreach (Audio audioItem in PartialAudioList)
                     {
-                        loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
                         oldName = audioItem.FilePath;
                         newName = audioItem.Folder + audioItem.NewName + audioItem.Type;
 
+                        loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
+                        Dispatcher.Invoke(() => MainStatusBar.Text = $"[{oldName}] -> [{newName}]");
+                        
                         if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase) || !File.Exists(oldName))
                             continue;
 
@@ -148,6 +182,7 @@ namespace RenameMusic
             });
 
             CurrentPage = 1;
+            MainStatusBar.Text = "";
             MainTabs.SelectedIndex = 0;
             PrimaryList.Items.Clear();
             SecondaryList.Items.Clear();
@@ -275,38 +310,6 @@ namespace RenameMusic
                 FolderList.Items.Clear();
                 CurrentPage = 1;
                 LoadData();
-            }
-        }
-
-        private void LoadData()
-        {
-            string format = Strings.LOADED + ": {0}/{1}";
-            switch (MainTabs.SelectedIndex)
-            {
-                case 0:
-                    PrimaryList.Items.AddRange(
-                        DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true)
-                        );
-
-                    MainStatusBar.Text = string.Format(format,
-                        PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
-                    break;
-                case 1:
-                    SecondaryList.Items.AddRange(
-                        DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, false)
-                        );
-
-                    MainStatusBar.Text = string.Format(format,
-                        SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
-                    break;
-                case 2:
-                    FolderList.Items.AddRange(
-                        DatabaseAPI.GetPageOfFolders(PageSize, CurrentPage)
-                        );
-
-                    MainStatusBar.Text = string.Format(format,
-                        FolderList.Items.Count, DatabaseAPI.CountFolderItems());
-                    break;
             }
         }
     }
