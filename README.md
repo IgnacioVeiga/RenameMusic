@@ -10,7 +10,7 @@
 </div></br>
 
 ![RenameMusicIcon](/RenameMusic/Assets/Images/RM39.svg)
-&nbsp;The objective of the app is to be able to rename music files based on a criteria defined by their "Tags". This criteria can be set by the user.
+&nbsp;This Software allows you to rename music files according to a rule or pattern set by its "Tags". This rule can be set by the user.
 
 For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it has tags, so I can decide to call it according to the following order: `TrackNumber-Title-Artist.mp3`.
 
@@ -20,7 +20,7 @@ For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it
 ![Screenshot_0002](/RG39/Assets/Images/Screenshot_0002.png "Screenshot_0002")
 
 ## Functionalities:
-- [x] Those files that do not contain at least the title tag separates them in another tab.
+- [x] Files that do not meet a minimum (modifiable) requirement are separated in another tab.
 - [x] Allows to add and delete folders.
 - [x] Shows the names of the files and on one side their future names.
 - [x] Can define the position of the tags as a criterion for renaming.

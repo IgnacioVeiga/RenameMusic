@@ -10,7 +10,7 @@
 </div></br>
 
 ![RenameMusicIcon](/RenameMusic/Assets/Images/RM39.svg)
-&nbsp;El objetivo de la aplicación es poder renombrar archivos de música en función de un criterio definido por sus "Etiquetas". Este criterio puede ser establecido por el usuario.
+&nbsp;Este Software permite renombrar archivos de música en función de una regla o patrón establecido por sus "Etiquetas". Esta regla puede ser establecida por el usuario.
 
 Por ejemplo: Tengo un archivo de audio con el nombre `AUD-01230101-WA0123.mp3` pero tiene etiquetas, por lo que puedo decidir llamarlo según el siguiente orden: `NúmeroDePista-Título-Artista.mp3`.
 
@@ -20,7 +20,7 @@ Por ejemplo: Tengo un archivo de audio con el nombre `AUD-01230101-WA0123.mp3` p
 ![Screenshot_0002](/RG39/Assets/Images/Screenshot_0002.png "Screenshot_0002")
 
 ## Funcionalidades:
-- [x] Los archivos que no contienen al menos la etiqueta de título los separa en otra pestaña.
+- [x] Los archivos que no cumplen un requisito mínimo (modificable) se separan en otra pestaña.
 - [x] Permite añadir y eliminar carpetas.
 - [x] Muestra los nombres de los archivos y en un lado sus nombres futuros.
 - [x] Puede definir la posición de las etiquetas como criterio para renombrar.
