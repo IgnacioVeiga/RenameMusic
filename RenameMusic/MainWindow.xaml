@@ -23,7 +23,7 @@
             <ColumnDefinition MinWidth="400"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" x:Name="MainMenu">
             <MenuItem Header="{x:Static lang:Strings.FILE}">
                 <MenuItem Header="{x:Static lang:Strings.ADD_FILE}" Click="AddFile_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>

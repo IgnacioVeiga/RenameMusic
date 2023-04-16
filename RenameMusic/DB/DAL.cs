@@ -8,7 +8,10 @@ using WinCopies.Linq;
 
 namespace RenameMusic.DB
 {
-    public static class DatabaseAPI
+    /// <summary>
+    /// DAL = Data Access Layer
+    /// </summary>
+    public static class DAL
     {
         public static void BeforeAddToDB(string[] files)
         {

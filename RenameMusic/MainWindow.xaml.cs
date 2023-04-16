@@ -66,27 +66,27 @@ namespace RenameMusic
             {
                 case 0:
                     PrimaryList.Items.AddRange(
-                        DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true)
+                        DAL.GetPageOfAudios(PageSize, CurrentPage, true)
                         );
 
                     MainStatusBar.Text = string.Format(format,
-                        PrimaryList.Items.Count, DatabaseAPI.CountAudioItems(true));
+                        PrimaryList.Items.Count, DAL.CountAudioItems(true));
                     break;
                 case 1:
                     SecondaryList.Items.AddRange(
-                        DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, false)
+                        DAL.GetPageOfAudios(PageSize, CurrentPage, false)
                         );
 
                     MainStatusBar.Text = string.Format(format,
-                        SecondaryList.Items.Count, DatabaseAPI.CountAudioItems(false));
+                        SecondaryList.Items.Count, DAL.CountAudioItems(false));
                     break;
                 case 2:
                     FolderList.Items.AddRange(
-                        DatabaseAPI.GetPageOfFolders(PageSize, CurrentPage)
+                        DAL.GetPageOfFolders(PageSize, CurrentPage)
                         );
 
                     MainStatusBar.Text = string.Format(format,
-                        FolderList.Items.Count, DatabaseAPI.CountFolderItems());
+                        FolderList.Items.Count, DAL.CountFolderItems());
                     break;
             }
         }
@@ -100,9 +100,14 @@ namespace RenameMusic
             LoadingBar loading_bar = new(files.Length);
             loading_bar.Show();
 
+            // Para prevenir problemas
+            RenameBTN.IsEnabled = false;
+            MainTabs.IsEnabled = false;
+            MainMenu.IsEnabled = false;
+
             await Task.Run(() =>
             {
-                DatabaseAPI.BeforeAddToDB(files);
+                DAL.BeforeAddToDB(files);
                 loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
             });
 
@@ -110,6 +115,9 @@ namespace RenameMusic
             LoadData();
             TabsVisibility();
             CheckRenameBTN();
+            RenameBTN.IsEnabled = true;
+            MainTabs.IsEnabled = true;
+            MainMenu.IsEnabled = true;
             loading_bar.Close();
         }
         private async void AddFolder_Click(object sender, RoutedEventArgs e)
@@ -120,12 +128,17 @@ namespace RenameMusic
             LoadingBar loading_bar = new(directories.Length);
             loading_bar.Show();
 
+            // Para prevenir problemas
+            RenameBTN.IsEnabled = false;
+            MainTabs.IsEnabled = false;
+            MainMenu.IsEnabled = false;
+
             await Task.Run(() =>
             {
                 foreach (string directory in directories)
                 {
                     string[] files = Picker.GetFilePaths(directory);
-                    DatabaseAPI.BeforeAddToDB(files);
+                    DAL.BeforeAddToDB(files);
                     loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
                     Dispatcher.Invoke(() => MainStatusBar.Text = directory);
                 }
@@ -135,6 +148,9 @@ namespace RenameMusic
             LoadData();
             TabsVisibility();
             CheckRenameBTN();
+            RenameBTN.IsEnabled = true;
+            MainTabs.IsEnabled = true;
+            MainMenu.IsEnabled = true;
             loading_bar.Close();
         }
 
@@ -152,17 +168,23 @@ namespace RenameMusic
 
         private async void RenameFiles_Click(object sender, RoutedEventArgs e)
         {
-            int totalItems = DatabaseAPI.CountAudioItems(true);
+            int totalItems = DAL.CountAudioItems(true);
             LoadingBar loading_bar = new(totalItems);
             loading_bar.Show();
 
+            CurrentPage = 1;
+
+            // Para prevenir problemas
+            RenameBTN.IsEnabled = false;
+            MainTabs.IsEnabled = false;
+            MainMenu.IsEnabled = false;
+
             await Task.Run(() =>
             {
-                CurrentPage = 1;
                 while (CurrentPage <= totalItems)
                 {
                     string oldName = "", newName = "";
-                    List<Audio> PartialAudioList = DatabaseAPI.GetPageOfAudios(PageSize, CurrentPage, true);
+                    List<Audio> PartialAudioList = DAL.GetPageOfAudios(PageSize, CurrentPage, true);
                     foreach (Audio audioItem in PartialAudioList)
                     {
                         oldName = audioItem.FilePath;
@@ -170,7 +192,7 @@ namespace RenameMusic
 
                         loading_bar.Dispatcher.Invoke(() => loading_bar.UpdateProgress());
                         Dispatcher.Invoke(() => MainStatusBar.Text = $"[{oldName}] -> [{newName}]");
-                        
+
                         if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase) || !File.Exists(oldName))
                             continue;
 
@@ -184,12 +206,18 @@ namespace RenameMusic
             CurrentPage = 1;
             MainStatusBar.Text = "";
             MainTabs.SelectedIndex = 0;
+
             PrimaryList.Items.Clear();
             SecondaryList.Items.Clear();
             FolderList.Items.Clear();
+
+            MainTabs.IsEnabled = true;
+            MainMenu.IsEnabled = true;
+
             TabsVisibility();
             CheckRenameBTN();
-            DatabaseAPI.ClearDatabase();
+            DAL.ClearDatabase();
+
             loading_bar.Close();
             MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
         }
@@ -219,7 +247,7 @@ namespace RenameMusic
         private void RemoveFolderItem_Click(object sender, RoutedEventArgs e)
         {
             int folderId = ((Folder)((Button)sender).DataContext).Id;
-            DatabaseAPI.RemoveFolderFromDB(folderId);
+            DAL.RemoveFolderFromDB(folderId);
 
             PrimaryList.Items.Clear();
             SecondaryList.Items.Clear();
