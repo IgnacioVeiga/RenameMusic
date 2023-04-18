@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="23"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -107,8 +107,23 @@
         </TabControl>
 
         <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Right">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Page size" VerticalAlignment="Center"/>
+                    <ToggleButton Grid.Column="1" IsEnabled="False" Content="{Binding PageSize, Source={x:Static properties:Settings.Default}}" d:Content="128" Margin="8,0,2,0"/>
+                </Grid>
+            </StatusBarItem>
+            <Separator />
             <StatusBarItem>
-                <TextBlock x:Name="MainStatusBar" d:Text="Loaded: 0/0" Margin="2,0"/>
+                <TextBlock x:Name="ContentLoadedSBar" d:Text="Loaded: 0/0" Margin="2,0"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="MainStatusBar" Text="{x:Static lang:Strings.READY}" Margin="2,0"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

@@ -40,10 +40,11 @@ namespace RenameMusic
                 Languages.Items.Add(menuItem);
             }
             #endregion Lang
+
+            ContentLoadedSBar.Text = $"{Strings.LOADED}: 0/0";
         }
 
         #region Util
-        public int PageSize = 128;
         public int CurrentPage;
 
         private void TabsVisibility()
@@ -66,26 +67,26 @@ namespace RenameMusic
             {
                 case 0:
                     PrimaryList.Items.AddRange(
-                        DAL.GetPageOfAudios(PageSize, CurrentPage, true)
+                        DAL.GetPageOfAudios(Settings.Default.PageSize, CurrentPage, true)
                         );
 
-                    MainStatusBar.Text = string.Format(format,
+                    ContentLoadedSBar.Text = string.Format(format,
                         PrimaryList.Items.Count, DAL.CountAudioItems(true));
                     break;
                 case 1:
                     SecondaryList.Items.AddRange(
-                        DAL.GetPageOfAudios(PageSize, CurrentPage, false)
+                        DAL.GetPageOfAudios(Settings.Default.PageSize, CurrentPage, false)
                         );
 
-                    MainStatusBar.Text = string.Format(format,
+                    ContentLoadedSBar.Text = string.Format(format,
                         SecondaryList.Items.Count, DAL.CountAudioItems(false));
                     break;
                 case 2:
                     FolderList.Items.AddRange(
-                        DAL.GetPageOfFolders(PageSize, CurrentPage)
+                        DAL.GetPageOfFolders(Settings.Default.PageSize, CurrentPage)
                         );
 
-                    MainStatusBar.Text = string.Format(format,
+                    ContentLoadedSBar.Text = string.Format(format,
                         FolderList.Items.Count, DAL.CountFolderItems());
                     break;
             }
@@ -112,6 +113,7 @@ namespace RenameMusic
             });
 
             MainTabs.SelectedIndex = 0;
+            MainStatusBar.Text = Strings.READY;
             LoadData();
             TabsVisibility();
             CheckRenameBTN();
@@ -145,6 +147,7 @@ namespace RenameMusic
             });
 
             MainTabs.SelectedIndex = 0;
+            MainStatusBar.Text = Strings.READY;
             LoadData();
             TabsVisibility();
             CheckRenameBTN();
@@ -184,7 +187,7 @@ namespace RenameMusic
                 while (CurrentPage <= totalItems)
                 {
                     string oldName = "", newName = "";
-                    List<Audio> PartialAudioList = DAL.GetPageOfAudios(PageSize, CurrentPage, true);
+                    List<Audio> PartialAudioList = DAL.GetPageOfAudios(Settings.Default.PageSize, CurrentPage, true);
                     foreach (Audio audioItem in PartialAudioList)
                     {
                         oldName = audioItem.FilePath;
@@ -204,7 +207,8 @@ namespace RenameMusic
             });
 
             CurrentPage = 1;
-            MainStatusBar.Text = "";
+            MainStatusBar.Text = Strings.READY;
+            ContentLoadedSBar.Text = $"{Strings.LOADED}: 0/0";
             MainTabs.SelectedIndex = 0;
 
             PrimaryList.Items.Clear();
@@ -225,7 +229,13 @@ namespace RenameMusic
         private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Pictures.Source = null;
-            if ((Audio)((DataGrid)sender).SelectedItem is null) return;
+            if ((Audio)((DataGrid)sender).SelectedItem is null)
+            {
+                MainStatusBar.Text = Strings.READY;
+                return;
+            }
+            MainStatusBar.Text = ((Audio)((DataGrid)sender).SelectedItem).FilePath;
+
             if (((Audio)((DataGrid)sender).SelectedItem).Tags is null) return;
 
             if (((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures.Length >= 1)

@@ -282,4 +282,7 @@
   <data name="LOAD_PREV_DATA" xml:space="preserve">
     <value>Load previous data</value>
   </data>
+  <data name="READY" xml:space="preserve">
+    <value>Ready</value>
+  </data>
 </root>

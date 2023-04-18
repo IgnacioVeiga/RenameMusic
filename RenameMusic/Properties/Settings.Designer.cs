@@ -118,5 +118,17 @@ namespace RenameMusic.Properties {
                 this["ArtistRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("128")]
+        public int PageSize {
+            get {
+                return ((int)(this["PageSize"]));
+            }
+            set {
+                this["PageSize"] = value;
+            }
+        }
     }
 }
