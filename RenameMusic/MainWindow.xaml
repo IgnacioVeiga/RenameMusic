@@ -38,7 +38,7 @@
             <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
                 <MenuItem Header="{x:Static lang:Strings.RENAMING_RULE}" Click="RenamingRuleBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.THEME}" IsEnabled="False"/>
-                
+
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
                           IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                           Checked="IncludeSubFolders_Check" IsCheckable="True"/>
@@ -59,8 +59,8 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10" IsEnabled="False"/>
 
         <Image x:Name="Pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
-               Height="230" Width="230" Margin="0,80" Source="{Binding Pictures}" Panel.ZIndex="1"/>
-        <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,80"
+               Height="230" Width="230" Margin="0,80,0,10" Source="{Binding Pictures}" Panel.ZIndex="1"/>
+        <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,80,0,10"
                    VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
 
         <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10" Visibility="Hidden" d:Visibility="Visible">
@@ -91,7 +91,7 @@
             </TabItem>
 
             <TabItem Header="{x:Static lang:Strings.FOLDERS}">
-                <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=7}">
+                <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" Margin="10" AutoGenerateColumns="False" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=7}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="36" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>

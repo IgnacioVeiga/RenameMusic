@@ -5,6 +5,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary>
+                    <SolidColorBrush x:Key="Dark" Color="#373B3E"/>
+                    <SolidColorBrush x:Key="Light" Color="#BEC8D1"/>
+                    <SolidColorBrush x:Key="Primary0" Color="#86CECB"/>
+                    <SolidColorBrush x:Key="Primary1" Color="#137A7F"/>
+                    <SolidColorBrush x:Key="Secondary" Color="#E12885"/>
+                </ResourceDictionary>-->
+                
                 <ResourceDictionary Source="Themes/Generic.xaml"/>
                 <ResourceDictionary Source="Themes/Menu.xaml"/>
                 <ResourceDictionary Source="Themes/Button.xaml"/>
