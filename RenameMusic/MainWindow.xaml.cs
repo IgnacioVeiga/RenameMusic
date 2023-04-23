@@ -5,6 +5,7 @@ using RenameMusic.Properties;
 using RenameMusic.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -42,6 +43,8 @@ namespace RenameMusic
             #endregion Lang
 
             ContentLoadedSBar.Text = $"{Strings.LOADED}: 0/0";
+            // ToDo: habilitar el menuitem "load prev data" solo si existen elementos en
+            // la tabla "folder" de la DB y preguntarle al usuario al añadir archivos/carpetas
         }
 
         #region Util
@@ -56,7 +59,7 @@ namespace RenameMusic
         }
         private void CheckRenameBTN()
         {
-            bool canRename = PrimaryList.Items.Count > 0;
+            bool canRename = DAL.CountAudioItems(true) > 0;
             RenameMenuItemBTN.IsEnabled = canRename;
             RenameBTN.IsEnabled = canRename;
         }
@@ -348,6 +351,122 @@ namespace RenameMusic
                 FolderList.Items.Clear();
                 CurrentPage = 1;
                 LoadData();
+            }
+        }
+
+        private void List_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (((DataGrid)sender).SelectedItem == null)
+                ((DataGrid)sender).ContextMenu.Visibility = Visibility.Collapsed;
+            else
+                ((DataGrid)sender).ContextMenu.Visibility = Visibility.Visible;
+        }
+
+        private void PlayFile_Click(object sender, RoutedEventArgs e)
+        {
+            string filePath = "";
+            switch (MainTabs.SelectedIndex)
+            {
+                case 0:
+                    filePath = ((Audio)PrimaryList.SelectedItem).FilePath;
+                    break;
+                case 1:
+                    filePath = ((Audio)SecondaryList.SelectedItem).FilePath;
+                    break;
+            }
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = filePath,
+                UseShellExecute = true // para que se ejecute como audio y no como un ".exe"
+            });
+        }
+
+        private void EditTags_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SwitchList_Click(object sender, RoutedEventArgs e)
+        {
+            int id = 0;
+
+            // Primero debo saber en que lista estoy
+            switch (MainTabs.SelectedIndex)
+            {
+                case 0:
+                    id = ((Audio)PrimaryList.SelectedItem).Id;
+                    break;
+                case 1:
+                    id = ((Audio)SecondaryList.SelectedItem).Id;
+                    // Chequear si cumple con los tags minimos, en caso que no,
+                    // dar advertencia al usuario y proceder.
+                    break;
+            }
+            DAL.SwitchList(id);
+            PrimaryList.Items.Clear();
+            SecondaryList.Items.Clear();
+            FolderList.Items.Clear();
+            CurrentPage = 1;
+            LoadData();
+        }
+
+        private void RenameThisNow_Click(object sender, RoutedEventArgs e)
+        {
+            Audio audio = MainTabs.SelectedIndex switch
+            {
+                0 => (Audio)PrimaryList.SelectedItem,
+                1 => (Audio)SecondaryList.SelectedItem,
+                _ => null
+            };
+
+            string oldName = audio.FilePath;
+            string newName = audio.Folder + audio.NewName + audio.Type;
+
+            FilenameFunctions.RenameFile(oldName, newName);
+            DAL.RemoveAudioFromDB(audio.Id);
+            PrimaryList.Items.Clear();
+            SecondaryList.Items.Clear();
+            FolderList.Items.Clear();
+            LoadData();
+        }
+
+        private void RemoveFromList_Click(object sender, RoutedEventArgs e)
+        {
+            // realizar exactamente los mismo que si hiciera clic en el boton con "x".
+            // revisar si se puede eliminar esta función y utilizar la anterior mencionada.
+        }
+
+        private void DeleteFile_Click(object sender, RoutedEventArgs e)
+        {
+            // 0. preguntar antes de continuar
+            // 1. bloquear acceso a componentes
+            // 2. eliminar audio de la DB
+            // 3. eliminar archivo del almacenamiento
+            // 4. vaciar listas, recargarlas y desbloquear componentes
+        }
+
+        private void DeleteFolder_Click(object sender, RoutedEventArgs e)
+        {
+            // 0. preguntar antes de continuar
+            // 1. bloquear acceso a componentes
+            // 2. eliminar carpeta y audios de la DB
+            // 3. eliminar carpeta y audios del almacenamiento
+            // 4. vaciar listas, recargarlas y desbloquear componentes
+        }
+
+        private void OpenInExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            switch (MainTabs.SelectedIndex)
+            {
+                case 0:
+                    Process.Start("explorer.exe", $"/select,\"{((Audio)PrimaryList.SelectedItem).FilePath}\"");
+                    break;
+                case 1:
+                    Process.Start("explorer.exe", $"/select,\"{((Audio)SecondaryList.SelectedItem).FilePath}\"");
+                    break;
+                case 2:
+                    Process.Start("explorer.exe", ((Folder)FolderList.SelectedItem).Path);
+                    break;
             }
         }
     }

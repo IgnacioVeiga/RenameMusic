@@ -65,7 +65,7 @@
 
         <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10" Visibility="Hidden" d:Visibility="Visible">
             <TabItem Header="{x:Static lang:Strings.TO_RENAME}">
-                <DataGrid x:Name="PrimaryList" Loaded="PrimaryList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+                <DataGrid x:Name="PrimaryList" Loaded="PrimaryList_Loaded" ContextMenuOpening="List_ContextMenuOpening" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True"/>
@@ -77,21 +77,40 @@
                         <DataGridTextColumn Header="{x:Static lang:Strings.ARTIST}" Binding="{Binding Tags.JoinedPerformers}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" Binding="{Binding Tags.JoinedAlbumArtists}" IsReadOnly="True"/>
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static lang:Strings.PLAY_FILE}" Click="PlayFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.EDIT_TAGS}" Click="EditTags_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DO_NOT_RENAME}" Click="SwitchList_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.RENAME_THIS_NOW}" Click="RenameThisNow_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}" Click="DeleteFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}" Click="OpenInExplorer_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </TabItem>
 
             <TabItem Header="{x:Static lang:Strings.DO_NOT_RENAME}">
-                <DataGrid x:Name="SecondaryList" Loaded="SecondaryList_Loaded" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+                <DataGrid x:Name="SecondaryList" Loaded="SecondaryList_Loaded" ContextMenuOpening="List_ContextMenuOpening" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="36"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="52"/>
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static lang:Strings.PLAY_FILE}" Click="PlayFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.EDIT_TAGS}" Click="EditTags_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.TO_RENAME}" Click="SwitchList_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}" Click="DeleteFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}" Click="OpenInExplorer_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </TabItem>
 
             <TabItem Header="{x:Static lang:Strings.FOLDERS}">
-                <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" Margin="10" AutoGenerateColumns="False" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=7}">
+                <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" ContextMenuOpening="List_ContextMenuOpening" Margin="10" AutoGenerateColumns="False" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=7}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="36" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
@@ -102,6 +121,13 @@
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="{x:Static lang:Strings.DIRECTORY}" Binding="{Binding Path, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static lang:Strings.REMOVE_FROM_LIST}" Click="RemoveFromList_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FOLDER}" Click="DeleteFolder_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}" Click="OpenInExplorer_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </TabItem>
         </TabControl>

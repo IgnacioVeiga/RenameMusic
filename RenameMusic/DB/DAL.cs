@@ -83,6 +83,14 @@ namespace RenameMusic.DB
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
         }
+        public static void SwitchList(int audioId)
+        {
+            using MyContext context = new();
+            AudioDTO audio = context.Audios.FirstPredicate(a => a.Id == audioId);
+            audio.Rename = !audio.Rename;
+            context.Audios.Update(audio);
+            context.SaveChanges();
+        }
 
         #region AddToDB
         public static int AddAudioToDB(AudioDTO audio)
@@ -142,11 +150,11 @@ namespace RenameMusic.DB
         #endregion AlreadyAdded
 
         #region GetID
-        public static int GetAudioId(string filepath)
-        {
-            using MyContext context = new();
-            return context.Audios.FirstPredicate(a => a.FileName == Path.GetFileName(filepath)).Id;
-        }
+        //public static int GetAudioId(string filepath)
+        //{
+        //    using MyContext context = new();
+        //    return context.Audios.FirstPredicate(a => a.FileName == Path.GetFileName(filepath)).Id;
+        //}
         public static int GetFolderId(string folderpath)
         {
             using MyContext context = new();
@@ -170,7 +178,7 @@ namespace RenameMusic.DB
                     audio.FolderId,
                     new MyContext().Folders.First(f => f.Id == audio.FolderId).FolderPath + audio.FileName
                     );
-
+                item.Id = audio.Id;
                 if (item.Tags != null)
                 {
                     list.Add(item);

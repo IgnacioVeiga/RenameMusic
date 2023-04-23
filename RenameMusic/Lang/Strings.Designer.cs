@@ -151,6 +151,24 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete file.
+        /// </summary>
+        public static string DELETE_FILE {
+            get {
+                return ResourceManager.GetString("DELETE_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete folder.
+        /// </summary>
+        public static string DELETE_FOLDER {
+            get {
+                return ResourceManager.GetString("DELETE_FOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Directory.
         /// </summary>
         public static string DIRECTORY {
@@ -174,6 +192,15 @@ namespace RenameMusic.Lang {
         public static string DURATION {
             get {
                 return ResourceManager.GetString("DURATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit tags.
+        /// </summary>
+        public static string EDIT_TAGS {
+            get {
+                return ResourceManager.GetString("EDIT_TAGS", resourceCulture);
             }
         }
         
@@ -367,11 +394,38 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open in Explorer.
+        /// </summary>
+        public static string OPEN_IN_EXPLORER {
+            get {
+                return ResourceManager.GetString("OPEN_IN_EXPLORER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play file.
+        /// </summary>
+        public static string PLAY_FILE {
+            get {
+                return ResourceManager.GetString("PLAY_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ready.
         /// </summary>
         public static string READY {
             get {
                 return ResourceManager.GetString("READY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove from list.
+        /// </summary>
+        public static string REMOVE_FROM_LIST {
+            get {
+                return ResourceManager.GetString("REMOVE_FROM_LIST", resourceCulture);
             }
         }
         
@@ -390,6 +444,15 @@ namespace RenameMusic.Lang {
         public static string RENAME_FILES {
             get {
                 return ResourceManager.GetString("RENAME_FILES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename this now.
+        /// </summary>
+        public static string RENAME_THIS_NOW {
+            get {
+                return ResourceManager.GetString("RENAME_THIS_NOW", resourceCulture);
             }
         }
         

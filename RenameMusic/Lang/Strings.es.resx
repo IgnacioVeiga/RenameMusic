@@ -285,4 +285,25 @@
   <data name="READY" xml:space="preserve">
     <value>Listo</value>
   </data>
+  <data name="EDIT_TAGS" xml:space="preserve">
+    <value>Editar etiquetas</value>
+  </data>
+  <data name="RENAME_THIS_NOW" xml:space="preserve">
+    <value>Renombrar este ahora</value>
+  </data>
+  <data name="DELETE_FILE" xml:space="preserve">
+    <value>Eliminar archivo</value>
+  </data>
+  <data name="DELETE_FOLDER" xml:space="preserve">
+    <value>Eliminar carpeta</value>
+  </data>
+  <data name="REMOVE_FROM_LIST" xml:space="preserve">
+    <value>Quitar de la lista</value>
+  </data>
+  <data name="OPEN_IN_EXPLORER" xml:space="preserve">
+    <value>Abrir en el Explorador</value>
+  </data>
+  <data name="PLAY_FILE" xml:space="preserve">
+    <value>Reproducir archivo</value>
+  </data>
 </root>
