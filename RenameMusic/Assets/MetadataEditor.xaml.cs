@@ -12,7 +12,6 @@ namespace RenameMusic.Assets
     /// </summary>
     public partial class MetadataEditor : Window
     {
-        private readonly TagLib.Tag OriginalTags;
         private readonly string filepath;
 
         public MetadataEditor(string path)
@@ -22,17 +21,17 @@ namespace RenameMusic.Assets
             try
             {
                 TagLib.File file = TagLib.File.Create(filepath);
-                OriginalTags = file.Tag;
-                AudioTitle.Text = OriginalTags.Title;
-                Artist.Text = OriginalTags.JoinedPerformers;
-                Album.Text = OriginalTags.Album;
-                AlbumArtist.Text = OriginalTags.JoinedAlbumArtists;
-                Year.Text = OriginalTags.Year.ToString();
-                Genres.Text = OriginalTags.JoinedGenres;
-                Comment.Text = OriginalTags.Comment;
 
-                Pictures.Source = Multimedia.GetBitmapImage(OriginalTags.Pictures[0].Data.Data);
-                PicturesInfo.Text = OriginalTags.Pictures[0].MimeType;
+                AudioTitle.Text = file.Tag.Title;
+                Artist.Text = file.Tag.JoinedPerformers;
+                Album.Text = file.Tag.Album;
+                AlbumArtist.Text = file.Tag.JoinedAlbumArtists;
+                Year.Text = file.Tag.Year.ToString();
+                Genres.Text = file.Tag.JoinedGenres;
+                Comment.Text = file.Tag.Comment;
+
+                Pictures.Source = Multimedia.GetBitmapImage(file.Tag.Pictures[0].Data.Data);
+                PicturesInfo.Text = file.Tag.Pictures[0].MimeType;
 
                 FileInfo.Text = $"{file.Properties.AudioBitrate}kbps {file.Properties.AudioSampleRate}hz";
             }
@@ -57,14 +56,33 @@ namespace RenameMusic.Assets
 
                 if (imagePicker.ShowDialog() == true)
                 {
-                    // Change image
+                    // ToDo: Change image
                 }
             }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            TagLib.File file = TagLib.File.Create(filepath);
+            file.Tag.Title = AudioTitle.Text;
+            file.Tag.Performers = Artist.Text.Split(";");
+            file.Tag.Album = Album.Text;
+            file.Tag.AlbumArtists = AlbumArtist.Text.Split(";");
+            file.Tag.Year = uint.Parse(Year.Text);
+            file.Tag.Genres = Genres.Text.Split(";");
+            file.Tag.Comment = Comment.Text;
+
+            // ToDo: Set pictures too
+
+            try
+            {
+                file.Save();
+                DialogResult = true;
+            }
+            catch (Exception)
+            {
+                DialogResult = false;
+            }
             Close();
         }
 
