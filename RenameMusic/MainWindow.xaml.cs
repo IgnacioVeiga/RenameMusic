@@ -1,4 +1,5 @@
-﻿using RenameMusic.DB;
+﻿using RenameMusic.Assets;
+using RenameMusic.DB;
 using RenameMusic.Entities;
 using RenameMusic.Lang;
 using RenameMusic.Properties;
@@ -244,16 +245,7 @@ namespace RenameMusic
             if (((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures.Length >= 1)
             {
                 TagLib.IPicture pic = ((Audio)((DataGrid)sender).SelectedItem).Tags.Pictures[0];
-
-                MemoryStream ms = new(pic.Data.Data);
-                ms.Seek(0, SeekOrigin.Begin);
-
-                BitmapImage bitmap = new();
-                bitmap.BeginInit();
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
-
-                Pictures.Source = bitmap;
+                Pictures.Source = Multimedia.GetBitmapImage(pic.Data.Data);
             }
         }
 
@@ -383,7 +375,27 @@ namespace RenameMusic
 
         private void EditTags_Click(object sender, RoutedEventArgs e)
         {
+            string filePath = "";
+            // Primero debo saber en que lista estoy
+            switch (MainTabs.SelectedIndex)
+            {
+                case 0:
+                    filePath = ((Audio)PrimaryList.SelectedItem).FilePath;
+                    break;
+                case 1:
+                    filePath = ((Audio)SecondaryList.SelectedItem).FilePath;
+                    break;
+            }
+            MetadataEditor window = new(filePath);
+            if (window.ShowDialog() == true)
+            {
+                MessageBox.Show("Metadatos guardados correctamente.", Strings.EDIT_TAGS, MessageBoxButton.OK, MessageBoxImage.Information);
 
+                PrimaryList.Items.Clear();
+                SecondaryList.Items.Clear();
+                FolderList.Items.Clear();
+                LoadData();
+            }
         }
 
         private void SwitchList_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using RenameMusic.Lang;
+﻿using RenameMusic.Assets;
+using RenameMusic.Lang;
 using RenameMusic.Properties;
 using System;
 using System.IO;
@@ -91,7 +92,7 @@ namespace RenameMusic.Util
             }
             else
             {
-                _ = new RepeatedFile(oldName, newName).ShowDialog();
+                new RepeatedFile(oldName, newName).ShowDialog();
             }
         }
     }

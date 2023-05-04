@@ -306,4 +306,16 @@
   <data name="PLAY_FILE" xml:space="preserve">
     <value>Play file</value>
   </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="METADATA_EDITOR" xml:space="preserve">
+    <value>Metadata editor</value>
+  </data>
+  <data name="COMMENT" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="GENRES" xml:space="preserve">
+    <value>Genres</value>
+  </data>
 </root>

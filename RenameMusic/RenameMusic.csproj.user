@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Assets\MetadataEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Assets\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +34,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Assets\MetadataEditor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Assets\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>

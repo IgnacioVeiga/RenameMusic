@@ -142,6 +142,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string COMMENT {
+            get {
+                return ResourceManager.GetString("COMMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current name:.
         /// </summary>
         public static string CURRENT_FILE_NAME_MSG {
@@ -277,6 +286,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Genres.
+        /// </summary>
+        public static string GENRES {
+            get {
+                return ResourceManager.GetString("GENRES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string HELP {
@@ -354,6 +372,15 @@ namespace RenameMusic.Lang {
         public static string LOCATION_MSG {
             get {
                 return ResourceManager.GetString("LOCATION_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metadata editor.
+        /// </summary>
+        public static string METADATA_EDITOR {
+            get {
+                return ResourceManager.GetString("METADATA_EDITOR", resourceCulture);
             }
         }
         
@@ -507,6 +534,15 @@ namespace RenameMusic.Lang {
         public static string RESTORE_SETTINGS {
             get {
                 return ResourceManager.GetString("RESTORE_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string SAVE {
+            get {
+                return ResourceManager.GetString("SAVE", resourceCulture);
             }
         }
         

@@ -4,7 +4,7 @@ using RenameMusic.Util;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RenameMusic
+namespace RenameMusic.Assets
 {
     /// <summary>
     /// Interaction logic for Template.xaml
