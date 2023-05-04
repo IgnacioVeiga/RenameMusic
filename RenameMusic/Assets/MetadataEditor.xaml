@@ -1,0 +1,63 @@
+﻿<Window x:Class="RenameMusic.Assets.MetadataEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang = "clr-namespace:RenameMusic.Lang"
+        
+        Background="#FF202020" Foreground="#F1F1F1"
+        
+        mc:Ignorable="d"
+        Title="{x:Static lang:Strings.METADATA_EDITOR}" MinHeight="360" MinWidth="512">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.TITLE}"/>
+        <TextBox Grid.Row="0" Grid.Column="0" Margin="5,20,5,10" x:Name="AudioTitle"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.ARTIST}"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Margin="5,20,5,10" x:Name="Artist"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.ALBUM}"/>
+        <TextBox Grid.Row="2" Grid.Column="0" Margin="5,20,5,10" x:Name="Album"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.ALBUM_ARTIST}"/>
+        <TextBox Grid.Row="3" Grid.Column="0" Margin="5,20,5,10" x:Name="AlbumArtist"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.YEAR}"/>
+        <TextBox Grid.Row="4" Grid.Column="0" Margin="5,20,5,10" x:Name="Year"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.GENRES}"/>
+        <TextBox Grid.Row="5" Grid.Column="0" Margin="5,20,5,10" x:Name="Genres"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Padding="5,0" Text="{x:Static lang:Strings.COMMENT}"/>
+        <TextBox Grid.Row="6" Grid.Column="0" Margin="5,20,5,10" x:Name="Comment"/>
+
+        <Image Grid.RowSpan="4" Grid.Column="1" x:Name="Pictures" Height="180" Width="180"
+               HorizontalAlignment="Center" Panel.ZIndex="1" Cursor="Hand" MouseDown="Pictures_MouseDown"/>
+        <Rectangle Grid.RowSpan="4" Grid.Column="1" Height="180" Width="180" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" x:Name="PicturesInfo" HorizontalAlignment="Center" Margin="5" d:Text="1/1 Cover.jpg (1000x1000)px"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="1" x:Name="FileInfo" HorizontalAlignment="Center" Margin="5" d:Text="Example.mp3 6.2mb 320kbps 44.4khz"/>
+
+        <Button Grid.Row="8" Grid.Column="0" Margin="5,10" Content="{x:Static lang:Strings.SAVE}" Click="Save_Click"/>
+        <Button Grid.Row="8" Grid.Column="1" Margin="5,10" Content="{x:Static lang:Strings.CANCEL}" Click="Cancel_Click"/>
+    </Grid>
+</Window>
