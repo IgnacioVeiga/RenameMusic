@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace RenameMusic.Util
@@ -13,6 +14,16 @@ namespace RenameMusic.Util
             BitmapImage bitmap = new();
             bitmap.BeginInit();
             bitmap.StreamSource = ms;
+            bitmap.EndInit();
+
+            return bitmap;
+        }
+
+        internal static BitmapImage GetBitmapImage(string filepath)
+        {
+            BitmapImage bitmap = new();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(filepath);
             bitmap.EndInit();
 
             return bitmap;
