@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace RenameMusic.Assets
 {
@@ -51,12 +53,14 @@ namespace RenameMusic.Assets
                     Multiselect = false,
                     InitialDirectory = Path.GetDirectoryName(filepath) + Path.DirectorySeparatorChar,
                     CheckFileExists = true,
-                    Filter = "JPG|*.jpg|JPEG|*jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
+                    Filter = "Supported files|*.jpg;*.jpeg;*.png;*.gif;*.webp|JPG|*.jpg|JPEG|*jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
                 };
+
+                // ToDo: en archivos .mp3 la caratula debe ser formato .png de 64kb
 
                 if (imagePicker.ShowDialog() == true)
                 {
-                    // ToDo: Change image
+                    Pictures.Source = Multimedia.GetBitmapImage(imagePicker.FileName);
                 }
             }
         }
@@ -72,7 +76,8 @@ namespace RenameMusic.Assets
             file.Tag.Genres = Genres.Text.Split(";");
             file.Tag.Comment = Comment.Text;
 
-            // ToDo: Set pictures too
+            // ToDo: check this
+            //file.Tag.Pictures[0] = (TagLib.IPicture)Pictures.Source;
 
             try
             {
