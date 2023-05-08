@@ -8,7 +8,7 @@
         xmlns:properties="clr-namespace:RenameMusic.Properties"
         mc:Ignorable="d"
         
-        Background="#FF202020" Foreground="#F1F1F1"
+        Background="#202020" Foreground="#F1F1F1"
         
         MinHeight="400" MinWidth="650" SizeToContent="Manual"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"

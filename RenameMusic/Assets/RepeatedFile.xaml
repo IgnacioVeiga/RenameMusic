@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
                 
-        Background="#FF202020" Foreground="#F1F1F1"
+        Background="#202020" Foreground="#F1F1F1"
         
         Width="680" MinHeight="240" mc:Ignorable="d" Title="{x:Static p:Strings.REPEATED_FILE}"
         ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">

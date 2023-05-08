@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
                 
-        Background="#FF202020" Foreground="#F1F1F1"
+        Background="#202020" Foreground="#F1F1F1"
         
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Title="{x:Static p:Strings.LOADING}" Height="100" Width="360">
