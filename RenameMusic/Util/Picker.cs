@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using RenameMusic.Lang;
+﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
 using System;
 using System.IO;

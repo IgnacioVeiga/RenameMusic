@@ -133,6 +133,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot be empty..
+        /// </summary>
+        public static string CANNOT_BE_EMPTY {
+            get {
+                return ResourceManager.GetString("CANNOT_BE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for updates.
         /// </summary>
         public static string CHECK_UPDATES {

@@ -318,4 +318,7 @@
   <data name="GENRES" xml:space="preserve">
     <value>Géneros</value>
   </data>
+  <data name="CANNOT_BE_EMPTY" xml:space="preserve">
+    <value>No puede estar vacío.</value>
+  </data>
 </root>
