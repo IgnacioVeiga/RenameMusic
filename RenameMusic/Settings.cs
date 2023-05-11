@@ -27,5 +27,37 @@ namespace RenameMusic.Properties
         {
             // Add code to handle the SettingsSaving event here.
         }
+
+        internal static bool CanBeRenamed(TagLib.Tag tags)
+        {
+            int tagsRequiredCount = 0, tagsNotEmptyCount = 0;
+
+            tagsRequiredCount = Default.TitleRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Default.AlbumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Default.AlbumArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Default.ArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+
+            if (Default.TitleRequired && !string.IsNullOrWhiteSpace(tags.Title))
+            {
+                tagsNotEmptyCount++;
+            }
+
+            if (Default.AlbumRequired && !string.IsNullOrWhiteSpace(tags.Album))
+            {
+                tagsNotEmptyCount++;
+            }
+
+            if (Default.AlbumArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedAlbumArtists))
+            {
+                tagsNotEmptyCount++;
+            }
+
+            if (Default.ArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedPerformers))
+            {
+                tagsNotEmptyCount++;
+            }
+
+            return tagsRequiredCount == tagsNotEmptyCount;
+        }
     }
 }

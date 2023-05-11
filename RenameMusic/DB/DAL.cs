@@ -36,38 +36,10 @@ namespace RenameMusic.DB
                     FolderId = folderId
                 };
 
-                // ToDo: crear función que me defina si debe o no renomrarse
                 try
                 {
                     TagLib.Tag tags = TagLib.File.Create(file).Tag;
-                    int tagsRequiredCount = 0, tagsNotEmptyCount = 0;
-
-                    tagsRequiredCount = Settings.Default.TitleRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-                    tagsRequiredCount = Settings.Default.AlbumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-                    tagsRequiredCount = Settings.Default.AlbumArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-                    tagsRequiredCount = Settings.Default.ArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-
-                    if (Settings.Default.TitleRequired && !string.IsNullOrWhiteSpace(tags.Title))
-                    {
-                        tagsNotEmptyCount++;
-                    }
-
-                    if (Settings.Default.AlbumRequired && !string.IsNullOrWhiteSpace(tags.Album))
-                    {
-                        tagsNotEmptyCount++;
-                    }
-
-                    if (Settings.Default.AlbumArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedAlbumArtists))
-                    {
-                        tagsNotEmptyCount++;
-                    }
-
-                    if (Settings.Default.ArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedPerformers))
-                    {
-                        tagsNotEmptyCount++;
-                    }
-
-                    audio.Rename = tagsRequiredCount == tagsNotEmptyCount;
+                    audio.Rename = Settings.CanBeRenamed(tags);
                 }
                 catch (Exception)
                 {
@@ -174,11 +146,11 @@ namespace RenameMusic.DB
             List<Audio> list = new();
             foreach (AudioDTO audio in audios)
             {
-                Audio item = new(
-                    audio.FolderId,
-                    new MyContext().Folders.First(f => f.Id == audio.FolderId).FolderPath + audio.FileName
-                    );
-                item.Id = audio.Id;
+                string AudioFilepath = new MyContext().Folders.First(f => f.Id == audio.FolderId).FolderPath + audio.FileName;
+                Audio item = new(audio.FolderId, AudioFilepath)
+                {
+                    Id = audio.Id
+                };
                 if (item.Tags != null)
                 {
                     list.Add(item);
