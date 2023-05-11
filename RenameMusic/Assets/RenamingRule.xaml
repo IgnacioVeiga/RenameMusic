@@ -27,10 +27,10 @@
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Margin="10,10" TextWrapping="Wrap" Text="{x:Static p:Strings.RENAMING_RULE_DESCRIPTION}"/>
 
         <TextBlock Grid.Row="1" Grid.ColumnSpan="2" x:Name="simbols" Margin="30,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" d:Text="Tags"/>
-        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" x:Name="titleRequired" IsChecked="{Binding TitleRequired, Source={x:Static properties:Settings.Default}}"/>
-        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0" x:Name="albumRequired" IsChecked="{Binding AlbumRequired, Source={x:Static properties:Settings.Default}}"/>
-        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,80,0,0" x:Name="albumArtistRequired" IsChecked="{Binding AlbumArtistRequired, Source={x:Static properties:Settings.Default}}"/>
-        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" x:Name="artistRequired" IsChecked="{Binding ArtistRequired, Source={x:Static properties:Settings.Default}}"/>
+        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" x:Name="titleRequired"/>
+        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0" x:Name="albumRequired"/>
+        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,80,0,0" x:Name="albumArtistRequired"/>
+        <CheckBox Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" x:Name="artistRequired"/>
 
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" x:Name="WarningMSG" HorizontalAlignment="Center" Foreground="Yellow" d:Text="Warning"/>
         <TextBox Grid.Row="3" Grid.ColumnSpan="2" x:Name="renamingRule" HorizontalAlignment="Stretch" Height="25" Margin="10,5,10,5" TextChanged="Rule_TextChanged"/>

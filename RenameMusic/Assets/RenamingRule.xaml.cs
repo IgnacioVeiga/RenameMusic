@@ -17,7 +17,12 @@ namespace RenameMusic.Assets
         public RenamingRule()
         {
             InitializeComponent();
+            titleRequired.IsChecked = Settings.Default.TitleRequired;
+            albumRequired.IsChecked = Settings.Default.AlbumRequired;
+            albumArtistRequired.IsChecked = Settings.Default.AlbumArtistRequired;
+            artistRequired.IsChecked = Settings.Default.ArtistRequired;
             renamingRule.Text = Settings.Default.DefaultTemplate;
+
             titleRequired.Content = $"<t> = {Strings.TITLE}";
             albumRequired.Content = $"<a> = {Strings.ALBUM}";
             albumArtistRequired.Content = $"<aAt> = {Strings.ALBUM_ARTIST}";
@@ -27,8 +32,13 @@ namespace RenameMusic.Assets
 
         private void ApplyBTN_Click(object sender, RoutedEventArgs e)
         {
+            Settings.Default.TitleRequired = (bool)titleRequired.IsChecked;
+            Settings.Default.AlbumRequired = (bool)albumRequired.IsChecked;
+            Settings.Default.AlbumArtistRequired = (bool)albumArtistRequired.IsChecked;
+            Settings.Default.ArtistRequired = (bool)artistRequired.IsChecked;
             Settings.Default.DefaultTemplate = renamingRule.Text;
             Settings.Default.Save();
+
             DialogResult = true;
             Close();
         }
