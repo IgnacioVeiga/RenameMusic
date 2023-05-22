@@ -493,24 +493,6 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Renaming Rule.
-        /// </summary>
-        public static string RENAMING_RULE {
-            get {
-                return ResourceManager.GetString("RENAMING_RULE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check the required tags which should not be empty fields, this helps to define which files will be renamed later..
-        /// </summary>
-        public static string RENAMING_RULE_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("RENAMING_RULE_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Repeated file.
         /// </summary>
         public static string REPEATED_FILE {
@@ -529,6 +511,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Replace with.
+        /// </summary>
+        public static string REPLACE_WITH {
+            get {
+                return ResourceManager.GetString("REPLACE_WITH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restarting....
         /// </summary>
         public static string RESTARTING {
@@ -543,6 +534,15 @@ namespace RenameMusic.Lang {
         public static string RESTORE_SETTINGS {
             get {
                 return ResourceManager.GetString("RESTORE_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check the required tags which should not be empty fields, this helps to define which files will be renamed later..
+        /// </summary>
+        public static string RW_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("RW_DESCRIPTION", resourceCulture);
             }
         }
         

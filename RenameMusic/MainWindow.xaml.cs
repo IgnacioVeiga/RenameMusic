@@ -263,10 +263,10 @@ namespace RenameMusic
             CheckRenameBTN();
         }
 
-        private void RenamingRuleBTN_Click(object sender, RoutedEventArgs e)
+        private void ReplaceWithBTN_Click(object sender, RoutedEventArgs e)
         {
-            bool? ruleChanged = new RenamingRule().ShowDialog();
-            if (ruleChanged == true)
+            bool? Ok = new ReplaceWith().ShowDialog();
+            if (Ok == true)
             {
                 PrimaryList.Items.Clear();
                 SecondaryList.Items.Clear();

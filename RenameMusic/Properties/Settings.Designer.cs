@@ -25,7 +25,7 @@ namespace RenameMusic.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<tn>. <t> - <a>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("<TrackNum>. <Title> - <Album> (Year)")]
         public string DefaultTemplate {
             get {
                 return ((string)(this["DefaultTemplate"]));
@@ -121,7 +121,7 @@ namespace RenameMusic.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("128")]
+        [global::System.Configuration.DefaultSettingValueAttribute("256")]
         public int PageSize {
             get {
                 return ((int)(this["PageSize"]));

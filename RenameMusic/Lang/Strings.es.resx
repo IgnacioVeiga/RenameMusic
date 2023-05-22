@@ -156,9 +156,6 @@
   <data name="LOADING" xml:space="preserve">
     <value>Cargando...</value>
   </data>
-  <data name="RENAMING_RULE" xml:space="preserve">
-    <value>Regla de renombramiento</value>
-  </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Ajustes</value>
   </data>
@@ -276,7 +273,7 @@
   <data name="LOADED" xml:space="preserve">
     <value>Cargado</value>
   </data>
-  <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
+  <data name="RW_DESCRIPTION" xml:space="preserve">
     <value>Marque las etiquetas requeridas que no deben ser campos vacios, esto ayuda a definir que archivos se renombraran luego.</value>
   </data>
   <data name="LOAD_PREV_DATA" xml:space="preserve">
@@ -320,5 +317,8 @@
   </data>
   <data name="CANNOT_BE_EMPTY" xml:space="preserve">
     <value>No puede estar vacío.</value>
+  </data>
+  <data name="REPLACE_WITH" xml:space="preserve">
+    <value>Remplazar por</value>
   </data>
 </root>

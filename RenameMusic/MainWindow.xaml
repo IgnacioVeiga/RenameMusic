@@ -38,7 +38,7 @@
             </MenuItem>
 
             <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
-                <MenuItem Header="{x:Static lang:Strings.RENAMING_RULE}" Click="RenamingRuleBTN_Click"/>
+                <MenuItem Header="{x:Static lang:Strings.REPLACE_WITH}" Click="ReplaceWithBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.THEME}" IsEnabled="False"/>
 
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"

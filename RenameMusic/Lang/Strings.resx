@@ -156,9 +156,6 @@
   <data name="LOADING" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="RENAMING_RULE" xml:space="preserve">
-    <value>Renaming Rule</value>
-  </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -276,7 +273,7 @@
   <data name="LOADED" xml:space="preserve">
     <value>Loaded</value>
   </data>
-  <data name="RENAMING_RULE_DESCRIPTION" xml:space="preserve">
+  <data name="RW_DESCRIPTION" xml:space="preserve">
     <value>Check the required tags which should not be empty fields, this helps to define which files will be renamed later.</value>
   </data>
   <data name="LOAD_PREV_DATA" xml:space="preserve">
@@ -320,5 +317,8 @@
   </data>
   <data name="CANNOT_BE_EMPTY" xml:space="preserve">
     <value>Cannot be empty.</value>
+  </data>
+  <data name="REPLACE_WITH" xml:space="preserve">
+    <value>Replace with</value>
   </data>
 </root>

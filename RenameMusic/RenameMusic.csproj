@@ -40,6 +40,9 @@
     <SplashScreen Include="Assets\Images\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Assets\ReplaceWith.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Lang\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -80,6 +83,11 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Assets\ReplaceWith.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

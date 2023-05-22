@@ -37,6 +37,9 @@
     <Page Update="Assets\MetadataEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Assets\ReplaceWith.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Assets\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
