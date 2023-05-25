@@ -15,9 +15,6 @@
     <Compile Update="Assets\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\RenamingRule.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Assets\LoadingBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -43,13 +40,16 @@
     <Page Update="Assets\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\RenamingRule.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Assets\LoadingBar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\CheckBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\RadioButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Button.xaml">
@@ -59,9 +59,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\DataGrid.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Menu.xaml">

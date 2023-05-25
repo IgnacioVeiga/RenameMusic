@@ -278,7 +278,7 @@ namespace RenameMusic
         private void RestoreSettingsBTN_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.Lang = "en";
-            Settings.Default.DefaultTemplate = "<tn>. <t> - <a>";
+            Settings.Default.DefaultTemplate = "<TrackNum>. <Title> - <Album> (Year)";
             Settings.Default.TitleRequired = true;
             Settings.Default.AlbumRequired = true;
             Settings.Default.AlbumArtistRequired = false;
