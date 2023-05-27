@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lang = "clr-namespace:RenameMusic.Lang"
         
-        Background="#202020" Foreground="#F1F1F1"
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}"
         
         mc:Ignorable="d"
         Title="{x:Static lang:Strings.METADATA_EDITOR}" MinHeight="420" MinWidth="450">

@@ -1,5 +1,6 @@
 ﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using RenameMusic.Themes;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -13,12 +14,12 @@ namespace RenameMusic
     /// </summary>
     public partial class App : Application
     {
-        private static Mutex _mutex = null;
+        private static Mutex _mutex;
 
         App()
         {
-            AppLanguage.ChangeLanguage(Settings.Default.Lang);
             SetDropDownMenuToBeRightAligned();
+            AppLanguage.ChangeLanguage(Settings.Default.Lang);
         }
 
         internal static void RestartApp()

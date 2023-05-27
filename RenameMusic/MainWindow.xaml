@@ -8,7 +8,8 @@
         xmlns:properties="clr-namespace:RenameMusic.Properties"
         mc:Ignorable="d"
         
-        Background="#202020" Foreground="#F1F1F1"
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}"
         
         MinHeight="400" MinWidth="650" SizeToContent="Manual"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
@@ -39,12 +40,12 @@
 
             <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
                 <MenuItem Header="{x:Static lang:Strings.REPLACE_WITH}" Click="ReplaceWithBTN_Click"/>
-                <MenuItem Header="{x:Static lang:Strings.THEME}" IsEnabled="False"/>
-
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
                           IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                           Checked="IncludeSubFolders_Check" IsCheckable="True"/>
-                <MenuItem x:Name="Languages" Header="{x:Static lang:Strings.LANGUAGE}"/>
+                <Separator />
+                <MenuItem x:Name="ThemesMenu" Header="{x:Static lang:Strings.THEME}"/>
+                <MenuItem x:Name="LanguagesMenu" Header="{x:Static lang:Strings.LANGUAGE}"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.IMPORT_SETTINGS}" IsEnabled="False"/>

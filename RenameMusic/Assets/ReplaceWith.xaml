@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
         mc:Ignorable="d"
-                
-        Background="#202020" Foreground="#F1F1F1"
+        
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}"
         
         ResizeMode="NoResize" Height="350" Width="500"
         Title="{x:Static p:Strings.REPLACE_WITH}">

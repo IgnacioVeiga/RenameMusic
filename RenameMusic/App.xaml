@@ -5,22 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary>
-                    <SolidColorBrush x:Key="Dark" Color="#373B3E"/>
-                    <SolidColorBrush x:Key="Light" Color="#BEC8D1"/>
-                    <SolidColorBrush x:Key="Primary0" Color="#86CECB"/>
-                    <SolidColorBrush x:Key="Primary1" Color="#137A7F"/>
-                    <SolidColorBrush x:Key="Secondary" Color="#E12885"/>
-                </ResourceDictionary>-->
-
-                <ResourceDictionary Source="Themes/Button.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/ComboBox.xaml"/>
-                <ResourceDictionary Source="Themes/DataGrid.xaml"/>
-                <ResourceDictionary Source="Themes/Menu.xaml"/>
-                <ResourceDictionary Source="Themes/RadioButton.xaml"/>
-                <ResourceDictionary Source="Themes/ScrollBar.xaml"/>
-                <ResourceDictionary Source="Themes/TabControl.xaml"/>
+                <ResourceDictionary Source="Themes/Dark.xaml"/>
+                <ResourceDictionary Source="Themes/Light.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

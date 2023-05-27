@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p = "clr-namespace:RenameMusic.Lang"
-                
-        Background="#202020" Foreground="#F1F1F1"
+        
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}"
         
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Title="{x:Static p:Strings.LOADING}" Height="100" Width="360">

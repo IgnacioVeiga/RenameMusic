@@ -3,6 +3,7 @@ using RenameMusic.DB;
 using RenameMusic.Entities;
 using RenameMusic.Lang;
 using RenameMusic.Properties;
+using RenameMusic.Themes;
 using RenameMusic.Util;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,10 @@ namespace RenameMusic
         public MainWindow()
         {
             InitializeComponent();
+            ThemeManager.LoadTheme();
             new MyContext().Database.EnsureCreated();
 
-            #region Lang
+            #region Languages
             foreach (var language in AppLanguage.Languages)
             {
                 bool isLangSelected = Settings.Default.Lang == language.Key;
@@ -38,9 +40,25 @@ namespace RenameMusic
                     IsEnabled = !isLangSelected
                 };
                 menuItem.Click += LanguageSelected_Click;
-                Languages.Items.Add(menuItem);
+                LanguagesMenu.Items.Add(menuItem);
             }
-            #endregion Lang
+            #endregion Languages
+
+            #region Themes
+            foreach (string themeName in ThemeManager.Themes)
+            {
+                bool isThemeSelected = Settings.Default.ThemeName == themeName;
+                MenuItem menuItem = new()
+                {
+                    Header = themeName,
+                    IsCheckable = true,
+                    IsChecked = isThemeSelected,
+                    IsEnabled = !isThemeSelected
+                };
+                menuItem.Click += ThemeSelected_Click;
+                ThemesMenu.Items.Add(menuItem);
+            }
+            #endregion Themes
 
             ContentLoadedSBar.Text = $"{Strings.LOADED}: 0/0";
             // ToDo: habilitar el menuitem "load prev data" solo si existen elementos en
@@ -302,6 +320,27 @@ namespace RenameMusic
             MessageBox.Show(Strings.TOGGLE_LANG_MSG, $"{Strings.RESTARTING}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
             App.RestartApp();
+        }
+
+        private void ThemeSelected_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem clickedItem = sender as MenuItem;
+            string themeName = clickedItem?.Header.ToString();
+            ThemeManager.ChangeTheme(themeName);
+            foreach (MenuItem themeItem in ThemesMenu.Items)
+            {
+                themeItem.IsEnabled = true; // Habilitar todos los elementos del menú de temas
+
+                if (themeItem == clickedItem)
+                {
+                    themeItem.IsChecked = true; // Marcar el tema seleccionado
+                    themeItem.IsEnabled = false; // Deshabilitar el tema seleccionado
+                }
+                else
+                {
+                    themeItem.IsChecked = false; // Desmarcar los temas no seleccionados
+                }
+            }
         }
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)

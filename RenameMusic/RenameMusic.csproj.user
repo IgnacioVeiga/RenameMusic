@@ -46,28 +46,34 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\CheckBox.xaml">
+    <Page Update="Themes\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\RadioButton.xaml">
+    <Page Update="Themes\Dark.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Button.xaml">
+    <Page Update="Themes\UI\CheckBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ComboBox.xaml">
+    <Page Update="Themes\UI\RadioButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\DataGrid.xaml">
+    <Page Update="Themes\UI\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Menu.xaml">
+    <Page Update="Themes\UI\ComboBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ScrollBar.xaml">
+    <Page Update="Themes\UI\DataGrid.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\TabControl.xaml">
+    <Page Update="Themes\UI\Menu.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\UI\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\UI\TabControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
