@@ -2,17 +2,26 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
+            <SolidColorBrush x:Key="PrimaryColor0" Color="#137A7F"/>
+            <SolidColorBrush x:Key="PrimaryColor1" Color="#115F58"/>
+
+            <SolidColorBrush x:Key="SecondaryColor0" Color="#BCDDEE"/>
+            <SolidColorBrush x:Key="SecondaryColor1" Color="#86CECB"/>
+            
             <SolidColorBrush x:Key="BackgroundColor0" Color="#373B3E"/>
             <SolidColorBrush x:Key="BackgroundColor1" Color="#202020"/>
             
             <SolidColorBrush x:Key="ForegroundColor0" Color="#F1F1F1"/>
             <SolidColorBrush x:Key="ForegroundColor1" Color="#BEC8D1"/>
-            
-            <SolidColorBrush x:Key="PrimaryColor0" Color="#86CECB"/>
-            <SolidColorBrush x:Key="PrimaryColor1" Color="#137A7F"/>
 
-            <SolidColorBrush x:Key="SecondaryColor0" Color="#E12885"/>
-            <SolidColorBrush x:Key="SecondaryColor1" Color="#115F58"/>
+            <SolidColorBrush x:Key="CustomMouseOverOuterColor" Color="#E12885"/>
+            <SolidColorBrush x:Key="CustomScrollBarBackgroundColor" Color="#2D2D2D"/>
+            <SolidColorBrush x:Key="CustomTabBackground" Color="#2F2F2F"/>
+            <SolidColorBrush x:Key="CustomTabForeground" Color="#EDEDED"/>
+            <SolidColorBrush x:Key="CustomTabBackgroundMouseOver" Color="#4F4F4F"/>
+            <SolidColorBrush x:Key="CustomBorderBrush" Color="#353535"/>
+            <SolidColorBrush x:Key="CustomDisabledColor0" Color="#808080"/>
+            <SolidColorBrush x:Key="CustomDisabledColor1" Color="#A0A0A0"/>
         </ResourceDictionary>
 
         <ResourceDictionary Source="UI/Button.xaml"/>

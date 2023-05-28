@@ -1,19 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="{x:Type DataGrid}">
-        <Setter Property="RowBackground" Value="#202020"/>
-        <Setter Property="AlternatingRowBackground" Value="#2A2A2A"/>
+        <Setter Property="RowBackground" Value="{DynamicResource BackgroundColor0}"/>
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource BackgroundColor1}"/>
         <Setter Property="Background" Value="{x:Null}"/>
-        <Setter Property="Foreground" Value="#F1F1F1"/>
-        <Setter Property="BorderBrush" Value="#454545"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundColor1}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource CustomBorderBrush}"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="GridLinesVisibility" Value="Vertical"/>
-        <Setter Property="VerticalGridLinesBrush" Value="#454545"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource CustomBorderBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="Background" Value="#454545"/>
-        <Setter Property="Foreground" Value="#F1F1F1"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor1}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundColor1}"/>
         <Setter Property="Padding" Value="0,5"/>
     </Style>
 </ResourceDictionary>

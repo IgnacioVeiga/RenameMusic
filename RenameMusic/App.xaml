@@ -5,6 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--ToDo: Improve this colors/theme system -->
                 <ResourceDictionary Source="Themes/Dark.xaml"/>
                 <ResourceDictionary Source="Themes/Light.xaml"/>
             </ResourceDictionary.MergedDictionaries>
