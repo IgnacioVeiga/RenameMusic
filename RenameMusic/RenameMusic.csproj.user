@@ -9,10 +9,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Assets\RepeatedFile.xaml.cs">
+    <Compile Update="Assets\MetadataEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\Template.xaml.cs">
+    <Compile Update="Assets\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Assets\LoadingBar.xaml.cs">
@@ -31,10 +31,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Assets\RepeatedFile.xaml">
+    <Page Update="Assets\MetadataEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\Template.xaml">
+    <Page Update="Assets\ReplaceWith.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\LoadingBar.xaml">
@@ -43,25 +46,34 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Button.xaml">
+    <Page Update="Themes\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ComboBox.xaml">
+    <Page Update="Themes\Dark.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\DataGrid.xaml">
+    <Page Update="Themes\UI\CheckBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Generic.xaml">
+    <Page Update="Themes\UI\RadioButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Menu.xaml">
+    <Page Update="Themes\UI\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ScrollBar.xaml">
+    <Page Update="Themes\UI\ComboBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\TabControl.xaml">
+    <Page Update="Themes\UI\DataGrid.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\UI\Menu.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\UI\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\UI\TabControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DefaultTemplate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">&lt;tn&gt;. &lt;t&gt; - &lt;a&gt;</Value>
+      <Value Profile="(Default)">&lt;TrackNum&gt;. &lt;Title&gt; - &lt;Album&gt; (Year)</Value>
     </Setting>
     <Setting Name="RepeatedFileKeepChoice" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -13,6 +13,24 @@
     </Setting>
     <Setting Name="IncludeSubFolders" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TitleRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AlbumRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AlbumArtistRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ArtistRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PageSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">256</Value>
+    </Setting>
+    <Setting Name="ThemeName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Dark</Value>
     </Setting>
   </Settings>
 </SettingsFile>

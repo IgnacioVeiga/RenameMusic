@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RenameMusic
+namespace RenameMusic.Assets
 {
     /// <summary>
     /// Interaction logic for LoadingBar.xaml
@@ -8,7 +8,7 @@ namespace RenameMusic
     public partial class LoadingBar : Window
     {
         private double value;
-        private double maximum;
+        private readonly double maximum;
         public LoadingBar(double max)
         {
             InitializeComponent();

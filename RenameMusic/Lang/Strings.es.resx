@@ -156,9 +156,6 @@
   <data name="LOADING" xml:space="preserve">
     <value>Cargando...</value>
   </data>
-  <data name="TEMPLATE" xml:space="preserve">
-    <value>Plantilla</value>
-  </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Ajustes</value>
   </data>
@@ -180,11 +177,11 @@
   <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Reestablecer</value>
   </data>
-  <data name="WITH_TAGS" xml:space="preserve">
-    <value>Con etiquetas</value>
+  <data name="TO_RENAME" xml:space="preserve">
+    <value>Para renombrar</value>
   </data>
-  <data name="NO_TITLE_TAG" xml:space="preserve">
-    <value>Sin etiqueta de título</value>
+  <data name="DO_NOT_RENAME" xml:space="preserve">
+    <value>No renombrar</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>No se permiten múltiples instancias de este programa.</value>
@@ -210,9 +207,6 @@
   <data name="EXPORT_SETTINGS" xml:space="preserve">
     <value>Exportar</value>
   </data>
-  <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
-    <value>Función no implementada aún.</value>
-  </data>
   <data name="FILE_REPEATED_MSG" xml:space="preserve">
     <value>Ya existe un archivo con el mismo nombre en esta ubicación ¿Cómo desea continuar?</value>
   </data>
@@ -228,9 +222,6 @@
   <data name="TOGGLE_LANG_MSG" xml:space="preserve">
     <value>Se reiniciará la aplicación y se aplicará el idioma seleccionado.</value>
   </data>
-  <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
-    <value>Archivo corrupto o incorrecto.</value>
-  </data>
   <data name="LANGUAGE" xml:space="preserve">
     <value>Idioma</value>
   </data>
@@ -242,9 +233,6 @@
   </data>
   <data name="FILE" xml:space="preserve">
     <value>Archivo</value>
-  </data>
-  <data name="SAVE_LIST" xml:space="preserve">
-    <value>Guardar lista</value>
   </data>
   <data name="RESTARTING" xml:space="preserve">
     <value>Reiniciando...</value>
@@ -262,7 +250,7 @@
     <value>Año</value>
   </data>
   <data name="TRACK_NUM" xml:space="preserve">
-    <value>Número de pista</value>
+    <value>Nº de pista</value>
   </data>
   <data name="INVALID_TEMPLATE_MSG" xml:space="preserve">
     <value>La plantilla contiene caracteres inválidos y no pueden ser usados como nombre de archivo.</value>
@@ -281,5 +269,56 @@
   </data>
   <data name="CHECK_UPDATES" xml:space="preserve">
     <value>Buscar actualizaciones</value>
+  </data>
+  <data name="LOADED" xml:space="preserve">
+    <value>Cargado</value>
+  </data>
+  <data name="RW_DESCRIPTION" xml:space="preserve">
+    <value>Marque las etiquetas requeridas que no deben ser campos vacios, esto ayuda a definir que archivos se renombraran luego.</value>
+  </data>
+  <data name="LOAD_PREV_DATA" xml:space="preserve">
+    <value>Cargar datos anteriores</value>
+  </data>
+  <data name="READY" xml:space="preserve">
+    <value>Listo</value>
+  </data>
+  <data name="EDIT_TAGS" xml:space="preserve">
+    <value>Editar etiquetas</value>
+  </data>
+  <data name="RENAME_THIS_NOW" xml:space="preserve">
+    <value>Renombrar este ahora</value>
+  </data>
+  <data name="DELETE_FILE" xml:space="preserve">
+    <value>Eliminar archivo</value>
+  </data>
+  <data name="DELETE_FOLDER" xml:space="preserve">
+    <value>Eliminar carpeta</value>
+  </data>
+  <data name="REMOVE_FROM_LIST" xml:space="preserve">
+    <value>Quitar de la lista</value>
+  </data>
+  <data name="OPEN_IN_EXPLORER" xml:space="preserve">
+    <value>Abrir en el Explorador</value>
+  </data>
+  <data name="PLAY_FILE" xml:space="preserve">
+    <value>Reproducir archivo</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="METADATA_EDITOR" xml:space="preserve">
+    <value>Editor de metadatos</value>
+  </data>
+  <data name="COMMENT" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="GENRES" xml:space="preserve">
+    <value>Géneros</value>
+  </data>
+  <data name="CANNOT_BE_EMPTY" xml:space="preserve">
+    <value>No puede estar vacío.</value>
+  </data>
+  <data name="REPLACE_WITH" xml:space="preserve">
+    <value>Remplazar por</value>
   </data>
 </root>

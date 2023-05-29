@@ -34,7 +34,7 @@ namespace RenameMusic.Util
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
                 CheckFileExists = true,
                 Title = Strings.ADD_FILE,
-                Filter = "MPEG Audio Layer III (MP3)|*.mp3|MPEG-4 Audio (M4A)|*.m4a|Vorbis (OGG)|*.ogg|Free Lossless Audio Codec (FLAC)|*.flac"
+                Filter = "Supported files|*.mp3;*.m4a;*.ogg;*.flac|MPEG Audio Layer III (MP3)|*.mp3|MPEG-4 Audio (M4A)|*.m4a|Vorbis (OGG)|*.ogg|Free Lossless Audio Codec (FLAC)|*.flac"
             };
 
             return (bool)fileDialog.ShowDialog()

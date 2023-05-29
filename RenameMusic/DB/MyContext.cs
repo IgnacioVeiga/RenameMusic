@@ -5,7 +5,6 @@ namespace RenameMusic.DB
 {
     public class MyContext : DbContext
     {
-        // Revisar si es necesario utilizar AutoMapper
         public DbSet<AudioDTO> Audios { get; set; }
         public DbSet<FolderDTO> Folders { get; set; }
 

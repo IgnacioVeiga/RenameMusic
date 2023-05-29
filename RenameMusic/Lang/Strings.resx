@@ -156,9 +156,6 @@
   <data name="LOADING" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="TEMPLATE" xml:space="preserve">
-    <value>Template</value>
-  </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -180,11 +177,11 @@
   <data name="RESTORE_SETTINGS" xml:space="preserve">
     <value>Restore</value>
   </data>
-  <data name="WITH_TAGS" xml:space="preserve">
-    <value>With tags</value>
+  <data name="TO_RENAME" xml:space="preserve">
+    <value>To rename</value>
   </data>
-  <data name="NO_TITLE_TAG" xml:space="preserve">
-    <value>No title tag</value>
+  <data name="DO_NOT_RENAME" xml:space="preserve">
+    <value>Don't rename</value>
   </data>
   <data name="MULTI_INSTANCE_MSG" xml:space="preserve">
     <value>Multiple instances of this program are not allowed.</value>
@@ -210,9 +207,6 @@
   <data name="EXPORT_SETTINGS" xml:space="preserve">
     <value>Export</value>
   </data>
-  <data name="NOT_IMPLEMENTED_MSG" xml:space="preserve">
-    <value>Function not implemented yet.</value>
-  </data>
   <data name="FILE_REPEATED_MSG" xml:space="preserve">
     <value>There is already a file with the same name in this location. How do you want to continue?</value>
   </data>
@@ -228,9 +222,6 @@
   <data name="TOGGLE_LANG_MSG" xml:space="preserve">
     <value>The application will restart and the selected language will be applied.</value>
   </data>
-  <data name="CORRUPT_FILE_EX_MSG" xml:space="preserve">
-    <value>Corrupt or incorrect file.</value>
-  </data>
   <data name="LANGUAGE" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -242,9 +233,6 @@
   </data>
   <data name="FILE" xml:space="preserve">
     <value>File</value>
-  </data>
-  <data name="SAVE_LIST" xml:space="preserve">
-    <value>Save list</value>
   </data>
   <data name="RESTARTING" xml:space="preserve">
     <value>Restarting...</value>
@@ -262,7 +250,7 @@
     <value>Year</value>
   </data>
   <data name="TRACK_NUM" xml:space="preserve">
-    <value>Track number</value>
+    <value>Track Nº</value>
   </data>
   <data name="INVALID_TEMPLATE_MSG" xml:space="preserve">
     <value>The template contains invalid characters and cannot be used as file name.</value>
@@ -281,5 +269,56 @@
   </data>
   <data name="CHECK_UPDATES" xml:space="preserve">
     <value>Check for updates</value>
+  </data>
+  <data name="LOADED" xml:space="preserve">
+    <value>Loaded</value>
+  </data>
+  <data name="RW_DESCRIPTION" xml:space="preserve">
+    <value>Check the required tags which should not be empty fields, this helps to define which files will be renamed later.</value>
+  </data>
+  <data name="LOAD_PREV_DATA" xml:space="preserve">
+    <value>Load previous data</value>
+  </data>
+  <data name="READY" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="EDIT_TAGS" xml:space="preserve">
+    <value>Edit tags</value>
+  </data>
+  <data name="RENAME_THIS_NOW" xml:space="preserve">
+    <value>Rename this now</value>
+  </data>
+  <data name="DELETE_FILE" xml:space="preserve">
+    <value>Delete file</value>
+  </data>
+  <data name="DELETE_FOLDER" xml:space="preserve">
+    <value>Delete folder</value>
+  </data>
+  <data name="REMOVE_FROM_LIST" xml:space="preserve">
+    <value>Remove from list</value>
+  </data>
+  <data name="OPEN_IN_EXPLORER" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="PLAY_FILE" xml:space="preserve">
+    <value>Play file</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="METADATA_EDITOR" xml:space="preserve">
+    <value>Metadata editor</value>
+  </data>
+  <data name="COMMENT" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="GENRES" xml:space="preserve">
+    <value>Genres</value>
+  </data>
+  <data name="CANNOT_BE_EMPTY" xml:space="preserve">
+    <value>Cannot be empty.</value>
+  </data>
+  <data name="REPLACE_WITH" xml:space="preserve">
+    <value>Replace with</value>
   </data>
 </root>

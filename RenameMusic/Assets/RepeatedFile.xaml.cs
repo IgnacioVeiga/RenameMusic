@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Windows;
 
-namespace RenameMusic
+namespace RenameMusic.Assets
 {
     /// <summary>
     /// Interaction logic for RepeatedFile.xaml

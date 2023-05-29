@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public int FolderId { get; set; }
         public string FileName { get; set; }
+        public bool Rename { get; set; }
     }
 
     public class FolderDTO

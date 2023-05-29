@@ -1,5 +1,6 @@
 ﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
+using RenameMusic.Themes;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -13,12 +14,12 @@ namespace RenameMusic
     /// </summary>
     public partial class App : Application
     {
-        private static Mutex _mutex = null;
+        private static Mutex _mutex;
 
         App()
         {
-            AppLanguage.ChangeLanguage(Settings.Default.Lang);
             SetDropDownMenuToBeRightAligned();
+            AppLanguage.ChangeLanguage(Settings.Default.Lang);
         }
 
         internal static void RestartApp()
@@ -39,7 +40,10 @@ namespace RenameMusic
             const bool initiallyOwned = true;
             const string name = "RenameMusic";
             _mutex = new Mutex(initiallyOwned, name, out bool createdNew);
-            if (createdNew) Exit += CloseMutexHandler;
+            if (createdNew)
+            {
+                Exit += CloseMutexHandler;
+            }
             else
             {
                 MessageBox.Show(Strings.MULTI_INSTANCE_MSG);
@@ -56,18 +60,16 @@ namespace RenameMusic
         // Source: https://stackoverflow.com/a/67114984
         private static void SetDropDownMenuToBeRightAligned()
         {
-            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-            Action setAlignmentValue = () =>
+            FieldInfo menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+
+            static void setAlignmentValue(FieldInfo menuDropAlignmentField)
             {
                 if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
-            };
+            }
 
-            setAlignmentValue();
+            setAlignmentValue(menuDropAlignmentField);
 
-            SystemParameters.StaticPropertyChanged += (sender, e) =>
-            {
-                setAlignmentValue();
-            };
+            SystemParameters.StaticPropertyChanged += (sender, e) => setAlignmentValue(menuDropAlignmentField);
         }
     }
 }

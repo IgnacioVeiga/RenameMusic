@@ -8,38 +8,44 @@
         xmlns:properties="clr-namespace:RenameMusic.Properties"
         mc:Ignorable="d"
         
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}"
+        
         MinHeight="400" MinWidth="650" SizeToContent="Manual"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         Title="Rename Music (Beta)">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition MinWidth="400"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" x:Name="MainMenu">
             <MenuItem Header="{x:Static lang:Strings.FILE}">
                 <MenuItem Header="{x:Static lang:Strings.ADD_FILE}" Click="AddFile_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.ADD_FOLDER}" Click="AddFolder_Click"/>
+                <MenuItem Header="{x:Static lang:Strings.LOAD_PREV_DATA}" Click="LoadPrevData_Click"/>
                 <Separator />
-                <MenuItem x:Name="renameFilesBTN" Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
+                <MenuItem x:Name="RenameMenuItemBTN" IsEnabled="False"
+                          Header="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.EXIT}" Click="ExitMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem Header="{x:Static lang:Strings.SETTINGS}">
-                <MenuItem Header="{x:Static lang:Strings.TEMPLATE}" Click="TemplateBTN_Click"/>
-                <MenuItem Header="{x:Static lang:Strings.THEME}" IsEnabled="False"/>
-                
+                <MenuItem Header="{x:Static lang:Strings.REPLACE_WITH}" Click="ReplaceWithBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.SEARCH_SUBFOLDERS}"
                           IsChecked="{Binding IncludeSubFolders, Source={x:Static properties:Settings.Default}}"
                           Checked="IncludeSubFolders_Check" IsCheckable="True"/>
-                <MenuItem x:Name="languages" Header="{x:Static lang:Strings.LANGUAGE}"/>
+                <Separator />
+                <MenuItem x:Name="ThemesMenu" Header="{x:Static lang:Strings.THEME}"/>
+                <MenuItem x:Name="LanguagesMenu" Header="{x:Static lang:Strings.LANGUAGE}"/>
                 <Separator />
                 <MenuItem Header="{x:Static lang:Strings.RESTORE_SETTINGS}" Click="RestoreSettingsBTN_Click"/>
                 <MenuItem Header="{x:Static lang:Strings.IMPORT_SETTINGS}" IsEnabled="False"/>
@@ -52,85 +58,62 @@
             </MenuItem>
         </Menu>
 
-        <Image x:Name="pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
-               Height="170" Width="170" Margin="0,30" d:Source="./Assets/Icons/icon.ico" Source="{Binding Pictures}" Panel.ZIndex="1"/>
-        <Rectangle Grid.Column="0" Grid.Row="1" Height="170" Width="170" Margin="0,30"
-                   VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="#FF303030" StrokeThickness="5"/>
+        <Button x:Name="RenameBTN" Grid.Row="1" Grid.Column="0" Content="{x:Static lang:Strings.RENAME_FILES}" Click="RenameFiles_Click"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10" IsEnabled="False"/>
 
-        <Button Grid.Row="1" Grid.Column="0" Content="&lt;" Width="32" Height="24"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,100,40"
-                IsEnabled="False" x:Name="PageLeft" Click="ChangePage"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Page 1" x:Name="Page"
-                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,44"/>
-        <Button Grid.Row="1" Grid.Column="0" Content=">" Width="32" Height="24"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="100,0,0,40"
-                IsEnabled="False" x:Name="PageRight" Click="ChangePage"/>
+        <Image x:Name="Pictures" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"
+               Height="230" Width="230" Margin="0,80,0,10" Source="{Binding Pictures}" Panel.ZIndex="1"/>
+        <Rectangle Grid.Column="0" Grid.Row="1" Height="230" Width="230" Margin="0,80,0,10"
+                   VerticalAlignment="Top" HorizontalAlignment="Center" Stroke="{DynamicResource BackgroundColor0}" StrokeThickness="5"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Page size:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,170,14"/>
-        <ComboBox x:Name="PageSizeBox" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,70,10" SelectionChanged="PageSizeBox_SelectionChanged"/>
-
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Page:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="75,0,0,14"/>
-        <ComboBox Grid.Row="1" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="170,0,0,10"
-                  x:Name="PageBox" SelectionChanged="PageBox_SelectionChanged" DropDownOpened="PageBox_DropDownOpened"/>
-
-        <TabControl Grid.Row="1" Grid.Column="1" x:Name="tabs" HorizontalAlignment="Stretch" Margin="10" Visibility="{Binding TabsVisibility}">
-            <TabItem>
-                <TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.WITH_TAGS}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock x:Name="primaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
-                    </Grid>
-                </TabItem.Header>
-                <DataGrid x:Name="primaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+        <TabControl Grid.Row="1" Grid.Column="1" x:Name="MainTabs" HorizontalAlignment="Stretch" Margin="10" Visibility="Hidden" d:Visibility="Visible">
+            <TabItem Header="{x:Static lang:Strings.TO_RENAME}">
+                <DataGrid x:Name="PrimaryList" Loaded="PrimaryList_Loaded" ContextMenuOpening="List_ContextMenuOpening" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=30}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NEW_NAME}" Binding="{Binding NewName}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="36"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.TITLE}" Binding="{Binding Tags.Title}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM}" Binding="{Binding Tags.Album}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.ARTIST}" Binding="{Binding Tags.JoinedPerformers}" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" Binding="{Binding Tags.JoinedAlbumArtists}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="52"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TITLE}" Binding="{Binding Tags.Title}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.TRACK_NUM}" Binding="{Binding Tags.Track}" IsReadOnly="True" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM}" Binding="{Binding Tags.Album}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ARTIST}" Binding="{Binding Tags.JoinedPerformers}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.ALBUM_ARTIST}" Binding="{Binding Tags.JoinedAlbumArtists}" IsReadOnly="True"/>
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static lang:Strings.PLAY_FILE}" Click="PlayFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.EDIT_TAGS}" Click="EditTags_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DO_NOT_RENAME}" Click="SwitchList_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.RENAME_THIS_NOW}" Click="RenameThisNow_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}" Click="DeleteFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}" Click="OpenInExplorer_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.NO_TITLE_TAG}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock x:Name="secondaryTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
-                    </Grid>
-                </TabItem.Header>
-                <DataGrid x:Name="secondaryList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
+            <TabItem Header="{x:Static lang:Strings.DO_NOT_RENAME}">
+                <DataGrid x:Name="SecondaryList" Loaded="SecondaryList_Loaded" ContextMenuOpening="List_ContextMenuOpening" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=20}" SelectionMode="Single" SelectionChanged="AudioItem_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.NAME}" Binding="{Binding Name, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
                         <DataGridTextColumn Header="{x:Static lang:Strings.TYPE}" Binding="{Binding Type, Mode=TwoWay}" IsReadOnly="True" Width="36"/>
-                        <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
+                        <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}" Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss, Mode=TwoWay}" IsReadOnly="True" Width="52"/>
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static lang:Strings.PLAY_FILE}" Click="PlayFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.EDIT_TAGS}" Click="EditTags_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.TO_RENAME}" Click="SwitchList_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}" Click="DeleteFile_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}" Click="OpenInExplorer_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static lang:Strings.FOLDERS}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock x:Name="folderTab" d:Text="Page: 0/0    Loaded: 0/0" Grid.Row="1"/>
-                    </Grid>
-                </TabItem.Header>
-                <DataGrid x:Name="folderList" Margin="10" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=7}">
+            <TabItem Header="{x:Static lang:Strings.FOLDERS}">
+                <DataGrid x:Name="FolderList" Loaded="FolderList_Loaded" ContextMenuOpening="List_ContextMenuOpening" Margin="10" AutoGenerateColumns="False" SelectionMode="Single" d:ItemsSource="{d:SampleData ItemCount=7}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="36" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
@@ -141,8 +124,36 @@
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="{x:Static lang:Strings.DIRECTORY}" Binding="{Binding Path, Mode=TwoWay}" IsReadOnly="True" Width="*" d:Width="Auto"/>
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static lang:Strings.REMOVE_FROM_LIST}" Click="RemoveFromList_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FOLDER}" Click="DeleteFolder_Click"/>
+                            <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}" Click="OpenInExplorer_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </TabItem>
         </TabControl>
+
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Right">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Page size" VerticalAlignment="Center"/>
+                    <ToggleButton Grid.Column="1" IsEnabled="False" Content="{Binding PageSize, Source={x:Static properties:Settings.Default}}" d:Content="128" Margin="8,0,2,0"/>
+                </Grid>
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock x:Name="ContentLoadedSBar" d:Text="Loaded: 0/0" Margin="2,0"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="MainStatusBar" Text="{x:Static lang:Strings.READY}" Margin="2,0"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
