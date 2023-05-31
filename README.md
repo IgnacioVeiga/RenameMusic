@@ -5,7 +5,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
-<img src="/RenameMusic/Assets/Icons/Icon.ico" width="128" height="128">
+<img src="/RenameMusic/Assets/Icons/icon.ico" width="128" height="128">
 <div>
   <span>English</span> / <a href="README_es.md">Español</a> </a>
 </div></br>
