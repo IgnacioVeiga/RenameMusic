@@ -5,12 +5,12 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
+<img src="/RenameMusic/Assets/Icons/Icon.ico" width="128" height="128">
 <div>
   <span>English</span> / <a href="README_es.md">Español</a> </a>
 </div></br>
 
-![RenameMusicIcon](/RenameMusic/Assets/Images/RM39.svg)
-&nbsp;This Software allows you to rename music files according to a rule or pattern set by its "Tags". This rule can be set by the user.
+This Software allows you to rename music files according to a rule or pattern set by its "Tags". This rule can be set by the user.
 
 For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it has tags, so I can decide to call it according to the following order: `TrackNumber-Title-Artist.mp3`.
 

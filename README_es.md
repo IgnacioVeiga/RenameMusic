@@ -5,12 +5,12 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
+<img src="/RenameMusic/Assets/Icons/Icon.ico" width="128" height="128">
 <div>
   <a href="README-es.md">English</a> / <span>Español</span></a>
 </div></br>
 
-![RenameMusicIcon](/RenameMusic/Assets/Images/RM39.svg)
-&nbsp;Este Software permite renombrar archivos de música en función de una regla o patrón establecido por sus "Etiquetas". Esta regla puede ser establecida por el usuario.
+Este Software permite renombrar archivos de música en función de una regla o patrón establecido por sus "Etiquetas". Esta regla puede ser establecida por el usuario.
 
 Por ejemplo: Tengo un archivo de audio con el nombre `AUD-01230101-WA0123.mp3` pero tiene etiquetas, por lo que puedo decidir llamarlo según el siguiente orden: `NúmeroDePista-Título-Artista.mp3`.
 
