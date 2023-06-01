@@ -38,11 +38,13 @@ namespace RenameMusic.Assets
             }
 
             ToReplace.Text = Settings.Default.DefaultTemplate;
+            MinTagsReqCBOX.SelectedIndex = Settings.Default.MinTagsRequiredIndex;
         }
 
         private void ApplyBTN_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.DefaultTemplate = ToReplace.Text;
+            Settings.Default.MinTagsRequiredIndex = MinTagsReqCBOX.SelectedIndex;
             Settings.Default.Save();
 
             DialogResult = true;
@@ -108,6 +110,26 @@ namespace RenameMusic.Assets
             {
                 ApplyBTN.IsEnabled = true;
                 WarningMSG.Text = "";
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cbox = sender as ComboBox;
+            if (cbox.SelectedIndex == 0)
+            {
+                stackPanelTagsReq.Visibility = Visibility.Hidden;
+                stackPanelNullCharacter.Visibility = Visibility.Visible;
+            }
+            else if(cbox.SelectedIndex == 1)
+            {
+                stackPanelTagsReq.Visibility = Visibility.Visible;
+                stackPanelNullCharacter.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                stackPanelTagsReq.Visibility = Visibility.Collapsed;
+                stackPanelNullCharacter.Visibility = Visibility.Collapsed;
             }
         }
 

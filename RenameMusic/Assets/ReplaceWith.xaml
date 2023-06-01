@@ -29,13 +29,13 @@
                    Text="{x:Static p:Strings.RW_DESCRIPTION}"/>
 
         <TextBlock Grid.Row="1" Text="Metadatos minimos requeridos:" VerticalAlignment="Center" Margin="10,0"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" Margin="10,5">
+        <ComboBox x:Name="MinTagsReqCBOX" Grid.Row="1" Grid.Column="1" Margin="10,5" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Ninguno (no recomendado)"/>
-            <ComboBoxItem Content="Indicar cuales"/>
-            <ComboBoxItem Content="Todos los que menciono abajo" IsSelected="True"/>
+            <ComboBoxItem Content="Marcarlos"/>
+            <ComboBoxItem Content="Todos los mencionados"/>
         </ComboBox>
 
-        <StackPanel Grid.Row="2" Grid.Column="1">
+        <StackPanel Grid.Row="2" Grid.Column="1" x:Name="stackPanelTagsReq">
             <CheckBox Margin="10,5,0,0" x:Name="trackNumRequired" Content="Track Nº"/>
             <CheckBox Margin="10,5,0,0" x:Name="titleRequired" Content="Title"/>
             <CheckBox Margin="10,5,0,0" x:Name="albumRequired" Content="Album"/>
@@ -44,12 +44,14 @@
             <CheckBox Margin="10,5,0,5" x:Name="yearRequired" Content="Year"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="2" Margin="10,10,0,0" VerticalAlignment="Top"
-                   HorizontalAlignment="Left" Text="Los metadatos inexistentes reemplazarlos por:"/>
-        <RadioButton Grid.Row="2" Margin="10,35,0,0" VerticalAlignment="Top" IsChecked="True"
+        <StackPanel Grid.Row="2" Margin="10,10,0,0" x:Name="stackPanelNullCharacter">
+            <TextBlock Margin="0" VerticalAlignment="Top"
+                   HorizontalAlignment="Stretch" Text="Reemplazar tags nulos por:"/>
+            <RadioButton Margin="0,10,0,0" VerticalAlignment="Top" IsChecked="True"
                      GroupName="WhenNoTag" Content="Un caracter nulo (omitirlos)"/>
-        <RadioButton Grid.Row="2" Margin="10,60,0,0" VerticalAlignment="Top"
+            <RadioButton Margin="0,20,0,0" VerticalAlignment="Top"
                      GroupName="WhenNoTag" Content="&quot;Desconocido&quot; (sin comillas)"/>
+        </StackPanel>
 
         <Grid Grid.Row="3" Grid.ColumnSpan="2" Margin="10,4">
             <Grid.ColumnDefinitions>
