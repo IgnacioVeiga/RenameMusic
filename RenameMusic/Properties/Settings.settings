@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DefaultTemplate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">&lt;TrackNum&gt;. &lt;Title&gt; - &lt;Album&gt; (Year)</Value>
+      <Value Profile="(Default)">&lt;TrackNum&gt;. &lt;Title&gt; - &lt;Album&gt; (&lt;Year&gt;)</Value>
     </Setting>
     <Setting Name="RepeatedFileKeepChoice" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -12,6 +12,9 @@
       <Value Profile="(Default)">en</Value>
     </Setting>
     <Setting Name="IncludeSubFolders" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TrackNumRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TitleRequired" Type="System.Boolean" Scope="User">
@@ -24,6 +27,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ArtistRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="YearRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="PageSize" Type="System.Int32" Scope="User">
