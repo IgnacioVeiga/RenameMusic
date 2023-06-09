@@ -102,7 +102,7 @@ namespace RenameMusic.Assets
             ApplyBTN.IsEnabled = CheckAllTagsRequired();
             if (!ApplyBTN.IsEnabled)
             {
-                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: te falta al menos un tag marcado como requerido.";
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: At least one tag marked as required is missing.";
                 return;
             }
 
@@ -157,7 +157,7 @@ namespace RenameMusic.Assets
             if (yearRequired.IsChecked == true) _requiredTags.Add("<Year>");
 
             if (!CheckAllTagsRequired())
-                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: te falta al menos un tag marcado como requerido.";
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: At least one tag marked as required is missing.";
             else WarningMSG.Text = ""; // ToDo: Check again "ToReplace.Text"
         }
     }

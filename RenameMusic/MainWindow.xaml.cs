@@ -427,7 +427,7 @@ namespace RenameMusic
             MetadataEditor window = new(filePath);
             if (window.ShowDialog() == true)
             {
-                MessageBox.Show("Metadatos guardados correctamente.", Strings.EDIT_TAGS, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Metadata edited successfully.", Strings.EDIT_TAGS, MessageBoxButton.OK, MessageBoxImage.Information);
 
                 PrimaryList.Items.Clear();
                 SecondaryList.Items.Clear();
