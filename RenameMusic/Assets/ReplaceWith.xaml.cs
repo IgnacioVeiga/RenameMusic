@@ -12,6 +12,8 @@ namespace RenameMusic.Assets
     /// </summary>
     public partial class ReplaceWith : Window
     {
+        private readonly List<string> _requiredTags = new();
+
         private readonly Dictionary<string, string> MetadataMap = new()
         {
             { "<TrackNum>", "Track Nº" },
@@ -21,6 +23,11 @@ namespace RenameMusic.Assets
             { "<AlbumArtist>", "Album artist" },
             { "<Year>", "Year" },
         };
+
+        private bool CheckAllTagsRequired()
+        {
+            return _requiredTags.TrueForAll(tag => ToReplace.Text.Contains(tag));
+        }
 
         public ReplaceWith()
         {
@@ -38,11 +45,20 @@ namespace RenameMusic.Assets
             }
 
             ToReplace.Text = Settings.Default.DefaultTemplate;
+            MinTagsReqCBOX.SelectedIndex = Settings.Default.MinTagsRequiredIndex;
+
+            trackNumRequired.IsChecked = Settings.Default.TrackNumRequired;
+            titleRequired.IsChecked = Settings.Default.TitleRequired;
+            artistRequired.IsChecked = Settings.Default.ArtistRequired;
+            albumRequired.IsChecked = Settings.Default.AlbumRequired;
+            albumArtistRequired.IsChecked = Settings.Default.AlbumArtistRequired;
+            yearRequired.IsChecked = Settings.Default.YearRequired;
         }
 
         private void ApplyBTN_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.DefaultTemplate = ToReplace.Text;
+            Settings.Default.MinTagsRequiredIndex = MinTagsReqCBOX.SelectedIndex;
             Settings.Default.Save();
 
             DialogResult = true;
@@ -82,14 +98,13 @@ namespace RenameMusic.Assets
                 return;
             }
 
-            //// Debe contener por lo menos 1 "tag" de los marcados como requeridos
-            //ApplyBTN.IsEnabled = RequiredTags.TrueForAll(tag => ToReplace.Text.Contains(tag));
-            //if (!ApplyBTN.IsEnabled)
-            //{
-            //    // ToDo: cambiar el mensaje
-            //    WarningMSG.Text = $"{Strings.NOT_ALLOWED}: Debe contener todos los tags marcados como requeridos";
-            //    return;
-            //}
+            // Debe contener por lo menos 1 "tag" de los marcados como requeridos
+            ApplyBTN.IsEnabled = CheckAllTagsRequired();
+            if (!ApplyBTN.IsEnabled)
+            {
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: te falta al menos un tag marcado como requerido.";
+                return;
+            }
 
             // Reemplazo solo los caracteres invalidos de los "tags", entonces cualquier otro caracter
             // invalido restante no forma parte de los "tags" y esto influye en el botón de aplicar
@@ -111,22 +126,39 @@ namespace RenameMusic.Assets
             }
         }
 
-        //private void TagRequired_CheckChanged(object sender, RoutedEventArgs e)
-        //{
-        //    RequiredTags.Clear();
-        //    if (titleRequired.IsChecked == true) RequiredTags.Add("<Title>");
-        //    if (albumRequired.IsChecked == true) RequiredTags.Add("<Album>");
-        //    if (albumArtistRequired.IsChecked == true) RequiredTags.Add("<AlbumArtist>");
-        //    if (artistRequired.IsChecked == true) RequiredTags.Add("<Artist>");
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cbox = sender as ComboBox;
+            if (cbox.SelectedIndex == 0)
+            {
+                stackPanelTagsReq.Visibility = Visibility.Hidden;
+                stackPanelNullCharacter.Visibility = Visibility.Visible;
+            }
+            else if(cbox.SelectedIndex == 1)
+            {
+                stackPanelTagsReq.Visibility = Visibility.Visible;
+                stackPanelNullCharacter.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                stackPanelTagsReq.Visibility = Visibility.Collapsed;
+                stackPanelNullCharacter.Visibility = Visibility.Collapsed;
+            }
+        }
 
-        //    if (!RequiredTags.TrueForAll(tag => ToReplace.Text.Contains(tag)))
-        //    {
-        //        WarningMSG.Text = $"{Strings.NOT_ALLOWED}: Debe contener todos los tags marcados como requeridos";
-        //    }
-        //    else
-        //    {
-        //        WarningMSG.Text = "";
-        //    }
-        //}
+        private void TagRequired_CheckChanged(object sender, RoutedEventArgs e)
+        {
+            _requiredTags.Clear();
+            if (trackNumRequired.IsChecked == true) _requiredTags.Add("<TrackNum>");
+            if (titleRequired.IsChecked == true) _requiredTags.Add("<Title>");
+            if (albumRequired.IsChecked == true) _requiredTags.Add("<Album>");
+            if (albumArtistRequired.IsChecked == true) _requiredTags.Add("<AlbumArtist>");
+            if (artistRequired.IsChecked == true) _requiredTags.Add("<Artist>");
+            if (yearRequired.IsChecked == true) _requiredTags.Add("<Year>");
+
+            if (!CheckAllTagsRequired())
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: te falta al menos un tag marcado como requerido.";
+            else WarningMSG.Text = ""; // ToDo: Check again "ToReplace.Text"
+        }
     }
 }

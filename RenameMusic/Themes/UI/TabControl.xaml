@@ -39,6 +39,7 @@
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource PrimaryColor0}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource CustomTabForegroundSelected}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

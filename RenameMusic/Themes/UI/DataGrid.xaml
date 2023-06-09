@@ -4,7 +4,7 @@
         <Setter Property="RowBackground" Value="{DynamicResource BackgroundColor0}"/>
         <Setter Property="AlternatingRowBackground" Value="{DynamicResource BackgroundColor1}"/>
         <Setter Property="Background" Value="{x:Null}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundColor1}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CustomRowForeground}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource CustomBorderBrush}"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="GridLinesVisibility" Value="Vertical"/>

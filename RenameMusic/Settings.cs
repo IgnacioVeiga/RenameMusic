@@ -34,30 +34,25 @@ namespace RenameMusic.Properties
         {
             int tagsRequiredCount = 0, tagsNotEmptyCount = 0;
 
+            tagsRequiredCount = Default.TrackNumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
             tagsRequiredCount = Default.TitleRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
             tagsRequiredCount = Default.AlbumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
             tagsRequiredCount = Default.AlbumArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
             tagsRequiredCount = Default.ArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Default.YearRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
 
+            if (Default.TrackNumRequired && tags.Track > 0)
+                tagsNotEmptyCount++;
             if (Default.TitleRequired && !string.IsNullOrWhiteSpace(tags.Title))
-            {
                 tagsNotEmptyCount++;
-            }
-
             if (Default.AlbumRequired && !string.IsNullOrWhiteSpace(tags.Album))
-            {
                 tagsNotEmptyCount++;
-            }
-
             if (Default.AlbumArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedAlbumArtists))
-            {
                 tagsNotEmptyCount++;
-            }
-
             if (Default.ArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedPerformers))
-            {
                 tagsNotEmptyCount++;
-            }
+            if (Default.YearRequired && tags.Year > 0)
+                tagsNotEmptyCount++;
 
             return tagsRequiredCount == tagsNotEmptyCount;
         }

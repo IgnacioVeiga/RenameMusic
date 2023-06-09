@@ -16,9 +16,14 @@
 
             <SolidColorBrush x:Key="CustomMouseOverOuterColor" Color="#E12885"/>
             <SolidColorBrush x:Key="CustomScrollBarBackgroundColor" Color="#2D2D2D"/>
-            <SolidColorBrush x:Key="CustomTabBackground" Color="#2F2F2F"/>
-            <SolidColorBrush x:Key="CustomTabForeground" Color="#EDEDED"/>
-            <SolidColorBrush x:Key="CustomTabBackgroundMouseOver" Color="#4F4F4F"/>
+
+            <SolidColorBrush x:Key="CustomRowForeground" Color="#202020"/>
+            
+            <SolidColorBrush x:Key="CustomTabBackground" Color="#BCDDEE"/>
+            <SolidColorBrush x:Key="CustomTabForeground" Color="#202020"/>
+            <SolidColorBrush x:Key="CustomTabBackgroundMouseOver" Color="#86CECB"/>
+            <SolidColorBrush x:Key="CustomTabForegroundSelected" Color="#F1F1F1"/>
+            
             <SolidColorBrush x:Key="CustomBorderBrush" Color="#353535"/>
             <SolidColorBrush x:Key="CustomDisabledColor0" Color="#808080"/>
             <SolidColorBrush x:Key="CustomDisabledColor1" Color="#A0A0A0"/>

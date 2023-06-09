@@ -25,7 +25,7 @@ namespace RenameMusic.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<TrackNum>. <Title> - <Album> (Year)")]
+        [global::System.Configuration.DefaultSettingValueAttribute("<TrackNum>. <Title> - <Album> (<Year>)")]
         public string DefaultTemplate {
             get {
                 return ((string)(this["DefaultTemplate"]));
@@ -68,6 +68,18 @@ namespace RenameMusic.Properties {
             }
             set {
                 this["IncludeSubFolders"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TrackNumRequired {
+            get {
+                return ((bool)(this["TrackNumRequired"]));
+            }
+            set {
+                this["TrackNumRequired"] = value;
             }
         }
         
@@ -121,6 +133,18 @@ namespace RenameMusic.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool YearRequired {
+            get {
+                return ((bool)(this["YearRequired"]));
+            }
+            set {
+                this["YearRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("256")]
         public int PageSize {
             get {
@@ -140,6 +164,18 @@ namespace RenameMusic.Properties {
             }
             set {
                 this["ThemeName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int MinTagsRequiredIndex {
+            get {
+                return ((int)(this["MinTagsRequiredIndex"]));
+            }
+            set {
+                this["MinTagsRequiredIndex"] = value;
             }
         }
     }
