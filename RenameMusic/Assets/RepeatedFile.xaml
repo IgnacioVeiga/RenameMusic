@@ -14,13 +14,13 @@
         <TextBlock Text="{x:Static p:Strings.FILE_REPEATED_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0" FontSize="12"/>
 
         <TextBlock Text="{x:Static p:Strings.CURRENT_FILE_NAME_MSG}" HorizontalAlignment="Left" Margin="15,40,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
-        <TextBlock x:Name="currentName" HorizontalAlignment="Left" Margin="140,40,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <TextBlock x:Name="currentName" HorizontalAlignment="Left" Margin="140,40,0,0" VerticalAlignment="Top" FontSize="12" d:Text="Name.mp3"/>
 
         <TextBlock Text="{x:Static p:Strings.NEW_NAME}" HorizontalAlignment="Left" Margin="15,70,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
-        <TextBlock x:Name="newName" HorizontalAlignment="Left" Margin="140,70,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <TextBlock x:Name="newName" HorizontalAlignment="Left" Margin="140,70,0,0" VerticalAlignment="Top" FontSize="12" d:Text="New name but repeated.mp3"/>
 
         <TextBlock Text="{x:Static p:Strings.LOCATION_MSG}" HorizontalAlignment="Left" Margin="15,100,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"/>
-        <TextBlock x:Name="location" HorizontalAlignment="Left" Margin="140,100,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <TextBlock x:Name="location" HorizontalAlignment="Left" Margin="140,100,0,0" VerticalAlignment="Top" FontSize="12" d:Text="C:\Folder\"/>
 
         <CheckBox x:Name="keepChoice" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,130,0,0" Cursor="Hand" Click="RememberChoice_Click"/>
         <TextBlock Text="{x:Static p:Strings.KEEP_MY_CHOICE_MSG}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,130,0,0" Width="300"/>

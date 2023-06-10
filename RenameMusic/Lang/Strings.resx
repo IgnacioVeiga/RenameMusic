@@ -120,7 +120,7 @@
   <data name="EXCEPTION_MSG" xml:space="preserve">
     <value>An error has occurred, please notify the developer.</value>
   </data>
-  <data name="TASK_SUCCESFULL_MSG" xml:space="preserve">
+  <data name="TASK_SUCCESSFULL_MSG" xml:space="preserve">
     <value>Task completed successfully.</value>
   </data>
   <data name="SETTINGS_RESTORED" xml:space="preserve">
@@ -320,5 +320,32 @@
   </data>
   <data name="REPLACE_WITH" xml:space="preserve">
     <value>Replace with</value>
+  </data>
+  <data name="METADATA_EDIT_SUCCESS" xml:space="preserve">
+    <value>Metadata successfully edited.</value>
+  </data>
+  <data name="SUPPORTED_FILES" xml:space="preserve">
+    <value>Supported files</value>
+  </data>
+  <data name="REQ_TAG_MISS_MSG" xml:space="preserve">
+    <value>At least one tag marked as required is missing.</value>
+  </data>
+  <data name="NONE_REQ" xml:space="preserve">
+    <value>None (not recommended)</value>
+  </data>
+  <data name="ONLY_MARKED_ONES" xml:space="preserve">
+    <value>Only the marked ones</value>
+  </data>
+  <data name="ALL_MENTIONED" xml:space="preserve">
+    <value>All those mentioned below</value>
+  </data>
+  <data name="REPLACE_NULL" xml:space="preserve">
+    <value>Replace null tags with:</value>
+  </data>
+  <data name="OMIT_TAG_ITEM" xml:space="preserve">
+    <value>Nothing (omit)</value>
+  </data>
+  <data name="UNKNOWN" xml:space="preserve">
+    <value>Unknown</value>
   </data>
 </root>
