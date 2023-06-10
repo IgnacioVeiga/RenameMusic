@@ -61,8 +61,8 @@ namespace RenameMusic
             #endregion Themes
 
             ContentLoadedSBar.Text = $"{Strings.LOADED}: 0/0";
-            // ToDo: habilitar el menuitem "load prev data" solo si existen elementos en
-            // la tabla "folder" de la DB y preguntarle al usuario al añadir archivos/carpetas
+            // ToDo: Enable the MenuItem "LoadPrevData" only if there is at least one item in the "Folders" table of the database.
+            // If there is already data loaded in the DataGrid, warn the user that this data will be lost when loading data from the database.
         }
 
         #region Util
@@ -122,7 +122,7 @@ namespace RenameMusic
             LoadingBar loading_bar = new(files.Length);
             loading_bar.Show();
 
-            // Para prevenir problemas
+            // To prevent problems
             RenameBTN.IsEnabled = false;
             MainTabs.IsEnabled = false;
             MainMenu.IsEnabled = false;
@@ -151,7 +151,7 @@ namespace RenameMusic
             LoadingBar loading_bar = new(directories.Length);
             loading_bar.Show();
 
-            // Para prevenir problemas
+            // To prevent problems
             RenameBTN.IsEnabled = false;
             MainTabs.IsEnabled = false;
             MainMenu.IsEnabled = false;
@@ -198,7 +198,7 @@ namespace RenameMusic
 
             CurrentPage = 1;
 
-            // Para prevenir problemas
+            // To prevent problems
             RenameBTN.IsEnabled = false;
             MainTabs.IsEnabled = false;
             MainMenu.IsEnabled = false;
@@ -244,7 +244,7 @@ namespace RenameMusic
             DAL.ClearDatabase();
 
             loading_bar.Close();
-            MessageBox.Show(Strings.TASK_SUCCESFULL_MSG);
+            MessageBox.Show(Strings.TASK_SUCCESSFULL_MSG);
         }
 
         private void AudioItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -329,18 +329,20 @@ namespace RenameMusic
             MenuItem clickedItem = sender as MenuItem;
             string themeName = clickedItem?.Header.ToString();
             ThemeManager.ChangeTheme(themeName);
+
+            // The selected theme must be disabled and checked.
             foreach (MenuItem themeItem in ThemesMenu.Items)
             {
-                themeItem.IsEnabled = true; // Habilitar todos los elementos del menú de temas
+                themeItem.IsEnabled = true;
 
                 if (themeItem == clickedItem)
                 {
-                    themeItem.IsChecked = true; // Marcar el tema seleccionado
-                    themeItem.IsEnabled = false; // Deshabilitar el tema seleccionado
+                    themeItem.IsChecked = true;
+                    themeItem.IsEnabled = false;
                 }
                 else
                 {
-                    themeItem.IsChecked = false; // Desmarcar los temas no seleccionados
+                    themeItem.IsChecked = false;
                 }
             }
         }
@@ -409,14 +411,14 @@ namespace RenameMusic
             Process.Start(new ProcessStartInfo()
             {
                 FileName = filePath,
-                UseShellExecute = true // para que se ejecute como audio y no como un ".exe"
+                UseShellExecute = true // This allows you to play the file with the default audio player.
             });
         }
 
         private void EditTags_Click(object sender, RoutedEventArgs e)
         {
             string filePath = "";
-            // Primero debo saber en que lista estoy
+            // First I must know in which list the selected item is.
             switch (MainTabs.SelectedIndex)
             {
                 case 0:
@@ -429,7 +431,7 @@ namespace RenameMusic
             MetadataEditor window = new(filePath);
             if (window.ShowDialog() == true)
             {
-                MessageBox.Show("Metadata edited successfully.", Strings.EDIT_TAGS, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Strings.METADATA_EDIT_SUCCESS, Strings.EDIT_TAGS, MessageBoxButton.OK, MessageBoxImage.Information);
 
                 PrimaryList.Items.Clear();
                 SecondaryList.Items.Clear();
@@ -441,8 +443,7 @@ namespace RenameMusic
         private void SwitchList_Click(object sender, RoutedEventArgs e)
         {
             int id = 0;
-
-            // Primero debo saber en que lista estoy
+            // First I must know in which list the selected item is.
             switch (MainTabs.SelectedIndex)
             {
                 case 0:
@@ -450,8 +451,7 @@ namespace RenameMusic
                     break;
                 case 1:
                     id = ((Audio)SecondaryList.SelectedItem).Id;
-                    // Chequear si cumple con los tags minimos, en caso que no,
-                    // dar advertencia al usuario y proceder.
+                    // ToDo: Check if it complies with the minimum required tags, in case it does not comply with them, notify and let it continue.
                     break;
             }
             DAL.SwitchList(id);
@@ -484,26 +484,26 @@ namespace RenameMusic
 
         private void RemoveFromList_Click(object sender, RoutedEventArgs e)
         {
-            // realizar exactamente los mismo que si hiciera clic en el boton con "x".
-            // revisar si se puede eliminar esta función y utilizar la anterior mencionada.
+            // Perform exactly the same as clicking on the "X" button.
+            // Check if you can remove this function and use the previous one mentioned above.
         }
 
         private void DeleteFile_Click(object sender, RoutedEventArgs e)
         {
-            // 0. preguntar antes de continuar
-            // 1. bloquear acceso a componentes
-            // 2. eliminar audio de la DB
-            // 3. eliminar archivo del almacenamiento
-            // 4. vaciar listas, recargarlas y desbloquear componentes
+            // 0. Ask before proceeding
+            // 1. Block access to components
+            // 2. Remove audio from DB
+            // 3. Remove file from storage
+            // 4. Emptying lists, reloading and unlocking components
         }
 
         private void DeleteFolder_Click(object sender, RoutedEventArgs e)
         {
-            // 0. preguntar antes de continuar
-            // 1. bloquear acceso a componentes
-            // 2. eliminar carpeta y audios de la DB
-            // 3. eliminar carpeta y audios del almacenamiento
-            // 4. vaciar listas, recargarlas y desbloquear componentes
+            // 0. Ask before proceeding
+            // 1. Block access to components
+            // 2. Remove folder and audios from DB
+            // 3. Remove folder and files from storage
+            // 4. Emptying lists, reloading and unlocking components
         }
 
         private void OpenInExplorer_Click(object sender, RoutedEventArgs e)

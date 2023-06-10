@@ -43,7 +43,7 @@ namespace RenameMusic.DB
                 }
                 catch (Exception)
                 {
-                    // Se omite archivos corruptos y/o que no tengan "tags"
+                    // Files that are corrupt and/or do not contain metadata are skipped.
                     continue;
                 }
                 AddAudioToDB(audio);
@@ -142,7 +142,7 @@ namespace RenameMusic.DB
                 .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize).ToList();
 
-            // ToDo: Buscar otra forma más facil. Se puede hacer con AutoMapper?
+            // ToDo: Find another easier way. Can it be done with Auto Mapper?
             List<Audio> list = new();
             foreach (AudioDTO audio in audios)
             {
@@ -165,7 +165,7 @@ namespace RenameMusic.DB
                 .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize).ToList();
 
-            // ToDo: Buscar otra forma más facil. Se puede hacer con AutoMapper?
+            // ToDo: Find another easier way. Can it be done with Auto Mapper?
             List<Folder> list = new();
             foreach (FolderDTO folder in folders)
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using RenameMusic.Lang;
 using RenameMusic.Util;
 using System;
 using System.IO;
@@ -54,7 +55,7 @@ namespace RenameMusic.Assets
                     Multiselect = false,
                     InitialDirectory = Path.GetDirectoryName(filepath) + Path.DirectorySeparatorChar,
                     CheckFileExists = true,
-                    Filter = "Supported files|*.jpg;*.jpeg;*.png;*.gif;*.webp|JPG|*.jpg|JPEG|*jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
+                    Filter = $"{Strings.SUPPORTED_FILES}*.jpg;*.jpeg;*.png;*.gif;*.webp|JPG|*.jpg|JPEG|*jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
                 };
 
                 // In .mp3 files, does the cover art have to be a 64kb .png format?

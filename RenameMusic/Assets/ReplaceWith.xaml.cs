@@ -75,7 +75,7 @@ namespace RenameMusic.Assets
         {
             ComboBox comboBox = (ComboBox)sender;
 
-            // Omitimos el placeholder
+            // We omit the placeholder (index 0)
             if (comboBox.SelectedIndex != 0)
             {
                 ComboBoxItem selectedItem = (ComboBoxItem)comboBox.SelectedItem;
@@ -85,12 +85,12 @@ namespace RenameMusic.Assets
             }
         }
 
-        // ToDo: mostar el mensaje de "Warning" solo cuando sea necesario y refactorizar
+        // ToDo: Show a "Warning" message only when necessary and refactor
         private void RTBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (ToReplace == null) return;
 
-            // No debe ser un espacio vacio o similar
+            // It must not be an empty space or similar
             if (string.IsNullOrWhiteSpace(ToReplace.Text))
             {
                 ApplyBTN.IsEnabled = false;
@@ -98,16 +98,16 @@ namespace RenameMusic.Assets
                 return;
             }
 
-            // Debe contener por lo menos 1 "tag" de los marcados como requeridos
+            // It must contain at least 1 "tag" of those marked as required
             ApplyBTN.IsEnabled = CheckAllTagsRequired();
             if (!ApplyBTN.IsEnabled)
             {
-                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: At least one tag marked as required is missing.";
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: {Strings.REQ_TAG_MISS_MSG}";
                 return;
             }
 
-            // Reemplazo solo los caracteres invalidos de los "tags", entonces cualquier otro caracter
-            // invalido restante no forma parte de los "tags" y esto influye en el botón de aplicar
+            // I replace only the invalid characters that we use to recognize the tags,
+            // so any remaining invalid characters are not part of our code.
             string temp = ToReplace.Text;
             foreach (string tag in MetadataMap.Keys)
             {
@@ -116,7 +116,6 @@ namespace RenameMusic.Assets
             if (!FilenameFunctions.IsValidFileName(temp))
             {
                 ApplyBTN.IsEnabled = false;
-                // ToDo: revisar la traducciones
                 WarningMSG.Text = $"{Strings.NOT_ALLOWED}: {Strings.INVALID_TEMPLATE_MSG}";
             }
             else
