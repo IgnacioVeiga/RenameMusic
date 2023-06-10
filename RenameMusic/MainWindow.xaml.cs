@@ -297,10 +297,12 @@ namespace RenameMusic
         {
             Settings.Default.Lang = "en";
             Settings.Default.DefaultTemplate = "<TrackNum>. <Title> - <Album> (<Year>)";
+            Settings.Default.TrackNumRequired = false;
             Settings.Default.TitleRequired = true;
             Settings.Default.AlbumRequired = true;
             Settings.Default.AlbumArtistRequired = false;
             Settings.Default.ArtistRequired = false;
+            Settings.Default.YearRequired = false;
             Settings.Default.IncludeSubFolders = true;
             Settings.Default.RepeatedFileKeepChoice = false;
             Settings.Default.Save();
