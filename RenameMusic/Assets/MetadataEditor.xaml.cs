@@ -15,6 +15,7 @@ namespace RenameMusic.Assets
     {
         private readonly string filepath;
         private string newImageFilepath;
+        private bool imageChanged;
 
         public MetadataEditor(string path)
         {
@@ -61,6 +62,7 @@ namespace RenameMusic.Assets
                 if (imagePicker.ShowDialog() == true)
                 {
                     newImageFilepath = imagePicker.FileName;
+                    imageChanged = true;
                     Pictures.Source = Multimedia.GetBitmapImage(imagePicker.FileName);
                 }
             }
@@ -77,9 +79,12 @@ namespace RenameMusic.Assets
             file.Tag.Genres = Genres.Text.Split(";");
             file.Tag.Comment = Comment.Text;
 
-            // ToDo: Do the same with the rest of the images in the array.
-            file.Tag.Pictures = Array.Empty<IPicture>();
-            file.Tag.Pictures = new IPicture[] { new Picture(newImageFilepath) };
+            if (imageChanged)
+            {
+                // ToDo: Do the same with the rest of the images in the array.
+                file.Tag.Pictures = Array.Empty<IPicture>();
+                file.Tag.Pictures = new IPicture[] { new Picture(newImageFilepath) };
+            }
 
             try
             {
