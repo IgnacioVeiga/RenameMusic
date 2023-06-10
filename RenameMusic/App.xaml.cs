@@ -1,6 +1,5 @@
 ﻿using RenameMusic.Lang;
 using RenameMusic.Properties;
-using RenameMusic.Themes;
 using System;
 using System.Diagnostics;
 using System.Reflection;

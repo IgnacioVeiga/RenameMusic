@@ -26,14 +26,6 @@ namespace RenameMusic.Util
 
         public static string GetNewName(TagLib.Tag audioTags)
         {
-            /*
-                <tn> = Track Number
-                <t> = Title song
-                <a> = Album
-                <aAt> = Album Artist
-                <At> = Artist
-                <yr> = Year
-             */
             string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
             string fileName = Settings.Default.DefaultTemplate;
 

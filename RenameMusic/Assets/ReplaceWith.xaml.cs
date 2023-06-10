@@ -134,7 +134,7 @@ namespace RenameMusic.Assets
                 stackPanelTagsReq.Visibility = Visibility.Hidden;
                 stackPanelNullCharacter.Visibility = Visibility.Visible;
             }
-            else if(cbox.SelectedIndex == 1)
+            else if (cbox.SelectedIndex == 1)
             {
                 stackPanelTagsReq.Visibility = Visibility.Visible;
                 stackPanelNullCharacter.Visibility = Visibility.Visible;
