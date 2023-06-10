@@ -26,15 +26,7 @@ namespace RenameMusic.Util
 
         public static string GetNewName(TagLib.Tag audioTags)
         {
-            /*
-                <tn> = Track Number
-                <t> = Title song
-                <a> = Album
-                <aAt> = Album Artist
-                <At> = Artist
-                <yr> = Year
-             */
-            string[] tags = { "<tn>", "<t>", "<a>", "<aAt>", "<At>", "<yr>" };
+            string[] tags = { "<TrackNum>", "<Title>", "<Album>", "<AlbumArtist>", "<Artist>", "<Year>" };
             string fileName = Settings.Default.DefaultTemplate;
 
             foreach (string tag in tags)
@@ -42,22 +34,22 @@ namespace RenameMusic.Util
                 if (!fileName.Contains(tag)) continue;
                 switch (tag)
                 {
-                    case "<tn>":
+                    case "<TrackNum>":
                         fileName = fileName.Replace(tag, audioTags.Track.ToString());
                         break;
-                    case "<t>":
+                    case "<Title>":
                         fileName = fileName.Replace(tag, audioTags.Title);
                         break;
-                    case "<a>":
+                    case "<Album>":
                         fileName = fileName.Replace(tag, audioTags.Album);
                         break;
-                    case "<aAt>":
+                    case "<AlbumArtist>":
                         fileName = fileName.Replace(tag, audioTags.JoinedAlbumArtists);
                         break;
-                    case "<At>":
+                    case "<Artist>":
                         fileName = fileName.Replace(tag, audioTags.JoinedPerformers);
                         break;
-                    case "<yr>":
+                    case "<Year>":
                         fileName = fileName.Replace(tag, audioTags.Year.ToString());
                         break;
                 }

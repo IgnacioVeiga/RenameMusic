@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Configuration;
-using System.Windows;
 
 namespace RenameMusic.Properties
 {

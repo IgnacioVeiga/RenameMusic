@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using TagLib;
 
 namespace RenameMusic.Assets
 {
@@ -13,6 +14,8 @@ namespace RenameMusic.Assets
     public partial class MetadataEditor : Window
     {
         private readonly string filepath;
+        private string newImageFilepath;
+        private bool imageChanged;
 
         public MetadataEditor(string path)
         {
@@ -54,10 +57,12 @@ namespace RenameMusic.Assets
                     Filter = "Supported files|*.jpg;*.jpeg;*.png;*.gif;*.webp|JPG|*.jpg|JPEG|*jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
                 };
 
-                // ToDo: en archivos .mp3 la caratula debe ser formato .png de 64kb
+                // In .mp3 files, does the cover art have to be a 64kb .png format?
 
                 if (imagePicker.ShowDialog() == true)
                 {
+                    newImageFilepath = imagePicker.FileName;
+                    imageChanged = true;
                     Pictures.Source = Multimedia.GetBitmapImage(imagePicker.FileName);
                 }
             }
@@ -74,8 +79,12 @@ namespace RenameMusic.Assets
             file.Tag.Genres = Genres.Text.Split(";");
             file.Tag.Comment = Comment.Text;
 
-            // ToDo: check this
-            //file.Tag.Pictures[0] = (TagLib.IPicture)Pictures.Source;
+            if (imageChanged)
+            {
+                // ToDo: Do the same with the rest of the images in the array.
+                file.Tag.Pictures = Array.Empty<IPicture>();
+                file.Tag.Pictures = new IPicture[] { new Picture(newImageFilepath) };
+            }
 
             try
             {
