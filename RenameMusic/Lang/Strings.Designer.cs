@@ -412,6 +412,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Required tags:.
+        /// </summary>
+        public static string MIN_TAG_REQ {
+            get {
+                return ResourceManager.GetString("MIN_TAG_REQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Multiple instances of this program are not allowed..
         /// </summary>
         public static string MULTI_INSTANCE_MSG {
@@ -601,7 +610,7 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check the required tags which should not be empty fields, this helps to define which files will be renamed later..
+        ///   Looks up a localized string similar to Define the required tags (to know in which list to place each file by default) and the text used as a template to follow when renaming..
         /// </summary>
         public static string RW_DESCRIPTION {
             get {

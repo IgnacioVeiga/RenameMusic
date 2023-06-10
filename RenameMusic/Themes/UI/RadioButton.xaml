@@ -9,18 +9,17 @@
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="32" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Ellipse x:Name="OuterEllipse"
-                                     Width="18" Height="18"
-                                     Stroke="{TemplateBinding BorderBrush}"
-                                     StrokeThickness="2"
-                                     Fill="{TemplateBinding Background}"/>
-                        <Ellipse x:Name="InnerEllipse"
-                                     Width="10" Height="10"
-                                     Fill="{DynamicResource ForegroundColor1}"
-                                     Margin="4" Opacity="0" />
+                        <Ellipse x:Name="OuterEllipse" Width="18" Height="18"
+                                 Fill="{TemplateBinding Background}"
+                                 Stroke="{TemplateBinding BorderBrush}"
+                                 StrokeThickness="2" />
+                        <Ellipse x:Name="InnerEllipse" Width="10" Height="10"
+                                 Margin="4"
+                                 Fill="{DynamicResource ForegroundColor1}"
+                                 Opacity="0" />
                         <ContentPresenter Grid.Column="1" VerticalAlignment="Center" />
                     </Grid>
                     <ControlTemplate.Triggers>

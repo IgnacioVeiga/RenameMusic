@@ -274,7 +274,7 @@
     <value>Loaded</value>
   </data>
   <data name="RW_DESCRIPTION" xml:space="preserve">
-    <value>Check the required tags which should not be empty fields, this helps to define which files will be renamed later.</value>
+    <value>Define the required tags (to know in which list to place each file by default) and the text used as a template to follow when renaming.</value>
   </data>
   <data name="LOAD_PREV_DATA" xml:space="preserve">
     <value>Load previous data</value>
@@ -347,5 +347,8 @@
   </data>
   <data name="UNKNOWN" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="MIN_TAG_REQ" xml:space="preserve">
+    <value>Required tags:</value>
   </data>
 </root>

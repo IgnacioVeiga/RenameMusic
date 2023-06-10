@@ -5,42 +5,41 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <Border x:Name="border"
-                            BorderBrush="{DynamicResource CustomBorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}" 
                             Background="{DynamicResource BackgroundColor0}"
+                            BorderBrush="{DynamicResource CustomBorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
-                        <ContentPresenter x:Name="contentPresenter" 
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}"
-                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                          Focusable="False"
-                                          TextElement.Foreground="{DynamicResource ForegroundColor0}"
+                        <ContentPresenter x:Name="contentPresenter"
+                                          Margin="{TemplateBinding Padding}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                          Content="{TemplateBinding Content}"
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Focusable="False" RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          TextElement.Foreground="{DynamicResource ForegroundColor0}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Button.IsDefaulted" Value="True">
-                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="{DynamicResource PrimaryColor0}"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource PrimaryColor0}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource PrimaryColor0}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryColor0}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="{DynamicResource PrimaryColor0}"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource PrimaryColor0}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource PrimaryColor0}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PrimaryColor0}" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                            <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" TargetName="border" Value="{DynamicResource CustomDisabledColor0}"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource CustomDisabledColor1}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource CustomDisabledColor0}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource CustomDisabledColor1}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

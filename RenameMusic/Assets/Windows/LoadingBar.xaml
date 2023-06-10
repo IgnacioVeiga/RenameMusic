@@ -1,0 +1,22 @@
+﻿<Window x:Class="RenameMusic.Assets.LoadingBar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:RenameMusic.Lang"
+        
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Width="360" Height="100"
+        Title="{x:Static p:Strings.LOADING}"
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}">
+    <Grid Margin="20">
+        <ProgressBar Name="loadingBarStatus" d:Value="50"
+                     Background="{DynamicResource BackgroundColor0}"
+                     Foreground="{DynamicResource PrimaryColor0}"
+                     Maximum="100" Minimum="0" />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
+                   Foreground="{DynamicResource ForegroundColor1}"
+                   Text="{Binding ElementName=loadingBarStatus, Path=Value, StringFormat={}{0:0}%}" />
+    </Grid>
+</Window>

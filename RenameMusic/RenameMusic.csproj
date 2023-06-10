@@ -40,7 +40,7 @@
     <SplashScreen Include="Assets\Images\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Assets\ReplaceWith.xaml.cs">
+    <Compile Update="Assets\Windows\ReplaceWith.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Lang\Strings.Designer.cs">
@@ -85,7 +85,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Assets\ReplaceWith.xaml">
+    <Page Update="Assets\Windows\ReplaceWith.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

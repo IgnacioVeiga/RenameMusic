@@ -1,0 +1,50 @@
+﻿<Window x:Class="RenameMusic.Assets.RepeatedFile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:RenameMusic.Lang"
+        
+        Title="{x:Static p:Strings.REPEATED_FILE}"
+        Width="680" MinHeight="240" mc:Ignorable="d"
+        ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        
+        Background="{DynamicResource BackgroundColor1}"
+        Foreground="{DynamicResource ForegroundColor1}">
+    <Grid>
+        <TextBlock Margin="15,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   FontSize="12" Text="{x:Static p:Strings.FILE_REPEATED_MSG}" />
+
+        <TextBlock Margin="15,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   FontSize="12" FontWeight="Bold" Text="{x:Static p:Strings.CURRENT_FILE_NAME_MSG}" />
+        <TextBlock x:Name="currentName" Margin="140,40,0,0" HorizontalAlignment="Left"
+                   VerticalAlignment="Top" d:Text="Name.mp3" FontSize="12" />
+
+        <TextBlock Margin="15,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   FontSize="12" FontWeight="Bold" Text="{x:Static p:Strings.NEW_NAME}" />
+        <TextBlock x:Name="newName" Margin="140,70,0,0" HorizontalAlignment="Left"
+                   VerticalAlignment="Top" d:Text="New name but repeated.mp3" FontSize="12" />
+
+        <TextBlock Margin="15,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   FontSize="12" FontWeight="Bold" Text="{x:Static p:Strings.LOCATION_MSG}" />
+        <TextBlock x:Name="location" Margin="140,100,0,0" HorizontalAlignment="Left"
+                   VerticalAlignment="Top" d:Text="C:\Folder\" FontSize="12" />
+
+        <CheckBox x:Name="keepChoice" Margin="20,130,0,0" HorizontalAlignment="Left"
+                  VerticalAlignment="Top" Click="RememberChoice_Click" Cursor="Hand" />
+        <TextBlock Width="300" Margin="50,130,0,0"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                   Text="{x:Static p:Strings.KEEP_MY_CHOICE_MSG}" />
+
+        <Button Width="100" Height="30" Margin="0,160,260,0"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Click="ReplaceBTN_Click"
+                Content="{x:Static p:Strings.REPLACE}" Cursor="Hand" />
+        <Button Width="100" Height="30" Margin="0,160,0,0"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Click="SkipBTN_Click"
+                Content="{x:Static p:Strings.SKIP}" Cursor="Hand" />
+        <Button Width="100" Height="30" Margin="260,160,0,0"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Click="RenameBTN_Click"
+                Content="{x:Static p:Strings.RENAME}" Cursor="Hand" />
+    </Grid>
+</Window>

@@ -274,7 +274,7 @@
     <value>Cargado</value>
   </data>
   <data name="RW_DESCRIPTION" xml:space="preserve">
-    <value>Marque las etiquetas requeridas que no deben ser campos vacios, esto ayuda a definir que archivos se renombraran luego.</value>
+    <value>Defina las etiquetas necesarias (para saber en qué lista colocar por defecto cada archivo) y el texto que se utilizará como plantilla a seguir al renombrar.</value>
   </data>
   <data name="LOAD_PREV_DATA" xml:space="preserve">
     <value>Cargar datos anteriores</value>
@@ -347,5 +347,8 @@
   </data>
   <data name="UNKNOWN" xml:space="preserve">
     <value>Desconocido</value>
+  </data>
+  <data name="MIN_TAG_REQ" xml:space="preserve">
+    <value>Tags requeridos:</value>
   </data>
 </root>

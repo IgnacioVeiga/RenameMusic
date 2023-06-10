@@ -9,13 +9,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Assets\MetadataEditor.xaml.cs">
+    <Compile Update="Assets\Windows\MetadataEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\RepeatedFile.xaml.cs">
+    <Compile Update="Assets\Windows\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\LoadingBar.xaml.cs">
+    <Compile Update="Assets\Windows\LoadingBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -31,19 +31,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Assets\MetadataEditor.xaml">
+    <Page Update="Assets\Windows\MetadataEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\ReplaceWith.xaml">
+    <Page Update="Assets\Windows\ReplaceWith.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\RepeatedFile.xaml">
+    <Page Update="Assets\Windows\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\LoadingBar.xaml">
+    <Page Update="Assets\Windows\LoadingBar.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Assets\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Light.xaml">
