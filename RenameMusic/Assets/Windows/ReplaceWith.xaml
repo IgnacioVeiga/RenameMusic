@@ -86,8 +86,8 @@
 
         <TextBlock x:Name="WarningMSG" Grid.Row="4" Grid.ColumnSpan="2"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Background="Yellow" Padding="2"
-                   TextWrapping="WrapWithOverflow" d:Text="Warning message here!" />
+                   Foreground="Red" TextWrapping="WrapWithOverflow"
+                   FontWeight="SemiBold" d:Text="Warning message here!" />
 
         <Button x:Name="ApplyBTN" Grid.Row="5"
                 Width="100" Margin="0,10"
