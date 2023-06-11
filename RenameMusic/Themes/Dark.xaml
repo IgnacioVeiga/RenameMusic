@@ -15,9 +15,11 @@
             <SolidColorBrush x:Key="ForegroundColor1" Color="#BEC8D1" />
 
             <SolidColorBrush x:Key="CustomMouseOverOuterColor" Color="#E12885" />
-            <SolidColorBrush x:Key="CustomScrollBarBackgroundColor" Color="#2D2D2D" />
+            <SolidColorBrush x:Key="CustomScrollBarBackgroundColor" Color="Transparent" />
 
             <SolidColorBrush x:Key="CustomRowForeground" Color="#F1F1F1" />
+
+            <SolidColorBrush x:Key="CustomHighlightedItemForegroundCBOX" Color="#F1F1F1" />
 
             <SolidColorBrush x:Key="CustomTabBackground" Color="#2F2F2F" />
             <SolidColorBrush x:Key="CustomTabForeground" Color="#F1F1F1" />
@@ -31,9 +33,9 @@
 
         <ResourceDictionary Source="UI/Button.xaml" />
         <ResourceDictionary Source="UI/CheckBox.xaml" />
-        <ResourceDictionary Source="UI/ComboBox.xaml" />
+        <!--<ResourceDictionary Source="UI/ComboBox.xaml" />-->
         <ResourceDictionary Source="UI/DataGrid.xaml" />
-        <ResourceDictionary Source="UI/Menu.xaml" />
+        <!--<ResourceDictionary Source="UI/Menu.xaml" />-->
         <ResourceDictionary Source="UI/RadioButton.xaml" />
         <ResourceDictionary Source="UI/ScrollBar.xaml" />
         <ResourceDictionary Source="UI/TabControl.xaml" />

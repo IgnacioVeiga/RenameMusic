@@ -9,7 +9,7 @@
             <Border x:Name="Border" Grid.ColumnSpan="2"
                     Background="{DynamicResource BackgroundColor0}"
                     BorderBrush="Transparent" BorderThickness="1,1,1,1" CornerRadius="0" />
-            <Border Grid.Column="0" Margin="1"
+            <Border Margin="1"
                     Background="{DynamicResource BackgroundColor0}"
                     BorderBrush="Transparent" BorderThickness="1,0,0,0" CornerRadius="0" />
             <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center"
@@ -17,12 +17,14 @@
                   Fill="{DynamicResource ForegroundColor1}" />
         </Grid>
     </ControlTemplate>
-
+    
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
         <Border x:Name="PART_ContentHost" Background="{TemplateBinding Background}" Focusable="False" />
     </ControlTemplate>
 
-    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor0}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundColor1}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -30,8 +32,6 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="MinWidth" Value="40" />
         <Setter Property="MinHeight" Value="20" />
-        <Setter Property="Background" Value="{DynamicResource BackgroundColor0}" />
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundColor1}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -98,7 +98,7 @@
         <Style.Triggers />
     </Style>
 
-    <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+    <Style TargetType="{x:Type ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundColor1}" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -111,7 +111,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource PrimaryColor0}" />
-                            <Setter Property="Foreground" Value="{DynamicResource BackgroundColor0}" />
+                            <Setter Property="Foreground" Value="{DynamicResource CustomHighlightedItemForegroundCBOX}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource CustomDisabledColor0}" />

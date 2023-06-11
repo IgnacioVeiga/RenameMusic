@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="Background" Value="{DynamicResource CustomTabBackground}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CustomBorderBrush}" />
     </Style>
     <Style TargetType="{x:Type TabItem}">
         <Setter Property="Foreground" Value="{DynamicResource CustomTabForeground}" />
