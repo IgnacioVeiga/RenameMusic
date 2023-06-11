@@ -156,9 +156,15 @@ namespace RenameMusic.Assets
             if (yearRequired.IsChecked == true) _requiredTags.Add("<Year>");
 
             if (!CheckAllTagsRequired())
-                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: At least one tag marked as required is missing.";
+            {
                 WarningMSG.Text = $"{Strings.NOT_ALLOWED}: {Strings.REQ_TAG_MISS_MSG}";
+                ApplyBTN.IsEnabled = false;
+            }
+            else
+            {
                 WarningMSG.Text = string.Empty; // ToDo: Check again "ToReplace.Text"
+                ApplyBTN.IsEnabled = true;
+            }
         }
     }
 }
