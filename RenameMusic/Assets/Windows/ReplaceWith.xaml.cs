@@ -121,7 +121,7 @@ namespace RenameMusic.Assets
             else
             {
                 ApplyBTN.IsEnabled = true;
-                WarningMSG.Text = "";
+                WarningMSG.Text = string.Empty;
             }
         }
 
@@ -157,7 +157,8 @@ namespace RenameMusic.Assets
 
             if (!CheckAllTagsRequired())
                 WarningMSG.Text = $"{Strings.NOT_ALLOWED}: At least one tag marked as required is missing.";
-            else WarningMSG.Text = ""; // ToDo: Check again "ToReplace.Text"
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: {Strings.REQ_TAG_MISS_MSG}";
+                WarningMSG.Text = string.Empty; // ToDo: Check again "ToReplace.Text"
         }
     }
 }
