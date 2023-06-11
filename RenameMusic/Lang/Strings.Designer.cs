@@ -88,6 +88,15 @@ namespace RenameMusic.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add tag.
+        /// </summary>
+        public static string ADD_TAG {
+            get {
+                return ResourceManager.GetString("ADD_TAG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Album.
         /// </summary>
         public static string ALBUM {

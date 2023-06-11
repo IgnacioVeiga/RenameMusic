@@ -351,4 +351,7 @@
   <data name="MIN_TAG_REQ" xml:space="preserve">
     <value>Tags requeridos:</value>
   </data>
+  <data name="ADD_TAG" xml:space="preserve">
+    <value>Añadir tag</value>
+  </data>
 </root>

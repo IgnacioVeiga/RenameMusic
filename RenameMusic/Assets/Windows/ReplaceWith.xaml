@@ -80,7 +80,7 @@
                 </RichTextBox.Document>
             </RichTextBox>
             <ComboBox x:Name="tagsBox" Grid.Column="1" SelectionChanged="TagsBox_SelectionChanged">
-                <ComboBoxItem Content="Add tag" IsEnabled="False" IsSelected="True" />
+                <ComboBoxItem Content="{x:Static p:Strings.ADD_TAG}" IsEnabled="False" IsSelected="True" />
             </ComboBox>
         </Grid>
 
