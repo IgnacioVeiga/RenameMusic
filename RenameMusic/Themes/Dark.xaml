@@ -33,9 +33,9 @@
 
         <ResourceDictionary Source="UI/Button.xaml" />
         <ResourceDictionary Source="UI/CheckBox.xaml" />
-        <!--<ResourceDictionary Source="UI/ComboBox.xaml" />-->
+        <ResourceDictionary Source="UI/ComboBox.xaml" />
         <ResourceDictionary Source="UI/DataGrid.xaml" />
-        <!--<ResourceDictionary Source="UI/Menu.xaml" />-->
+        <ResourceDictionary Source="UI/Menu.xaml" />
         <ResourceDictionary Source="UI/RadioButton.xaml" />
         <ResourceDictionary Source="UI/ScrollBar.xaml" />
         <ResourceDictionary Source="UI/TabControl.xaml" />
