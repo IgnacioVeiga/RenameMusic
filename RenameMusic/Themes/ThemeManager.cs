@@ -1,6 +1,7 @@
 ﻿using RenameMusic.Properties;
 using System;
 using System.Windows;
+using WinCopies.Util;
 
 namespace RenameMusic.Themes
 {
@@ -10,11 +11,16 @@ namespace RenameMusic.Themes
 
         internal static void LoadTheme()
         {
-            string themeName = Settings.Default.ThemeName;
-            string uri = $"pack://application:,,,/Themes/{themeName}.xaml";
-            ResourceDictionary resDictionary = new() { Source = new Uri(uri) };
+            ResourceDictionary ThemeResDic = new()
+            {
+                Source = new Uri($"pack://application:,,,/Themes/{Settings.Default.ThemeName}.xaml")
+            };
+            ResourceDictionary UIResDic = new()
+            {
+                Source = new Uri("pack://application:,,,/Themes/UI/Generic.xaml")
+            };
             Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(resDictionary);
+            Application.Current.Resources.MergedDictionaries.AddRange(ThemeResDic, UIResDic);
             Application.Current.MainWindow.UpdateLayout();
         }
 

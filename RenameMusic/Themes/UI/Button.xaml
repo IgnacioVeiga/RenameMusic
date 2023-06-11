@@ -37,7 +37,7 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource CustomDisabledColor0}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource CustomBorderBrush}" />
                             <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
                             <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{DynamicResource CustomDisabledColor1}" />
                         </Trigger>

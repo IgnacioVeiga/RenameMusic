@@ -55,6 +55,9 @@
     <Page Update="Themes\UI\CheckBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\UI\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\UI\RadioButton.xaml">
       <SubType>Designer</SubType>
     </Page>

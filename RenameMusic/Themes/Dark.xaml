@@ -30,14 +30,5 @@
             <SolidColorBrush x:Key="CustomDisabledColor0" Color="#808080" />
             <SolidColorBrush x:Key="CustomDisabledColor1" Color="#A0A0A0" />
         </ResourceDictionary>
-
-        <ResourceDictionary Source="UI/Button.xaml" />
-        <ResourceDictionary Source="UI/CheckBox.xaml" />
-        <ResourceDictionary Source="UI/ComboBox.xaml" />
-        <ResourceDictionary Source="UI/DataGrid.xaml" />
-        <ResourceDictionary Source="UI/Menu.xaml" />
-        <ResourceDictionary Source="UI/RadioButton.xaml" />
-        <ResourceDictionary Source="UI/ScrollBar.xaml" />
-        <ResourceDictionary Source="UI/TabControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
