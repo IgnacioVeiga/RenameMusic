@@ -67,7 +67,7 @@
         <Image x:Name="Pictures" Grid.Row="1"
                Width="230" Height="230" Margin="0,80,0,0"
                HorizontalAlignment="Center" VerticalAlignment="Top"
-               Panel.ZIndex="1" Source="{Binding Pictures}" d:Source="./Assets/Icons/icon.ico" />
+               Panel.ZIndex="1" Source="{Binding Pictures}" d:Source="./../Icons/icon.ico" />
         <Rectangle Grid.Row="1"
                    Width="230" Height="230" Margin="0,80,0,0"
                    HorizontalAlignment="Center" VerticalAlignment="Top"
