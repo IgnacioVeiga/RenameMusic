@@ -7,7 +7,7 @@
 
 <img src="/RenameMusic/Assets/Icons/icon.ico" width="128" height="128">
 <div>
-  <a href="README-es.md">English</a> / <span>Español</span></a>
+  <a href="README.md">English</a> / <span>Español</span></a>
 </div></br>
 
 Este Software permite renombrar archivos de música en función de una regla o patrón establecido por sus "Etiquetas". Esta regla puede ser establecida por el usuario.
