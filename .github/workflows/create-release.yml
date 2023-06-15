@@ -1,0 +1,59 @@
+name: "Create new release"
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  PROJECT_PATH: RenameMusic\RenameMusic.csproj
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        runtime: [win-x86, win-x64]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: Build
+        run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore -r ${{ matrix.runtime }}
+
+      - name: Zip
+        run: |
+          cd RenameMusic/bin/Release/net6.0-windows*/win-x*/
+          7z a "../../../../../RenameMusic_${{ matrix.runtime }}.zip" "./*"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release Artifact
+          path: ./RenameMusic_${{ matrix.runtime }}.zip
+
+      - uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./RenameMusic_${{ matrix.runtime }}.zip
+          asset_name: RenameMusic_${{ matrix.runtime }}.zip.zip
+          asset_content_type: application/zip
+
+# Warning: The `set-output` command is deprecated and will be disabled soon.
+# Please upgrade to using Environment Files. For more information see:
+# https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/

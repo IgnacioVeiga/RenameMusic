@@ -59,8 +59,8 @@ Por ejemplo: Tengo un archivo de audio con el nombre `AUD-01230101-WA0123.mp3` p
 - Microsoft.WindowsDesktop.App.WPF **(6.0.x)**
 
 ### Paquetes
-- Microsoft.EntityFrameworkCore.Design **(7.0.3)**
-- Microsoft.EntityFrameworkCore.Sqlite **(7.0.3)**
+- Microsoft.EntityFrameworkCore.Design **(7.0.7)**
+- Microsoft.EntityFrameworkCore.Sqlite **(7.0.7)**
 - taglib-sharp-netstandard2.0 **(2.1.0)**
 - WinCopies.WindowsAPICodePack.Shell **(2.12.0.2)**
 
