@@ -1,5 +1,6 @@
 # RenameMusic (Beta)
-[![Download](https://img.shields.io/static/v1?style=flat-square&logo=windows&label=Descargar&message=windows-x64&color=137A7F&labelColor=373B3E)](https://github.com/IgnacioVeiga/RenameMusic/releases/latest/download/RenameMusic.exe)
+[![Download](https://img.shields.io/static/v1?style=flat-square&logo=windows&label=Descargar&message=windows-x64&color=137A7F&labelColor=373B3E)](https://github.com/IgnacioVeiga/RenameMusic/releases/latest/download/RenameMusic_x64.zip)
+[![Download](https://img.shields.io/static/v1?style=flat-square&logo=windows&label=Descargar&message=windows-x86&color=137A7F&labelColor=373B3E)](https://github.com/IgnacioVeiga/RenameMusic/releases/latest/download/RenameMusic_x86.zip)
 ![GitHub last commit](https://img.shields.io/github/last-commit/IgnacioVeiga/RenameMusic?color=137A7F&style=flat-square)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/IgnacioVeiga/RenameMusic?color=137A7F&label=Latest%20release&style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
