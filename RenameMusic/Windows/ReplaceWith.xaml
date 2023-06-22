@@ -7,7 +7,7 @@
         
         Width="500" Height="350" ResizeMode="NoResize" mc:Ignorable="d"
         Title="{x:Static p:Strings.REPLACE_WITH}"
-        Background="{DynamicResource BackgroundColor1}"
+        Background="{DynamicResource Window.Background}"
         Foreground="{DynamicResource ForegroundColor1}">
     <Grid>
         <Grid.RowDefinitions>

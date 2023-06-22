@@ -10,7 +10,7 @@
         Title="Rename Music (Beta)" MinWidth="650" MinHeight="400"
         ResizeMode="CanResizeWithGrip" SizeToContent="Manual"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource BackgroundColor1}"
+        Background="{DynamicResource Window.Background}"
         Foreground="{DynamicResource ForegroundColor1}">
 
     <Grid>

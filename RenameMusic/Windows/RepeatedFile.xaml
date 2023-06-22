@@ -10,7 +10,7 @@
         ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         
-        Background="{DynamicResource BackgroundColor1}"
+        Background="{DynamicResource Window.Background}"
         Foreground="{DynamicResource ForegroundColor1}">
     <Grid>
         <TextBlock Margin="15,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"

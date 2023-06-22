@@ -8,7 +8,7 @@
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" Width="360" Height="100"
         Title="{x:Static p:Strings.LOADING}"
-        Background="{DynamicResource BackgroundColor1}"
+        Background="{DynamicResource Window.Background}"
         Foreground="{DynamicResource ForegroundColor1}">
     <Grid Margin="20">
         <ProgressBar Name="loadingBarStatus" d:Value="50"

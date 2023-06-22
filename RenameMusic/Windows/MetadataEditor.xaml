@@ -7,7 +7,7 @@
         
         MinWidth="450" MinHeight="420" mc:Ignorable="d"
         Title="{x:Static lang:Strings.METADATA_EDITOR}"
-        Background="{DynamicResource BackgroundColor1}"
+        Background="{DynamicResource Window.Background}"
         Foreground="{DynamicResource ForegroundColor1}">
     <Grid>
         <Grid.RowDefinitions>
