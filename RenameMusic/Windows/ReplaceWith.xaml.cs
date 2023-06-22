@@ -1,4 +1,4 @@
-﻿using RenameMusic.Lang;
+﻿using RenameMusic.Language;
 using RenameMusic.Properties;
 using RenameMusic.Util;
 using System.Collections.Generic;

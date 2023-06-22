@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using TagLib;
 
-namespace RenameMusic.Entities
+namespace RenameMusic.Models
 {
     public class Audio
     {
@@ -37,7 +37,7 @@ namespace RenameMusic.Entities
         {
             get
             {
-                return (Tags != null) ? FilenameFunctions.GetNewName(Tags) : null;
+                return Tags != null ? FilenameFunctions.GetNewName(Tags) : null;
             }
         }
 

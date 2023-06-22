@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 
-namespace RenameMusic.Lang
+namespace RenameMusic.Language
 {
     public static class AppLanguage
     {

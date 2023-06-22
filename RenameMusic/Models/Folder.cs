@@ -1,4 +1,4 @@
-﻿namespace RenameMusic.Entities
+﻿namespace RenameMusic.Models
 {
     public class Folder
     {

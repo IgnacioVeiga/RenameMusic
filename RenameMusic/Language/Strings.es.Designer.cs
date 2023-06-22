@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RenameMusic.Lang {
+namespace RenameMusic.Language {
     using System;
     
     

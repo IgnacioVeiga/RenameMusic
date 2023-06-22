@@ -9,21 +9,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Assets\Windows\MetadataEditor.xaml.cs">
+    <Compile Update="Windows\MetadataEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\Windows\RepeatedFile.xaml.cs">
+    <Compile Update="Windows\RepeatedFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Assets\Windows\LoadingBar.xaml.cs">
+    <Compile Update="Windows\LoadingBar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Lang\strings.es.resx">
+    <EmbeddedResource Update="Language\Strings.es.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Update="Lang\strings.resx">
+    <EmbeddedResource Update="Language\Strings.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
@@ -31,52 +31,52 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Assets\Windows\MetadataEditor.xaml">
+    <Page Update="Windows\MetadataEditor.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\Windows\ReplaceWith.xaml">
+    <Page Update="Windows\ReplaceWith.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\Windows\RepeatedFile.xaml">
+    <Page Update="Windows\RepeatedFile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\Windows\LoadingBar.xaml">
+    <Page Update="Windows\LoadingBar.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Assets\Windows\MainWindow.xaml">
+    <Page Update="Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Light.xaml">
+    <Page Update="Styles\Light.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\Dark.xaml">
+    <Page Update="Styles\Dark.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\CheckBox.xaml">
+    <Page Update="Styles\UI\CheckBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\Generic.xaml">
+    <Page Update="Styles\UI\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\RadioButton.xaml">
+    <Page Update="Styles\UI\RadioButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\Button.xaml">
+    <Page Update="Styles\UI\Button.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\ComboBox.xaml">
+    <Page Update="Styles\UI\ComboBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\DataGrid.xaml">
+    <Page Update="Styles\UI\DataGrid.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\Menu.xaml">
+    <Page Update="Styles\UI\Menu.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\ScrollBar.xaml">
+    <Page Update="Styles\UI\ScrollBar.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\UI\TabControl.xaml">
+    <Page Update="Styles\UI\TabControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

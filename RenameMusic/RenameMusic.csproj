@@ -5,7 +5,7 @@
     <StartupObject>RenameMusic.App</StartupObject>
     <UseWPF>true</UseWPF>
     <StartupObject>RenameMusic.App</StartupObject>
-    <ApplicationIcon>Assets\Icons\icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\icon.ico</ApplicationIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <OutputType>WinExe</OutputType>
@@ -15,8 +15,9 @@
     <RuntimeIdentifiers>win-x86; win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <None Remove="Assets\Images\SplashScreen.png" />
+    <None Remove="Resources\Images\SplashScreen.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Icons\icon.ico">
+    <Resource Include="Resources\Icons\icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -41,19 +42,16 @@
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.12.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="Assets\Images\SplashScreen.png" />
+    <SplashScreen Include="Resources\Images\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Assets\Windows\ReplaceWith.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Lang\Strings.Designer.cs">
+    <Compile Update="Language\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>strings.resx</DependentUpon>
+      <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Lang\Strings.es.Designer.cs">
-      <DependentUpon>strings.es.resx</DependentUpon>
+    <Compile Update="Language\Strings.es.Designer.cs">
+      <DependentUpon>Strings.es.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -69,13 +67,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Lang\strings.es.resx">
+    <EmbeddedResource Update="Language\Strings.es.resx">
       <LastGenOutput>Strings.es.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Lang\strings.resx">
+    <EmbeddedResource Update="Language\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -88,10 +86,4 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Assets\Windows\ReplaceWith.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
 </Project>

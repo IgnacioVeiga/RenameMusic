@@ -1,9 +1,9 @@
 ﻿using RenameMusic.Assets;
-using RenameMusic.DB;
-using RenameMusic.Entities;
-using RenameMusic.Lang;
+using RenameMusic.Data;
+using RenameMusic.Language;
+using RenameMusic.Models;
 using RenameMusic.Properties;
-using RenameMusic.Themes;
+using RenameMusic.Styles;
 using RenameMusic.Util;
 using System;
 using System.Collections.Generic;

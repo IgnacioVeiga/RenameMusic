@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.IO;
 
-namespace RenameMusic.DB
+namespace RenameMusic.Data
 {
     public class MyContext : DbContext
     {

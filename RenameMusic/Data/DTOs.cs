@@ -1,4 +1,4 @@
-﻿namespace RenameMusic.DB
+﻿namespace RenameMusic.Data
 {
     public class AudioDTO
     {

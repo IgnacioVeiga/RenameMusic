@@ -1,4 +1,4 @@
-﻿using RenameMusic.Entities;
+﻿using RenameMusic.Models;
 using RenameMusic.Properties;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using WinCopies.Linq;
 
-namespace RenameMusic.DB
+namespace RenameMusic.Data
 {
     /// <summary>
     /// DAL = Data Access Layer

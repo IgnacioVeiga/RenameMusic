@@ -3,7 +3,7 @@ using System;
 using System.Windows;
 using WinCopies.Util;
 
-namespace RenameMusic.Themes
+namespace RenameMusic.Styles
 {
     internal static class ThemeManager
     {
@@ -13,11 +13,11 @@ namespace RenameMusic.Themes
         {
             ResourceDictionary ThemeResDic = new()
             {
-                Source = new Uri($"pack://application:,,,/Themes/{Settings.Default.ThemeName}.xaml")
+                Source = new Uri($"pack://application:,,,/Styles/{Settings.Default.ThemeName}.xaml")
             };
             ResourceDictionary UIResDic = new()
             {
-                Source = new Uri("pack://application:,,,/Themes/UI/Generic.xaml")
+                Source = new Uri("pack://application:,,,/Styles/UI/Generic.xaml")
             };
             Application.Current.Resources.MergedDictionaries.Clear();
             Application.Current.Resources.MergedDictionaries.AddRange(ThemeResDic, UIResDic);
