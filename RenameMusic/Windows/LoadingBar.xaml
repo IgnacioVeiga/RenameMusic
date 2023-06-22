@@ -9,14 +9,14 @@
         mc:Ignorable="d" Width="360" Height="100"
         Title="{x:Static p:Strings.LOADING}"
         Background="{DynamicResource Window.Background}"
-        Foreground="{DynamicResource ForegroundColor1}">
+        Foreground="{DynamicResource Window.Foreground}">
     <Grid Margin="20">
         <ProgressBar Name="loadingBarStatus" d:Value="50"
-                     Background="{DynamicResource BackgroundColor0}"
+                     Background="{DynamicResource Window.Background}"
                      Foreground="{DynamicResource PrimaryColor0}"
                      Maximum="100" Minimum="0" />
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
-                   Foreground="{DynamicResource ForegroundColor1}"
+                   Foreground="{DynamicResource Window.Foreground}"
                    Text="{Binding ElementName=loadingBarStatus, Path=Value, StringFormat={}{0:0}%}" />
     </Grid>
 </Window>

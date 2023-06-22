@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         
         Background="{DynamicResource Window.Background}"
-        Foreground="{DynamicResource ForegroundColor1}">
+        Foreground="{DynamicResource Window.Foreground}">
     <Grid>
         <TextBlock Margin="15,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                    FontSize="12" Text="{x:Static p:Strings.FILE_REPEATED_MSG}" />

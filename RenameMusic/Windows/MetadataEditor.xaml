@@ -5,10 +5,10 @@
         xmlns:lang="clr-namespace:RenameMusic.Language"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
-        MinWidth="450" MinHeight="420" mc:Ignorable="d"
-        Title="{x:Static lang:Strings.METADATA_EDITOR}"
+        Width="450" Height="450" MinWidth="450" MinHeight="450"
+        mc:Ignorable="d" Title="{x:Static lang:Strings.METADATA_EDITOR}"
         Background="{DynamicResource Window.Background}"
-        Foreground="{DynamicResource ForegroundColor1}">
+        Foreground="{DynamicResource Window.Foreground}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -34,7 +34,7 @@
                Panel.ZIndex="1" Cursor="Hand" MouseDown="Pictures_MouseDown" />
         <Rectangle Grid.RowSpan="4" Grid.Column="1" Width="180"
                    Height="180" HorizontalAlignment="Center"
-                   Stroke="{DynamicResource BackgroundColor0}"
+                   Stroke="{DynamicResource Window.Background}"
                    StrokeThickness="5" />
 
         <TextBlock Padding="5,0" Text="{x:Static lang:Strings.TITLE}" />

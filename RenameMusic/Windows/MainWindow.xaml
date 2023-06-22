@@ -11,7 +11,7 @@
         ResizeMode="CanResizeWithGrip" SizeToContent="Manual"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource Window.Background}"
-        Foreground="{DynamicResource ForegroundColor1}">
+        Foreground="{DynamicResource Window.Foreground}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -71,7 +71,7 @@
         <Rectangle Grid.Row="1"
                    Width="230" Height="230" Margin="0,80,0,0"
                    HorizontalAlignment="Center" VerticalAlignment="Top"
-                   Stroke="{DynamicResource BackgroundColor0}" StrokeThickness="5" />
+                   Stroke="{DynamicResource Window.Background}" StrokeThickness="5" />
 
         <TabControl x:Name="MainTabs" Grid.Row="1" Grid.Column="1"
                     Margin="10" HorizontalAlignment="Stretch" d:Visibility="Visible"

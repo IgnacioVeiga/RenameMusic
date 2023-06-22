@@ -3,6 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
             <SolidColorBrush x:Key="Window.Background" Color="#BCDDEE" />
+            <SolidColorBrush x:Key="Window.Foreground" Color="#202020" />
         </ResourceDictionary>
         
         <!--  Button  -->
@@ -102,34 +103,75 @@
             <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent" />
         </ResourceDictionary>
 
+        <!--  DataGrid  -->
         <ResourceDictionary>
-            <SolidColorBrush x:Key="PrimaryColor0" Color="#137A7F" />
-            <SolidColorBrush x:Key="PrimaryColor1" Color="#115F58" />
+            
+        </ResourceDictionary>
 
-            <SolidColorBrush x:Key="SecondaryColor0" Color="#BCDDEE" />
-            <SolidColorBrush x:Key="SecondaryColor1" Color="#86CECB" />
+        <!--  Menu  -->
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="Menu.Static.Background" Color="#FFF0F0F0" />
+            <SolidColorBrush x:Key="Menu.Static.Border" Color="#FF999999" />
+            <SolidColorBrush x:Key="Menu.Static.Foreground" Color="#FF212121" />
+            <SolidColorBrush x:Key="Menu.Static.Separator" Color="#FFD7D7D7" />
+            
+            <SolidColorBrush x:Key="Menu.Disabled.Foreground" Color="#FF707070" />
 
-            <SolidColorBrush x:Key="BackgroundColor0" Color="#F1F1F1" />
-            <SolidColorBrush x:Key="BackgroundColor1" Color="#BCDDEE" />
+            <SolidColorBrush x:Key="MenuItem.Selected.Background" Color="#3D26A0DA" />
+            <SolidColorBrush x:Key="MenuItem.Selected.Border" Color="#137A7F" />
 
-            <SolidColorBrush x:Key="ForegroundColor0" Color="#373B3E" />
-            <SolidColorBrush x:Key="ForegroundColor1" Color="#202020" />
+            <SolidColorBrush x:Key="MenuItem.Highlight.Background" Color="#3D26A0DA" />
+            <SolidColorBrush x:Key="MenuItem.Highlight.Border" Color="#137A7F" />
+            <SolidColorBrush x:Key="MenuItem.Highlight.Disabled.Background" Color="#0A000000" />
+            <SolidColorBrush x:Key="MenuItem.Highlight.Disabled.Border" Color="#21000000" />
+        </ResourceDictionary>
 
-            <SolidColorBrush x:Key="CustomMouseOverOuterColor" Color="#E12885" />
-            <SolidColorBrush x:Key="CustomScrollBarBackgroundColor" Color="Transparent" />
+        <!--  RadioButton  -->
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="RadioButton.Static.Background" Color="#F1F1F1"/>
+            <SolidColorBrush x:Key="RadioButton.Static.Border" Color="#137A7F"/>
+            <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="#FF212121"/>
+            <SolidColorBrush x:Key="RadioButton.Static.Foreground" Color="#202020"/>
 
-            <SolidColorBrush x:Key="CustomRowForeground" Color="#202020" />
+            <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="#FFF3F9FF"/>
+            <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="#FF5593FF"/>
+            <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph" Color="#E12885"/>
 
-            <SolidColorBrush x:Key="CustomHighlightedItemForegroundCBOX" Color="#F1F1F1" />
+            <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="#FFD9ECFF"/>
+            <SolidColorBrush x:Key="RadioButton.Pressed.Border" Color="#FF3C77DD"/>
+            <SolidColorBrush x:Key="RadioButton.Pressed.Glyph" Color="#FF212121"/>
 
-            <SolidColorBrush x:Key="CustomTabBackground" Color="#BCDDEE" />
-            <SolidColorBrush x:Key="CustomTabForeground" Color="#202020" />
-            <SolidColorBrush x:Key="CustomTabBackgroundMouseOver" Color="#86CECB" />
-            <SolidColorBrush x:Key="CustomTabForegroundSelected" Color="#F1F1F1" />
+            <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="#FFE6E6E6"/>
+            <SolidColorBrush x:Key="RadioButton.Disabled.Border" Color="#FFBCBCBC"/>
+            <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="#FF707070"/>
+        </ResourceDictionary>
+        
+        <!--  ScrollBar  -->
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="ScrollBar.Static.Background" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.Static.Border" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.Static.Glyph" Color="#606060" />
+            <SolidColorBrush x:Key="ScrollBar.Static.Thumb" Color="#606774" />
 
-            <SolidColorBrush x:Key="CustomBorderBrush" Color="#F1F1F1" />
-            <SolidColorBrush x:Key="CustomDisabledColor0" Color="#808080" />
-            <SolidColorBrush x:Key="CustomDisabledColor1" Color="#A0A0A0" />
+            <SolidColorBrush x:Key="ScrollBar.MouseOver.Background" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.MouseOver.Border" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.MouseOver.Glyph" Color="#606060" />
+            <SolidColorBrush x:Key="ScrollBar.MouseOver.Thumb" Color="#7B8392" />
+
+            <SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#606060" />
+            <SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.Pressed.Thumb" Color="#606060" />
+            <SolidColorBrush x:Key="ScrollBar.Pressed.Glyph" Color="#7B8392" />
+
+            <SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="Transparent" />
+            <SolidColorBrush x:Key="ScrollBar.Disabled.Glyph" Color="#7B8392" />
+        </ResourceDictionary>
+
+        <!--  TabControl  -->
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC" />
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
