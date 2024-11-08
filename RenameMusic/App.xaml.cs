@@ -1,9 +1,7 @@
-﻿using RenameMusic.Language;
-using RenameMusic.Properties;
-using System;
+﻿using RenameMusic.Properties;
+using RenameMusic.Resources.Languages;
+using RenameMusic.Services;
 using System.Diagnostics;
-using System.Reflection;
-using System.Threading;
 using System.Windows;
 
 namespace RenameMusic
@@ -17,8 +15,8 @@ namespace RenameMusic
 
         App()
         {
-            SetDropDownMenuToBeRightAligned();
-            AppLanguage.ChangeLanguage(Settings.Default.Lang);
+            //SetDropDownMenuToBeRightAligned();
+            AppLanguageService.ChangeLanguage(Settings.Default.Language);
         }
 
         internal static void RestartApp()
@@ -56,19 +54,47 @@ namespace RenameMusic
             _mutex?.Close();
         }
 
-        // Source: https://stackoverflow.com/a/67114984
-        private static void SetDropDownMenuToBeRightAligned()
+        // TODO: Move to another file
+        internal static bool CanBeRenamed(TagLib.Tag tags)
         {
-            FieldInfo menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            int tagsRequiredCount = 0, tagsNotEmptyCount = 0;
 
-            static void setAlignmentValue(FieldInfo menuDropAlignmentField)
-            {
-                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
-            }
+            tagsRequiredCount = Settings.Default.TrackNumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Settings.Default.TitleRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Settings.Default.AlbumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Settings.Default.AlbumArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Settings.Default.ArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
+            tagsRequiredCount = Settings.Default.YearRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
 
-            setAlignmentValue(menuDropAlignmentField);
+            if (Settings.Default.TrackNumRequired && tags.Track > 0)
+                tagsNotEmptyCount++;
+            if (Settings.Default.TitleRequired && !string.IsNullOrWhiteSpace(tags.Title))
+                tagsNotEmptyCount++;
+            if (Settings.Default.AlbumRequired && !string.IsNullOrWhiteSpace(tags.Album))
+                tagsNotEmptyCount++;
+            if (Settings.Default.AlbumArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedAlbumArtists))
+                tagsNotEmptyCount++;
+            if (Settings.Default.ArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedPerformers))
+                tagsNotEmptyCount++;
+            if (Settings.Default.YearRequired && tags.Year > 0)
+                tagsNotEmptyCount++;
 
-            SystemParameters.StaticPropertyChanged += (sender, e) => setAlignmentValue(menuDropAlignmentField);
+            return tagsRequiredCount == tagsNotEmptyCount;
         }
+
+        //// Source: https://stackoverflow.com/a/67114984
+        //private static void SetDropDownMenuToBeRightAligned()
+        //{
+        //    FieldInfo menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+
+        //    static void setAlignmentValue(FieldInfo menuDropAlignmentField)
+        //    {
+        //        if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
+        //    }
+
+        //    setAlignmentValue(menuDropAlignmentField);
+
+        //    SystemParameters.StaticPropertyChanged += (sender, e) => setAlignmentValue(menuDropAlignmentField);
+        //}
     }
 }

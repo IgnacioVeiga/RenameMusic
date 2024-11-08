@@ -1,14 +1,8 @@
 ﻿namespace RenameMusic.Models
 {
-    public class Folder
+    public class Folder(int id, string path)
     {
-        public Folder(int id, string path)
-        {
-            Id = id;
-            Path = path;
-        }
-
-        public int Id;
-        public string Path { get; set; }
+        public int Id = id;
+        public string Path { get; set; } = path;
     }
 }

@@ -1,6 +1,4 @@
-﻿using RenameMusic.Util;
-using System;
-using System.IO;
+﻿using System.IO;
 using TagLib;
 
 namespace RenameMusic.Models
@@ -54,6 +52,6 @@ namespace RenameMusic.Models
             }
         }
 
-        public Tag Tags { get; set; }
+        public Tag? Tags { get; set; }
     }
 }
