@@ -12,6 +12,7 @@ namespace RenameMusic.Services
         void ShowError(string message, string title);
         TemplateDialogResult? ShowTemplateDialog();
         ConflictDialogResult? ShowConflictDialog(string sourcePath, string destinationPath);
+        bool EditMetadata(string filePath);
     }
 
     public sealed class DialogService : IDialogService
@@ -46,6 +47,12 @@ namespace RenameMusic.Services
         {
             RepeatedFile dialog = new(sourcePath, destinationPath);
             return dialog.ShowDialog() == true ? dialog.Result : null;
+        }
+
+        public bool EditMetadata(string filePath)
+        {
+            MetadataEditor editor = new(filePath);
+            return editor.ShowDialog() == true;
         }
     }
 }

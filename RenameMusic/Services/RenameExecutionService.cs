@@ -25,6 +25,23 @@ namespace RenameMusic.Services
             CancellationToken cancellationToken = default)
         {
             List<AudioLibraryItem> items = await _sessionService.GetRenamableItemsAsync(cancellationToken);
+            return await RenameItemsAsync(items, dialogService, cancellationToken);
+        }
+
+        public async Task<RenameBatchResult> RenameByIdsAsync(
+            IEnumerable<int> ids,
+            IDialogService dialogService,
+            CancellationToken cancellationToken = default)
+        {
+            List<AudioLibraryItem> items = await _sessionService.GetItemsByIdsAsync(ids, cancellationToken);
+            return await RenameItemsAsync(items.Where(i => i.CanRename), dialogService, cancellationToken);
+        }
+
+        private async Task<RenameBatchResult> RenameItemsAsync(
+            IEnumerable<AudioLibraryItem> items,
+            IDialogService dialogService,
+            CancellationToken cancellationToken)
+        {
             RenameBatchResult result = new();
 
             ConflictResolutionAction? applyToAllAction = null;

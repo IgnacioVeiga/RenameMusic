@@ -149,8 +149,7 @@ namespace RenameMusic.Services
                     existingFolders.Add(normalizedFolderPath);
                 }
 
-                SearchOption searchOption = includeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                foreach (string filePath in Directory.EnumerateFiles(normalizedFolderPath, "*.*", searchOption))
+                foreach (string filePath in EnumerateFilesSafe(normalizedFolderPath, includeSubFolders))
                 {
                     if (!IsSupportedAudio(filePath))
                     {
@@ -274,6 +273,24 @@ namespace RenameMusic.Services
             return entities.Select(MapAudioEntity).ToList();
         }
 
+        public async Task<List<AudioLibraryItem>> GetItemsByIdsAsync(
+            IEnumerable<int> ids,
+            CancellationToken cancellationToken = default)
+        {
+            List<int> normalizedIds = ids.Distinct().ToList();
+            if (normalizedIds.Count == 0)
+            {
+                return [];
+            }
+
+            await using MyContext context = new();
+            List<SessionAudioEntity> entities = await context.SessionAudios
+                .Where(a => normalizedIds.Contains(a.Id))
+                .OrderBy(a => a.Id)
+                .ToListAsync(cancellationToken);
+            return entities.Select(MapAudioEntity).ToList();
+        }
+
         public async Task RemoveAudioAsync(int id, CancellationToken cancellationToken = default)
         {
             await using MyContext context = new();
@@ -304,6 +321,70 @@ namespace RenameMusic.Services
             entity.ProposedName = null;
             entity.ExistsOnDisk = File.Exists(entity.FullPath);
             await context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<bool> RemoveFolderAsync(int folderId, CancellationToken cancellationToken = default)
+        {
+            await using MyContext context = new();
+            SessionFolderEntity? folder = await context.SessionFolders
+                .FirstOrDefaultAsync(f => f.Id == folderId, cancellationToken);
+            if (folder is null)
+            {
+                return false;
+            }
+
+            List<SessionAudioEntity> audios = await context.SessionAudios
+                .Where(a => a.FolderPath == folder.FolderPath)
+                .ToListAsync(cancellationToken);
+
+            if (audios.Count > 0)
+            {
+                context.SessionAudios.RemoveRange(audios);
+            }
+
+            context.SessionFolders.Remove(folder);
+            await context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
+
+        public async Task RefreshAudioFromDiskAsync(
+            int id,
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default)
+        {
+            await using MyContext context = new();
+            SessionAudioEntity? entity = await context.SessionAudios
+                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+            if (entity is null)
+            {
+                return;
+            }
+
+            if (!File.Exists(entity.FullPath))
+            {
+                entity.ExistsOnDisk = false;
+                entity.CanRename = false;
+                entity.NotRenamableReason = "File not found.";
+                entity.ProposedName = null;
+                await context.SaveChangesAsync(cancellationToken);
+                return;
+            }
+
+            PopulateEntityFromFile(entity, options);
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<bool> TryMoveToRenameAsync(
+            int id,
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default)
+        {
+            await RefreshAudioFromDiskAsync(id, options, cancellationToken);
+
+            await using MyContext context = new();
+            SessionAudioEntity? entity = await context.SessionAudios
+                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+            return entity?.CanRename == true;
         }
 
         private static async Task PruneOrphanFoldersAsync(MyContext context, CancellationToken cancellationToken)
@@ -400,9 +481,18 @@ namespace RenameMusic.Services
                 ExistsOnDisk = File.Exists(fullPath)
             };
 
+            if (!PopulateEntityFromFile(entity, options))
+            {
+                result.UnreadableCount++;
+            }
+            return entity;
+        }
+
+        private bool PopulateEntityFromFile(SessionAudioEntity entity, RenameRuleOptions options)
+        {
             try
             {
-                using TagLib.File file = TagLib.File.Create(fullPath);
+                using TagLib.File file = TagLib.File.Create(entity.FullPath);
                 entity.DurationSeconds = (long)file.Properties.Duration.TotalSeconds;
                 entity.TrackNum = file.Tag.Track > 0 ? file.Tag.Track : null;
                 entity.Title = file.Tag.Title;
@@ -410,21 +500,21 @@ namespace RenameMusic.Services
                 entity.AlbumArtist = file.Tag.JoinedAlbumArtists;
                 entity.Artist = file.Tag.JoinedPerformers;
                 entity.Year = file.Tag.Year > 0 ? file.Tag.Year : null;
+                entity.ExistsOnDisk = true;
             }
             catch (Exception)
             {
-                result.UnreadableCount++;
                 entity.CanRename = false;
                 entity.NotRenamableReason = "Unreadable metadata.";
                 entity.ProposedName = null;
-                return entity;
+                return false;
             }
 
             RuleEvaluationResult evaluation = _templateRuleService.Evaluate(entity, options);
             entity.CanRename = evaluation.CanRename;
             entity.NotRenamableReason = evaluation.Reason;
             entity.ProposedName = evaluation.ProposedName;
-            return entity;
+            return true;
         }
 
         private static AudioLibraryItem MapAudioEntity(SessionAudioEntity entity)
@@ -453,6 +543,85 @@ namespace RenameMusic.Services
         {
             string extension = Path.GetExtension(path);
             return SupportedExtensions.Any(e => extension.Equals(e, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static IEnumerable<string> EnumerateFilesSafe(string rootPath, bool includeSubFolders)
+        {
+            Queue<string> pendingFolders = new();
+            HashSet<string> visitedFolders = new(StringComparer.OrdinalIgnoreCase);
+
+            pendingFolders.Enqueue(rootPath);
+            while (pendingFolders.Count > 0)
+            {
+                string currentFolder = pendingFolders.Dequeue();
+                string normalizedCurrentFolder;
+                try
+                {
+                    normalizedCurrentFolder = NormalizeFolderPath(currentFolder);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+                if (!visitedFolders.Add(normalizedCurrentFolder))
+                {
+                    continue;
+                }
+
+                IEnumerable<string> files;
+                try
+                {
+                    files = Directory.EnumerateFiles(currentFolder, "*.*", SearchOption.TopDirectoryOnly);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+                foreach (string file in files)
+                {
+                    yield return file;
+                }
+
+                if (!includeSubFolders)
+                {
+                    continue;
+                }
+
+                IEnumerable<string> subFolders;
+                try
+                {
+                    subFolders = Directory.EnumerateDirectories(currentFolder, "*", SearchOption.TopDirectoryOnly);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+                foreach (string subFolder in subFolders)
+                {
+                    if (IsReparsePoint(subFolder))
+                    {
+                        continue;
+                    }
+
+                    pendingFolders.Enqueue(subFolder);
+                }
+            }
+        }
+
+        private static bool IsReparsePoint(string folderPath)
+        {
+            try
+            {
+                FileAttributes attributes = File.GetAttributes(folderPath);
+                return (attributes & FileAttributes.ReparsePoint) != 0;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
         }
 
         private static string NormalizePath(string path)

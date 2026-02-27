@@ -394,6 +394,119 @@ namespace RenameMusic.ViewModels
         }
 
         [RelayCommand]
+        private void PlayAudio(AudioItemViewModel? item)
+        {
+            if (item is null)
+            {
+                return;
+            }
+
+            if (!File.Exists(item.FullPath))
+            {
+                _dialogService.ShowWarning("File not found.", Strings.PLAY_FILE);
+                return;
+            }
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = item.FullPath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                _dialogService.ShowError(ex.Message, Strings.EXCEPTION_MSG);
+            }
+        }
+
+        [RelayCommand]
+        private async Task EditAudioTagsAsync(AudioItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            bool edited = _dialogService.EditMetadata(item.FullPath);
+            if (!edited)
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                await _sessionService.RefreshAudioFromDiskAsync(item.Id, CreateRuleOptions());
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+                _dialogService.ShowInfo(Strings.METADATA_EDIT_SUCCESS, Strings.EDIT_TAGS);
+            });
+        }
+
+        [RelayCommand]
+        private async Task RenameThisNowAsync(AudioItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            if (!_dialogService.Confirm(
+                "This file will be renamed now. Continue?",
+                Strings.RENAME_THIS_NOW))
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                RenameBatchResult result = await _renameExecutionService.RenameByIdsAsync([item.Id], _dialogService);
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+
+                if (result.CompletedCount == 0 && result.SkippedCount == 0 && result.FailedCount == 0 && result.MissingCount == 0)
+                {
+                    _dialogService.ShowWarning("No changes were applied.", Strings.RENAME_THIS_NOW);
+                }
+            });
+        }
+
+        [RelayCommand]
+        private async Task MoveToDoNotRenameAsync(AudioItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                await _sessionService.MarkAsDoNotRenameAsync(item.Id, "Manually excluded.");
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+            });
+        }
+
+        [RelayCommand]
+        private async Task TryMoveToRenameAsync(AudioItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                bool canRename = await _sessionService.TryMoveToRenameAsync(item.Id, CreateRuleOptions());
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+                if (!canRename)
+                {
+                    _dialogService.ShowWarning(
+                        "The file still does not satisfy the current rename rule.",
+                        Strings.DO_NOT_RENAME);
+                }
+            });
+        }
+
+        [RelayCommand]
         private void OpenFolderInExplorer(FolderItemViewModel? item)
         {
             if (item is null)
@@ -409,6 +522,28 @@ namespace RenameMusic.ViewModels
             {
                 _dialogService.ShowError(ex.Message, Strings.EXCEPTION_MSG);
             }
+        }
+
+        [RelayCommand]
+        private async Task RemoveFolderFromSessionAsync(FolderItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            if (!_dialogService.Confirm(
+                "All files from this folder will be removed from the current session. Continue?",
+                Strings.REMOVE_FROM_LIST))
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                await _sessionService.RemoveFolderAsync(item.Id);
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+            });
         }
 
         // TODO: Implement a safe DeleteFile workflow with explicit confirmation and rollback strategy.
