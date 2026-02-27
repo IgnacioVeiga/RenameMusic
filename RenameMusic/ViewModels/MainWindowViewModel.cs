@@ -18,6 +18,7 @@ namespace RenameMusic.ViewModels
         private readonly ITemplateRuleService _templateRuleService;
         private readonly IRenameExecutionService _renameExecutionService;
         private readonly IFilePickerService _filePickerService;
+        private readonly IFileDeletionService _fileDeletionService;
         private readonly IDialogService _dialogService;
 
         public MainWindowViewModel(
@@ -25,12 +26,14 @@ namespace RenameMusic.ViewModels
             ITemplateRuleService templateRuleService,
             IRenameExecutionService renameExecutionService,
             IFilePickerService filePickerService,
+            IFileDeletionService fileDeletionService,
             IDialogService dialogService)
         {
             _sessionService = sessionService;
             _templateRuleService = templateRuleService;
             _renameExecutionService = renameExecutionService;
             _filePickerService = filePickerService;
+            _fileDeletionService = fileDeletionService;
             _dialogService = dialogService;
         }
 
@@ -546,6 +549,40 @@ namespace RenameMusic.ViewModels
         }
 
         [RelayCommand]
+        private async Task DeleteAudioFileAsync(AudioItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            bool confirmDelete = _dialogService.Confirm(
+                "This file will be moved to the Recycle Bin and removed from the current session. Continue?",
+                Strings.DELETE_FILE);
+            if (!confirmDelete)
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                if (File.Exists(item.FullPath))
+                {
+                    _fileDeletionService.DeleteFile(item.FullPath);
+                }
+                else
+                {
+                    _dialogService.ShowWarning(
+                        "File not found on disk. It will only be removed from the session.",
+                        Strings.DELETE_FILE);
+                }
+
+                await _sessionService.RemoveAudioAsync(item.Id);
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+            });
+        }
+
+        [RelayCommand]
         private void OpenFolderInExplorer(FolderItemViewModel? item)
         {
             if (item is null)
@@ -585,8 +622,39 @@ namespace RenameMusic.ViewModels
             });
         }
 
-        // TODO: Implement a safe DeleteFile workflow with explicit confirmation and rollback strategy.
-        // TODO: Implement a safe DeleteFolder workflow with explicit confirmation and rollback strategy.
+        [RelayCommand]
+        private async Task DeleteFolderAsync(FolderItemViewModel? item)
+        {
+            if (item is null || IsBusy)
+            {
+                return;
+            }
+
+            bool confirmDelete = _dialogService.Confirm(
+                "This folder and its content will be moved to the Recycle Bin and removed from the current session. Continue?",
+                Strings.DELETE_FOLDER);
+            if (!confirmDelete)
+            {
+                return;
+            }
+
+            await RunBusyAsync(async () =>
+            {
+                if (Directory.Exists(item.Path))
+                {
+                    _fileDeletionService.DeleteDirectory(item.Path);
+                }
+                else
+                {
+                    _dialogService.ShowWarning(
+                        "Folder not found on disk. It will only be removed from the session.",
+                        Strings.DELETE_FOLDER);
+                }
+
+                await _sessionService.RemoveFolderAsync(item.Id);
+                await ReloadSnapshotAsync(showMissingFilesWarning: false);
+            });
+        }
 
         partial void OnSelectedToRenameItemChanged(AudioItemViewModel? value)
         {

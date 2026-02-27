@@ -42,6 +42,7 @@ Architecture target is MVVM with service-based business logic.
 2. If user declines, warn and clear saved session.
 3. Missing files should be moved to `Do Not Rename` with reason.
 4. Folder removal from session should also remove files in subfolders.
+5. Delete commands should use Recycle Bin semantics, not permanent deletion.
 
 ## Conflict behavior
 1. Keep `RepeatedFile` modal flow.

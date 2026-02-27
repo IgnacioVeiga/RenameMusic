@@ -115,9 +115,11 @@ Implementado ahora:
 - Escaneo robusto de carpetas que omite subdirectorios inaccesibles sin abortar la carga
 - Persistencia por lotes durante la carga para reducir presión de memoria en importaciones grandes
 - Renombrado con persistencia masiva de estados para reducir roundtrips a base de datos
+- Flujos seguros de borrado desde menú contextual:
+  - `DeleteFile` envía el archivo a la Papelera y lo elimina de sesión
+  - `DeleteFolder` envía carpeta (recursivo) a la Papelera y elimina datos de sesión relacionados
 
 Diferido de forma intencional:
-- Flujos `DeleteFile` y `DeleteFolder` (se deben implementar de forma segura)
 - Rediseño UX más profundo fuera del esquema actual por tabs
 
 ## 10. Build y pruebas

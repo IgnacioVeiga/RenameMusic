@@ -115,9 +115,11 @@ Implemented now:
 - Resilient folder scan that skips inaccessible subdirectories instead of aborting ingestion
 - Ingestion saves in batches to reduce memory pressure on very large imports
 - Rename execution persists remove/failure states in bulk to reduce database roundtrips
+- Safe delete workflows from context menu:
+  - `DeleteFile` sends files to Recycle Bin and removes them from session
+  - `DeleteFolder` sends folders (recursive) to Recycle Bin and removes related session data
 
 Deferred intentionally:
-- `DeleteFile` and `DeleteFolder` workflows (must be implemented safely)
 - Additional UX redesign beyond current tab-based layout
 
 ## 10. Build and test notes

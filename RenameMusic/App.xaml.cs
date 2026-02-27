@@ -67,6 +67,7 @@ namespace RenameMusic
                 ISessionService sessionService = new SessionService(templateRuleService);
                 IRenameExecutionService renameExecutionService = new RenameExecutionService(sessionService);
                 IFilePickerService filePickerService = new FilePickerService();
+                IFileDeletionService fileDeletionService = new FileDeletionService();
                 IDialogService dialogService = new DialogService();
 
                 MainWindowViewModel mainWindowViewModel = new(
@@ -74,6 +75,7 @@ namespace RenameMusic
                     templateRuleService,
                     renameExecutionService,
                     filePickerService,
+                    fileDeletionService,
                     dialogService);
 
                 Views.MainWindow window = new()

@@ -204,6 +204,10 @@
                                       Command="{Binding DataContext.RenameThisNowCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}"
+                                      Command="{Binding DataContext.DeleteAudioFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                            <Separator />
                             <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}"
                                       Command="{Binding DataContext.OpenAudioInExplorerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
@@ -243,6 +247,10 @@
                                       Command="{Binding DataContext.TryMoveToRenameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}"
+                                      Command="{Binding DataContext.DeleteAudioFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                            <Separator />
                             <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}"
                                       Command="{Binding DataContext.OpenAudioInExplorerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
@@ -276,6 +284,10 @@
                         <ContextMenu>
                             <MenuItem Header="{x:Static lang:Strings.REMOVE_FROM_LIST}"
                                       Command="{Binding DataContext.RemoveFolderFromSessionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                            <Separator />
+                            <MenuItem Header="{x:Static lang:Strings.DELETE_FOLDER}"
+                                      Command="{Binding DataContext.DeleteFolderCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}"
