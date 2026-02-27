@@ -22,6 +22,7 @@ Architecture target is MVVM with service-based business logic.
 3. Keep filesystem writes in dedicated services.
 4. Keep async operations async end-to-end.
 5. Use dependency-friendly abstractions for dialogs and pickers.
+6. Keep template dialog behavior in `ReplaceWithViewModel`, not in `ReplaceWith.xaml.cs`.
 
 ## Data model notes
 - `SessionAudioEntity` and `SessionFolderEntity` are the active persistence model.

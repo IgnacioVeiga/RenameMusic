@@ -35,6 +35,10 @@ The old root-level `MainWindow` was removed to avoid startup confusion.
 - Owns UI state (`ToRenameItems`, `DoNotRenameItems`, `FolderItems`, status text, selected cover).
 - Uses async commands via `CommunityToolkit.Mvvm`.
 
+`RenameMusic/ViewModels/ReplaceWithViewModel.cs`
+- Owns template editing state and validation rules for the template dialog.
+- Exposes dialog commands (`InsertTag`, `Apply`, `Cancel`) and close event, keeping `ReplaceWith.xaml.cs` minimal.
+
 ### 4.3 Services
 - `SessionService`: persistence and ingestion pipeline.
 - `TemplateRuleService`: metadata template parsing and rename eligibility.

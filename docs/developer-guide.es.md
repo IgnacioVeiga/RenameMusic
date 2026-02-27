@@ -35,6 +35,10 @@ La antigua ventana raíz `MainWindow` fue removida para evitar confusión de arr
 - Mantiene estado de UI (`ToRenameItems`, `DoNotRenameItems`, `FolderItems`, barra de estado, portada seleccionada).
 - Usa comandos asíncronos con `CommunityToolkit.Mvvm`.
 
+`RenameMusic/ViewModels/ReplaceWithViewModel.cs`
+- Mantiene el estado y las validaciones del diálogo de plantilla.
+- Expone comandos (`InsertTag`, `Apply`, `Cancel`) y evento de cierre, dejando `ReplaceWith.xaml.cs` mínimo.
+
 ### 4.3 Servicios
 - `SessionService`: persistencia y pipeline de ingreso.
 - `TemplateRuleService`: parseo de plantilla y elegibilidad de renombrado.
