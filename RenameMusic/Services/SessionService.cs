@@ -11,13 +11,55 @@ namespace RenameMusic.Services
         public int UnreadableCount { get; set; }
     }
 
-    public sealed class SessionService
+    public interface ISessionService
+    {
+        Task EnsureDatabaseAsync(CancellationToken cancellationToken = default);
+        Task<bool> HasSavedSessionAsync(CancellationToken cancellationToken = default);
+        Task ClearSessionAsync(CancellationToken cancellationToken = default);
+        Task<SessionIngestionResult> AddFilesAsync(
+            IEnumerable<string> filePaths,
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default);
+        Task<SessionIngestionResult> AddFoldersAsync(
+            IEnumerable<string> folderPaths,
+            bool includeSubFolders,
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default);
+        Task RecalculateAllAsync(
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default);
+        Task<SessionSnapshot> LoadSnapshotAsync(CancellationToken cancellationToken = default);
+        Task<List<AudioLibraryItem>> GetRenamableItemsAsync(CancellationToken cancellationToken = default);
+        Task<List<AudioLibraryItem>> GetItemsByIdsAsync(
+            IEnumerable<int> ids,
+            CancellationToken cancellationToken = default);
+        Task RemoveAudioAsync(int id, CancellationToken cancellationToken = default);
+        Task RemoveAudiosAsync(IEnumerable<int> ids, CancellationToken cancellationToken = default);
+        Task MarkAsDoNotRenameAsync(
+            int id,
+            string reason,
+            CancellationToken cancellationToken = default);
+        Task MarkAsDoNotRenameAsync(
+            IReadOnlyDictionary<int, string> updates,
+            CancellationToken cancellationToken = default);
+        Task<bool> RemoveFolderAsync(int folderId, CancellationToken cancellationToken = default);
+        Task RefreshAudioFromDiskAsync(
+            int id,
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default);
+        Task<bool> TryMoveToRenameAsync(
+            int id,
+            RenameRuleOptions options,
+            CancellationToken cancellationToken = default);
+    }
+
+    public sealed class SessionService : ISessionService
     {
         private static readonly string[] SupportedExtensions = [".mp3", ".m4a", ".ogg", ".flac"];
         private const int SaveBatchSize = 500;
-        private readonly TemplateRuleService _templateRuleService;
+        private readonly ITemplateRuleService _templateRuleService;
 
-        public SessionService(TemplateRuleService templateRuleService)
+        public SessionService(ITemplateRuleService templateRuleService)
         {
             _templateRuleService = templateRuleService;
         }

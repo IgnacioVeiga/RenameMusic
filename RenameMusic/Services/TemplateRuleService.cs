@@ -2,6 +2,13 @@ using RenameMusic.Models;
 
 namespace RenameMusic.Services
 {
+    public interface ITemplateRuleService
+    {
+        IReadOnlyList<string> GetUsedTokens(string template);
+        IReadOnlyList<string> GetRepeatedTokens(string template);
+        RuleEvaluationResult Evaluate(SessionAudioEntity entity, RenameRuleOptions options);
+    }
+
     public sealed class RuleEvaluationResult
     {
         public bool CanRename { get; init; }
@@ -10,7 +17,7 @@ namespace RenameMusic.Services
         public IReadOnlyList<string> MissingTokens { get; init; } = [];
     }
 
-    public sealed class TemplateRuleService
+    public sealed class TemplateRuleService : ITemplateRuleService
     {
         private static readonly string[] SupportedTokens =
         [

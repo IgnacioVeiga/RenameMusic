@@ -56,9 +56,9 @@ namespace RenameMusic
 
             try
             {
-                TemplateRuleService templateRuleService = new();
-                SessionService sessionService = new(templateRuleService);
-                RenameExecutionService renameExecutionService = new(sessionService);
+                ITemplateRuleService templateRuleService = new TemplateRuleService();
+                ISessionService sessionService = new SessionService(templateRuleService);
+                IRenameExecutionService renameExecutionService = new RenameExecutionService(sessionService);
                 IFilePickerService filePickerService = new FilePickerService();
                 IDialogService dialogService = new DialogService();
 

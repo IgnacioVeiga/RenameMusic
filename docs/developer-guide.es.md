@@ -41,6 +41,7 @@ La antigua ventana raíz `MainWindow` fue removida para evitar confusión de arr
 - `RenameExecutionService`: renombrado físico y resolución de conflictos.
 - `DialogService`: mensajes y modales.
 - `FilePickerService`: selección de archivos y carpetas.
+- El ViewModel principal depende de contratos (`ISessionService`, `ITemplateRuleService`, `IRenameExecutionService`) en lugar de clases concretas.
 
 ## 5. Modelo de persistencia
 

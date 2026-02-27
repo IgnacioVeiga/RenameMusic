@@ -13,16 +13,16 @@ namespace RenameMusic.ViewModels
 {
     public partial class MainWindowViewModel : ObservableObject
     {
-        private readonly SessionService _sessionService;
-        private readonly TemplateRuleService _templateRuleService;
-        private readonly RenameExecutionService _renameExecutionService;
+        private readonly ISessionService _sessionService;
+        private readonly ITemplateRuleService _templateRuleService;
+        private readonly IRenameExecutionService _renameExecutionService;
         private readonly IFilePickerService _filePickerService;
         private readonly IDialogService _dialogService;
 
         public MainWindowViewModel(
-            SessionService sessionService,
-            TemplateRuleService templateRuleService,
-            RenameExecutionService renameExecutionService,
+            ISessionService sessionService,
+            ITemplateRuleService templateRuleService,
+            IRenameExecutionService renameExecutionService,
             IFilePickerService filePickerService,
             IDialogService dialogService)
         {

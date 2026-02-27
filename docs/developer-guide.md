@@ -41,6 +41,7 @@ The old root-level `MainWindow` was removed to avoid startup confusion.
 - `RenameExecutionService`: physical rename process and conflict handling.
 - `DialogService`: message boxes and modal windows.
 - `FilePickerService`: file and folder selection.
+- Main ViewModel depends on service contracts (`ISessionService`, `ITemplateRuleService`, `IRenameExecutionService`) instead of concrete classes.
 
 ## 5. Persistence model
 

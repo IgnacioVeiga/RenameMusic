@@ -11,11 +11,22 @@ namespace RenameMusic.Services
         public int MissingCount { get; set; }
     }
 
-    public sealed class RenameExecutionService
+    public interface IRenameExecutionService
     {
-        private readonly SessionService _sessionService;
+        Task<RenameBatchResult> RenameAllAsync(
+            IDialogService dialogService,
+            CancellationToken cancellationToken = default);
+        Task<RenameBatchResult> RenameByIdsAsync(
+            IEnumerable<int> ids,
+            IDialogService dialogService,
+            CancellationToken cancellationToken = default);
+    }
 
-        public RenameExecutionService(SessionService sessionService)
+    public sealed class RenameExecutionService : IRenameExecutionService
+    {
+        private readonly ISessionService _sessionService;
+
+        public RenameExecutionService(ISessionService sessionService)
         {
             _sessionService = sessionService;
         }
