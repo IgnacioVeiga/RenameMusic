@@ -85,10 +85,11 @@ Supported tags:
 ## 8. Conflict behavior
 - Existing `RepeatedFile` modal is still used.
 - Batch rename supports apply-to-all decision for current run.
-- Persistent default conflict policy is intentionally postponed.
-
-Code marker:
-- `TODO` in `RenameExecutionService.ResolveConflict` for persistent policy support.
+- A default conflict policy is configurable from Settings:
+  - Ask every time
+  - Always replace
+  - Always skip
+  - Always rename with number
 
 ## 9. Current scope and deferred work
 
@@ -110,7 +111,6 @@ Implemented now:
 
 Deferred intentionally:
 - `DeleteFile` and `DeleteFolder` workflows (must be implemented safely)
-- Persistent default conflict policy
 - Additional UX redesign beyond current tab-based layout
 
 ## 10. Build and test notes

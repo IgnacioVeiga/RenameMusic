@@ -190,5 +190,17 @@ namespace RenameMusic.Properties {
                 this["UsePlaceholderForMissingTags"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Ask")]
+        public string ConflictPolicyMode {
+            get {
+                return ((string)(this["ConflictPolicyMode"]));
+            }
+            set {
+                this["ConflictPolicyMode"] = value;
+            }
+        }
     }
 }

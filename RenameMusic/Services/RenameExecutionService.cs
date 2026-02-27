@@ -1,4 +1,5 @@
 using RenameMusic.Models;
+using RenameMusic.Properties;
 using System.IO;
 
 namespace RenameMusic.Services
@@ -138,19 +139,44 @@ namespace RenameMusic.Services
             string destinationPath,
             ref ConflictResolutionAction? applyToAllAction)
         {
+            if (TryGetConfiguredConflictPolicy(out ConflictResolutionAction configuredAction))
+            {
+                applyToAllAction = configuredAction;
+                return configuredAction;
+            }
+
             ConflictDialogResult? response = dialogService.ShowConflictDialog(sourcePath, destinationPath);
             if (response is null)
             {
                 return ConflictResolutionAction.Skip;
             }
 
-            // TODO: Persist default conflict policy in settings and apply it at startup.
             if (response.ApplyToAll)
             {
                 applyToAllAction = response.Action;
             }
 
             return response.Action;
+        }
+
+        private static bool TryGetConfiguredConflictPolicy(out ConflictResolutionAction action)
+        {
+            string? mode = Settings.Default.ConflictPolicyMode;
+            switch (mode)
+            {
+                case "Replace":
+                    action = ConflictResolutionAction.Replace;
+                    return true;
+                case "Skip":
+                    action = ConflictResolutionAction.Skip;
+                    return true;
+                case "RenameWithNumber":
+                    action = ConflictResolutionAction.RenameWithNumber;
+                    return true;
+                default:
+                    action = ConflictResolutionAction.Skip;
+                    return false;
+            }
         }
 
         private static string GetIndexedDestinationPath(string destinationPath)

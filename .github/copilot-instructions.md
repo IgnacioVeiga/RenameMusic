@@ -45,7 +45,7 @@ Architecture target is MVVM with service-based business logic.
 ## Conflict behavior
 1. Keep `RepeatedFile` modal flow.
 2. Batch rename should support apply-to-all decision for the current run.
-3. Persistent default conflict policy is deferred and marked with `TODO`.
+3. Support configurable default conflict policy (`Ask`, `Replace`, `Skip`, `RenameWithNumber`).
 
 ## MainWindow UX behavior
 1. Keep item-level context actions available in tabs:

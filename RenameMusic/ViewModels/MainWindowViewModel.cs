@@ -83,6 +83,10 @@ namespace RenameMusic.ViewModels
 
         public bool IsDarkTheme => string.Equals(Settings.Default.ThemeName, "Dark", StringComparison.OrdinalIgnoreCase);
         public bool IsLightTheme => string.Equals(Settings.Default.ThemeName, "Light", StringComparison.OrdinalIgnoreCase);
+        public bool IsConflictPolicyAsk => string.Equals(GetConflictPolicyMode(), "Ask", StringComparison.OrdinalIgnoreCase);
+        public bool IsConflictPolicyReplace => string.Equals(GetConflictPolicyMode(), "Replace", StringComparison.OrdinalIgnoreCase);
+        public bool IsConflictPolicySkip => string.Equals(GetConflictPolicyMode(), "Skip", StringComparison.OrdinalIgnoreCase);
+        public bool IsConflictPolicyRenameWithNumber => string.Equals(GetConflictPolicyMode(), "RenameWithNumber", StringComparison.OrdinalIgnoreCase);
 
         public bool CanRename => !IsBusy && ToRenameItems.Count > 0;
         public bool HasSessionData => ToRenameItems.Count > 0 || DoNotRenameItems.Count > 0 || FolderItems.Count > 0;
@@ -343,6 +347,32 @@ namespace RenameMusic.ViewModels
         }
 
         [RelayCommand]
+        private void SetConflictPolicy(string? policyMode)
+        {
+            string normalizedMode = policyMode switch
+            {
+                "Ask" => "Ask",
+                "Replace" => "Replace",
+                "Skip" => "Skip",
+                "RenameWithNumber" => "RenameWithNumber",
+                _ => "Ask"
+            };
+
+            if (string.Equals(GetConflictPolicyMode(), normalizedMode, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            Settings.Default.ConflictPolicyMode = normalizedMode;
+            Settings.Default.Save();
+
+            OnPropertyChanged(nameof(IsConflictPolicyAsk));
+            OnPropertyChanged(nameof(IsConflictPolicyReplace));
+            OnPropertyChanged(nameof(IsConflictPolicySkip));
+            OnPropertyChanged(nameof(IsConflictPolicyRenameWithNumber));
+        }
+
+        [RelayCommand]
         private void RestoreSettings()
         {
             Settings.Default.Language = "en";
@@ -356,6 +386,7 @@ namespace RenameMusic.ViewModels
             Settings.Default.IncludeSubFolders = true;
             Settings.Default.RepeatedFileKeepChoice = false;
             Settings.Default.UsePlaceholderForMissingTags = false;
+            Settings.Default.ConflictPolicyMode = "Ask";
             Settings.Default.Save();
 
             _dialogService.ShowInfo(Strings.SETTINGS_RESTORED, Strings.RESTORE_SETTINGS);
@@ -618,6 +649,19 @@ namespace RenameMusic.ViewModels
                 Template = Settings.Default.DefaultTemplate,
                 MissingTagStrategy = strategy,
                 PlaceholderText = Strings.UNKNOWN
+            };
+        }
+
+        private static string GetConflictPolicyMode()
+        {
+            string? mode = Settings.Default.ConflictPolicyMode;
+            return mode switch
+            {
+                "Ask" => "Ask",
+                "Replace" => "Replace",
+                "Skip" => "Skip",
+                "RenameWithNumber" => "RenameWithNumber",
+                _ => "Ask"
             };
         }
 

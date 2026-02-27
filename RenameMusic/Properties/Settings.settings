@@ -44,5 +44,8 @@
     <Setting Name="UsePlaceholderForMissingTags" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ConflictPolicyMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Ask</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

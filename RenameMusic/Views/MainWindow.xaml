@@ -65,6 +65,28 @@
                               Command="{Binding SetMissingTagStrategyCommand}"
                               CommandParameter="True" />
                 </MenuItem>
+                <MenuItem Header="Conflict policy">
+                    <MenuItem Header="Ask every time"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsConflictPolicyAsk, Mode=OneWay}"
+                              Command="{Binding SetConflictPolicyCommand}"
+                              CommandParameter="Ask" />
+                    <MenuItem Header="Always replace"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsConflictPolicyReplace, Mode=OneWay}"
+                              Command="{Binding SetConflictPolicyCommand}"
+                              CommandParameter="Replace" />
+                    <MenuItem Header="Always skip"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsConflictPolicySkip, Mode=OneWay}"
+                              Command="{Binding SetConflictPolicyCommand}"
+                              CommandParameter="Skip" />
+                    <MenuItem Header="Always rename with number"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsConflictPolicyRenameWithNumber, Mode=OneWay}"
+                              Command="{Binding SetConflictPolicyCommand}"
+                              CommandParameter="RenameWithNumber" />
+                </MenuItem>
                 <MenuItem Header="{x:Static lang:Strings.THEME}">
                     <MenuItem Header="Dark"
                               IsCheckable="True"

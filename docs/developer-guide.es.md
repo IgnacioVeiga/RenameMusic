@@ -85,10 +85,11 @@ Tags soportados:
 ## 8. Conflictos de nombre
 - Se mantiene la ventana modal `RepeatedFile`.
 - El renombrado masivo soporta aplicar una decisión al resto del lote actual.
-- La política por defecto persistente queda intencionalmente postergada.
-
-Marcador de código:
-- `TODO` en `RenameExecutionService.ResolveConflict` para soporte futuro.
+- Existe política de conflicto por defecto configurable en Ajustes:
+  - Preguntar siempre
+  - Reemplazar siempre
+  - Omitir siempre
+  - Renombrar con número siempre
 
 ## 9. Alcance actual y tareas diferidas
 
@@ -110,7 +111,6 @@ Implementado ahora:
 
 Diferido de forma intencional:
 - Flujos `DeleteFile` y `DeleteFolder` (se deben implementar de forma segura)
-- Política de conflicto por defecto persistente
 - Rediseño UX más profundo fuera del esquema actual por tabs
 
 ## 10. Build y pruebas
