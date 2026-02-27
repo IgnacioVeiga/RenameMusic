@@ -3,6 +3,10 @@
 ## Context
 This repository contains a WPF desktop app for renaming music files from metadata templates.
 Architecture target is MVVM with service-based business logic.
+The solution is split into:
+- `RenameMusic` (WPF)
+- `RenameMusic.Core` (domain/business logic)
+- `RenameMusic.Tests` (unit tests)
 
 ## Primary objectives
 1. Keep AddFile, AddFolder, LoadData, and Rename workflows stable.
@@ -19,7 +23,7 @@ Architecture target is MVVM with service-based business logic.
 ## Architecture rules
 1. Put UI interaction logic in ViewModels and services.
 2. Keep code-behind minimal and UI-only.
-3. Keep filesystem writes in dedicated services.
+3. Keep business logic in `RenameMusic.Core`.
 4. Keep async operations async end-to-end.
 5. Use dependency-friendly abstractions for dialogs and pickers.
 6. Keep template dialog behavior in `ReplaceWithViewModel`, not in `ReplaceWith.xaml.cs`.
@@ -63,3 +67,4 @@ Architecture target is MVVM with service-based business logic.
 3. Prefer explicit, descriptive method names.
 4. Avoid introducing hidden side effects in property setters.
 5. Preserve localization usage where existing resource strings are available.
+6. Add or update unit tests when changing core business rules.

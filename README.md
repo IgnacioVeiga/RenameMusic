@@ -1,84 +1,59 @@
 # RenameMusic (Beta)
-[![Download](https://img.shields.io/static/v1?style=flat-square&logo=windows&label=Download&message=windows-x64&color=137A7F&labelColor=373B3E)](https://github.com/IgnacioVeiga/RenameMusic/releases/latest/download/RenameMusic_x64.zip)
-[![Download](https://img.shields.io/static/v1?style=flat-square&logo=windows&label=Download&message=windows-x86&color=137A7F&labelColor=373B3E)](https://github.com/IgnacioVeiga/RenameMusic/releases/latest/download/RenameMusic_x86.zip)
-![GitHub last commit](https://img.shields.io/github/last-commit/IgnacioVeiga/RenameMusic?color=137A7F&style=flat-square)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/IgnacioVeiga/RenameMusic?color=137A7F&label=Latest%20release&style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
-![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
-<img src="/RenameMusic/Resources/Icons/icon.ico" width="128" height="128">
-<div>
-  <span>English</span> / <a href="README_es.md">Español</a> </a>
-</div></br>
+RenameMusic is a desktop app to rename music files using metadata templates.
 
-This Software allows you to rename music files according to a rule or pattern set by its "Tags". This rule can be set by the user.
+Language: **English** / [Español](./README_es.md)
 
-For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it has tags, so I can decide to call it according to the following order: `TrackNumber-Title-Artist.mp3`.
+## What it does
+- Reads audio metadata (`mp3`, `m4a`, `ogg`, `flac`)
+- Builds target filenames from a template
+- Splits items into `To Rename` and `Do Not Rename`
+- Persists session data in SQLite
+- Handles filename conflicts with user policy
+- Supports single-item and batch rename
 
-## Screenshots:
-![Screenshot_0000](/RG39/Assets/Images/Screenshot_0000.png "Screenshot_0000")</br>
-![Screenshot_0001](/RG39/Assets/Images/Screenshot_0001.png "Screenshot_0001")</br>
-![Screenshot_0002](/RG39/Assets/Images/Screenshot_0002.png "Screenshot_0002")
+## Solution structure
+- `RenameMusic` -> WPF app (UI)
+- `RenameMusic.Core` -> domain and business logic
+- `RenameMusic.Tests` -> unit tests
 
-***
+## Requirements
+- Windows 10/11 recommended to run WPF app
+- .NET SDK 8
+- .NET Desktop Runtime 8 (for running app)
 
-## Functionalities:
-- Files that do not meet a minimum (modifiable) requirement are separated in another tab.
-- Allows to add and remove folders.
-- Shows the names of the files and on one side their future names.
-- Can define the position of the tags as a criterion for renaming.
-- Shows a cover of the selected file (if exists).
-- Does not allow repeated files and/or directories in the lists.
-- Recognizes mp3, m4a, ogg and flac file formats.
-- The following languages are available (more can be added): English and Spanish.
-- Saves the lists in a database file.
-- The lists have a page selector.
-- Allow to sort the list.
-- Theme selector (light, dark and others).
-- Play an audio (with default app).
+## Build and test
+From repository root:
 
-## To do:
-- Add a search bar.
-- Improve UI/UX.
+```bash
+# Restore all projects
+dotnet restore RenameMusic.sln
 
-***
+# Run unit tests (cross-platform)
+dotnet test RenameMusic.Tests/RenameMusic.Tests.csproj -c Release
+```
 
-## How to use:
+Build WPF app (Windows only):
 
-***
+```bash
+dotnet build RenameMusic/RenameMusic.csproj -c Release
+```
 
-## Required:
-- Windows 7 or higher (Recommended Windows 10/11) x86/x64.
-- .NET SDK 8 to compile and run.
-- .NET Desktop Runtime 8 to run.
+## CI
+GitHub Actions validates:
+- restore
+- build
+- unit tests
 
-***
+(Branches `master` and `main` are excluded by workflow config.)
 
-## Dependencies:
-### Frameworks
-- Microsoft.NETCore.App **(8.0.x)**.
-- Microsoft.WindowsDesktop.App.WPF **(8.0.x)**
+## Documentation
+- Developer guide (EN): [docs/developer-guide.md](./docs/developer-guide.md)
+- Developer guide (ES): [docs/developer-guide.es.md](./docs/developer-guide.es.md)
+- Architecture (EN): [docs/architecture.md](./docs/architecture.md)
+- Architecture (ES): [docs/architecture.es.md](./docs/architecture.es.md)
+- Testing guide (EN): [docs/testing-guide.md](./docs/testing-guide.md)
+- Testing guide (ES): [docs/testing-guide.es.md](./docs/testing-guide.es.md)
 
-### Packages
-- Microsoft.EntityFrameworkCore.Design **(8.0.x)**
-- Microsoft.EntityFrameworkCore.Sqlite **(8.0.x)**
-- taglib-sharp-netstandard2.0 **(2.1.0)**
-
-***
-
-## Languajes
-For adding/modifying languages I highly recommend the **extension** for **Visual Studio 2022** called `ResX Manager`. It makes it much easier to manage multiple languages.
-The language `.resx` files are saved in the `.\RenameMusic\Resources\Languages\` folder.
-
-***
-
-## Compile:
-Compile via **Visual Studio 2022**. The other way is to run the `dotnet build` command from terminal (cmd/powershell) in the root of the repository and then check inside of the `\RenameMusic\bin\` folder.
-
-***
-
-## How contribute:
-
-***
-
-## License:
+## License
+See [LICENSE.md](./LICENSE.md).

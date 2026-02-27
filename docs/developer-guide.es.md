@@ -1,135 +1,78 @@
 # Guía Para Desarrolladores de RenameMusic
 
-## 1. Objetivo del proyecto
-RenameMusic es una app de escritorio para renombrar archivos de música usando una plantilla definida por el usuario en base a metadatos.
+## 1. Propósito
+RenameMusic renombra archivos de música usando plantillas basadas en metadatos.
 
-Objetivos actuales:
-- Soportar listas grandes de archivos.
-- Persistir sesión en SQLite para recuperación tras cierre de la app.
-- Mantener separación clara entre UI y lógica mediante MVVM.
+## 2. Vista general de la solución
+La solución ahora tiene tres proyectos:
 
-## 2. Stack técnico
+1. `RenameMusic` (UI WPF)
+2. `RenameMusic.Core` (lógica de negocio)
+3. `RenameMusic.Tests` (tests unitarios)
+
+Ver [architecture.es.md](./architecture.es.md) para más detalle.
+
+## 3. Tecnologías principales
 - .NET 8
 - WPF
-- EF Core 8 con SQLite
+- EF Core 8 + SQLite
 - CommunityToolkit.Mvvm
-- TagLib# (taglib-sharp-netstandard2.0)
+- TagLib#
+- xUnit
 
-## 3. Modelo de arranque
-La app ahora inicia desde `App.xaml.cs` y crea explícitamente:
-- `RenameMusic.Views.MainWindow`
-- `RenameMusic.ViewModels.MainWindowViewModel`
+## 4. Flujos principales
+- Añadir archivos
+- Añadir carpetas
+- Cargar sesión previa
+- Aplicar regla de plantilla
+- Renombrar todo o por ítem
+- Resolver conflictos de nombre
+- Mover ítems entre listas
+- Borrar archivos/carpetas de forma segura (Papelera)
 
-La antigua ventana raíz `MainWindow` fue removida para evitar confusión de arranque.
-
-## 4. Arquitectura MVVM
-
-### 4.1 Vista
-`RenameMusic/Views/MainWindow.xaml`
-- DataGrid y menú enlazados a comandos del ViewModel y colecciones observables.
-- Code-behind mínimo.
-
-### 4.2 ViewModel
-`RenameMusic/ViewModels/MainWindowViewModel.cs`
-- Coordina inicio, carga de sesión, AddFile, AddFolder, cambios de regla y renombrado masivo.
-- Mantiene estado de UI (`ToRenameItems`, `DoNotRenameItems`, `FolderItems`, barra de estado, portada seleccionada).
-- Usa comandos asíncronos con `CommunityToolkit.Mvvm`.
-
-`RenameMusic/ViewModels/ReplaceWithViewModel.cs`
-- Mantiene el estado y las validaciones del diálogo de plantilla.
-- Expone comandos (`InsertTag`, `Apply`, `Cancel`) y evento de cierre, dejando `ReplaceWith.xaml.cs` mínimo.
-
-### 4.3 Servicios
-- `SessionService`: persistencia y pipeline de ingreso.
-- `TemplateRuleService`: parseo de plantilla y elegibilidad de renombrado.
-- `RenameExecutionService`: renombrado físico y resolución de conflictos.
-- `DialogService`: mensajes y modales.
-- `FilePickerService`: selección de archivos y carpetas.
-- El ViewModel principal depende de contratos (`ISessionService`, `ITemplateRuleService`, `IRenameExecutionService`) en lugar de clases concretas.
-
-## 5. Modelo de persistencia
-
-### 5.1 Tablas
-Tablas principales:
-- `SessionAudios` (`SessionAudioEntity`)
-- `SessionFolders` (`SessionFolderEntity`)
-
-### 5.2 Índices
-Definidos en `MyContext.OnModelCreating`:
-- Único: `SessionAudios.FullPath`
-- No único: `SessionAudios.FolderPath`
-- No único: `SessionAudios.FileNameWithoutExtension`
-- No único: `SessionAudios.CanRename`
-- Único: `SessionFolders.FolderPath`
-
-## 6. Reglas de renombrado
-
-Comportamiento actual:
+## 5. Comportamiento de reglas
 - La plantilla debe contener al menos un tag soportado.
-- Los metadatos requeridos se derivan de `MinTagsRequiredIndex`:
-  - `Ninguno requerido`: los tags faltantes son opcionales.
-  - `Solo marcados`: solo se exigen los tags marcados como requeridos.
-  - `Todos los mencionados`: todo tag usado en la plantilla es requerido.
-- Estrategia de faltantes configurable:
-  - Estricto
-  - Usar placeholder (`Unknown` o equivalente localizado)
-- Se permiten tags repetidos, pero se muestra advertencia.
+- Los metadatos requeridos se controlan con `MinTagsRequiredIndex`:
+  - `None required`
+  - `Only marked ones`
+  - `All mentioned`
+- Estrategia de tags faltantes:
+  - `Strict`
+  - `Use placeholder` (`Unknown`/localizado)
 
-Tags soportados:
-- `<TrackNum>`
-- `<Title>`
-- `<Album>`
-- `<AlbumArtist>`
-- `<Artist>`
-- `<Year>`
+## 6. Persistencia
+- Los datos de sesión se guardan en SQLite.
+- Al iniciar se pregunta si restaurar sesión previa.
+- Los archivos faltantes pasan a `Do Not Rename` con motivo.
+- La ingesta guarda en lotes para listas grandes.
 
-## 7. Comportamiento de sesión
-- Al iniciar, si existe sesión guardada, se pregunta si cargarla.
-- Si el usuario rechaza, se avisa y se elimina la sesión.
-- Archivos faltantes pasan a `Do Not Rename` con motivo `File not found.`
-- Se muestra aviso general cuando se detectan archivos faltantes.
+## 7. Conflictos
+- Se mantiene el modal de conflictos (`RepeatedFile`).
+- La política por defecto es configurable:
+  - Ask
+  - Replace
+  - Skip
+  - RenameWithNumber
 
-## 8. Conflictos de nombre
-- Se mantiene la ventana modal `RepeatedFile`.
-- El renombrado masivo soporta aplicar una decisión al resto del lote actual.
-- Existe política de conflicto por defecto configurable en Ajustes:
-  - Preguntar siempre
-  - Reemplazar siempre
-  - Omitir siempre
-  - Renombrar con número siempre
+## 8. Build y test
+- El build WPF requiere Windows + .NET Desktop SDK.
+- Core y tests se pueden ejecutar en múltiples plataformas.
 
-## 9. Alcance actual y tareas diferidas
+Comandos:
 
-Implementado ahora:
-- AddFile
-- AddFolder
-- Carga de sesión
-- Recalculo por cambio de plantilla con confirmación
-- Renombrado masivo con resolución de conflictos
-- Acciones por archivo desde menú contextual:
-  - reproducir archivo
-  - editar tags
-  - mover entre `To Rename` y `Do Not Rename`
-  - renombrar archivo individual
-- Remoción de carpetas de sesión incluyendo subcarpetas
-- Escaneo robusto de carpetas que omite subdirectorios inaccesibles sin abortar la carga
-- Persistencia por lotes durante la carga para reducir presión de memoria en importaciones grandes
-- Renombrado con persistencia masiva de estados para reducir roundtrips a base de datos
-- Flujos seguros de borrado desde menú contextual:
-  - `DeleteFile` envía el archivo a la Papelera y lo elimina de sesión
-  - `DeleteFolder` envía carpeta (recursivo) a la Papelera y elimina datos de sesión relacionados
+```bash
+dotnet restore RenameMusic.sln
+dotnet test RenameMusic.Tests/RenameMusic.Tests.csproj -c Release
+```
 
-Diferido de forma intencional:
-- Rediseño UX más profundo fuera del esquema actual por tabs
+## 9. Mapa de documentación
+- Arquitectura: [architecture.es.md](./architecture.es.md)
+- Testing: [testing-guide.es.md](./testing-guide.es.md)
+- Guía EN: [developer-guide.md](./developer-guide.md)
 
-## 10. Build y pruebas
-- El build completo WPF debe ejecutarse en Windows con .NET Desktop SDK.
-- En Linux sin `Microsoft.NET.Sdk.WindowsDesktop` no compila el proyecto.
-- El CI debe usar runners Windows para validación de build.
-
-## 11. Convenciones para contribuir
-- Mantener lógica de negocio en servicios y ViewModels, no en code-behind.
-- Centralizar operaciones de filesystem en servicios de sesión y renombrado.
-- Usar APIs asíncronas en operaciones largas.
-- Dejar comentarios `TODO` en inglés para comportamiento diferido.
-- Mantener eliminada la carpeta `RenameMusic_v1` y no reintroducir copias legacy del proyecto.
+## 10. Convenciones
+- Mantener la lógica de negocio en `RenameMusic.Core`.
+- Mantener code-behind de WPF al mínimo.
+- Usar interfaces de servicios como límites.
+- Agregar tests para reglas nuevas.
+- Usar comentarios `TODO` en inglés cuando sea necesario.
