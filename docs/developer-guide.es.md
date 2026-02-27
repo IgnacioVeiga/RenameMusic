@@ -97,6 +97,13 @@ Implementado ahora:
 - Carga de sesión
 - Recalculo por cambio de plantilla con confirmación
 - Renombrado masivo con resolución de conflictos
+- Acciones por archivo desde menú contextual:
+  - reproducir archivo
+  - editar tags
+  - mover entre `To Rename` y `Do Not Rename`
+  - renombrar archivo individual
+- Remoción de carpetas de sesión incluyendo subcarpetas
+- Escaneo robusto de carpetas que omite subdirectorios inaccesibles sin abortar la carga
 
 Diferido de forma intencional:
 - Flujos `DeleteFile` y `DeleteFolder` (se deben implementar de forma segura)

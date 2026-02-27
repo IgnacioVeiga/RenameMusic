@@ -334,7 +334,7 @@ namespace RenameMusic.Services
             }
 
             List<SessionAudioEntity> audios = await context.SessionAudios
-                .Where(a => a.FolderPath == folder.FolderPath)
+                .Where(a => a.FolderPath.StartsWith(folder.FolderPath))
                 .ToListAsync(cancellationToken);
 
             if (audios.Count > 0)
@@ -342,7 +342,19 @@ namespace RenameMusic.Services
                 context.SessionAudios.RemoveRange(audios);
             }
 
-            context.SessionFolders.Remove(folder);
+            List<SessionFolderEntity> folders = await context.SessionFolders
+                .Where(f => f.FolderPath.StartsWith(folder.FolderPath))
+                .ToListAsync(cancellationToken);
+
+            if (folders.Count > 0)
+            {
+                context.SessionFolders.RemoveRange(folders);
+            }
+            else
+            {
+                context.SessionFolders.Remove(folder);
+            }
+
             await context.SaveChangesAsync(cancellationToken);
             return true;
         }

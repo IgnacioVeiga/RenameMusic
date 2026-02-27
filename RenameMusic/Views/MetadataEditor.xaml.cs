@@ -12,33 +12,41 @@ namespace RenameMusic.Views
     /// </summary>
     public partial class MetadataEditor : Window
     {
-        private readonly string filepath;
-        private string newImageFilepath;
-        private bool imageChanged;
+        private readonly string _filePath;
+        private string? _newImageFilePath;
+        private bool _imageChanged;
 
         public MetadataEditor(string path)
         {
             InitializeComponent();
-            filepath = path;
+            _filePath = path;
             try
             {
-                TagLib.File file = TagLib.File.Create(filepath);
+                using TagLib.File file = TagLib.File.Create(_filePath);
 
-                AudioTitle.Text = file.Tag.Title;
-                Artist.Text = file.Tag.JoinedPerformers;
-                Album.Text = file.Tag.Album;
-                AlbumArtist.Text = file.Tag.JoinedAlbumArtists;
-                Year.Text = file.Tag.Year.ToString();
-                Genres.Text = file.Tag.JoinedGenres;
-                Comment.Text = file.Tag.Comment;
+                AudioTitle.Text = file.Tag.Title ?? string.Empty;
+                Artist.Text = file.Tag.JoinedPerformers ?? string.Empty;
+                Album.Text = file.Tag.Album ?? string.Empty;
+                AlbumArtist.Text = file.Tag.JoinedAlbumArtists ?? string.Empty;
+                Year.Text = file.Tag.Year > 0 ? file.Tag.Year.ToString() : string.Empty;
+                Genres.Text = file.Tag.JoinedGenres ?? string.Empty;
+                Comment.Text = file.Tag.Comment ?? string.Empty;
 
-                Pictures.Source = Multimedia.GetBitmapImage(file.Tag.Pictures[0].Data.Data);
-                PicturesInfo.Text = file.Tag.Pictures[0].MimeType;
+                if (file.Tag.Pictures.Length > 0)
+                {
+                    Pictures.Source = Multimedia.GetBitmapImage(file.Tag.Pictures[0].Data.Data);
+                    PicturesInfo.Text = file.Tag.Pictures[0].MimeType;
+                }
+                else
+                {
+                    PicturesInfo.Text = string.Empty;
+                }
 
                 FileInfo.Text = $"{file.Properties.AudioBitrate}kbps {file.Properties.AudioSampleRate}hz";
             }
             catch (Exception)
             {
+                MessageBox.Show(Strings.FILE_NOT_FOUND_MSG, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Warning);
                 Close();
             }
         }
@@ -51,47 +59,56 @@ namespace RenameMusic.Views
                 {
                     ValidateNames = true,
                     Multiselect = false,
-                    InitialDirectory = Path.GetDirectoryName(filepath) + Path.DirectorySeparatorChar,
+                    InitialDirectory = Path.GetDirectoryName(_filePath) ?? Environment.CurrentDirectory,
                     CheckFileExists = true,
-                    Filter = $"{Strings.SUPPORTED_FILES}*.jpg;*.jpeg;*.png;*.gif;*.webp|JPG|*.jpg|JPEG|*jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
+                    Filter = $"{Strings.SUPPORTED_FILES}*.jpg;*.jpeg;*.png;*.gif;*.webp|JPEG|*.jpg;*.jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
                 };
 
                 // In .mp3 files, does the cover art have to be a 64kb .png format?
 
                 if (imagePicker.ShowDialog() == true)
                 {
-                    newImageFilepath = imagePicker.FileName;
-                    imageChanged = true;
-                    Pictures.Source = Multimedia.GetBitmapImage(imagePicker.FileName);
+                    _newImageFilePath = imagePicker.FileName;
+                    _imageChanged = true;
+                    try
+                    {
+                        Pictures.Source = Multimedia.GetBitmapImage(imagePicker.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        _imageChanged = false;
+                        _newImageFilePath = null;
+                        MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            TagLib.File file = TagLib.File.Create(filepath);
-            file.Tag.Title = AudioTitle.Text;
-            file.Tag.Performers = Artist.Text.Split(";");
-            file.Tag.Album = Album.Text;
-            file.Tag.AlbumArtists = AlbumArtist.Text.Split(";");
-            file.Tag.Year = uint.Parse(Year.Text);
-            file.Tag.Genres = Genres.Text.Split(";");
-            file.Tag.Comment = Comment.Text;
-
-            if (imageChanged)
-            {
-                // ToDo: Do the same with the rest of the images in the array.
-                file.Tag.Pictures = Array.Empty<IPicture>();
-                file.Tag.Pictures = new IPicture[] { new Picture(newImageFilepath) };
-            }
-
             try
             {
+                using TagLib.File file = TagLib.File.Create(_filePath);
+                file.Tag.Title = string.IsNullOrWhiteSpace(AudioTitle.Text) ? null : AudioTitle.Text.Trim();
+                file.Tag.Performers = SplitValues(Artist.Text);
+                file.Tag.Album = string.IsNullOrWhiteSpace(Album.Text) ? null : Album.Text.Trim();
+                file.Tag.AlbumArtists = SplitValues(AlbumArtist.Text);
+                file.Tag.Year = uint.TryParse(Year.Text, out uint year) ? year : 0;
+                file.Tag.Genres = SplitValues(Genres.Text);
+                file.Tag.Comment = string.IsNullOrWhiteSpace(Comment.Text) ? null : Comment.Text.Trim();
+
+                if (_imageChanged && !string.IsNullOrWhiteSpace(_newImageFilePath) && File.Exists(_newImageFilePath))
+                {
+                    // TODO: Preserve existing additional pictures and support multi-image editing.
+                    file.Tag.Pictures = new IPicture[] { new Picture(_newImageFilePath) };
+                }
+
                 file.Save();
                 DialogResult = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
                 DialogResult = false;
             }
             Close();
@@ -101,6 +118,12 @@ namespace RenameMusic.Views
         {
             DialogResult = false;
             Close();
+        }
+
+        private static string[] SplitValues(string rawValues)
+        {
+            return rawValues
+                .Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

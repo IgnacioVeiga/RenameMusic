@@ -97,6 +97,13 @@ Implemented now:
 - Load session data
 - Template recalculation with confirmation
 - Batch rename with conflict resolution
+- Item-level actions from context menu:
+  - play file
+  - edit tags
+  - move between `To Rename` and `Do Not Rename`
+  - rename single file now
+- Folder removal from session including subfolders
+- Resilient folder scan that skips inaccessible subdirectories instead of aborting ingestion
 
 Deferred intentionally:
 - `DeleteFile` and `DeleteFolder` workflows (must be implemented safely)

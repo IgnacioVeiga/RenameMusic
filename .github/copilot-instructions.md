@@ -39,11 +39,20 @@ Architecture target is MVVM with service-based business logic.
 1. On startup, ask whether to load previous session.
 2. If user declines, warn and clear saved session.
 3. Missing files should be moved to `Do Not Rename` with reason.
+4. Folder removal from session should also remove files in subfolders.
 
 ## Conflict behavior
 1. Keep `RepeatedFile` modal flow.
 2. Batch rename should support apply-to-all decision for the current run.
 3. Persistent default conflict policy is deferred and marked with `TODO`.
+
+## MainWindow UX behavior
+1. Keep item-level context actions available in tabs:
+   - play file
+   - edit metadata tags
+   - move item between rename lists
+   - rename a single file immediately
+2. Keep ingestion resilient for inaccessible subfolders; skip and continue.
 
 ## Coding conventions
 1. Use concise comments only when logic is not obvious.

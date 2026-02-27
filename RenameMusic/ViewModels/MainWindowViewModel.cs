@@ -429,6 +429,12 @@ namespace RenameMusic.ViewModels
                 return;
             }
 
+            if (!File.Exists(item.FullPath))
+            {
+                _dialogService.ShowWarning(Strings.FILE_NOT_FOUND_MSG, Strings.EDIT_TAGS);
+                return;
+            }
+
             bool edited = _dialogService.EditMetadata(item.FullPath);
             if (!edited)
             {
@@ -533,7 +539,7 @@ namespace RenameMusic.ViewModels
             }
 
             if (!_dialogService.Confirm(
-                "All files from this folder will be removed from the current session. Continue?",
+                "All files from this folder and its subfolders will be removed from the current session. Continue?",
                 Strings.REMOVE_FROM_LIST))
             {
                 return;
