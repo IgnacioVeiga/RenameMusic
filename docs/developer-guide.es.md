@@ -66,7 +66,10 @@ Definidos en `MyContext.OnModelCreating`:
 
 Comportamiento actual:
 - La plantilla debe contener al menos un tag soportado.
-- Los tags usados en la plantilla definen metadatos requeridos en modo estricto.
+- Los metadatos requeridos se derivan de `MinTagsRequiredIndex`:
+  - `Ninguno requerido`: los tags faltantes son opcionales.
+  - `Solo marcados`: solo se exigen los tags marcados como requeridos.
+  - `Todos los mencionados`: todo tag usado en la plantilla es requerido.
 - Estrategia de faltantes configurable:
   - Estricto
   - Usar placeholder (`Unknown` o equivalente localizado)

@@ -205,6 +205,11 @@ namespace RenameMusic.ViewModels
 
         private bool HasAllRequiredTags(string value)
         {
+            if (MinTagsRequiredIndex != 1)
+            {
+                return true;
+            }
+
             foreach (string tag in GetRequiredTags())
             {
                 if (!value.Contains(tag, StringComparison.Ordinal))

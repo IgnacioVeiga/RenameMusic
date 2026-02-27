@@ -648,8 +648,47 @@ namespace RenameMusic.ViewModels
             {
                 Template = Settings.Default.DefaultTemplate,
                 MissingTagStrategy = strategy,
-                PlaceholderText = Strings.UNKNOWN
+                PlaceholderText = Strings.UNKNOWN,
+                MinTagsRequiredIndex = Settings.Default.MinTagsRequiredIndex,
+                RequiredTokens = GetRequiredTokens()
             };
+        }
+
+        private static IReadOnlySet<string> GetRequiredTokens()
+        {
+            HashSet<string> required = new(StringComparer.Ordinal);
+
+            if (Settings.Default.TrackNumRequired)
+            {
+                required.Add("<TrackNum>");
+            }
+
+            if (Settings.Default.TitleRequired)
+            {
+                required.Add("<Title>");
+            }
+
+            if (Settings.Default.AlbumRequired)
+            {
+                required.Add("<Album>");
+            }
+
+            if (Settings.Default.AlbumArtistRequired)
+            {
+                required.Add("<AlbumArtist>");
+            }
+
+            if (Settings.Default.ArtistRequired)
+            {
+                required.Add("<Artist>");
+            }
+
+            if (Settings.Default.YearRequired)
+            {
+                required.Add("<Year>");
+            }
+
+            return required;
         }
 
         private static string GetConflictPolicyMode()

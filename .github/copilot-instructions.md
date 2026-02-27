@@ -31,7 +31,7 @@ Architecture target is MVVM with service-based business logic.
 
 ## Rename rule behavior
 1. Template must include at least one supported tag.
-2. Used template tags define required metadata in strict mode.
+2. Required metadata depends on `MinTagsRequiredIndex` (`None`, `OnlyMarked`, `AllMentioned`).
 3. Missing metadata strategy is user-configurable:
    - Strict
    - Placeholder (`Unknown` localized)

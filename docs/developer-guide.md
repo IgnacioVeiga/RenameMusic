@@ -66,7 +66,10 @@ Defined in `MyContext.OnModelCreating`:
 
 Current behavior:
 - Template must contain at least one supported tag.
-- Tags used in the template define required metadata for strict mode.
+- Required metadata is derived from `MinTagsRequiredIndex`:
+  - `None required`: missing tags are optional.
+  - `Only marked ones`: only selected required tags are enforced.
+  - `All mentioned`: every tag used in template is required.
 - Missing tag strategy is configurable:
   - Strict
   - Use placeholder (`Unknown` or localized equivalent)

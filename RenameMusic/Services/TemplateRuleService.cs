@@ -72,33 +72,42 @@ namespace RenameMusic.Services
                 };
             }
 
+            HashSet<string> requiredTokens = ResolveRequiredTokens(usedTokens, options);
             string proposedName = options.Template;
-            List<string> missingTokens = [];
+            List<string> missingRequiredTokens = [];
             foreach (string token in usedTokens)
             {
                 string? value = GetTokenValue(entity, token);
                 bool missing = string.IsNullOrWhiteSpace(value);
                 if (missing)
                 {
-                    missingTokens.Add(token);
-                    if (options.MissingTagStrategy == MissingTagStrategy.Strict)
+                    if (requiredTokens.Contains(token))
                     {
-                        continue;
-                    }
+                        missingRequiredTokens.Add(token);
+                        if (options.MissingTagStrategy == MissingTagStrategy.Strict)
+                        {
+                            continue;
+                        }
 
-                    value = options.PlaceholderText;
+                        value = options.PlaceholderText;
+                    }
+                    else
+                    {
+                        // Optional tags can be omitted from the final filename.
+                        value = string.Empty;
+                    }
                 }
 
                 proposedName = proposedName.Replace(token, value ?? string.Empty, StringComparison.Ordinal);
             }
 
-            if (missingTokens.Count > 0 && options.MissingTagStrategy == MissingTagStrategy.Strict)
+            if (missingRequiredTokens.Count > 0 && options.MissingTagStrategy == MissingTagStrategy.Strict)
             {
                 return new RuleEvaluationResult
                 {
                     CanRename = false,
-                    Reason = $"Missing required tags: {string.Join(", ", missingTokens)}",
-                    MissingTokens = missingTokens
+                    Reason = $"Missing required tags: {string.Join(", ", missingRequiredTokens)}",
+                    MissingTokens = missingRequiredTokens
                 };
             }
 
@@ -116,7 +125,21 @@ namespace RenameMusic.Services
             {
                 CanRename = true,
                 ProposedName = proposedName,
-                MissingTokens = missingTokens
+                MissingTokens = missingRequiredTokens
+            };
+        }
+
+        private static HashSet<string> ResolveRequiredTokens(
+            IReadOnlyList<string> usedTokens,
+            RenameRuleOptions options)
+        {
+            return options.MinTagsRequiredIndex switch
+            {
+                0 => new HashSet<string>(StringComparer.Ordinal),
+                1 => new HashSet<string>(
+                    usedTokens.Where(options.RequiredTokens.Contains),
+                    StringComparer.Ordinal),
+                _ => new HashSet<string>(usedTokens, StringComparer.Ordinal)
             };
         }
 

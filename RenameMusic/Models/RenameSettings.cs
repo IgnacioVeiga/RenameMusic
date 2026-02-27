@@ -18,6 +18,8 @@ namespace RenameMusic.Models
         public required string Template { get; init; }
         public required MissingTagStrategy MissingTagStrategy { get; init; }
         public required string PlaceholderText { get; init; }
+        public required int MinTagsRequiredIndex { get; init; }
+        public required IReadOnlySet<string> RequiredTokens { get; init; }
     }
 
     public sealed class TemplateDialogResult
