@@ -43,6 +43,8 @@ namespace RenameMusic.Services
             CancellationToken cancellationToken)
         {
             RenameBatchResult result = new();
+            HashSet<int> idsToRemove = [];
+            Dictionary<int, string> doNotRenameUpdates = [];
 
             ConflictResolutionAction? applyToAllAction = null;
             foreach (AudioLibraryItem item in items)
@@ -52,14 +54,14 @@ namespace RenameMusic.Services
                 string sourcePath = item.FullPath;
                 if (!File.Exists(sourcePath))
                 {
-                    await _sessionService.MarkAsDoNotRenameAsync(item.Id, "File not found.", cancellationToken);
+                    doNotRenameUpdates[item.Id] = "File not found.";
                     result.MissingCount++;
                     continue;
                 }
 
                 if (string.IsNullOrWhiteSpace(item.ProposedName))
                 {
-                    await _sessionService.MarkAsDoNotRenameAsync(item.Id, "Empty proposed file name.", cancellationToken);
+                    doNotRenameUpdates[item.Id] = "Empty proposed file name.";
                     result.FailedCount++;
                     continue;
                 }
@@ -67,7 +69,7 @@ namespace RenameMusic.Services
                 string destinationPath = Path.Combine(item.FolderPath, $"{item.ProposedName}{item.FileExtension}");
                 if (string.Equals(sourcePath, destinationPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    await _sessionService.RemoveAudioAsync(item.Id, cancellationToken);
+                    idsToRemove.Add(item.Id);
                     result.CompletedCount++;
                     continue;
                 }
@@ -96,14 +98,24 @@ namespace RenameMusic.Services
                     }
 
                     File.Move(sourcePath, destinationPath);
-                    await _sessionService.RemoveAudioAsync(item.Id, cancellationToken);
+                    idsToRemove.Add(item.Id);
                     result.CompletedCount++;
                 }
                 catch (Exception ex)
                 {
-                    await _sessionService.MarkAsDoNotRenameAsync(item.Id, ex.Message, cancellationToken);
+                    doNotRenameUpdates[item.Id] = ex.Message;
                     result.FailedCount++;
                 }
+            }
+
+            if (idsToRemove.Count > 0)
+            {
+                await _sessionService.RemoveAudiosAsync(idsToRemove, cancellationToken);
+            }
+
+            if (doNotRenameUpdates.Count > 0)
+            {
+                await _sessionService.MarkAsDoNotRenameAsync(doNotRenameUpdates, cancellationToken);
             }
 
             return result;

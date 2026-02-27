@@ -104,6 +104,8 @@ Implemented now:
   - rename single file now
 - Folder removal from session including subfolders
 - Resilient folder scan that skips inaccessible subdirectories instead of aborting ingestion
+- Ingestion saves in batches to reduce memory pressure on very large imports
+- Rename execution persists remove/failure states in bulk to reduce database roundtrips
 
 Deferred intentionally:
 - `DeleteFile` and `DeleteFolder` workflows (must be implemented safely)

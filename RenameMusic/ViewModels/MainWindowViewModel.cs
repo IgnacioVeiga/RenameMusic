@@ -104,7 +104,7 @@ namespace RenameMusic.ViewModels
                 }
                 else
                 {
-                    await _sessionService.RecalculateAllAsync(CreateRuleOptions());
+                    await Task.Run(() => _sessionService.RecalculateAllAsync(CreateRuleOptions()));
                 }
             }
 
@@ -127,7 +127,8 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                SessionIngestionResult result = await _sessionService.AddFilesAsync(files, CreateRuleOptions());
+                SessionIngestionResult result = await Task.Run(
+                    () => _sessionService.AddFilesAsync(files, CreateRuleOptions()));
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
                 ShowIngestionSummary(result);
             });
@@ -149,10 +150,10 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                SessionIngestionResult result = await _sessionService.AddFoldersAsync(
+                SessionIngestionResult result = await Task.Run(() => _sessionService.AddFoldersAsync(
                     folders,
                     IncludeSubFolders,
-                    CreateRuleOptions());
+                    CreateRuleOptions()));
 
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
                 ShowIngestionSummary(result);
@@ -267,7 +268,7 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                await _sessionService.RecalculateAllAsync(CreateRuleOptions());
+                await Task.Run(() => _sessionService.RecalculateAllAsync(CreateRuleOptions()));
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
             });
         }
@@ -309,7 +310,7 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                await _sessionService.RecalculateAllAsync(CreateRuleOptions());
+                await Task.Run(() => _sessionService.RecalculateAllAsync(CreateRuleOptions()));
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
             });
         }

@@ -104,6 +104,8 @@ Implementado ahora:
   - renombrar archivo individual
 - Remoción de carpetas de sesión incluyendo subcarpetas
 - Escaneo robusto de carpetas que omite subdirectorios inaccesibles sin abortar la carga
+- Persistencia por lotes durante la carga para reducir presión de memoria en importaciones grandes
+- Renombrado con persistencia masiva de estados para reducir roundtrips a base de datos
 
 Diferido de forma intencional:
 - Flujos `DeleteFile` y `DeleteFolder` (se deben implementar de forma segura)

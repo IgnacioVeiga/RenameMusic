@@ -14,6 +14,7 @@ namespace RenameMusic.Services
     public sealed class SessionService
     {
         private static readonly string[] SupportedExtensions = [".mp3", ".m4a", ".ogg", ".flac"];
+        private const int SaveBatchSize = 500;
         private readonly TemplateRuleService _templateRuleService;
 
         public SessionService(TemplateRuleService templateRuleService)
@@ -59,6 +60,7 @@ namespace RenameMusic.Services
                 StringComparer.OrdinalIgnoreCase);
 
             SessionIngestionResult result = new();
+            int pendingWrites = 0;
             foreach (string rawPath in filePaths.Distinct(StringComparer.OrdinalIgnoreCase))
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -95,14 +97,18 @@ namespace RenameMusic.Services
                 {
                     context.SessionFolders.Add(new SessionFolderEntity { FolderPath = folderPath });
                     existingFolders.Add(folderPath);
+                    pendingWrites++;
                 }
 
                 SessionAudioEntity entity = BuildEntityFromPath(fullPath, folderPath, options, result);
                 context.SessionAudios.Add(entity);
                 result.AddedCount++;
+                pendingWrites++;
+
+                pendingWrites = await SaveBatchAsync(context, pendingWrites, force: false, cancellationToken);
             }
 
-            await context.SaveChangesAsync(cancellationToken);
+            pendingWrites = await SaveBatchAsync(context, pendingWrites, force: true, cancellationToken);
             return result;
         }
 
@@ -124,6 +130,7 @@ namespace RenameMusic.Services
                 StringComparer.OrdinalIgnoreCase);
 
             SessionIngestionResult result = new();
+            int pendingWrites = 0;
             foreach (string folderRawPath in folderPaths.Distinct(StringComparer.OrdinalIgnoreCase))
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -147,6 +154,7 @@ namespace RenameMusic.Services
                 {
                     context.SessionFolders.Add(new SessionFolderEntity { FolderPath = normalizedFolderPath });
                     existingFolders.Add(normalizedFolderPath);
+                    pendingWrites++;
                 }
 
                 foreach (string filePath in EnumerateFilesSafe(normalizedFolderPath, includeSubFolders))
@@ -173,15 +181,19 @@ namespace RenameMusic.Services
                     {
                         context.SessionFolders.Add(new SessionFolderEntity { FolderPath = folderPath });
                         existingFolders.Add(folderPath);
+                        pendingWrites++;
                     }
 
                     SessionAudioEntity entity = BuildEntityFromPath(fullPath, folderPath, options, result);
                     context.SessionAudios.Add(entity);
                     result.AddedCount++;
+                    pendingWrites++;
+
+                    pendingWrites = await SaveBatchAsync(context, pendingWrites, force: false, cancellationToken);
                 }
             }
 
-            await context.SaveChangesAsync(cancellationToken);
+            pendingWrites = await SaveBatchAsync(context, pendingWrites, force: true, cancellationToken);
             return result;
         }
 
@@ -304,6 +316,27 @@ namespace RenameMusic.Services
             await context.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task RemoveAudiosAsync(IEnumerable<int> ids, CancellationToken cancellationToken = default)
+        {
+            List<int> normalizedIds = ids.Distinct().ToList();
+            if (normalizedIds.Count == 0)
+            {
+                return;
+            }
+
+            await using MyContext context = new();
+            List<SessionAudioEntity> entities = await context.SessionAudios
+                .Where(a => normalizedIds.Contains(a.Id))
+                .ToListAsync(cancellationToken);
+            if (entities.Count == 0)
+            {
+                return;
+            }
+
+            context.SessionAudios.RemoveRange(entities);
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task MarkAsDoNotRenameAsync(
             int id,
             string reason,
@@ -320,6 +353,37 @@ namespace RenameMusic.Services
             entity.NotRenamableReason = reason;
             entity.ProposedName = null;
             entity.ExistsOnDisk = File.Exists(entity.FullPath);
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task MarkAsDoNotRenameAsync(
+            IReadOnlyDictionary<int, string> updates,
+            CancellationToken cancellationToken = default)
+        {
+            if (updates.Count == 0)
+            {
+                return;
+            }
+
+            List<int> ids = updates.Keys.Distinct().ToList();
+            await using MyContext context = new();
+            List<SessionAudioEntity> entities = await context.SessionAudios
+                .Where(a => ids.Contains(a.Id))
+                .ToListAsync(cancellationToken);
+
+            foreach (SessionAudioEntity entity in entities)
+            {
+                if (!updates.TryGetValue(entity.Id, out string? reason))
+                {
+                    continue;
+                }
+
+                entity.CanRename = false;
+                entity.NotRenamableReason = reason;
+                entity.ProposedName = null;
+                entity.ExistsOnDisk = File.Exists(entity.FullPath);
+            }
+
             await context.SaveChangesAsync(cancellationToken);
         }
 
@@ -555,6 +619,27 @@ namespace RenameMusic.Services
         {
             string extension = Path.GetExtension(path);
             return SupportedExtensions.Any(e => extension.Equals(e, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static async Task<int> SaveBatchAsync(
+            MyContext context,
+            int pendingWrites,
+            bool force,
+            CancellationToken cancellationToken)
+        {
+            if (pendingWrites == 0)
+            {
+                return pendingWrites;
+            }
+
+            if (!force && pendingWrites < SaveBatchSize)
+            {
+                return pendingWrites;
+            }
+
+            await context.SaveChangesAsync(cancellationToken);
+            context.ChangeTracker.Clear();
+            return 0;
         }
 
         private static IEnumerable<string> EnumerateFilesSafe(string rootPath, bool includeSubFolders)

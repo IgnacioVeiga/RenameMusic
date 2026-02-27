@@ -26,6 +26,7 @@ Architecture target is MVVM with service-based business logic.
 ## Data model notes
 - `SessionAudioEntity` and `SessionFolderEntity` are the active persistence model.
 - Do not reintroduce DTO-based legacy storage paths.
+- For large ingestions, prefer batched EF saves and avoid per-item DB writes.
 
 ## Rename rule behavior
 1. Template must include at least one supported tag.
