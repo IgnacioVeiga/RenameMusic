@@ -1,6 +1,7 @@
 ﻿using RenameMusic.Properties;
 using RenameMusic.Resources.Languages;
 using RenameMusic.Services;
+using RenameMusic.ViewModels;
 using System.Diagnostics;
 using System.Windows;
 
@@ -32,7 +33,7 @@ namespace RenameMusic
             }
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             const bool initiallyOwned = true;
             const string name = "RenameMusic";
@@ -47,6 +48,42 @@ namespace RenameMusic
                 Current.Shutdown();
             }
             base.OnStartup(e);
+
+            if (!createdNew)
+            {
+                return;
+            }
+
+            try
+            {
+                TemplateRuleService templateRuleService = new();
+                SessionService sessionService = new(templateRuleService);
+                RenameExecutionService renameExecutionService = new(sessionService);
+                IFilePickerService filePickerService = new FilePickerService();
+                IDialogService dialogService = new DialogService();
+
+                MainWindowViewModel mainWindowViewModel = new(
+                    sessionService,
+                    templateRuleService,
+                    renameExecutionService,
+                    filePickerService,
+                    dialogService);
+
+                Views.MainWindow window = new()
+                {
+                    DataContext = mainWindowViewModel
+                };
+
+                MainWindow = window;
+                ThemeService.LoadTheme();
+                window.Show();
+                await mainWindowViewModel.InitializeAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                Current.Shutdown();
+            }
         }
 
         protected virtual void CloseMutexHandler(object sender, EventArgs e)

@@ -18,8 +18,9 @@ namespace RenameMusic.Services
                 Source = new Uri("pack://application:,,,/Resources/Styles/UI/Generic.xaml")
             };
             Application.Current.Resources.MergedDictionaries.Clear();
-            //Application.Current.Resources.MergedDictionaries.AddRange(ThemeResDic, UIResDic);
-            Application.Current.MainWindow.UpdateLayout();
+            Application.Current.Resources.MergedDictionaries.Add(ThemeResDic);
+            Application.Current.Resources.MergedDictionaries.Add(UIResDic);
+            Application.Current.MainWindow?.UpdateLayout();
         }
 
         internal static void ChangeTheme(string themeName)

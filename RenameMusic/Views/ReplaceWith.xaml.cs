@@ -1,5 +1,6 @@
 ﻿using RenameMusic.Properties;
 using RenameMusic.Resources.Languages;
+using RenameMusic.Models;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,6 +12,7 @@ namespace RenameMusic.Views
     public partial class ReplaceWith : Window
     {
         private readonly List<string> _requiredTags = new();
+        public TemplateDialogResult? Result { get; private set; }
 
         private readonly Dictionary<string, string> MetadataMap = new()
         {
@@ -25,6 +27,11 @@ namespace RenameMusic.Views
         private bool CheckAllTagsRequired()
         {
             return _requiredTags.TrueForAll(tag => ToReplace.Text.Contains(tag));
+        }
+
+        private bool HasAtLeastOneTag()
+        {
+            return MetadataMap.Keys.Any(tag => ToReplace.Text.Contains(tag));
         }
 
         public ReplaceWith()
@@ -55,9 +62,17 @@ namespace RenameMusic.Views
 
         private void ApplyBTN_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.DefaultTemplate = ToReplace.Text;
-            Settings.Default.MinTagsRequiredIndex = MinTagsReqCBOX.SelectedIndex;
-            Settings.Default.Save();
+            Result = new TemplateDialogResult
+            {
+                Template = ToReplace.Text,
+                MinTagsRequiredIndex = MinTagsReqCBOX.SelectedIndex,
+                TrackNumRequired = trackNumRequired.IsChecked == true,
+                TitleRequired = titleRequired.IsChecked == true,
+                AlbumRequired = albumRequired.IsChecked == true,
+                AlbumArtistRequired = albumArtistRequired.IsChecked == true,
+                ArtistRequired = artistRequired.IsChecked == true,
+                YearRequired = yearRequired.IsChecked == true
+            };
 
             DialogResult = true;
             Close();
@@ -86,6 +101,11 @@ namespace RenameMusic.Views
         // ToDo: Show a "Warning" message only when necessary and refactor
         private void RTBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            ValidateTemplateText();
+        }
+
+        private void ValidateTemplateText()
+        {
             if (ToReplace == null) return;
 
             // It must not be an empty space or similar
@@ -93,6 +113,13 @@ namespace RenameMusic.Views
             {
                 ApplyBTN.IsEnabled = false;
                 WarningMSG.Text = $"{Strings.NOT_ALLOWED}: {Strings.CANNOT_BE_EMPTY}";
+                return;
+            }
+
+            if (!HasAtLeastOneTag())
+            {
+                ApplyBTN.IsEnabled = false;
+                WarningMSG.Text = $"{Strings.NOT_ALLOWED}: Template must contain at least one tag.";
                 return;
             }
 
@@ -160,8 +187,7 @@ namespace RenameMusic.Views
             }
             else
             {
-                WarningMSG.Text = string.Empty; // ToDo: Check again "ToReplace.Text"
-                ApplyBTN.IsEnabled = true;
+                ValidateTemplateText();
             }
         }
     }

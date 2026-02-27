@@ -84,7 +84,43 @@ namespace RenameMusic
             }
             else
             {
-                new RepeatedFile(oldName, newName).ShowDialog();
+                RepeatedFile dialog = new(oldName, newName);
+                if (dialog.ShowDialog() != true || dialog.Result is null)
+                {
+                    return;
+                }
+
+                try
+                {
+                    switch (dialog.Result.Action)
+                    {
+                        case Models.ConflictResolutionAction.Replace:
+                            File.Delete(newName);
+                            File.Move(oldName, newName);
+                            break;
+                        case Models.ConflictResolutionAction.Skip:
+                            break;
+                        case Models.ConflictResolutionAction.RenameWithNumber:
+                            int num = 2;
+                            string dirAndFileName = Path.Combine(
+                                Path.GetDirectoryName(newName) ?? string.Empty,
+                                Path.GetFileNameWithoutExtension(newName));
+                            string extension = Path.GetExtension(newName);
+                            string candidate = $"{dirAndFileName} ({num}){extension}";
+                            while (File.Exists(candidate))
+                            {
+                                num++;
+                                candidate = $"{dirAndFileName} ({num}){extension}";
+                            }
+
+                            File.Move(oldName, candidate);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
@@ -120,19 +156,22 @@ namespace RenameMusic
     {
         public static string[] ShowFolderPicker()
         {
-            //Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog folderDialog = new()
-            //{
-            //    IsFolderPicker = true,
-            //    Multiselect = true,
-            //    EnsurePathExists = true,
-            //    DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
-            //    Title = Strings.ADD_FOLDER
-            //};
+            Microsoft.Win32.OpenFolderDialog folderDialog = new()
+            {
+                Multiselect = true,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
+                Title = Strings.ADD_FOLDER
+            };
 
-            //return folderDialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok
-            //    ? folderDialog.FileNames.Where(fn => !string.IsNullOrEmpty(fn)).ToArray()
-            //    : [];
-            return [];
+            if (folderDialog.ShowDialog() is false)
+            {
+                return [];
+            }
+
+            return folderDialog.FolderNames
+                .Where(path => !string.IsNullOrWhiteSpace(path))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
         }
 
         public static string[] ShowFilePicker()
@@ -173,4 +212,3 @@ namespace RenameMusic
         }
     }
 }
-

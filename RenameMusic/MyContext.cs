@@ -6,8 +6,11 @@ namespace RenameMusic
 {
     public class MyContext : DbContext
     {
+        // Legacy tables kept for compatibility with existing code during migration.
         public DbSet<AudioDTO> Audios { get; set; }
         public DbSet<FolderDTO> Folders { get; set; }
+        public DbSet<SessionAudioEntity> SessionAudios { get; set; }
+        public DbSet<SessionFolderEntity> SessionFolders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,6 +20,26 @@ namespace RenameMusic
                 Directory.CreateDirectory(databaseFolder);
             }
             optionsBuilder.UseSqlite($"Data Source={databaseFolder}List.db");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SessionAudioEntity>()
+                .HasIndex(a => a.FullPath)
+                .IsUnique();
+
+            modelBuilder.Entity<SessionAudioEntity>()
+                .HasIndex(a => a.FolderPath);
+
+            modelBuilder.Entity<SessionAudioEntity>()
+                .HasIndex(a => a.FileNameWithoutExtension);
+
+            modelBuilder.Entity<SessionAudioEntity>()
+                .HasIndex(a => a.CanRename);
+
+            modelBuilder.Entity<SessionFolderEntity>()
+                .HasIndex(f => f.FolderPath)
+                .IsUnique();
         }
     }
 }

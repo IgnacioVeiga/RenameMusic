@@ -178,5 +178,17 @@ namespace RenameMusic.Properties {
                 this["MinTagsRequiredIndex"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UsePlaceholderForMissingTags {
+            get {
+                return ((bool)(this["UsePlaceholderForMissingTags"]));
+            }
+            set {
+                this["UsePlaceholderForMissingTags"] = value;
+            }
+        }
     }
 }

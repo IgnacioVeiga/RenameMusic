@@ -1,5 +1,6 @@
 ﻿using RenameMusic.Properties;
 using RenameMusic.Resources.Languages;
+using RenameMusic.Models;
 using System.IO;
 using System.Windows;
 
@@ -10,6 +11,8 @@ namespace RenameMusic.Views
     /// </summary>
     public partial class RepeatedFile : Window
     {
+        public ConflictDialogResult? Result { get; private set; }
+
         public RepeatedFile(string oldName, string newName_Repeated)
         {
             InitializeComponent();
@@ -21,53 +24,37 @@ namespace RenameMusic.Views
 
         private void ReplaceBTN_Click(object sender, RoutedEventArgs e)
         {
-            string oldFile = location.Text + currentName.Text;
-            string newFile = location.Text + newName.Text;
-            try
-            {
-                if (File.Exists(newFile))
-                    File.Delete(newFile);
-
-                File.Move(oldFile, newFile);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(oldFile, Strings.FILE_NOT_FOUND_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            Close();
+            Return(ConflictResolutionAction.Replace);
         }
 
         private void SkipBTN_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Return(ConflictResolutionAction.Skip);
         }
 
         private void RenameBTN_Click(object sender, RoutedEventArgs e)
         {
-            int num = 2;
-            string newFile = location.Text + newName.Text;
-            string dirAndFileName = location.Text + Path.GetFileNameWithoutExtension(newFile);
-            string extension = Path.GetExtension(newFile);
-            while (File.Exists($"{dirAndFileName} ({num}){extension}"))
-            {
-                num++;
-            }
-
-            try
-            {
-                File.Move(location.Text + currentName.Text, $"{dirAndFileName} ({num}){extension}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.EXCEPTION_MSG, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            Close();
+            Return(ConflictResolutionAction.RenameWithNumber);
         }
 
         private void RememberChoice_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.RepeatedFileKeepChoice = (bool)keepChoice.IsChecked;
             Settings.Default.Save();
+        }
+
+        private void Return(ConflictResolutionAction action)
+        {
+            Result = new ConflictDialogResult
+            {
+                Action = action,
+                ApplyToAll = keepChoice.IsChecked == true
+            };
+
+            Settings.Default.RepeatedFileKeepChoice = keepChoice.IsChecked == true;
+            Settings.Default.Save();
+            DialogResult = true;
+            Close();
         }
     }
 }
