@@ -39,7 +39,7 @@ namespace RenameMusic.Views
 
         private void RememberChoice_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.RepeatedFileKeepChoice = (bool)keepChoice.IsChecked;
+            Settings.Default.RepeatedFileKeepChoice = keepChoice.IsChecked == true;
             Settings.Default.Save();
         }
 

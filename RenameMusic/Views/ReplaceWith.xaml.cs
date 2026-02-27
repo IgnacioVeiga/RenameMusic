@@ -152,7 +152,11 @@ namespace RenameMusic.Views
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox cbox = sender as ComboBox;
+            if (sender is not ComboBox cbox)
+            {
+                return;
+            }
+
             if (cbox.SelectedIndex == 0)
             {
                 stackPanelTagsReq.Visibility = Visibility.Hidden;

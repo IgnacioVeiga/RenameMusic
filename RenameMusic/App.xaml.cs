@@ -12,7 +12,7 @@ namespace RenameMusic
     /// </summary>
     public partial class App : Application
     {
-        private static Mutex _mutex;
+        private static Mutex? _mutex;
 
         App()
         {
@@ -24,7 +24,14 @@ namespace RenameMusic
         {
             try
             {
-                Process.Start(Environment.ProcessPath);
+                string? processPath = Environment.ProcessPath;
+                if (string.IsNullOrWhiteSpace(processPath))
+                {
+                    MessageBox.Show(Strings.EXCEPTION_MSG, Strings.RESTARTING, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                Process.Start(processPath);
                 Current.Shutdown();
             }
             catch (Exception ex)

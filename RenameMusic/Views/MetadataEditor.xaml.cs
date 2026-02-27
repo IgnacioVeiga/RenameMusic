@@ -97,7 +97,7 @@ namespace RenameMusic.Views
                 file.Tag.Genres = SplitValues(Genres.Text);
                 file.Tag.Comment = string.IsNullOrWhiteSpace(Comment.Text) ? null : Comment.Text.Trim();
 
-                if (_imageChanged && !string.IsNullOrWhiteSpace(_newImageFilePath) && File.Exists(_newImageFilePath))
+                if (_imageChanged && !string.IsNullOrWhiteSpace(_newImageFilePath) && System.IO.File.Exists(_newImageFilePath))
                 {
                     // TODO: Preserve existing additional pictures and support multi-image editing.
                     file.Tag.Pictures = new IPicture[] { new Picture(_newImageFilePath) };
