@@ -4,6 +4,29 @@
         <ResourceDictionary>
             <SolidColorBrush x:Key="Window.Background" Color="#BCDDEE" />
             <SolidColorBrush x:Key="Window.Foreground" Color="#202020" />
+
+            <SolidColorBrush x:Key="Panel.Background" Color="#F4F8FB" />
+            <SolidColorBrush x:Key="Panel.Border" Color="#B8CAD8" />
+
+            <SolidColorBrush x:Key="Accent.Background" Color="#137A7F" />
+            <SolidColorBrush x:Key="Accent.Border" Color="#115F58" />
+            <SolidColorBrush x:Key="Accent.Foreground" Color="#F1F1F1" />
+
+            <SolidColorBrush x:Key="DataGrid.Row.Background" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="DataGrid.Row.AlternateBackground" Color="#F1F6FA" />
+            <SolidColorBrush x:Key="DataGrid.Row.SelectedBackground" Color="#86CECB" />
+            <SolidColorBrush x:Key="DataGrid.Row.SelectedForeground" Color="#1E2A34" />
+            <SolidColorBrush x:Key="DataGrid.GridLine" Color="#C6D5E2" />
+            <SolidColorBrush x:Key="DataGrid.Header.Background" Color="#E6EEF5" />
+            <SolidColorBrush x:Key="DataGrid.Header.Foreground" Color="#1E2A34" />
+            <SolidColorBrush x:Key="DataGrid.Header.Border" Color="#C6D5E2" />
+
+            <SolidColorBrush x:Key="TabItem.Normal.Background" Color="#E6EEF5" />
+            <SolidColorBrush x:Key="TabItem.Normal.Foreground" Color="#334452" />
+            <SolidColorBrush x:Key="TabItem.Hover.Background" Color="#D9E8F2" />
+            <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#F4F8FB" />
+            <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#B8CAD8" />
+            <SolidColorBrush x:Key="TabItem.Selected.Foreground" Color="#1E2A34" />
         </ResourceDictionary>
         
         <!--  Button  -->
@@ -103,11 +126,6 @@
             <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent" />
         </ResourceDictionary>
 
-        <!--  DataGrid  -->
-        <ResourceDictionary>
-            
-        </ResourceDictionary>
-
         <!--  Menu  -->
         <ResourceDictionary>
             <SolidColorBrush x:Key="Menu.Static.Background" Color="#FFF0F0F0" />
@@ -168,10 +186,5 @@
             <SolidColorBrush x:Key="ScrollBar.Disabled.Glyph" Color="#7B8392" />
         </ResourceDictionary>
 
-        <!--  TabControl  -->
-        <ResourceDictionary>
-            <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC" />
-        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
