@@ -1,5 +1,9 @@
 # RenameMusic (Beta)
 
+<p align="center">
+  <img src="./RenameMusic/Resources/Icons/icon.png" alt="Icono de RenameMusic" width="120" />
+</p>
+
 RenameMusic es una app de escritorio para renombrar archivos de música usando plantillas de metadatos.
 
 Idioma: [English](./README.md) / **Español**
@@ -46,6 +50,11 @@ GitHub Actions valida:
 - tests unitarios
 
 (Las ramas `master` y `main` están excluidas por configuración del workflow.)
+
+Flujo de release:
+- al hacer push de un tag como `v1.2.0` se compila y testea la solución
+- se publican paquetes para `win-x86` y `win-x64`
+- se crea un GitHub Release con ambos archivos `.zip`
 
 ## Documentación
 - Guía dev (EN): [docs/developer-guide.md](./docs/developer-guide.md)

@@ -1,59 +1,101 @@
-name: "Create new release"
+name: Create Release
 
 on:
   push:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 env:
+  SOLUTION_PATH: RenameMusic.sln
   PROJECT_PATH: RenameMusic/RenameMusic.csproj
+  TEST_PROJECT_PATH: RenameMusic.Tests/RenameMusic.Tests.csproj
 
 jobs:
-  deploy:
+  validate:
+    name: Validate Release Build
     runs-on: windows-latest
 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ${{ env.TEST_PROJECT_PATH }} --configuration Release --no-build
+
+  package:
+    name: Package ${{ matrix.runtime }}
+    needs: validate
+    runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         runtime: [win-x86, win-x64]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v4
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: "8.0.x"
 
-      - run: dotnet restore ${{ env.PROJECT_PATH }}
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
 
-      - name: Build
-        run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore -r ${{ matrix.runtime }}
+      - name: Publish
+        run: >
+          dotnet publish ${{ env.PROJECT_PATH }}
+          --configuration Release
+          --runtime ${{ matrix.runtime }}
+          --self-contained false
+          --no-restore
+          --output ./out/${{ matrix.runtime }}
 
-      - name: Zip
+      - name: Zip Package
+        shell: pwsh
         run: |
-          cd RenameMusic/bin/Release/net8.0-windows*/win-x*/
-          7z a "../../../../../RenameMusic_${{ matrix.runtime }}.zip" "./*"
+          New-Item -ItemType Directory -Path dist -Force | Out-Null
+          $zipPath = "dist/RenameMusic_${{ matrix.runtime }}.zip"
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          Compress-Archive -Path "out/${{ matrix.runtime }}/*" -DestinationPath $zipPath
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload Runtime Package
+        uses: actions/upload-artifact@v4
         with:
-          name: Release Artifact
-          path: ./RenameMusic_${{ matrix.runtime }}.zip
+          name: release-${{ matrix.runtime }}
+          path: dist/RenameMusic_${{ matrix.runtime }}.zip
+          if-no-files-found: error
 
-      - uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  release:
+    name: Publish GitHub Release
+    needs: package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Packages
+        uses: actions/download-artifact@v4
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          pattern: release-*
+          merge-multiple: true
+          path: dist
 
-      - uses: actions/upload-release-asset@v1
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./RenameMusic_${{ matrix.runtime }}.zip
-          asset_name: RenameMusic_${{ matrix.runtime }}.zip
-          asset_content_type: application/zip
-
-# Warning: The `set-output` command is deprecated and will be disabled soon.
-# Please upgrade to using Environment Files. For more information see:
-# https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+          files: dist/*.zip
+          generate_release_notes: true

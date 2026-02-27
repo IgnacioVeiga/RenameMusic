@@ -1,5 +1,9 @@
 # RenameMusic (Beta)
 
+<p align="center">
+  <img src="./RenameMusic/Resources/Icons/icon.png" alt="RenameMusic icon" width="120" />
+</p>
+
 RenameMusic is a desktop app to rename music files using metadata templates.
 
 Language: **English** / [Español](./README_es.md)
@@ -46,6 +50,11 @@ GitHub Actions validates:
 - unit tests
 
 (Branches `master` and `main` are excluded by workflow config.)
+
+Release workflow:
+- pushing a tag like `v1.2.0` builds and tests the solution
+- publishes `win-x86` and `win-x64` packages
+- creates a GitHub Release with both `.zip` assets
 
 ## Documentation
 - Developer guide (EN): [docs/developer-guide.md](./docs/developer-guide.md)
