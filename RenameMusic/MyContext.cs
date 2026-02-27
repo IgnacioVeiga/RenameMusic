@@ -6,9 +6,6 @@ namespace RenameMusic
 {
     public class MyContext : DbContext
     {
-        // Legacy tables kept for compatibility with existing code during migration.
-        public DbSet<AudioDTO> Audios { get; set; }
-        public DbSet<FolderDTO> Folders { get; set; }
         public DbSet<SessionAudioEntity> SessionAudios { get; set; }
         public DbSet<SessionFolderEntity> SessionFolders { get; set; }
 

@@ -6,7 +6,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
-<img src="/RenameMusic/Assets/Icons/icon.ico" width="128" height="128">
+<img src="/RenameMusic/Resources/Icons/icon.ico" width="128" height="128">
 <div>
   <span>English</span> / <a href="README_es.md">Español</a> </a>
 </div></br>
@@ -49,27 +49,26 @@ For example: I have an audio file with the name `AUD-01230101-WA0123.mp3` but it
 
 ## Required:
 - Windows 7 or higher (Recommended Windows 10/11) x86/x64.
-- .NET SDK 6 (LTS) to compile and run.
-- .NET Desktop Runtime 6 to run.
+- .NET SDK 8 to compile and run.
+- .NET Desktop Runtime 8 to run.
 
 ***
 
 ## Dependencies:
 ### Frameworks
-- Microsoft.NETCore.App **(6.0.x)**.
-- Microsoft.WindowsDesktop.App.WPF **(6.0.x)**
+- Microsoft.NETCore.App **(8.0.x)**.
+- Microsoft.WindowsDesktop.App.WPF **(8.0.x)**
 
 ### Packages
-- Microsoft.EntityFrameworkCore.Design **(7.0.7)**
-- Microsoft.EntityFrameworkCore.Sqlite **(7.0.7)**
+- Microsoft.EntityFrameworkCore.Design **(8.0.x)**
+- Microsoft.EntityFrameworkCore.Sqlite **(8.0.x)**
 - taglib-sharp-netstandard2.0 **(2.1.0)**
-- WinCopies.WindowsAPICodePack.Shell **(2.12.0.2)**
 
 ***
 
 ## Languajes
 For adding/modifying languages I highly recommend the **extension** for **Visual Studio 2022** called `ResX Manager`. It makes it much easier to manage multiple languages.
-The language `.resx` files are saved in the `.\RenameMusic\Lang\` folder.
+The language `.resx` files are saved in the `.\RenameMusic\Resources\Languages\` folder.
 
 ***
 

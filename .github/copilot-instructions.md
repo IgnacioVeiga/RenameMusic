@@ -25,8 +25,7 @@ Architecture target is MVVM with service-based business logic.
 
 ## Data model notes
 - `SessionAudioEntity` and `SessionFolderEntity` are the active persistence model.
-- `AudioDTO` and `FolderDTO` are legacy compatibility artifacts.
-- Do not remove legacy tables unless migration and cleanup are explicitly planned.
+- Do not reintroduce DTO-based legacy storage paths.
 
 ## Rename rule behavior
 1. Template must include at least one supported tag.

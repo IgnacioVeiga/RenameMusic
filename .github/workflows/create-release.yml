@@ -6,7 +6,7 @@ on:
       - "v*"
 
 env:
-  PROJECT_PATH: RenameMusic\RenameMusic.csproj
+  PROJECT_PATH: RenameMusic/RenameMusic.csproj
 
 jobs:
   deploy:
@@ -17,11 +17,11 @@ jobs:
         runtime: [win-x86, win-x64]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
 
       - run: dotnet restore ${{ env.PROJECT_PATH }}
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Zip
         run: |
-          cd RenameMusic/bin/Release/net6.0-windows*/win-x*/
+          cd RenameMusic/bin/Release/net8.0-windows*/win-x*/
           7z a "../../../../../RenameMusic_${{ matrix.runtime }}.zip" "./*"
 
       - name: Upload Artifact

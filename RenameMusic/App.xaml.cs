@@ -91,34 +91,6 @@ namespace RenameMusic
             _mutex?.Close();
         }
 
-        // TODO: Move to another file
-        internal static bool CanBeRenamed(TagLib.Tag tags)
-        {
-            int tagsRequiredCount = 0, tagsNotEmptyCount = 0;
-
-            tagsRequiredCount = Settings.Default.TrackNumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-            tagsRequiredCount = Settings.Default.TitleRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-            tagsRequiredCount = Settings.Default.AlbumRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-            tagsRequiredCount = Settings.Default.AlbumArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-            tagsRequiredCount = Settings.Default.ArtistRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-            tagsRequiredCount = Settings.Default.YearRequired ? tagsRequiredCount + 1 : tagsRequiredCount;
-
-            if (Settings.Default.TrackNumRequired && tags.Track > 0)
-                tagsNotEmptyCount++;
-            if (Settings.Default.TitleRequired && !string.IsNullOrWhiteSpace(tags.Title))
-                tagsNotEmptyCount++;
-            if (Settings.Default.AlbumRequired && !string.IsNullOrWhiteSpace(tags.Album))
-                tagsNotEmptyCount++;
-            if (Settings.Default.AlbumArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedAlbumArtists))
-                tagsNotEmptyCount++;
-            if (Settings.Default.ArtistRequired && !string.IsNullOrWhiteSpace(tags.JoinedPerformers))
-                tagsNotEmptyCount++;
-            if (Settings.Default.YearRequired && tags.Year > 0)
-                tagsNotEmptyCount++;
-
-            return tagsRequiredCount == tagsNotEmptyCount;
-        }
-
         //// Source: https://stackoverflow.com/a/67114984
         //private static void SetDropDownMenuToBeRightAligned()
         //{

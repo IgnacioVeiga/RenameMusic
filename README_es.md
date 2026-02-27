@@ -6,7 +6,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/IgnacioVeiga/RenameMusic/deploy-project.yml?color=137A7F&logo=github&style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/IgnacioVeiga/RenameMusic?style=flat-square)
 
-<img src="/RenameMusic/Assets/Icons/icon.ico" width="128" height="128">
+<img src="/RenameMusic/Resources/Icons/icon.ico" width="128" height="128">
 <div>
   <a href="README.md">English</a> / <span>Español</span></a>
 </div></br>
@@ -49,27 +49,26 @@ Por ejemplo: Tengo un archivo de audio con el nombre `AUD-01230101-WA0123.mp3` p
 
 ## Requerido:
 - Windows 7 o superior (Recomendado Windows 10/11) x86/x64.
-- .NET SDK 6 (LTS) para compilar y ejecutar.
-- Entorno de ejecución de escritorio de .NET solo si es para ejecutar.
+- .NET SDK 8 para compilar y ejecutar.
+- Entorno de ejecución de escritorio de .NET 8 solo si es para ejecutar.
 
 ***
 
 ## Dependencias:
 ### Frameworks
-- Microsoft.NETCore.App **(6.0.x)**.
-- Microsoft.WindowsDesktop.App.WPF **(6.0.x)**
+- Microsoft.NETCore.App **(8.0.x)**.
+- Microsoft.WindowsDesktop.App.WPF **(8.0.x)**
 
 ### Paquetes
-- Microsoft.EntityFrameworkCore.Design **(7.0.7)**
-- Microsoft.EntityFrameworkCore.Sqlite **(7.0.7)**
+- Microsoft.EntityFrameworkCore.Design **(8.0.x)**
+- Microsoft.EntityFrameworkCore.Sqlite **(8.0.x)**
 - taglib-sharp-netstandard2.0 **(2.1.0)**
-- WinCopies.WindowsAPICodePack.Shell **(2.12.0.2)**
 
 ***
 
 ## Idiomas
 Para añadir/modificar idiomas recomiendo ampliamente la **extensión** para **Visual Studio 2022** llamada `ResX Manager`. Hace mucho más facil manejar varios idiomas.
-Los arhivos `.resx` de idioma se guardan en la carpeta `.\RenameMusic\Lang\`.
+Los arhivos `.resx` de idioma se guardan en la carpeta `.\RenameMusic\Resources\Languages\`.
 
 ***
 

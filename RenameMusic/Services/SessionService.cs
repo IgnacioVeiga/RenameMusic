@@ -24,7 +24,7 @@ namespace RenameMusic.Services
         public async Task EnsureDatabaseAsync(CancellationToken cancellationToken = default)
         {
             await using MyContext context = new();
-            await context.Database.EnsureCreatedAsync(cancellationToken);
+            await EnsureSchemaAsync(context, cancellationToken);
         }
 
         public async Task<bool> HasSavedSessionAsync(CancellationToken cancellationToken = default)
@@ -48,7 +48,7 @@ namespace RenameMusic.Services
             CancellationToken cancellationToken = default)
         {
             await using MyContext context = new();
-            await context.Database.EnsureCreatedAsync(cancellationToken);
+            await EnsureSchemaAsync(context, cancellationToken);
 
             HashSet<string> existingAudioPaths = new(
                 await context.SessionAudios.Select(a => a.FullPath).ToListAsync(cancellationToken),
@@ -113,7 +113,7 @@ namespace RenameMusic.Services
             CancellationToken cancellationToken = default)
         {
             await using MyContext context = new();
-            await context.Database.EnsureCreatedAsync(cancellationToken);
+            await EnsureSchemaAsync(context, cancellationToken);
 
             HashSet<string> existingAudioPaths = new(
                 await context.SessionAudios.Select(a => a.FullPath).ToListAsync(cancellationToken),
@@ -327,6 +327,59 @@ namespace RenameMusic.Services
 
             context.SessionFolders.RemoveRange(orphanFolders);
             await context.SaveChangesAsync(cancellationToken);
+        }
+
+        private static async Task EnsureSchemaAsync(MyContext context, CancellationToken cancellationToken)
+        {
+            await context.Database.EnsureCreatedAsync(cancellationToken);
+
+            await context.Database.ExecuteSqlRawAsync(
+                """
+                CREATE TABLE IF NOT EXISTS SessionFolders (
+                    Id INTEGER NOT NULL CONSTRAINT PK_SessionFolders PRIMARY KEY AUTOINCREMENT,
+                    FolderPath TEXT NOT NULL
+                );
+                """,
+                cancellationToken);
+
+            await context.Database.ExecuteSqlRawAsync(
+                """
+                CREATE TABLE IF NOT EXISTS SessionAudios (
+                    Id INTEGER NOT NULL CONSTRAINT PK_SessionAudios PRIMARY KEY AUTOINCREMENT,
+                    FullPath TEXT NOT NULL,
+                    FolderPath TEXT NOT NULL,
+                    FileNameWithoutExtension TEXT NOT NULL,
+                    FileExtension TEXT NOT NULL,
+                    DurationSeconds INTEGER NOT NULL,
+                    TrackNum INTEGER NULL,
+                    Title TEXT NULL,
+                    Album TEXT NULL,
+                    AlbumArtist TEXT NULL,
+                    Artist TEXT NULL,
+                    Year INTEGER NULL,
+                    CanRename INTEGER NOT NULL,
+                    NotRenamableReason TEXT NULL,
+                    ProposedName TEXT NULL,
+                    ExistsOnDisk INTEGER NOT NULL
+                );
+                """,
+                cancellationToken);
+
+            await context.Database.ExecuteSqlRawAsync(
+                "CREATE UNIQUE INDEX IF NOT EXISTS IX_SessionAudios_FullPath ON SessionAudios (FullPath);",
+                cancellationToken);
+            await context.Database.ExecuteSqlRawAsync(
+                "CREATE INDEX IF NOT EXISTS IX_SessionAudios_FolderPath ON SessionAudios (FolderPath);",
+                cancellationToken);
+            await context.Database.ExecuteSqlRawAsync(
+                "CREATE INDEX IF NOT EXISTS IX_SessionAudios_FileNameWithoutExtension ON SessionAudios (FileNameWithoutExtension);",
+                cancellationToken);
+            await context.Database.ExecuteSqlRawAsync(
+                "CREATE INDEX IF NOT EXISTS IX_SessionAudios_CanRename ON SessionAudios (CanRename);",
+                cancellationToken);
+            await context.Database.ExecuteSqlRawAsync(
+                "CREATE UNIQUE INDEX IF NOT EXISTS IX_SessionFolders_FolderPath ON SessionFolders (FolderPath);",
+                cancellationToken);
         }
 
         private SessionAudioEntity BuildEntityFromPath(

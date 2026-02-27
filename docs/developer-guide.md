@@ -49,10 +49,6 @@ Primary tables:
 - `SessionAudios` (`SessionAudioEntity`)
 - `SessionFolders` (`SessionFolderEntity`)
 
-Legacy tables are still present for migration compatibility:
-- `Audios` (`AudioDTO`)
-- `Folders` (`FolderDTO`)
-
 ### 5.2 Indexes
 Defined in `MyContext.OnModelCreating`:
 - Unique: `SessionAudios.FullPath`
@@ -117,3 +113,4 @@ Deferred intentionally:
 - Keep filesystem operations centralized in rename/session services.
 - Use async APIs in long operations.
 - Add clear `TODO` comments in English for deferred behavior.
+- Keep `RenameMusic_v1` removed and do not reintroduce legacy project copies.

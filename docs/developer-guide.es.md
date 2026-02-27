@@ -49,10 +49,6 @@ Tablas principales:
 - `SessionAudios` (`SessionAudioEntity`)
 - `SessionFolders` (`SessionFolderEntity`)
 
-Tablas legacy mantenidas por compatibilidad temporal:
-- `Audios` (`AudioDTO`)
-- `Folders` (`FolderDTO`)
-
 ### 5.2 Índices
 Definidos en `MyContext.OnModelCreating`:
 - Único: `SessionAudios.FullPath`
@@ -117,3 +113,4 @@ Diferido de forma intencional:
 - Centralizar operaciones de filesystem en servicios de sesión y renombrado.
 - Usar APIs asíncronas en operaciones largas.
 - Dejar comentarios `TODO` en inglés para comportamiento diferido.
+- Mantener eliminada la carpeta `RenameMusic_v1` y no reintroducir copias legacy del proyecto.
