@@ -11,7 +11,8 @@ on:
       - main
 
 env:
-  PROJECT_PATH: RenameMusic/RenameMusic.csproj
+  SOLUTION_PATH: RenameMusic.sln
+  TEST_PROJECT_PATH: RenameMusic.Tests/RenameMusic.Tests.csproj
 
 jobs:
   build:
@@ -27,7 +28,10 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Restore
-        run: dotnet restore ${{ env.PROJECT_PATH }}
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
 
       - name: Build
-        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ${{ env.TEST_PROJECT_PATH }} --configuration Release --no-build

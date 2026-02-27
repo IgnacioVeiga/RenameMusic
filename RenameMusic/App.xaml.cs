@@ -16,7 +16,6 @@ namespace RenameMusic
 
         App()
         {
-            //SetDropDownMenuToBeRightAligned();
             AppLanguageService.ChangeLanguage(Settings.Default.Language);
         }
 
@@ -99,20 +98,5 @@ namespace RenameMusic
         {
             _mutex?.Close();
         }
-
-        //// Source: https://stackoverflow.com/a/67114984
-        //private static void SetDropDownMenuToBeRightAligned()
-        //{
-        //    FieldInfo menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-
-        //    static void setAlignmentValue(FieldInfo menuDropAlignmentField)
-        //    {
-        //        if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
-        //    }
-
-        //    setAlignmentValue(menuDropAlignmentField);
-
-        //    SystemParameters.StaticPropertyChanged += (sender, e) => setAlignmentValue(menuDropAlignmentField);
-        //}
     }
 }

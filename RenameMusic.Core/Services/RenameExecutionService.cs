@@ -1,5 +1,4 @@
 using RenameMusic.Models;
-using RenameMusic.Properties;
 using System.IO;
 
 namespace RenameMusic.Services
@@ -16,10 +15,12 @@ namespace RenameMusic.Services
     {
         Task<RenameBatchResult> RenameAllAsync(
             IDialogService dialogService,
+            ConflictResolutionAction? defaultConflictAction = null,
             CancellationToken cancellationToken = default);
         Task<RenameBatchResult> RenameByIdsAsync(
             IEnumerable<int> ids,
             IDialogService dialogService,
+            ConflictResolutionAction? defaultConflictAction = null,
             CancellationToken cancellationToken = default);
     }
 
@@ -34,24 +35,27 @@ namespace RenameMusic.Services
 
         public async Task<RenameBatchResult> RenameAllAsync(
             IDialogService dialogService,
+            ConflictResolutionAction? defaultConflictAction = null,
             CancellationToken cancellationToken = default)
         {
             List<AudioLibraryItem> items = await _sessionService.GetRenamableItemsAsync(cancellationToken);
-            return await RenameItemsAsync(items, dialogService, cancellationToken);
+            return await RenameItemsAsync(items, dialogService, defaultConflictAction, cancellationToken);
         }
 
         public async Task<RenameBatchResult> RenameByIdsAsync(
             IEnumerable<int> ids,
             IDialogService dialogService,
+            ConflictResolutionAction? defaultConflictAction = null,
             CancellationToken cancellationToken = default)
         {
             List<AudioLibraryItem> items = await _sessionService.GetItemsByIdsAsync(ids, cancellationToken);
-            return await RenameItemsAsync(items.Where(i => i.CanRename), dialogService, cancellationToken);
+            return await RenameItemsAsync(items.Where(i => i.CanRename), dialogService, defaultConflictAction, cancellationToken);
         }
 
         private async Task<RenameBatchResult> RenameItemsAsync(
             IEnumerable<AudioLibraryItem> items,
             IDialogService dialogService,
+            ConflictResolutionAction? defaultConflictAction,
             CancellationToken cancellationToken)
         {
             RenameBatchResult result = new();
@@ -91,7 +95,12 @@ namespace RenameMusic.Services
                     if (File.Exists(destinationPath))
                     {
                         ConflictResolutionAction action = applyToAllAction
-                            ?? ResolveConflict(dialogService, sourcePath, destinationPath, ref applyToAllAction);
+                            ?? ResolveConflict(
+                                dialogService,
+                                sourcePath,
+                                destinationPath,
+                                defaultConflictAction,
+                                ref applyToAllAction);
 
                         if (action == ConflictResolutionAction.Skip)
                         {
@@ -137,12 +146,13 @@ namespace RenameMusic.Services
             IDialogService dialogService,
             string sourcePath,
             string destinationPath,
+            ConflictResolutionAction? defaultConflictAction,
             ref ConflictResolutionAction? applyToAllAction)
         {
-            if (TryGetConfiguredConflictPolicy(out ConflictResolutionAction configuredAction))
+            if (defaultConflictAction.HasValue)
             {
-                applyToAllAction = configuredAction;
-                return configuredAction;
+                applyToAllAction = defaultConflictAction.Value;
+                return defaultConflictAction.Value;
             }
 
             ConflictDialogResult? response = dialogService.ShowConflictDialog(sourcePath, destinationPath);
@@ -157,26 +167,6 @@ namespace RenameMusic.Services
             }
 
             return response.Action;
-        }
-
-        private static bool TryGetConfiguredConflictPolicy(out ConflictResolutionAction action)
-        {
-            string? mode = Settings.Default.ConflictPolicyMode;
-            switch (mode)
-            {
-                case "Replace":
-                    action = ConflictResolutionAction.Replace;
-                    return true;
-                case "Skip":
-                    action = ConflictResolutionAction.Skip;
-                    return true;
-                case "RenameWithNumber":
-                    action = ConflictResolutionAction.RenameWithNumber;
-                    return true;
-                default:
-                    action = ConflictResolutionAction.Skip;
-                    return false;
-            }
         }
 
         private static string GetIndexedDestinationPath(string destinationPath)

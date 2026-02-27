@@ -199,7 +199,9 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                RenameBatchResult result = await _renameExecutionService.RenameAllAsync(_dialogService);
+                RenameBatchResult result = await _renameExecutionService.RenameAllAsync(
+                    _dialogService,
+                    GetDefaultConflictAction());
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
 
                 string summary = $"Done: {result.CompletedCount}\n" +
@@ -502,7 +504,10 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                RenameBatchResult result = await _renameExecutionService.RenameByIdsAsync([item.Id], _dialogService);
+                RenameBatchResult result = await _renameExecutionService.RenameByIdsAsync(
+                    [item.Id],
+                    _dialogService,
+                    GetDefaultConflictAction());
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
 
                 if (result.CompletedCount == 0 && result.SkippedCount == 0 && result.FailedCount == 0 && result.MissingCount == 0)
@@ -769,6 +774,17 @@ namespace RenameMusic.ViewModels
                 "Skip" => "Skip",
                 "RenameWithNumber" => "RenameWithNumber",
                 _ => "Ask"
+            };
+        }
+
+        private static ConflictResolutionAction? GetDefaultConflictAction()
+        {
+            return GetConflictPolicyMode() switch
+            {
+                "Replace" => ConflictResolutionAction.Replace,
+                "Skip" => ConflictResolutionAction.Skip,
+                "RenameWithNumber" => ConflictResolutionAction.RenameWithNumber,
+                _ => null
             };
         }
 

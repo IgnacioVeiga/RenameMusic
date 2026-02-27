@@ -1,5 +1,4 @@
 ﻿using RenameMusic.Properties;
-using RenameMusic.Resources.Languages;
 using RenameMusic.Models;
 using System.IO;
 using System.Windows;
@@ -13,13 +12,14 @@ namespace RenameMusic.Views
     {
         public ConflictDialogResult? Result { get; private set; }
 
-        public RepeatedFile(string oldName, string newName_Repeated)
+        public RepeatedFile(string oldName, string newNameRepeated)
         {
             InitializeComponent();
             keepChoice.IsChecked = Settings.Default.RepeatedFileKeepChoice;
             currentName.Text = Path.GetFileName(oldName);
-            newName.Text = Path.GetFileName(newName_Repeated);
-            location.Text = Path.GetDirectoryName(oldName) + Path.DirectorySeparatorChar;
+            newName.Text = Path.GetFileName(newNameRepeated);
+            string parent = Path.GetDirectoryName(oldName) ?? string.Empty;
+            location.Text = parent + Path.DirectorySeparatorChar;
         }
 
         private void ReplaceBTN_Click(object sender, RoutedEventArgs e)

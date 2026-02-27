@@ -4,6 +4,8 @@
 
 /RenameMusic/bin/
 /RenameMusic/obj/
+**/bin/
+**/obj/
 *.user
 /.vs
 .vscode/launch.json
