@@ -52,7 +52,7 @@ GitHub Actions valida:
 (Las ramas `master` y `main` están excluidas por configuración del workflow.)
 
 Flujo de release:
-- al hacer push de un tag como `v1.2.0` se compila y testea la solución
+- al hacer push de un tag como `vX.Y.Z` se compila y testea la solución
 - se publican paquetes para `win-x86` y `win-x64`
 - se crea un GitHub Release con ambos archivos `.zip`
 

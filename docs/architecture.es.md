@@ -36,6 +36,10 @@ La solución está separada en tres proyectos:
 4. Los servicios Core manejan ingesta, evaluación, persistencia y renombrado.
 5. El proyecto WPF se limita a interacción UI y presentación.
 
+## Modelo de sesión
+- Los motivos de `No renombrar` se guardan como códigos estables (`CODE|detail`) y se traducen en UI.
+- La configuración de tema e idioma se normaliza a valores soportados (`Dark`/`Light`, `en`/`es`) para un inicio robusto.
+
 ## Por qué esta separación
 - Mejor mantenibilidad y separación de responsabilidades
 - La lógica Core se puede testear sin Windows Desktop SDK

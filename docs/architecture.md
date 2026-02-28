@@ -36,6 +36,10 @@ The solution is split into three projects:
 4. Core services handle ingestion, evaluation, persistence, and rename execution.
 5. WPF project handles only UI interaction and presentation concerns.
 
+## Session model
+- `Do Not Rename` reasons are stored as stable codes (`CODE|detail`) and translated in UI.
+- Theme and language settings are normalized to supported values (`Dark`/`Light`, `en`/`es`) for robust startup.
+
 ## Why this split
 - Better maintainability and separation of concerns
 - Core logic is testable without Windows Desktop SDK

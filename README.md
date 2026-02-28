@@ -52,7 +52,7 @@ GitHub Actions validates:
 (Branches `master` and `main` are excluded by workflow config.)
 
 Release workflow:
-- pushing a tag like `v1.2.0` builds and tests the solution
+- pushing a tag like `vX.Y.Z` builds and tests the solution
 - publishes `win-x86` and `win-x64` packages
 - creates a GitHub Release with both `.zip` assets
 

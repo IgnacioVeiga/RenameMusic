@@ -30,7 +30,7 @@ The solution is split into:
 
 ## Data model notes
 - `SessionAudioEntity` and `SessionFolderEntity` are the active persistence model.
-- Do not reintroduce DTO-based legacy storage paths.
+- Keep a single storage path based on `SessionAudioEntity` and `SessionFolderEntity`.
 - For large ingestions, prefer batched EF saves and avoid per-item DB writes.
 
 ## Rename rule behavior
