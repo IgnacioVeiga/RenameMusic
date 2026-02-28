@@ -42,6 +42,7 @@ See [architecture.md](./architecture.md) for details.
 
 ## 6. Persistence behavior
 - Session data is persisted in SQLite.
+- Database schema is versioned with `PRAGMA user_version` and upgraded through explicit migrations.
 - Startup asks whether to restore previous session.
 - Missing files are moved to `Do Not Rename` with reason.
 - Ingestion writes are batched for large lists.

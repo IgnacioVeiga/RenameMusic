@@ -4,10 +4,10 @@ using RenameMusic.Services;
 
 namespace RenameMusic.Tests
 {
-    public sealed class SessionServiceSchemaUpgradeTests
+    public sealed class SessionServiceSchemaMigrationTests
     {
         [Fact]
-        public async Task EnsureDatabaseAsync_ShouldAddMissingColumns_ForLegacySessionAudiosTable()
+        public async Task EnsureDatabaseAsync_ShouldMigrateLegacySchema_ToCurrentVersion()
         {
             using TempDbPathScope dbScope = new();
 
@@ -16,8 +16,10 @@ namespace RenameMusic.Tests
             SessionService sut = new(new TemplateRuleService());
 
             await sut.EnsureDatabaseAsync();
+            int userVersion = await ReadUserVersionAsync(dbScope.DatabasePath);
             SessionSnapshot snapshot = await sut.LoadSnapshotAsync();
 
+            Assert.Equal(2, userVersion);
             Assert.NotNull(snapshot);
             Assert.Empty(snapshot.ToRename);
             Assert.Single(snapshot.DoNotRename);
@@ -77,6 +79,20 @@ namespace RenameMusic.Tests
                 """;
 
             await command.ExecuteNonQueryAsync();
+        }
+
+        private static async Task<int> ReadUserVersionAsync(string dbPath)
+        {
+            await using SqliteConnection connection = new($"Data Source={dbPath}");
+            await connection.OpenAsync();
+
+            await using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = "PRAGMA user_version;";
+            object? result = await command.ExecuteScalarAsync();
+
+            return result is null || result is DBNull
+                ? 0
+                : Convert.ToInt32(result);
         }
 
         private sealed class TempDbPathScope : IDisposable

@@ -42,6 +42,7 @@ Ver [architecture.es.md](./architecture.es.md) para más detalle.
 
 ## 6. Persistencia
 - Los datos de sesión se guardan en SQLite.
+- El esquema de base se versiona con `PRAGMA user_version` y se actualiza con migraciones explícitas.
 - Al iniciar se pregunta si restaurar sesión previa.
 - Los archivos faltantes pasan a `Do Not Rename` con motivo.
 - La ingesta guarda en lotes para listas grandes.

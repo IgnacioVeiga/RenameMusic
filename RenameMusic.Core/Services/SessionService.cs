@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
 using RenameMusic.Models;
 using System.IO;
 
@@ -61,6 +60,8 @@ namespace RenameMusic.Services
     {
         private static readonly string[] SupportedExtensions = [".mp3", ".m4a", ".ogg", ".flac"];
         private const int SaveBatchSize = 500;
+        private const int LegacySchemaVersion = 1;
+        private const int CurrentSchemaVersion = 2;
         private readonly ITemplateRuleService _templateRuleService;
 
         public SessionService(ITemplateRuleService templateRuleService)
@@ -563,13 +564,119 @@ namespace RenameMusic.Services
         }
 
         /// <summary>
-        /// Creates base tables and indexes when needed.
+        /// Ensures the SQLite session schema is at the current version using explicit migrations.
         /// </summary>
         private static async Task EnsureSchemaAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
         {
-            await context.Database.EnsureCreatedAsync(cancellationToken);
+            await context.Database.OpenConnectionAsync(cancellationToken);
+            try
+            {
+                int version = await GetSchemaVersionAsync(context, cancellationToken);
+                if (version == 0)
+                {
+                    version = await DetectOrInitializeSchemaVersionAsync(context, cancellationToken);
+                    await SetSchemaVersionAsync(context, version, cancellationToken);
+                }
 
-            await context.Database.ExecuteSqlRawAsync(
+                if (version > CurrentSchemaVersion)
+                {
+                    throw new InvalidOperationException(
+                        $"Database schema version {version} is newer than supported version {CurrentSchemaVersion}.");
+                }
+
+                while (version < CurrentSchemaVersion)
+                {
+                    int targetVersion = version + 1;
+                    await ApplyMigrationAsync(context, targetVersion, cancellationToken);
+                    version = targetVersion;
+                    await SetSchemaVersionAsync(context, version, cancellationToken);
+                }
+
+                await EnsureIndexesAsync(context, cancellationToken);
+            }
+            finally
+            {
+                await context.Database.CloseConnectionAsync();
+            }
+        }
+
+        private static async Task<int> DetectOrInitializeSchemaVersionAsync(
+            RenameMusicDbContext context,
+            CancellationToken cancellationToken)
+        {
+            bool hasAudiosTable = await TableExistsAsync(context, "SessionAudios", cancellationToken);
+            bool hasFoldersTable = await TableExistsAsync(context, "SessionFolders", cancellationToken);
+
+            if (!hasAudiosTable)
+            {
+                await EnsureCoreTablesAsync(context, cancellationToken);
+                return CurrentSchemaVersion;
+            }
+
+            if (!hasFoldersTable)
+            {
+                await EnsureSessionFoldersTableAsync(context, cancellationToken);
+            }
+
+            bool hasExistsOnDiskColumn = await ColumnExistsAsync(
+                context,
+                "SessionAudios",
+                "ExistsOnDisk",
+                cancellationToken);
+
+            if (hasExistsOnDiskColumn)
+            {
+                return CurrentSchemaVersion;
+            }
+
+            return LegacySchemaVersion;
+        }
+
+        private static async Task ApplyMigrationAsync(
+            RenameMusicDbContext context,
+            int targetVersion,
+            CancellationToken cancellationToken)
+        {
+            switch (targetVersion)
+            {
+                case 2:
+                    await ApplyMigrationToVersion2Async(context, cancellationToken);
+                    return;
+                default:
+                    throw new InvalidOperationException($"No migration available for schema version {targetVersion}.");
+            }
+        }
+
+        private static async Task ApplyMigrationToVersion2Async(
+            RenameMusicDbContext context,
+            CancellationToken cancellationToken)
+        {
+            await EnsureSessionFoldersTableAsync(context, cancellationToken);
+            await EnsureSessionAudiosTableAsync(context, cancellationToken);
+
+            bool hasExistsOnDiskColumn = await ColumnExistsAsync(
+                context,
+                "SessionAudios",
+                "ExistsOnDisk",
+                cancellationToken);
+
+            if (!hasExistsOnDiskColumn)
+            {
+                await context.Database.ExecuteSqlRawAsync(
+                    "ALTER TABLE SessionAudios ADD COLUMN ExistsOnDisk INTEGER NOT NULL DEFAULT 1;",
+                    cancellationToken);
+            }
+        }
+
+        private static async Task EnsureCoreTablesAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        {
+            await EnsureSessionFoldersTableAsync(context, cancellationToken);
+            await EnsureSessionAudiosTableAsync(context, cancellationToken);
+        }
+
+        private static Task EnsureSessionFoldersTableAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        {
+            return context.Database.ExecuteSqlRawAsync(
                 """
                 CREATE TABLE IF NOT EXISTS SessionFolders (
                     Id INTEGER NOT NULL CONSTRAINT PK_SessionFolders PRIMARY KEY AUTOINCREMENT,
@@ -577,8 +684,11 @@ namespace RenameMusic.Services
                 );
                 """,
                 cancellationToken);
+        }
 
-            await context.Database.ExecuteSqlRawAsync(
+        private static Task EnsureSessionAudiosTableAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        {
+            return context.Database.ExecuteSqlRawAsync(
                 """
                 CREATE TABLE IF NOT EXISTS SessionAudios (
                     Id INTEGER NOT NULL CONSTRAINT PK_SessionAudios PRIMARY KEY AUTOINCREMENT,
@@ -600,10 +710,10 @@ namespace RenameMusic.Services
                 );
                 """,
                 cancellationToken);
+        }
 
-            await EnsureSessionAudioColumnsAsync(context, cancellationToken);
-            await EnsureSessionFolderColumnsAsync(context, cancellationToken);
-
+        private static async Task EnsureIndexesAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        {
             await context.Database.ExecuteSqlRawAsync(
                 "CREATE UNIQUE INDEX IF NOT EXISTS IX_SessionAudios_FullPath ON SessionAudios (FullPath);",
                 cancellationToken);
@@ -621,56 +731,75 @@ namespace RenameMusic.Services
                 cancellationToken);
         }
 
-        /// <summary>
-        /// Applies additive schema upgrades for persisted databases created by earlier app versions.
-        /// </summary>
-        private static async Task EnsureSessionAudioColumnsAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        private static async Task<int> GetSchemaVersionAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
         {
-            await TryAddColumnAsync(context, "SessionAudios", "FullPath TEXT NOT NULL DEFAULT ''", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "FolderPath TEXT NOT NULL DEFAULT ''", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "FileNameWithoutExtension TEXT NOT NULL DEFAULT ''", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "FileExtension TEXT NOT NULL DEFAULT ''", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "DurationSeconds INTEGER NOT NULL DEFAULT 0", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "TrackNum INTEGER NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "Title TEXT NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "Album TEXT NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "AlbumArtist TEXT NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "Artist TEXT NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "Year INTEGER NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "CanRename INTEGER NOT NULL DEFAULT 0", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "NotRenamableReason TEXT NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "ProposedName TEXT NULL", cancellationToken);
-            await TryAddColumnAsync(context, "SessionAudios", "ExistsOnDisk INTEGER NOT NULL DEFAULT 1", cancellationToken);
+            await using var command = context.Database.GetDbConnection().CreateCommand();
+            command.CommandText = "PRAGMA user_version;";
+            object? result = await command.ExecuteScalarAsync(cancellationToken);
+            if (result is null || result is DBNull)
+            {
+                return 0;
+            }
+
+            return Convert.ToInt32(result);
         }
 
-        private static async Task EnsureSessionFolderColumnsAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
-        {
-            await TryAddColumnAsync(context, "SessionFolders", "FolderPath TEXT NOT NULL DEFAULT ''", cancellationToken);
-        }
-
-        private static async Task TryAddColumnAsync(
+        private static Task SetSchemaVersionAsync(
             RenameMusicDbContext context,
-            string tableName,
-            string columnDefinition,
+            int version,
             CancellationToken cancellationToken)
         {
-            try
-            {
-                string sql = "ALTER TABLE " + tableName + " ADD COLUMN " + columnDefinition + ";";
-                await context.Database.ExecuteSqlRawAsync(
-                    sql,
-                    cancellationToken);
-            }
-            catch (SqliteException ex) when (IsDuplicateColumnError(ex))
-            {
-                // Column already exists in this installed schema version.
-            }
+            return context.Database.ExecuteSqlRawAsync(
+                "PRAGMA user_version = " + version + ";",
+                cancellationToken);
         }
 
-        private static bool IsDuplicateColumnError(SqliteException ex)
+        private static async Task<bool> TableExistsAsync(
+            RenameMusicDbContext context,
+            string tableName,
+            CancellationToken cancellationToken)
         {
-            return ex.SqliteErrorCode == 1
-                && ex.Message.Contains("duplicate column name", StringComparison.OrdinalIgnoreCase);
+            await using var command = context.Database.GetDbConnection().CreateCommand();
+            command.CommandText = "SELECT 1 FROM sqlite_master WHERE type='table' AND name=$name LIMIT 1;";
+            var nameParameter = command.CreateParameter();
+            nameParameter.ParameterName = "$name";
+            nameParameter.Value = tableName;
+            command.Parameters.Add(nameParameter);
+
+            object? result = await command.ExecuteScalarAsync(cancellationToken);
+            return result is not null && result is not DBNull;
+        }
+
+        private static async Task<bool> ColumnExistsAsync(
+            RenameMusicDbContext context,
+            string tableName,
+            string columnName,
+            CancellationToken cancellationToken)
+        {
+            await using var command = context.Database.GetDbConnection().CreateCommand();
+            command.CommandText = $"PRAGMA table_info({QuoteIdentifier(tableName)});";
+
+            await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                if (reader.IsDBNull(1))
+                {
+                    continue;
+                }
+
+                string currentColumnName = reader.GetString(1);
+                if (string.Equals(currentColumnName, columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static string QuoteIdentifier(string identifier)
+        {
+            return "\"" + identifier.Replace("\"", "\"\"", StringComparison.Ordinal) + "\"";
         }
 
         private SessionAudioEntity BuildEntityFromPath(
