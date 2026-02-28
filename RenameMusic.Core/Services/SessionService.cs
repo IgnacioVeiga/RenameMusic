@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 using RenameMusic.Models;
 using System.IO;
 
@@ -600,6 +601,9 @@ namespace RenameMusic.Services
                 """,
                 cancellationToken);
 
+            await EnsureSessionAudioColumnsAsync(context, cancellationToken);
+            await EnsureSessionFolderColumnsAsync(context, cancellationToken);
+
             await context.Database.ExecuteSqlRawAsync(
                 "CREATE UNIQUE INDEX IF NOT EXISTS IX_SessionAudios_FullPath ON SessionAudios (FullPath);",
                 cancellationToken);
@@ -615,6 +619,58 @@ namespace RenameMusic.Services
             await context.Database.ExecuteSqlRawAsync(
                 "CREATE UNIQUE INDEX IF NOT EXISTS IX_SessionFolders_FolderPath ON SessionFolders (FolderPath);",
                 cancellationToken);
+        }
+
+        /// <summary>
+        /// Applies additive schema upgrades for persisted databases created by earlier app versions.
+        /// </summary>
+        private static async Task EnsureSessionAudioColumnsAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        {
+            await TryAddColumnAsync(context, "SessionAudios", "FullPath TEXT NOT NULL DEFAULT ''", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "FolderPath TEXT NOT NULL DEFAULT ''", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "FileNameWithoutExtension TEXT NOT NULL DEFAULT ''", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "FileExtension TEXT NOT NULL DEFAULT ''", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "DurationSeconds INTEGER NOT NULL DEFAULT 0", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "TrackNum INTEGER NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "Title TEXT NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "Album TEXT NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "AlbumArtist TEXT NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "Artist TEXT NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "Year INTEGER NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "CanRename INTEGER NOT NULL DEFAULT 0", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "NotRenamableReason TEXT NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "ProposedName TEXT NULL", cancellationToken);
+            await TryAddColumnAsync(context, "SessionAudios", "ExistsOnDisk INTEGER NOT NULL DEFAULT 1", cancellationToken);
+        }
+
+        private static async Task EnsureSessionFolderColumnsAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
+        {
+            await TryAddColumnAsync(context, "SessionFolders", "FolderPath TEXT NOT NULL DEFAULT ''", cancellationToken);
+        }
+
+        private static async Task TryAddColumnAsync(
+            RenameMusicDbContext context,
+            string tableName,
+            string columnDefinition,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                string sql = "ALTER TABLE " + tableName + " ADD COLUMN " + columnDefinition + ";";
+                await context.Database.ExecuteSqlRawAsync(
+                    sql,
+                    cancellationToken);
+            }
+            catch (SqliteException ex) when (IsDuplicateColumnError(ex))
+            {
+                // Column already exists in this installed schema version.
+            }
+        }
+
+        private static bool IsDuplicateColumnError(SqliteException ex)
+        {
+            return ex.SqliteErrorCode == 1
+                && ex.Message.Contains("duplicate column name", StringComparison.OrdinalIgnoreCase);
         }
 
         private SessionAudioEntity BuildEntityFromPath(
