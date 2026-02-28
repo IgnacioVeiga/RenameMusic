@@ -221,8 +221,16 @@
                         <DataGridTextColumn Header="{x:Static lang:Strings.DURATION}"
                                             Width="52"
                                             Binding="{Binding Duration, StringFormat=hh\\:mm\\:ss}" IsReadOnly="True" />
-                        <DataGridTextColumn Header="{Binding DataContext.ReasonColumnHeaderText, Source={x:Reference RootWindow}}"
-                                            Binding="{Binding Reason}" IsReadOnly="True" />
+                        <DataGridTemplateColumn IsReadOnly="True">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{Binding DataContext.ReasonColumnHeaderText, ElementName=RootWindow}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Reason}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
