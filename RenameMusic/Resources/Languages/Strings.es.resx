@@ -17,16 +17,6 @@
     <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
     
@@ -120,9 +110,6 @@
   <data name="EXCEPTION_MSG" xml:space="preserve">
     <value>Se ha producido un error, por favor notificar al desarrollador.</value>
   </data>
-  <data name="TASK_SUCCESSFULL_MSG" xml:space="preserve">
-    <value>Tarea finalizada con éxito.</value>
-  </data>
   <data name="SETTINGS_RESTORED" xml:space="preserve">
     <value>Ajustes reestablecidos.</value>
   </data>
@@ -201,12 +188,6 @@
   <data name="REPEATED_FILE" xml:space="preserve">
     <value>Archivo repetido</value>
   </data>
-  <data name="IMPORT_SETTINGS" xml:space="preserve">
-    <value>Importar</value>
-  </data>
-  <data name="EXPORT_SETTINGS" xml:space="preserve">
-    <value>Exportar</value>
-  </data>
   <data name="FILE_REPEATED_MSG" xml:space="preserve">
     <value>Ya existe un archivo con el mismo nombre en esta ubicación ¿Cómo desea continuar?</value>
   </data>
@@ -240,12 +221,6 @@
   <data name="EXIT_MSG" xml:space="preserve">
     <value>¿Desea salir?</value>
   </data>
-  <data name="HELP" xml:space="preserve">
-    <value>Ayuda</value>
-  </data>
-  <data name="ABOUT" xml:space="preserve">
-    <value>Acerca de</value>
-  </data>
   <data name="YEAR" xml:space="preserve">
     <value>Año</value>
   </data>
@@ -263,12 +238,6 @@
   </data>
   <data name="THEME" xml:space="preserve">
     <value>Tema</value>
-  </data>
-  <data name="VIEW_HELP" xml:space="preserve">
-    <value>Ver ayuda</value>
-  </data>
-  <data name="CHECK_UPDATES" xml:space="preserve">
-    <value>Buscar actualizaciones</value>
   </data>
   <data name="LOADED" xml:space="preserve">
     <value>Cargado</value>
@@ -339,12 +308,6 @@
   <data name="ALL_MENTIONED" xml:space="preserve">
     <value>Todos los mencionados a abajo</value>
   </data>
-  <data name="REPLACE_NULL" xml:space="preserve">
-    <value>Reemplazar tags nulos por:</value>
-  </data>
-  <data name="OMIT_TAG_ITEM" xml:space="preserve">
-    <value>Nada (omitir)</value>
-  </data>
   <data name="UNKNOWN" xml:space="preserve">
     <value>Desconocido</value>
   </data>
@@ -353,5 +316,176 @@
   </data>
   <data name="ADD_TAG" xml:space="preserve">
     <value>Añadir tag</value>
+  </data>
+  <data name="PREVIOUS_SESSION_TITLE" xml:space="preserve">
+    <value>Sesión anterior</value>
+  </data>
+  <data name="PREVIOUS_SESSION_FOUND_MSG" xml:space="preserve">
+    <value>Se encontró una sesión anterior. ¿Desea cargarla ahora?</value>
+  </data>
+  <data name="PREVIOUS_SESSION_DELETE_MSG" xml:space="preserve">
+    <value>La sesión guardada se eliminará.</value>
+  </data>
+  <data name="RENAME_ALL_CONFIRM_MSG" xml:space="preserve">
+    <value>Se renombrarán todos los archivos elegibles ahora. ¿Continuar?</value>
+  </data>
+  <data name="SUMMARY_DONE" xml:space="preserve">
+    <value>Completados</value>
+  </data>
+  <data name="SUMMARY_SKIPPED" xml:space="preserve">
+    <value>Omitidos</value>
+  </data>
+  <data name="SUMMARY_FAILED" xml:space="preserve">
+    <value>Fallidos</value>
+  </data>
+  <data name="SUMMARY_MISSING" xml:space="preserve">
+    <value>Faltantes</value>
+  </data>
+  <data name="TEMPLATE_RECALCULATE_CONFIRM_MSG" xml:space="preserve">
+    <value>Guardar esta regla recalculará la lista actual. ¿Continuar?</value>
+  </data>
+  <data name="TEMPLATE_REPEATED_TAGS_MSG" xml:space="preserve">
+    <value>Tags repetidos en la plantilla</value>
+  </data>
+  <data name="MISSING_TAGS_TITLE" xml:space="preserve">
+    <value>Tags faltantes</value>
+  </data>
+  <data name="MISSING_TAGS_RECALCULATE_CONFIRM_MSG" xml:space="preserve">
+    <value>Cambiar esta opción recalculará la lista actual. ¿Continuar?</value>
+  </data>
+  <data name="RENAME_SINGLE_CONFIRM_MSG" xml:space="preserve">
+    <value>Este archivo se renombrará ahora. ¿Continuar?</value>
+  </data>
+  <data name="NO_CHANGES_APPLIED_MSG" xml:space="preserve">
+    <value>No se aplicaron cambios.</value>
+  </data>
+  <data name="RULE_NOT_SATISFIED_MSG" xml:space="preserve">
+    <value>El archivo todavía no cumple la regla de renombrado actual.</value>
+  </data>
+  <data name="DELETE_FILE_CONFIRM_MSG" xml:space="preserve">
+    <value>Este archivo se moverá a la Papelera de reciclaje y se quitará de la sesión actual. ¿Continuar?</value>
+  </data>
+  <data name="FILE_NOT_FOUND_REMOVE_ONLY_MSG" xml:space="preserve">
+    <value>El archivo no se encontró en el disco. Solo se quitará de la sesión.</value>
+  </data>
+  <data name="REMOVE_FOLDER_CONFIRM_MSG" xml:space="preserve">
+    <value>Todos los archivos de esta carpeta y sus subcarpetas se quitarán de la sesión actual. ¿Continuar?</value>
+  </data>
+  <data name="DELETE_FOLDER_CONFIRM_MSG" xml:space="preserve">
+    <value>Esta carpeta y su contenido se moverán a la Papelera de reciclaje y se quitarán de la sesión actual. ¿Continuar?</value>
+  </data>
+  <data name="FOLDER_NOT_FOUND_REMOVE_ONLY_MSG" xml:space="preserve">
+    <value>La carpeta no se encontró en el disco. Solo se quitará de la sesión.</value>
+  </data>
+  <data name="MISSING_FILES_WARNING_MSG" xml:space="preserve">
+    <value>Algunos archivos no se encontraron y se movieron a la sección 'No renombrar'.</value>
+  </data>
+  <data name="MISSING_FILES_TITLE" xml:space="preserve">
+    <value>Archivos faltantes</value>
+  </data>
+  <data name="SUMMARY_ADDED" xml:space="preserve">
+    <value>Añadidos</value>
+  </data>
+  <data name="SUMMARY_DUPLICATES_IGNORED" xml:space="preserve">
+    <value>Duplicados ignorados</value>
+  </data>
+  <data name="SUMMARY_UNREADABLE_METADATA" xml:space="preserve">
+    <value>Metadatos ilegibles</value>
+  </data>
+  <data name="TEMPLATE_NEEDS_TAG_MSG" xml:space="preserve">
+    <value>La plantilla debe contener al menos un tag.</value>
+  </data>
+  <data name="FILE_FILTER_MP3_LABEL" xml:space="preserve">
+    <value>MPEG Audio Layer III (MP3)</value>
+  </data>
+  <data name="FILE_FILTER_M4A_LABEL" xml:space="preserve">
+    <value>MPEG-4 Audio (M4A)</value>
+  </data>
+  <data name="FILE_FILTER_OGG_LABEL" xml:space="preserve">
+    <value>Vorbis (OGG)</value>
+  </data>
+  <data name="FILE_FILTER_FLAC_LABEL" xml:space="preserve">
+    <value>Free Lossless Audio Codec (FLAC)</value>
+  </data>
+  <data name="AUDIO_INFO_FORMAT" xml:space="preserve">
+    <value>{0} kbps {1} Hz</value>
+  </data>
+  <data name="IMAGE_FILTER_JPEG_LABEL" xml:space="preserve">
+    <value>JPEG</value>
+  </data>
+  <data name="IMAGE_FILTER_PNG_LABEL" xml:space="preserve">
+    <value>PNG</value>
+  </data>
+  <data name="IMAGE_FILTER_GIF_LABEL" xml:space="preserve">
+    <value>GIF</value>
+  </data>
+  <data name="IMAGE_FILTER_WEBP_LABEL" xml:space="preserve">
+    <value>WEBP</value>
+  </data>
+  <data name="MAIN_WINDOW_TITLE" xml:space="preserve">
+    <value>Rename Music (Beta)</value>
+  </data>
+  <data name="MISSING_TAGS_MODE" xml:space="preserve">
+    <value>Modo de tags faltantes</value>
+  </data>
+  <data name="STRICT" xml:space="preserve">
+    <value>Estricto</value>
+  </data>
+  <data name="USE_UNKNOWN_OR_TRANSLATED" xml:space="preserve">
+    <value>Usar Unknown/Desconocido</value>
+  </data>
+  <data name="CONFLICT_POLICY" xml:space="preserve">
+    <value>Política de conflictos</value>
+  </data>
+  <data name="ASK_EVERY_TIME" xml:space="preserve">
+    <value>Preguntar siempre</value>
+  </data>
+  <data name="ALWAYS_REPLACE" xml:space="preserve">
+    <value>Reemplazar siempre</value>
+  </data>
+  <data name="ALWAYS_SKIP" xml:space="preserve">
+    <value>Omitir siempre</value>
+  </data>
+  <data name="ALWAYS_RENAME_WITH_NUMBER" xml:space="preserve">
+    <value>Renombrar siempre con número</value>
+  </data>
+  <data name="DARK" xml:space="preserve">
+    <value>Oscuro</value>
+  </data>
+  <data name="LIGHT" xml:space="preserve">
+    <value>Claro</value>
+  </data>
+  <data name="ENGLISH" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="SPANISH" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="REASON" xml:space="preserve">
+    <value>Motivo</value>
+  </data>
+  <data name="REASON_UNREADABLE_METADATA" xml:space="preserve">
+    <value>Metadatos ilegibles.</value>
+  </data>
+  <data name="REASON_EMPTY_PROPOSED_FILE_NAME" xml:space="preserve">
+    <value>Nombre de archivo propuesto vacío.</value>
+  </data>
+  <data name="REASON_TEMPLATE_REQUIRES_TAG" xml:space="preserve">
+    <value>La plantilla debe incluir al menos una etiqueta de metadatos.</value>
+  </data>
+  <data name="REASON_MISSING_REQUIRED_TAGS_FORMAT" xml:space="preserve">
+    <value>Faltan tags requeridos: {0}</value>
+  </data>
+  <data name="REASON_TEMPLATE_EMPTY_NAME" xml:space="preserve">
+    <value>La plantilla produjo un nombre de archivo vacío.</value>
+  </data>
+  <data name="REASON_MANUALLY_EXCLUDED" xml:space="preserve">
+    <value>Excluido manualmente.</value>
+  </data>
+  <data name="REASON_GENERIC_ERROR_FORMAT" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="REASON_UNKNOWN" xml:space="preserve">
+    <value>Motivo desconocido.</value>
   </data>
 </root>

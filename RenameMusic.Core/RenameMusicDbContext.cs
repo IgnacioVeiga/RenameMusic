@@ -4,7 +4,10 @@ using System.IO;
 
 namespace RenameMusic
 {
-    public class MyContext : DbContext
+    /// <summary>
+    /// EF Core context for persisted session state (audio items and tracked folders).
+    /// </summary>
+    public sealed class RenameMusicDbContext : DbContext
     {
         public DbSet<SessionAudioEntity> SessionAudios { get; set; }
         public DbSet<SessionFolderEntity> SessionFolders { get; set; }

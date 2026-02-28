@@ -42,7 +42,10 @@ namespace RenameMusic.Views
                     PicturesInfo.Text = string.Empty;
                 }
 
-                FileInfo.Text = $"{file.Properties.AudioBitrate}kbps {file.Properties.AudioSampleRate}hz";
+                FileInfo.Text = string.Format(
+                    L("AUDIO_INFO_FORMAT", "{0} kbps {1} Hz"),
+                    file.Properties.AudioBitrate,
+                    file.Properties.AudioSampleRate);
             }
             catch (Exception)
             {
@@ -61,7 +64,11 @@ namespace RenameMusic.Views
                     Multiselect = false,
                     InitialDirectory = Path.GetDirectoryName(_filePath) ?? Environment.CurrentDirectory,
                     CheckFileExists = true,
-                    Filter = $"{Strings.SUPPORTED_FILES}*.jpg;*.jpeg;*.png;*.gif;*.webp|JPEG|*.jpg;*.jpeg|PNG|*.png|GIF|*.gif|WEBP|*.webp"
+                    Filter = $"{Strings.SUPPORTED_FILES}|*.jpg;*.jpeg;*.png;*.gif;*.webp|" +
+                             $"{L("IMAGE_FILTER_JPEG_LABEL", "JPEG")}|*.jpg;*.jpeg|" +
+                             $"{L("IMAGE_FILTER_PNG_LABEL", "PNG")}|*.png|" +
+                             $"{L("IMAGE_FILTER_GIF_LABEL", "GIF")}|*.gif|" +
+                             $"{L("IMAGE_FILTER_WEBP_LABEL", "WEBP")}|*.webp"
                 };
 
                 // In .mp3 files, does the cover art have to be a 64kb .png format?
@@ -124,6 +131,11 @@ namespace RenameMusic.Views
         {
             return rawValues
                 .Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private static string L(string key, string fallback)
+        {
+            return Strings.ResourceManager.GetString(key, Strings.Culture) ?? fallback;
         }
     }
 }

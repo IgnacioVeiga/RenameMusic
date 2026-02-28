@@ -6,6 +6,9 @@ using RenameMusic.Resources.Languages;
 
 namespace RenameMusic.ViewModels
 {
+    /// <summary>
+    /// Encapsulates rename-template editing, required-tag configuration, and inline validation feedback.
+    /// </summary>
     public partial class ReplaceWithViewModel : ObservableObject
     {
         private static readonly string[] SupportedTags =
@@ -158,6 +161,9 @@ namespace RenameMusic.ViewModels
             ApplyCommand.NotifyCanExecuteChanged();
         }
 
+        /// <summary>
+        /// Validates the current template and requirement combination before allowing the dialog to apply changes.
+        /// </summary>
         private void ValidateTemplate()
         {
             if (string.IsNullOrWhiteSpace(Template))
@@ -170,7 +176,7 @@ namespace RenameMusic.ViewModels
             if (!HasAtLeastOneTag(Template))
             {
                 CanApply = false;
-                WarningMessage = $"{Strings.NOT_ALLOWED}: Template must contain at least one tag.";
+                WarningMessage = $"{Strings.NOT_ALLOWED}: {L("TEMPLATE_NEEDS_TAG_MSG", "Template must contain at least one tag.")}";
                 return;
             }
 
@@ -196,6 +202,11 @@ namespace RenameMusic.ViewModels
 
             CanApply = true;
             WarningMessage = string.Empty;
+        }
+
+        private static string L(string key, string fallback)
+        {
+            return Strings.ResourceManager.GetString(key, Strings.Culture) ?? fallback;
         }
 
         private static bool HasAtLeastOneTag(string value)

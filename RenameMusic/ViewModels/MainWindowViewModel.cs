@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 
 namespace RenameMusic.ViewModels
 {
+    /// <summary>
+    /// Coordinates the main screen workflow: session lifecycle, ingestion, rule recalculation, and rename execution.
+    /// </summary>
     public partial class MainWindowViewModel : ObservableObject
     {
         private readonly ISessionService _sessionService;
@@ -83,6 +86,20 @@ namespace RenameMusic.ViewModels
 
         public bool IsEnglishLanguage => Settings.Default.Language == "en";
         public bool IsSpanishLanguage => Settings.Default.Language == "es";
+        public string MainWindowTitle => L("MAIN_WINDOW_TITLE", "Rename Music (Beta)");
+        public string MissingTagsModeText => L("MISSING_TAGS_MODE", "Missing tags mode");
+        public string MissingTagsStrictText => L("STRICT", "Strict");
+        public string MissingTagsUseUnknownText => L("USE_UNKNOWN_OR_TRANSLATED", "Use Unknown/Desconocido");
+        public string ConflictPolicyText => L("CONFLICT_POLICY", "Conflict policy");
+        public string ConflictAskEveryTimeText => L("ASK_EVERY_TIME", "Ask every time");
+        public string ConflictAlwaysReplaceText => L("ALWAYS_REPLACE", "Always replace");
+        public string ConflictAlwaysSkipText => L("ALWAYS_SKIP", "Always skip");
+        public string ConflictAlwaysRenameWithNumberText => L("ALWAYS_RENAME_WITH_NUMBER", "Always rename with number");
+        public string ThemeDarkText => L("DARK", "Dark");
+        public string ThemeLightText => L("LIGHT", "Light");
+        public string LanguageEnglishText => L("ENGLISH", "English");
+        public string LanguageSpanishText => L("SPANISH", "Español");
+        public string ReasonColumnHeaderText => L("REASON", "Reason");
 
         public bool IsDarkTheme => string.Equals(Settings.Default.ThemeName, "Dark", StringComparison.OrdinalIgnoreCase);
         public bool IsLightTheme => string.Equals(Settings.Default.ThemeName, "Light", StringComparison.OrdinalIgnoreCase);
@@ -94,20 +111,24 @@ namespace RenameMusic.ViewModels
         public bool CanRename => !IsBusy && ToRenameItems.Count > 0;
         public bool HasSessionData => ToRenameItems.Count > 0 || DoNotRenameItems.Count > 0 || FolderItems.Count > 0;
 
+        /// <summary>
+        /// Initializes persistence and optionally restores the previous session after explicit user confirmation.
+        /// </summary>
         public async Task InitializeAsync()
         {
             await _sessionService.EnsureDatabaseAsync();
             if (await _sessionService.HasSavedSessionAsync())
             {
+                string previousSessionTitle = L("PREVIOUS_SESSION_TITLE", "Previous Session");
                 bool loadPreviousSession = _dialogService.Confirm(
-                    "A previous session was found. Load it now?",
-                    "Previous Session");
+                    L("PREVIOUS_SESSION_FOUND_MSG", "A previous session was found. Load it now?"),
+                    previousSessionTitle);
 
                 if (!loadPreviousSession)
                 {
                     _dialogService.ShowWarning(
-                        "The saved session will be deleted.",
-                        "Previous Session");
+                        L("PREVIOUS_SESSION_DELETE_MSG", "The saved session will be deleted."),
+                        previousSessionTitle);
                     await _sessionService.ClearSessionAsync();
                 }
                 else
@@ -191,7 +212,7 @@ namespace RenameMusic.ViewModels
             }
 
             if (!_dialogService.Confirm(
-                "All eligible files will be renamed now. Continue?",
+                L("RENAME_ALL_CONFIRM_MSG", "All eligible files will be renamed now. Continue?"),
                 Strings.RENAME_FILES))
             {
                 return;
@@ -204,10 +225,10 @@ namespace RenameMusic.ViewModels
                     GetDefaultConflictAction());
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
 
-                string summary = $"Done: {result.CompletedCount}\n" +
-                                 $"Skipped: {result.SkippedCount}\n" +
-                                 $"Failed: {result.FailedCount}\n" +
-                                 $"Missing: {result.MissingCount}";
+                string summary = $"{L("SUMMARY_DONE", "Done")}: {result.CompletedCount}\n" +
+                                 $"{L("SUMMARY_SKIPPED", "Skipped")}: {result.SkippedCount}\n" +
+                                 $"{L("SUMMARY_FAILED", "Failed")}: {result.FailedCount}\n" +
+                                 $"{L("SUMMARY_MISSING", "Missing")}: {result.MissingCount}";
 
                 _dialogService.ShowInfo(summary, Strings.RENAME_FILES);
             });
@@ -245,7 +266,7 @@ namespace RenameMusic.ViewModels
             if (HasSessionData && settingsChanged)
             {
                 bool recalculate = _dialogService.Confirm(
-                    "Saving this rule will recalculate the current list. Continue?",
+                    L("TEMPLATE_RECALCULATE_CONFIRM_MSG", "Saving this rule will recalculate the current list. Continue?"),
                     Strings.REPLACE_WITH);
 
                 if (!recalculate)
@@ -272,7 +293,8 @@ namespace RenameMusic.ViewModels
             IReadOnlyList<string> repeatedTokens = _templateRuleService.GetRepeatedTokens(result.Template);
             if (repeatedTokens.Count > 0)
             {
-                string warning = $"Repeated tags in template: {string.Join(", ", repeatedTokens)}";
+                string repeatedPrefix = L("TEMPLATE_REPEATED_TAGS_MSG", "Repeated tags in template");
+                string warning = $"{repeatedPrefix}: {string.Join(", ", repeatedTokens)}";
                 _dialogService.ShowWarning(warning, Strings.REPLACE_WITH);
             }
 
@@ -304,8 +326,8 @@ namespace RenameMusic.ViewModels
             if (HasSessionData)
             {
                 bool recalculate = _dialogService.Confirm(
-                    "Changing this setting will recalculate the current list. Continue?",
-                    "Missing Tags");
+                    L("MISSING_TAGS_RECALCULATE_CONFIRM_MSG", "Changing this setting will recalculate the current list. Continue?"),
+                    L("MISSING_TAGS_TITLE", "Missing Tags"));
 
                 if (!recalculate)
                 {
@@ -441,7 +463,7 @@ namespace RenameMusic.ViewModels
 
             if (!File.Exists(item.FullPath))
             {
-                _dialogService.ShowWarning("File not found.", Strings.PLAY_FILE);
+                _dialogService.ShowWarning(Strings.FILE_NOT_FOUND_MSG, Strings.PLAY_FILE);
                 return;
             }
 
@@ -496,7 +518,7 @@ namespace RenameMusic.ViewModels
             }
 
             if (!_dialogService.Confirm(
-                "This file will be renamed now. Continue?",
+                L("RENAME_SINGLE_CONFIRM_MSG", "This file will be renamed now. Continue?"),
                 Strings.RENAME_THIS_NOW))
             {
                 return;
@@ -512,7 +534,7 @@ namespace RenameMusic.ViewModels
 
                 if (result.CompletedCount == 0 && result.SkippedCount == 0 && result.FailedCount == 0 && result.MissingCount == 0)
                 {
-                    _dialogService.ShowWarning("No changes were applied.", Strings.RENAME_THIS_NOW);
+                    _dialogService.ShowWarning(L("NO_CHANGES_APPLIED_MSG", "No changes were applied."), Strings.RENAME_THIS_NOW);
                 }
             });
         }
@@ -527,7 +549,9 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                await _sessionService.MarkAsDoNotRenameAsync(item.Id, "Manually excluded.");
+                await _sessionService.MarkAsDoNotRenameAsync(
+                    item.Id,
+                    NotRenamableReasonCodec.Create(NotRenamableReasonCodes.ManuallyExcluded));
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
             });
         }
@@ -547,7 +571,7 @@ namespace RenameMusic.ViewModels
                 if (!canRename)
                 {
                     _dialogService.ShowWarning(
-                        "The file still does not satisfy the current rename rule.",
+                        L("RULE_NOT_SATISFIED_MSG", "The file still does not satisfy the current rename rule."),
                         Strings.DO_NOT_RENAME);
                 }
             });
@@ -562,7 +586,7 @@ namespace RenameMusic.ViewModels
             }
 
             bool confirmDelete = _dialogService.Confirm(
-                "This file will be moved to the Recycle Bin and removed from the current session. Continue?",
+                L("DELETE_FILE_CONFIRM_MSG", "This file will be moved to the Recycle Bin and removed from the current session. Continue?"),
                 Strings.DELETE_FILE);
             if (!confirmDelete)
             {
@@ -578,7 +602,7 @@ namespace RenameMusic.ViewModels
                 else
                 {
                     _dialogService.ShowWarning(
-                        "File not found on disk. It will only be removed from the session.",
+                        L("FILE_NOT_FOUND_REMOVE_ONLY_MSG", "File not found on disk. It will only be removed from the session."),
                         Strings.DELETE_FILE);
                 }
 
@@ -614,7 +638,7 @@ namespace RenameMusic.ViewModels
             }
 
             if (!_dialogService.Confirm(
-                "All files from this folder and its subfolders will be removed from the current session. Continue?",
+                L("REMOVE_FOLDER_CONFIRM_MSG", "All files from this folder and its subfolders will be removed from the current session. Continue?"),
                 Strings.REMOVE_FROM_LIST))
             {
                 return;
@@ -636,7 +660,7 @@ namespace RenameMusic.ViewModels
             }
 
             bool confirmDelete = _dialogService.Confirm(
-                "This folder and its content will be moved to the Recycle Bin and removed from the current session. Continue?",
+                L("DELETE_FOLDER_CONFIRM_MSG", "This folder and its content will be moved to the Recycle Bin and removed from the current session. Continue?"),
                 Strings.DELETE_FOLDER);
             if (!confirmDelete)
             {
@@ -652,7 +676,7 @@ namespace RenameMusic.ViewModels
                 else
                 {
                     _dialogService.ShowWarning(
-                        "Folder not found on disk. It will only be removed from the session.",
+                        L("FOLDER_NOT_FOUND_REMOVE_ONLY_MSG", "Folder not found on disk. It will only be removed from the session."),
                         Strings.DELETE_FOLDER);
                 }
 
@@ -711,6 +735,9 @@ namespace RenameMusic.ViewModels
             }
         }
 
+        /// <summary>
+        /// Builds a snapshot of the current rule settings to evaluate files consistently across services.
+        /// </summary>
         private RenameRuleOptions CreateRuleOptions()
         {
             MissingTagStrategy strategy = Settings.Default.UsePlaceholderForMissingTags
@@ -788,6 +815,9 @@ namespace RenameMusic.ViewModels
             };
         }
 
+        /// <summary>
+        /// Reloads UI collections from persistence and optionally warns when stored paths no longer exist.
+        /// </summary>
         private async Task ReloadSnapshotAsync(bool showMissingFilesWarning)
         {
             SelectedToRenameItem = null;
@@ -811,8 +841,8 @@ namespace RenameMusic.ViewModels
             if (showMissingFilesWarning && snapshot.MissingFilesCount > 0)
             {
                 _dialogService.ShowWarning(
-                    "Some files were not found and were moved to the 'Do Not Rename' section.",
-                    "Missing Files");
+                    L("MISSING_FILES_WARNING_MSG", "Some files were not found and were moved to the 'Do Not Rename' section."),
+                    L("MISSING_FILES_TITLE", "Missing Files"));
             }
         }
 
@@ -825,6 +855,9 @@ namespace RenameMusic.ViewModels
             }
         }
 
+        /// <summary>
+        /// Wraps async commands with busy-state and centralized exception reporting.
+        /// </summary>
         private async Task RunBusyAsync(Func<Task> action)
         {
             IsBusy = true;
@@ -842,6 +875,9 @@ namespace RenameMusic.ViewModels
             }
         }
 
+        /// <summary>
+        /// Shows ingestion diagnostics only when duplicates or unreadable files were detected.
+        /// </summary>
         private void ShowIngestionSummary(SessionIngestionResult result)
         {
             if (result.SkippedDuplicates == 0 && result.UnreadableCount == 0)
@@ -849,11 +885,16 @@ namespace RenameMusic.ViewModels
                 return;
             }
 
-            string summary = $"Added: {result.AddedCount}\n" +
-                             $"Duplicates ignored: {result.SkippedDuplicates}\n" +
-                             $"Unreadable metadata: {result.UnreadableCount}";
+            string summary = $"{L("SUMMARY_ADDED", "Added")}: {result.AddedCount}\n" +
+                             $"{L("SUMMARY_DUPLICATES_IGNORED", "Duplicates ignored")}: {result.SkippedDuplicates}\n" +
+                             $"{L("SUMMARY_UNREADABLE_METADATA", "Unreadable metadata")}: {result.UnreadableCount}";
 
             _dialogService.ShowInfo(summary, Strings.LOADING);
+        }
+
+        private static string L(string key, string fallback)
+        {
+            return Strings.ResourceManager.GetString(key, Strings.Culture) ?? fallback;
         }
     }
 }

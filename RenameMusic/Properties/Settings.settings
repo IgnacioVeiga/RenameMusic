@@ -32,9 +32,6 @@
     <Setting Name="YearRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="PageSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">256</Value>
-    </Setting>
     <Setting Name="ThemeName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Dark</Value>
     </Setting>

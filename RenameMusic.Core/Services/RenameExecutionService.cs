@@ -24,6 +24,9 @@ namespace RenameMusic.Services
             CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// Executes file-system rename operations and keeps session state in sync with success/failure outcomes.
+    /// </summary>
     public sealed class RenameExecutionService : IRenameExecutionService
     {
         private readonly ISessionService _sessionService;
@@ -56,6 +59,9 @@ namespace RenameMusic.Services
             return await RenameItemsAsync(items.Where(i => i.CanRename), dialogService, defaultConflictAction, cancellationToken);
         }
 
+        /// <summary>
+        /// Renames a set of validated items, handling conflicts and collecting per-item failures for the Do Not Rename list.
+        /// </summary>
         private async Task<RenameBatchResult> RenameItemsAsync(
             IEnumerable<AudioLibraryItem> items,
             IDialogService dialogService,
@@ -74,14 +80,14 @@ namespace RenameMusic.Services
                 string sourcePath = item.FullPath;
                 if (!File.Exists(sourcePath))
                 {
-                    doNotRenameUpdates[item.Id] = "File not found.";
+                    doNotRenameUpdates[item.Id] = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.FileNotFound);
                     result.MissingCount++;
                     continue;
                 }
 
                 if (string.IsNullOrWhiteSpace(item.ProposedName))
                 {
-                    doNotRenameUpdates[item.Id] = "Empty proposed file name.";
+                    doNotRenameUpdates[item.Id] = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.EmptyProposedFileName);
                     result.FailedCount++;
                     continue;
                 }
@@ -131,7 +137,7 @@ namespace RenameMusic.Services
                 }
                 catch (Exception ex)
                 {
-                    doNotRenameUpdates[item.Id] = ex.Message;
+                    doNotRenameUpdates[item.Id] = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.GenericError, ex.Message);
                     result.FailedCount++;
                 }
             }
@@ -176,6 +182,9 @@ namespace RenameMusic.Services
             return response.Action;
         }
 
+        /// <summary>
+        /// Moves or renames a file, using a temporary path for case-only renames to keep Windows behavior reliable.
+        /// </summary>
         private static void MoveFile(string sourcePath, string destinationPath, bool isCaseOnlyRename)
         {
             if (!isCaseOnlyRename)
@@ -209,6 +218,9 @@ namespace RenameMusic.Services
             }
         }
 
+        /// <summary>
+        /// Creates a non-conflicting destination name using the Windows-style " (n)" suffix.
+        /// </summary>
         private static string GetIndexedDestinationPath(string destinationPath)
         {
             string directory = Path.GetDirectoryName(destinationPath) ?? string.Empty;

@@ -53,32 +53,32 @@
                    Margin="10,4,10,4">
             <Button Margin="0,0,6,6"
                     Padding="10,4"
-                    Content="Track Nº"
+                    Content="{x:Static p:Strings.TRACK_NUM}"
                     Command="{Binding InsertTagCommand}"
                     CommandParameter="&lt;TrackNum&gt;" />
             <Button Margin="0,0,6,6"
                     Padding="10,4"
-                    Content="Title"
+                    Content="{x:Static p:Strings.TITLE}"
                     Command="{Binding InsertTagCommand}"
                     CommandParameter="&lt;Title&gt;" />
             <Button Margin="0,0,6,6"
                     Padding="10,4"
-                    Content="Album"
+                    Content="{x:Static p:Strings.ALBUM}"
                     Command="{Binding InsertTagCommand}"
                     CommandParameter="&lt;Album&gt;" />
             <Button Margin="0,0,6,6"
                     Padding="10,4"
-                    Content="Album Artist"
+                    Content="{x:Static p:Strings.ALBUM_ARTIST}"
                     Command="{Binding InsertTagCommand}"
                     CommandParameter="&lt;AlbumArtist&gt;" />
             <Button Margin="0,0,6,6"
                     Padding="10,4"
-                    Content="Artist"
+                    Content="{x:Static p:Strings.ARTIST}"
                     Command="{Binding InsertTagCommand}"
                     CommandParameter="&lt;Artist&gt;" />
             <Button Margin="0,0,6,6"
                     Padding="10,4"
-                    Content="Year"
+                    Content="{x:Static p:Strings.YEAR}"
                     Command="{Binding InsertTagCommand}"
                     CommandParameter="&lt;Year&gt;" />
         </WrapPanel>
@@ -92,22 +92,22 @@
             <TextBlock Text="{x:Static p:Strings.ONLY_MARKED_ONES}" />
             <WrapPanel Margin="0,6,0,0">
                 <CheckBox Margin="0,0,10,4"
-                          Content="Track Nº"
+                          Content="{x:Static p:Strings.TRACK_NUM}"
                           IsChecked="{Binding TrackNumRequired, Mode=TwoWay}" />
                 <CheckBox Margin="0,0,10,4"
-                          Content="Title"
+                          Content="{x:Static p:Strings.TITLE}"
                           IsChecked="{Binding TitleRequired, Mode=TwoWay}" />
                 <CheckBox Margin="0,0,10,4"
-                          Content="Album"
+                          Content="{x:Static p:Strings.ALBUM}"
                           IsChecked="{Binding AlbumRequired, Mode=TwoWay}" />
                 <CheckBox Margin="0,0,10,4"
-                          Content="Album Artist"
+                          Content="{x:Static p:Strings.ALBUM_ARTIST}"
                           IsChecked="{Binding AlbumArtistRequired, Mode=TwoWay}" />
                 <CheckBox Margin="0,0,10,4"
-                          Content="Artist"
+                          Content="{x:Static p:Strings.ARTIST}"
                           IsChecked="{Binding ArtistRequired, Mode=TwoWay}" />
                 <CheckBox Margin="0,0,10,4"
-                          Content="Year"
+                          Content="{x:Static p:Strings.YEAR}"
                           IsChecked="{Binding YearRequired, Mode=TwoWay}" />
             </WrapPanel>
 

@@ -13,6 +13,9 @@ namespace RenameMusic.Services
 
     public sealed class FilePickerService : IFilePickerService
     {
+        /// <summary>
+        /// Opens the file picker limited to supported audio formats.
+        /// </summary>
         public IReadOnlyList<string> PickFiles()
         {
             OpenFileDialog fileDialog = new()
@@ -22,7 +25,11 @@ namespace RenameMusic.Services
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
                 CheckFileExists = true,
                 Title = Strings.ADD_FILE,
-                Filter = $"{Strings.SUPPORTED_FILES}|*.mp3;*.m4a;*.ogg;*.flac|MPEG Audio Layer III (MP3)|*.mp3|MPEG-4 Audio (M4A)|*.m4a|Vorbis (OGG)|*.ogg|Free Lossless Audio Codec (FLAC)|*.flac"
+                Filter = $"{Strings.SUPPORTED_FILES}|*.mp3;*.m4a;*.ogg;*.flac|" +
+                         $"{L("FILE_FILTER_MP3_LABEL", "MPEG Audio Layer III (MP3)")}|*.mp3|" +
+                         $"{L("FILE_FILTER_M4A_LABEL", "MPEG-4 Audio (M4A)")}|*.m4a|" +
+                         $"{L("FILE_FILTER_OGG_LABEL", "Vorbis (OGG)")}|*.ogg|" +
+                         $"{L("FILE_FILTER_FLAC_LABEL", "Free Lossless Audio Codec (FLAC)")}|*.flac"
             };
 
             if (fileDialog.ShowDialog() is false)
@@ -56,6 +63,11 @@ namespace RenameMusic.Services
                 .Select(Path.GetFullPath)
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
+        }
+
+        private static string L(string key, string fallback)
+        {
+            return Strings.ResourceManager.GetString(key, Strings.Culture) ?? fallback;
         }
     }
 }

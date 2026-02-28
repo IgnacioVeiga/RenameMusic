@@ -1,4 +1,5 @@
 using RenameMusic.Models;
+using RenameMusic.Services;
 
 namespace RenameMusic.ViewModels
 {
@@ -7,7 +8,6 @@ namespace RenameMusic.ViewModels
         public AudioItemViewModel(AudioLibraryItem item)
         {
             Id = item.Id;
-            Folder = item.FolderPath;
             Name = item.FileNameWithoutExtension;
             Type = item.FileExtension;
             Duration = item.Duration;
@@ -16,16 +16,12 @@ namespace RenameMusic.ViewModels
             Album = item.Album ?? string.Empty;
             Artist = item.Artist ?? string.Empty;
             AlbumArtist = item.AlbumArtist ?? string.Empty;
-            Year = item.Year ?? 0;
             NewName = item.ProposedName ?? string.Empty;
-            CanRename = item.CanRename;
-            Reason = item.NotRenamableReason ?? string.Empty;
-            ExistsOnDisk = item.ExistsOnDisk;
+            Reason = NotRenamableReasonTextService.ToDisplayText(item.NotRenamableReason);
             FullPath = item.FullPath;
         }
 
         public int Id { get; }
-        public string Folder { get; }
         public string Name { get; }
         public string Type { get; }
         public TimeSpan Duration { get; }
@@ -34,11 +30,8 @@ namespace RenameMusic.ViewModels
         public string Album { get; }
         public string Artist { get; }
         public string AlbumArtist { get; }
-        public uint Year { get; }
         public string NewName { get; }
-        public bool CanRename { get; }
         public string Reason { get; }
-        public bool ExistsOnDisk { get; }
         public string FullPath { get; }
     }
 

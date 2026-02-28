@@ -20,7 +20,8 @@ namespace RenameMusic.Tests
             RuleEvaluationResult result = _service.Evaluate(entity, options);
 
             Assert.False(result.CanRename);
-            Assert.Contains("at least one metadata tag", result.Reason);
+            NotRenamableReasonData reason = NotRenamableReasonCodec.Parse(result.Reason);
+            Assert.Equal(NotRenamableReasonCodes.TemplateRequiresTag, reason.Code);
         }
 
         [Fact]
@@ -37,6 +38,9 @@ namespace RenameMusic.Tests
 
             Assert.False(result.CanRename);
             Assert.Contains("<Title>", result.MissingTokens);
+            NotRenamableReasonData reason = NotRenamableReasonCodec.Parse(result.Reason);
+            Assert.Equal(NotRenamableReasonCodes.MissingRequiredTags, reason.Code);
+            Assert.Contains("<Title>", reason.Detail);
         }
 
         [Fact]

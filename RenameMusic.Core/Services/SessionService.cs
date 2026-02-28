@@ -53,6 +53,9 @@ namespace RenameMusic.Services
             CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// Persists and maintains the working session (files, folders, metadata and rename eligibility) using EF Core.
+    /// </summary>
     public sealed class SessionService : ISessionService
     {
         private static readonly string[] SupportedExtensions = [".mp3", ".m4a", ".ogg", ".flac"];
@@ -66,31 +69,34 @@ namespace RenameMusic.Services
 
         public async Task EnsureDatabaseAsync(CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             await EnsureSchemaAsync(context, cancellationToken);
         }
 
         public async Task<bool> HasSavedSessionAsync(CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             return await context.SessionAudios.AnyAsync(cancellationToken)
                 || await context.SessionFolders.AnyAsync(cancellationToken);
         }
 
         public async Task ClearSessionAsync(CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             context.SessionAudios.RemoveRange(context.SessionAudios);
             context.SessionFolders.RemoveRange(context.SessionFolders);
             await context.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Ingests explicit file paths into the session, skipping duplicates and evaluating rename eligibility in batches.
+        /// </summary>
         public async Task<SessionIngestionResult> AddFilesAsync(
             IEnumerable<string> filePaths,
             RenameRuleOptions options,
             CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             await EnsureSchemaAsync(context, cancellationToken);
 
             HashSet<string> existingAudioPaths = new(
@@ -154,13 +160,16 @@ namespace RenameMusic.Services
             return result;
         }
 
+        /// <summary>
+        /// Ingests one or more folders by enumerating supported audio files and applying the active rename rule.
+        /// </summary>
         public async Task<SessionIngestionResult> AddFoldersAsync(
             IEnumerable<string> folderPaths,
             bool includeSubFolders,
             RenameRuleOptions options,
             CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             await EnsureSchemaAsync(context, cancellationToken);
 
             HashSet<string> existingAudioPaths = new(
@@ -243,7 +252,7 @@ namespace RenameMusic.Services
             RenameRuleOptions options,
             CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             List<SessionAudioEntity> items = await context.SessionAudios.ToListAsync(cancellationToken);
             foreach (SessionAudioEntity item in items)
             {
@@ -252,7 +261,7 @@ namespace RenameMusic.Services
                 {
                     item.ExistsOnDisk = false;
                     item.CanRename = false;
-                    item.NotRenamableReason = "File not found.";
+                    item.NotRenamableReason = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.FileNotFound);
                     item.ProposedName = null;
                     continue;
                 }
@@ -267,9 +276,12 @@ namespace RenameMusic.Services
             await context.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Loads the current session split for UI tabs and reconciles missing files before mapping to view models.
+        /// </summary>
         public async Task<SessionSnapshot> LoadSnapshotAsync(CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             await PruneOrphanFoldersAsync(context, cancellationToken);
 
             List<SessionAudioEntity> audioEntities = await context.SessionAudios
@@ -287,11 +299,12 @@ namespace RenameMusic.Services
                 if (!exists)
                 {
                     missingCount++;
-                    if (audio.ExistsOnDisk || audio.CanRename || audio.NotRenamableReason != "File not found.")
+                    bool notMarkedAsMissing = NotRenamableReasonCodec.Parse(audio.NotRenamableReason).Code != NotRenamableReasonCodes.FileNotFound;
+                    if (audio.ExistsOnDisk || audio.CanRename || notMarkedAsMissing)
                     {
                         audio.ExistsOnDisk = false;
                         audio.CanRename = false;
-                        audio.NotRenamableReason = "File not found.";
+                        audio.NotRenamableReason = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.FileNotFound);
                         audio.ProposedName = null;
                         changed = true;
                     }
@@ -319,7 +332,7 @@ namespace RenameMusic.Services
 
         public async Task<List<AudioLibraryItem>> GetRenamableItemsAsync(CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             List<SessionAudioEntity> entities = await context.SessionAudios
                 .Where(a => a.CanRename)
                 .OrderBy(a => a.Id)
@@ -337,7 +350,7 @@ namespace RenameMusic.Services
                 return [];
             }
 
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             List<SessionAudioEntity> entities = await context.SessionAudios
                 .Where(a => normalizedIds.Contains(a.Id))
                 .OrderBy(a => a.Id)
@@ -347,7 +360,7 @@ namespace RenameMusic.Services
 
         public async Task RemoveAudioAsync(int id, CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             SessionAudioEntity? entity = await context.SessionAudios.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
             if (entity is null)
             {
@@ -366,7 +379,7 @@ namespace RenameMusic.Services
                 return;
             }
 
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             List<SessionAudioEntity> entities = await context.SessionAudios
                 .Where(a => normalizedIds.Contains(a.Id))
                 .ToListAsync(cancellationToken);
@@ -384,7 +397,7 @@ namespace RenameMusic.Services
             string reason,
             CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             SessionAudioEntity? entity = await context.SessionAudios.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
             if (entity is null)
             {
@@ -408,7 +421,7 @@ namespace RenameMusic.Services
             }
 
             List<int> ids = updates.Keys.Distinct().ToList();
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             List<SessionAudioEntity> entities = await context.SessionAudios
                 .Where(a => ids.Contains(a.Id))
                 .ToListAsync(cancellationToken);
@@ -429,9 +442,12 @@ namespace RenameMusic.Services
             await context.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Removes a folder and all descendant entries from the session using case-insensitive prefix matching.
+        /// </summary>
         public async Task<bool> RemoveFolderAsync(int folderId, CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             SessionFolderEntity? folder = await context.SessionFolders
                 .FirstOrDefaultAsync(f => f.Id == folderId, cancellationToken);
             if (folder is null)
@@ -487,7 +503,7 @@ namespace RenameMusic.Services
             RenameRuleOptions options,
             CancellationToken cancellationToken = default)
         {
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             SessionAudioEntity? entity = await context.SessionAudios
                 .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
             if (entity is null)
@@ -499,7 +515,7 @@ namespace RenameMusic.Services
             {
                 entity.ExistsOnDisk = false;
                 entity.CanRename = false;
-                entity.NotRenamableReason = "File not found.";
+                entity.NotRenamableReason = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.FileNotFound);
                 entity.ProposedName = null;
                 await context.SaveChangesAsync(cancellationToken);
                 return;
@@ -516,13 +532,13 @@ namespace RenameMusic.Services
         {
             await RefreshAudioFromDiskAsync(id, options, cancellationToken);
 
-            await using MyContext context = new();
+            await using RenameMusicDbContext context = new();
             SessionAudioEntity? entity = await context.SessionAudios
                 .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
             return entity?.CanRename == true;
         }
 
-        private static async Task PruneOrphanFoldersAsync(MyContext context, CancellationToken cancellationToken)
+        private static async Task PruneOrphanFoldersAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
         {
             HashSet<string> activeFolderPaths = new(
                 await context.SessionAudios
@@ -545,7 +561,10 @@ namespace RenameMusic.Services
             await context.SaveChangesAsync(cancellationToken);
         }
 
-        private static async Task EnsureSchemaAsync(MyContext context, CancellationToken cancellationToken)
+        /// <summary>
+        /// Creates base tables and indexes when needed.
+        /// </summary>
+        private static async Task EnsureSchemaAsync(RenameMusicDbContext context, CancellationToken cancellationToken)
         {
             await context.Database.EnsureCreatedAsync(cancellationToken);
 
@@ -623,6 +642,9 @@ namespace RenameMusic.Services
             return entity;
         }
 
+        /// <summary>
+        /// Reads tags with TagLib and updates session entity fields before rule evaluation.
+        /// </summary>
         private bool PopulateEntityFromFile(SessionAudioEntity entity, RenameRuleOptions options)
         {
             try
@@ -640,7 +662,7 @@ namespace RenameMusic.Services
             catch (Exception)
             {
                 entity.CanRename = false;
-                entity.NotRenamableReason = "Unreadable metadata.";
+                entity.NotRenamableReason = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.UnreadableMetadata);
                 entity.ProposedName = null;
                 return false;
             }
@@ -681,7 +703,7 @@ namespace RenameMusic.Services
         }
 
         private static async Task<int> SaveBatchAsync(
-            MyContext context,
+            RenameMusicDbContext context,
             int pendingWrites,
             bool force,
             CancellationToken cancellationToken)
@@ -701,6 +723,9 @@ namespace RenameMusic.Services
             return 0;
         }
 
+        /// <summary>
+        /// Traverses folders defensively, skipping inaccessible paths and reparse points to avoid loops and crashes.
+        /// </summary>
         private static IEnumerable<string> EnumerateFilesSafe(string rootPath, bool includeSubFolders)
         {
             Queue<string> pendingFolders = new();

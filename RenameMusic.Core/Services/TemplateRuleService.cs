@@ -17,6 +17,9 @@ namespace RenameMusic.Services
         public IReadOnlyList<string> MissingTokens { get; init; } = [];
     }
 
+    /// <summary>
+    /// Applies a rename template to metadata entities and determines whether each file is eligible to be renamed.
+    /// </summary>
     public sealed class TemplateRuleService : ITemplateRuleService
     {
         private static readonly string[] SupportedTokens =
@@ -60,6 +63,9 @@ namespace RenameMusic.Services
             return repeated;
         }
 
+        /// <summary>
+        /// Evaluates one audio item against the active template and required-tag policy.
+        /// </summary>
         public RuleEvaluationResult Evaluate(SessionAudioEntity entity, RenameRuleOptions options)
         {
             IReadOnlyList<string> usedTokens = GetUsedTokens(options.Template);
@@ -68,7 +74,7 @@ namespace RenameMusic.Services
                 return new RuleEvaluationResult
                 {
                     CanRename = false,
-                    Reason = "Template must include at least one metadata tag."
+                    Reason = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.TemplateRequiresTag)
                 };
             }
 
@@ -106,7 +112,9 @@ namespace RenameMusic.Services
                 return new RuleEvaluationResult
                 {
                     CanRename = false,
-                    Reason = $"Missing required tags: {string.Join(", ", missingRequiredTokens)}",
+                    Reason = NotRenamableReasonCodec.Create(
+                        NotRenamableReasonCodes.MissingRequiredTags,
+                        string.Join(", ", missingRequiredTokens)),
                     MissingTokens = missingRequiredTokens
                 };
             }
@@ -117,7 +125,7 @@ namespace RenameMusic.Services
                 return new RuleEvaluationResult
                 {
                     CanRename = false,
-                    Reason = "Template produced an empty file name."
+                    Reason = NotRenamableReasonCodec.Create(NotRenamableReasonCodes.TemplateProducedEmptyName)
                 };
             }
 
