@@ -11,12 +11,19 @@ namespace RenameMusic
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string databaseFolder = "./Database/";
-            if (!Directory.Exists(databaseFolder))
-            {
-                Directory.CreateDirectory(databaseFolder);
-            }
-            optionsBuilder.UseSqlite($"Data Source={databaseFolder}List.db");
+            string? overridePath = Environment.GetEnvironmentVariable("RENAMEMUSIC_DB_PATH");
+            string databasePath = string.IsNullOrWhiteSpace(overridePath)
+                ? Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "RenameMusic",
+                    "Database",
+                    "List.db")
+                : Path.GetFullPath(overridePath);
+
+            string databaseFolder = Path.GetDirectoryName(databasePath) ?? AppContext.BaseDirectory;
+            Directory.CreateDirectory(databaseFolder);
+
+            optionsBuilder.UseSqlite($"Data Source={databasePath}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

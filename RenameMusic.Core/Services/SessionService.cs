@@ -439,8 +439,13 @@ namespace RenameMusic.Services
                 return false;
             }
 
+            string folderPrefixPattern = $"{EscapeLikePattern(folder.FolderPath)}%";
+
             List<SessionAudioEntity> audios = await context.SessionAudios
-                .Where(a => a.FolderPath.StartsWith(folder.FolderPath))
+                .Where(a => EF.Functions.Like(
+                    EF.Functions.Collate(a.FolderPath, "NOCASE"),
+                    folderPrefixPattern,
+                    "\\"))
                 .ToListAsync(cancellationToken);
 
             if (audios.Count > 0)
@@ -449,7 +454,10 @@ namespace RenameMusic.Services
             }
 
             List<SessionFolderEntity> folders = await context.SessionFolders
-                .Where(f => f.FolderPath.StartsWith(folder.FolderPath))
+                .Where(f => EF.Functions.Like(
+                    EF.Functions.Collate(f.FolderPath, "NOCASE"),
+                    folderPrefixPattern,
+                    "\\"))
                 .ToListAsync(cancellationToken);
 
             if (folders.Count > 0)
@@ -463,6 +471,15 @@ namespace RenameMusic.Services
 
             await context.SaveChangesAsync(cancellationToken);
             return true;
+        }
+
+        private static string EscapeLikePattern(string rawValue)
+        {
+            return rawValue
+                .Replace("\\", "\\\\", StringComparison.Ordinal)
+                .Replace("%", "\\%", StringComparison.Ordinal)
+                .Replace("_", "\\_", StringComparison.Ordinal)
+                .Replace("[", "\\[", StringComparison.Ordinal);
         }
 
         public async Task RefreshAudioFromDiskAsync(

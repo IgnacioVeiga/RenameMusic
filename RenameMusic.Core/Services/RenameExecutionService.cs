@@ -27,10 +27,14 @@ namespace RenameMusic.Services
     public sealed class RenameExecutionService : IRenameExecutionService
     {
         private readonly ISessionService _sessionService;
+        private readonly IFileDeletionService _fileDeletionService;
 
-        public RenameExecutionService(ISessionService sessionService)
+        public RenameExecutionService(
+            ISessionService sessionService,
+            IFileDeletionService fileDeletionService)
         {
             _sessionService = sessionService;
+            _fileDeletionService = fileDeletionService;
         }
 
         public async Task<RenameBatchResult> RenameAllAsync(
@@ -110,7 +114,7 @@ namespace RenameMusic.Services
 
                         if (action == ConflictResolutionAction.Replace)
                         {
-                            File.Delete(destinationPath);
+                            _fileDeletionService.DeleteFile(destinationPath);
                         }
                         else if (action == ConflictResolutionAction.RenameWithNumber)
                         {
