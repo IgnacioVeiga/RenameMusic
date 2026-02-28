@@ -87,16 +87,19 @@ namespace RenameMusic.Services
                 }
 
                 string destinationPath = Path.Combine(item.FolderPath, $"{item.ProposedName}{item.FileExtension}");
-                if (string.Equals(sourcePath, destinationPath, StringComparison.OrdinalIgnoreCase))
+                bool isExactSamePath = string.Equals(sourcePath, destinationPath, StringComparison.Ordinal);
+                if (isExactSamePath)
                 {
                     idsToRemove.Add(item.Id);
                     result.CompletedCount++;
                     continue;
                 }
 
+                bool isCaseOnlyRename = string.Equals(sourcePath, destinationPath, StringComparison.OrdinalIgnoreCase);
+
                 try
                 {
-                    if (File.Exists(destinationPath))
+                    if (!isCaseOnlyRename && File.Exists(destinationPath))
                     {
                         ConflictResolutionAction action = applyToAllAction
                             ?? ResolveConflict(
@@ -122,7 +125,7 @@ namespace RenameMusic.Services
                         }
                     }
 
-                    File.Move(sourcePath, destinationPath);
+                    MoveFile(sourcePath, destinationPath, isCaseOnlyRename);
                     idsToRemove.Add(item.Id);
                     result.CompletedCount++;
                 }
@@ -171,6 +174,39 @@ namespace RenameMusic.Services
             }
 
             return response.Action;
+        }
+
+        private static void MoveFile(string sourcePath, string destinationPath, bool isCaseOnlyRename)
+        {
+            if (!isCaseOnlyRename)
+            {
+                File.Move(sourcePath, destinationPath);
+                return;
+            }
+
+            // On Windows, case-only rename can fail when moving directly.
+            string directory = Path.GetDirectoryName(sourcePath) ?? string.Empty;
+            string extension = Path.GetExtension(sourcePath);
+            string tempPath = Path.Combine(directory, $"{Guid.NewGuid():N}{extension}.rmtemp");
+            while (File.Exists(tempPath))
+            {
+                tempPath = Path.Combine(directory, $"{Guid.NewGuid():N}{extension}.rmtemp");
+            }
+
+            File.Move(sourcePath, tempPath);
+            try
+            {
+                File.Move(tempPath, destinationPath);
+            }
+            catch
+            {
+                if (!File.Exists(sourcePath) && File.Exists(tempPath))
+                {
+                    File.Move(tempPath, sourcePath);
+                }
+
+                throw;
+            }
         }
 
         private static string GetIndexedDestinationPath(string destinationPath)
