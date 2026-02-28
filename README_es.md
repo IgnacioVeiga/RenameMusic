@@ -63,6 +63,8 @@ Flujo de release:
 - Arquitectura (ES): [docs/architecture.es.md](./docs/architecture.es.md)
 - Guía de testing (EN): [docs/testing-guide.md](./docs/testing-guide.md)
 - Guía de testing (ES): [docs/testing-guide.es.md](./docs/testing-guide.es.md)
+- Reemplazo de tokens en plantillas (EN): [docs/template-token-replacement.md](./docs/template-token-replacement.md)
+- Reemplazo de tokens en plantillas (ES): [docs/template-token-replacement.es.md](./docs/template-token-replacement.es.md)
 
 ## Licencia
 Ver [LICENSE.md](./LICENSE.md).

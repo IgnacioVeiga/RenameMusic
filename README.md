@@ -63,6 +63,8 @@ Release workflow:
 - Architecture (ES): [docs/architecture.es.md](./docs/architecture.es.md)
 - Testing guide (EN): [docs/testing-guide.md](./docs/testing-guide.md)
 - Testing guide (ES): [docs/testing-guide.es.md](./docs/testing-guide.es.md)
+- Template token replacement (EN): [docs/template-token-replacement.md](./docs/template-token-replacement.md)
+- Template token replacement (ES): [docs/template-token-replacement.es.md](./docs/template-token-replacement.es.md)
 
 ## License
 See [LICENSE.md](./LICENSE.md).

@@ -68,6 +68,7 @@ dotnet test RenameMusic.Tests/RenameMusic.Tests.csproj -c Release
 ## 9. Documentation map
 - Architecture: [architecture.md](./architecture.md)
 - Testing: [testing-guide.md](./testing-guide.md)
+- Template token replacement strategy: [template-token-replacement.md](./template-token-replacement.md)
 - Spanish developer guide: [developer-guide.es.md](./developer-guide.es.md)
 
 ## 10. Conventions
