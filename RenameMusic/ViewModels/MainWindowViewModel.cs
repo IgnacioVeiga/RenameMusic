@@ -220,9 +220,12 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                RenameBatchResult result = await _renameExecutionService.RenameAllAsync(
-                    _dialogService,
-                    GetDefaultConflictAction());
+                ConflictResolutionAction? defaultConflictAction = GetDefaultConflictAction();
+                RenameBatchResult result = defaultConflictAction.HasValue
+                    ? await Task.Run(() => _renameExecutionService.RenameAllAsync(
+                        _dialogService,
+                        defaultConflictAction.Value))
+                    : await _renameExecutionService.RenameAllAsync(_dialogService);
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
 
                 string summary = $"{L("SUMMARY_DONE", "Done")}: {result.CompletedCount}\n" +
@@ -526,10 +529,15 @@ namespace RenameMusic.ViewModels
 
             await RunBusyAsync(async () =>
             {
-                RenameBatchResult result = await _renameExecutionService.RenameByIdsAsync(
-                    [item.Id],
-                    _dialogService,
-                    GetDefaultConflictAction());
+                ConflictResolutionAction? defaultConflictAction = GetDefaultConflictAction();
+                RenameBatchResult result = defaultConflictAction.HasValue
+                    ? await Task.Run(() => _renameExecutionService.RenameByIdsAsync(
+                        [item.Id],
+                        _dialogService,
+                        defaultConflictAction.Value))
+                    : await _renameExecutionService.RenameByIdsAsync(
+                        [item.Id],
+                        _dialogService);
                 await ReloadSnapshotAsync(showMissingFilesWarning: false);
 
                 if (result.CompletedCount == 0 && result.SkippedCount == 0 && result.FailedCount == 0 && result.MissingCount == 0)
