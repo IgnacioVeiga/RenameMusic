@@ -1,4 +1,5 @@
 using RenameMusic.Models;
+using System.Text.RegularExpressions;
 
 namespace RenameMusic.Services
 {
@@ -31,6 +32,10 @@ namespace RenameMusic.Services
             "<Artist>",
             "<Year>"
         ];
+
+        private static readonly Regex SupportedTokenRegex = new(
+            @"<TrackNum>|<Title>|<Album>|<AlbumArtist>|<Artist>|<Year>",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         public IReadOnlyList<string> GetUsedTokens(string template)
         {
@@ -79,7 +84,7 @@ namespace RenameMusic.Services
             }
 
             HashSet<string> requiredTokens = ResolveRequiredTokens(usedTokens, options);
-            string proposedName = options.Template;
+            Dictionary<string, string> replacements = new(StringComparer.Ordinal);
             List<string> missingRequiredTokens = [];
             foreach (string token in usedTokens)
             {
@@ -90,12 +95,9 @@ namespace RenameMusic.Services
                     if (requiredTokens.Contains(token))
                     {
                         missingRequiredTokens.Add(token);
-                        if (options.MissingTagStrategy == MissingTagStrategy.Strict)
-                        {
-                            continue;
-                        }
-
-                        value = options.PlaceholderText;
+                        value = options.MissingTagStrategy == MissingTagStrategy.Strict
+                            ? string.Empty
+                            : options.PlaceholderText;
                     }
                     else
                     {
@@ -104,7 +106,7 @@ namespace RenameMusic.Services
                     }
                 }
 
-                proposedName = proposedName.Replace(token, value ?? string.Empty, StringComparison.Ordinal);
+                replacements[token] = value ?? string.Empty;
             }
 
             if (missingRequiredTokens.Count > 0 && options.MissingTagStrategy == MissingTagStrategy.Strict)
@@ -119,6 +121,7 @@ namespace RenameMusic.Services
                 };
             }
 
+            string proposedName = ReplaceTokens(options.Template, replacements);
             proposedName = FilenameFunctions.NormalizeFileName(proposedName).Trim();
             if (string.IsNullOrWhiteSpace(proposedName))
             {
@@ -163,6 +166,15 @@ namespace RenameMusic.Services
                 "<Year>" => entity.Year is > 0 ? entity.Year.Value.ToString() : null,
                 _ => null
             };
+        }
+
+        private static string ReplaceTokens(string template, IReadOnlyDictionary<string, string> replacements)
+        {
+            return SupportedTokenRegex.Replace(
+                template,
+                match => replacements.TryGetValue(match.Value, out string? replacement)
+                    ? replacement
+                    : string.Empty);
         }
     }
 }

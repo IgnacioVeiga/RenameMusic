@@ -155,7 +155,8 @@
                           SelectedItem="{Binding SelectedToRenameItem, Mode=TwoWay}"
                           Margin="10"
                           AutoGenerateColumns="False"
-                          SelectionMode="Single">
+                          SelectionMode="Single"
+                          PreviewMouseRightButtonDown="DataGrid_PreviewMouseRightButtonDown">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}"
                                             Binding="{Binding Name}" IsReadOnly="True" />
@@ -179,27 +180,27 @@
                                             Binding="{Binding AlbumArtist}" IsReadOnly="True" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="{x:Static lang:Strings.PLAY_FILE}"
-                                      Command="{Binding DataContext.PlayAudioCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding PlayAudioCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <MenuItem Header="{x:Static lang:Strings.EDIT_TAGS}"
-                                      Command="{Binding DataContext.EditAudioTagsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding EditAudioTagsCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.DO_NOT_RENAME}"
-                                      Command="{Binding DataContext.MoveToDoNotRenameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding MoveToDoNotRenameCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <MenuItem Header="{x:Static lang:Strings.RENAME_THIS_NOW}"
-                                      Command="{Binding DataContext.RenameThisNowCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding RenameThisNowCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}"
-                                      Command="{Binding DataContext.DeleteAudioFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding DeleteAudioFileCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}"
-                                      Command="{Binding DataContext.OpenAudioInExplorerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding OpenAudioInExplorerCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
@@ -211,7 +212,8 @@
                           SelectedItem="{Binding SelectedDoNotRenameItem, Mode=TwoWay}"
                           Margin="10"
                           AutoGenerateColumns="False"
-                          SelectionMode="Single">
+                          SelectionMode="Single"
+                          PreviewMouseRightButtonDown="DataGrid_PreviewMouseRightButtonDown">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{x:Static lang:Strings.NAME}"
                                             Binding="{Binding Name}" IsReadOnly="True" />
@@ -233,24 +235,24 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="{x:Static lang:Strings.PLAY_FILE}"
-                                      Command="{Binding DataContext.PlayAudioCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding PlayAudioCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <MenuItem Header="{x:Static lang:Strings.EDIT_TAGS}"
-                                      Command="{Binding DataContext.EditAudioTagsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding EditAudioTagsCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.TO_RENAME}"
-                                      Command="{Binding DataContext.TryMoveToRenameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding TryMoveToRenameCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.DELETE_FILE}"
-                                      Command="{Binding DataContext.DeleteAudioFileCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding DeleteAudioFileCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}"
-                                      Command="{Binding DataContext.OpenAudioInExplorerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding OpenAudioInExplorerCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
@@ -262,7 +264,8 @@
                           SelectedItem="{Binding SelectedFolderItem, Mode=TwoWay}"
                           Margin="10"
                           AutoGenerateColumns="False"
-                          SelectionMode="Single">
+                          SelectionMode="Single"
+                          PreviewMouseRightButtonDown="DataGrid_PreviewMouseRightButtonDown">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="36" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
@@ -279,17 +282,17 @@
                                             Binding="{Binding Path}" IsReadOnly="True" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="{x:Static lang:Strings.REMOVE_FROM_LIST}"
-                                      Command="{Binding DataContext.RemoveFolderFromSessionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding RemoveFolderFromSessionCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.DELETE_FOLDER}"
-                                      Command="{Binding DataContext.DeleteFolderCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding DeleteFolderCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             <Separator />
                             <MenuItem Header="{x:Static lang:Strings.OPEN_IN_EXPLORER}"
-                                      Command="{Binding DataContext.OpenFolderInExplorerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      Command="{Binding OpenFolderInExplorerCommand}"
                                       CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>

@@ -91,6 +91,22 @@ namespace RenameMusic.Tests
             Assert.Equal("Unknown - Test Album", result.ProposedName);
         }
 
+        [Fact]
+        public void Evaluate_ShouldNotReplaceTagLikeTextInsideMetadataValue()
+        {
+            SessionAudioEntity entity = CreateEntity(title: "Live <Album>", album: "Greatest");
+            RenameRuleOptions options = CreateOptions(
+                "<Title> - <Album>",
+                MissingTagStrategy.Strict,
+                2,
+                new HashSet<string>(StringComparer.Ordinal));
+
+            RuleEvaluationResult result = _service.Evaluate(entity, options);
+
+            Assert.True(result.CanRename);
+            Assert.Equal("Live _Album_ - Greatest", result.ProposedName);
+        }
+
         private static RenameRuleOptions CreateOptions(
             string template,
             MissingTagStrategy strategy,
